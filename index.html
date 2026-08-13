@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ihsan & Syarifah</title>
+
+  <style>
+    :root {
+      --ivory: #f7f1e7;
+      --gold: #c9a86a;
+      --sage: #89927d;
+      --dark: #2c2925;
+      --panel: rgba(247, 241, 231, 0.94);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: #171512;
+      color: var(--dark);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      overscroll-behavior-y: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    /* =========================================================
+       MAIN CINEMATIC STAGE
+       ========================================================= */
+
+    #app {
+      position: relative;
+      width: 100%;
+      min-height: 100svh;
+    }
+
+    #stage {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: #171512;
+      z-index: 1;
+    }
+
+    #camera {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    .layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    #backgroundLayer {
+      z-index: 1;
+    }
+
+    #characterLayer {
+      z-index: 2;
+      object-fit: contain;
+    }
+
+    /* =========================================================
+       OPENING
+       ========================================================= */
+
+    #opening {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      cursor: pointer;
+      background: #171512;
+      transition:
+        opacity 900ms ease,
+        visibility 900ms ease;
+    }
+
+    #opening img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #opening.opened {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .opening-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 8%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center;
+      opacity: 0.85;
+      animation: breathe 2.5s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% {
+        opacity: .45;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* =========================================================
+       SILHOUETTE / MOSQUE
+       ========================================================= */
+
+    #mosqueLayer {
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 1000ms ease;
+    }
+
+    #mosqueLayer.visible {
+      opacity: 1;
+    }
+
+    /* =========================================================
+       DOA OVERLAY
+       ========================================================= */
+
+    #duaOverlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 1000ms ease,
+        visibility 1000ms ease,
+        backdrop-filter 1000ms ease;
+      background: rgba(15, 13, 10, 0.08);
+      backdrop-filter: blur(0px);
+    }
+
+    #duaOverlay.active {
+      opacity: 1;
+      visibility: visible;
+      backdrop-filter: blur(3px);
+    }
+
+    .dua-card {
+      max-width: 520px;
+      padding: 28px;
+      text-align: center;
+      color: white;
+      text-shadow: 0 2px 15px rgba(0,0,0,.5);
+    }
+
+    .dua-arabic {
+      font-size: clamp(22px, 6vw, 38px);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .dua-text {
+      font-size: 13px;
+      line-height: 1.8;
+      letter-spacing: .03em;
+    }
+
+    /* =========================================================
+       HTML INFORMATION PANELS
+       ========================================================= */
+
+    #uiLayer {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .info-panel {
+      position: absolute;
+      top: 50%;
+      width: min(42vw, 300px);
+      max-height: 70vh;
+      overflow: auto;
+      padding: 24px 20px;
+      background: var(--panel);
+      border: 1px solid rgba(201,168,106,.65);
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+      opacity: 0;
+      transform: translateY(-50%) scale(.94);
+      transition:
+        opacity 700ms ease,
+        transform 700ms ease;
+      pointer-events: none;
+    }
+
+    .info-panel.active {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+      pointer-events: auto;
+    }
+
+    .panel-left {
+      left: 5%;
+    }
+
+    .panel-right {
+      right: 5%;
+    }
+
+    .panel-kicker {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 9px;
+    }
+
+    .panel-title {
+      font-size: clamp(24px, 6vw, 38px);
+      font-weight: normal;
+      margin-bottom: 15px;
+    }
+
+    .panel-line {
+      width: 50px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .panel-body {
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .panel-section {
+      margin-bottom: 18px;
+    }
+
+    .panel-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 3px;
+    }
+
+    .copy-btn,
+    .map-btn {
+      margin-top: 10px;
+      padding: 9px 13px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--dark);
+      cursor: pointer;
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+
+    /* =========================================================
+       COUPLE LABEL
+       ========================================================= */
+
+    #coupleHint {
+      position: absolute;
+      left: 50%;
+      bottom: 9%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 700ms ease;
+      text-shadow: 0 2px 12px rgba(0,0,0,.5);
+      white-space: nowrap;
+    }
+
+    #coupleHint.active {
+      opacity: .85;
+    }
+
+    /* =========================================================
+       NAVIGATION HINT
+       ========================================================= */
+
+    #navigationHint {
+      position: fixed;
+      z-index: 100;
+      left: 50%;
+      bottom: 3%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 700ms ease;
+      pointer-events: none;
+      text-shadow: 0 2px 12px rgba(0,0,0,.5);
+      white-space: nowrap;
+    }
+
+    #navigationHint.active {
+      opacity: .8;
+    }
+
+    /* =========================================================
+       RSVP
+       ========================================================= */
+
+    #rsvpLayer {
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      overflow-y: auto;
+      padding: 70px 20px 80px;
+      background:
+        linear-gradient(
+          rgba(247,241,231,.82),
+          rgba(247,241,231,.96)
+        );
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition:
+        opacity 900ms ease,
+        transform 900ms ease,
+        visibility 900ms ease;
+      pointer-events: none;
+    }
+
+    #rsvpLayer.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .rsvp-inner {
+      width: min(680px, 100%);
+      margin: auto;
+    }
+
+    .rsvp-heading {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .rsvp-heading .small {
+      color: var(--gold);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+
+    .rsvp-heading h1 {
+      font-size: clamp(32px, 9vw, 55px);
+      font-weight: normal;
+      margin: 8px 0;
+    }
+
+    .rsvp-heading p {
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .rsvp-form {
+      padding: 24px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(201,168,106,.55);
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(44,41,37,.2);
+      background: rgba(255,255,255,.75);
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .rsvp-submit {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid var(--gold);
+      background: var(--dark);
+      color: white;
+      cursor: pointer;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    #messages {
+      margin-top: 35px;
+    }
+
+    .message {
+      padding: 18px;
+      margin-bottom: 12px;
+      background: rgba(255,255,255,.65);
+      border-left: 2px solid var(--gold);
+    }
+
+    .message strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .message p {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 700px) {
+      .info-panel {
+        width: 43vw;
+        min-width: 145px;
+        padding: 17px 13px;
+      }
+
+      .panel-title {
+        font-size: 22px;
+      }
+
+      .panel-body {
+        font-size: 11px;
+        line-height: 1.65;
+      }
+
+      .panel-left {
+        left: 3%;
+      }
+
+      .panel-right {
+        right: 3%;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .info-panel {
+        width: 45vw;
+      }
+
+      .panel-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main id="app">
+
+    <!-- =======================================================
+         CINEMATIC STAGE
+         ======================================================= -->
+
+    <section id="stage">
+
+      <div id="camera">
+
+        <!-- MAIN BACKGROUND -->
+        <img
+          id="backgroundLayer"
+          class="layer"
+          src="assets/04-07_background.png"
+          alt=""
+        />
+
+        <!-- COUPLE -->
+        <img
+          id="characterLayer"
+          class="layer"
+          src="assets/04-07_karakter.png"
+          alt="Ihsan dan Syarifah"
+        />
+
+      </div>
+
+      <!-- MOSQUE ASSET -->
+      <img
+        id="mosqueLayer"
+        class="layer"
+        src="assets/02_MOSQUE_OPEN DOOR.png"
+        alt=""
+      />
+
+      <!-- OPENING -->
+      <div id="opening">
+        <img
+          src="assets/01_OPENING_FRAME_ENVELOPE.png"
+          alt="Wedding invitation"
+        />
+
+        <div class="opening-hint">
+          Ketuk untuk membuka
+        </div>
+      </div>
+
+      <!-- DOA -->
+      <div id="duaOverlay">
+        <div class="dua-card">
+          <div class="dua-arabic">
+            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+          </div>
+
+          <div class="dua-text">
+            Dengan memohon rahmat dan ridha Allah SWT,
+            kami mengundang Anda untuk menjadi bagian
+            dari hari bahagia kami.
+          </div>
+        </div>
+      </div>
+
+      <!-- HTML PANELS -->
+      <div id="uiLayer">
+
+        <!-- IHSAN -->
+        <div
+          id="ihsanPanel"
+          class="info-panel panel-left"
+        >
+          <div class="panel-kicker">
+            Mempelai Pria
+          </div>
+
+          <div class="panel-title">
+            Ihsan
+          </div>
+
+          <div class="panel-line"></div>
+
+          <div class="panel-body">
+
+            <div class="panel-section">
+              <span class="panel-label">
+                Putra kedua dari
+              </span>
+
+              Bapak Nama Ayah
+              <br />
+              & Ibu Nama Ibu
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SYARIFAH -->
+        <div
+          id="syarifahPanel"
+          class="info-panel panel-right"
+        >
+          <div class="panel-kicker">
+            Mempelai Wanita
+          </div>
+
+          <div class="panel-title">
+            Syarifah
+          </div>
+
+          <div class="panel-line"></div>
+
+          <div class="panel-body">
+
+            <div class="panel-section">
+              <span class="panel-label">
+                Putri kedua dari
+              </span>
+
+              Bapak Nama Ayah
+              <br />
+              & Ibu Nama Ibu
+            </div>
+
+          </div>
+        </div>
+
+        <!-- EVENT -->
+        <div
+          id="eventPanel"
+          class="info-panel panel-right"
+        >
+          <div class="panel-kicker">
+            The Wedding
+          </div>
+
+          <div class="panel-title">
+            Acara
+          </div>
+
+          <div class="panel-line"></div>
+
+          <div class="panel-body">
+
+            <div class="panel-section">
+              <span class="panel-label">
+                Akad Nikah
+              </span>
+
+              Sabtu, 12 Desember 2026
+              <br />
+              08.00 WIB
+            </div>
+
+            <div class="panel-section">
+              <span class="panel-label">
+                Resepsi
+              </span>
+
+              Sabtu, 12 Desember 2026
+              <br />
+              11.00 WIB
+            </div>
+
+            <div class="panel-section">
+              <span class="panel-label">
+                Tempat
+              </span>
+
+              Nama Gedung / Venue
+              <br />
+              Alamat lengkap acara
+            </div>
+
+            <button class="map-btn" onclick="openMaps()">
+              Buka Maps
+            </button>
+
+          </div>
+        </div>
+
+        <!-- GIFT -->
+        <div
+          id="giftPanel"
+          class="info-panel panel-left"
+        >
+          <div class="panel-kicker">
+            Wedding Gift
+          </div>
+
+          <div class="panel-title">
+            Hadiah
+          </div>
+
+          <div class="panel-line"></div>
+
+          <div class="panel-body">
+
+            <div class="panel-section">
+              <span class="panel-label">
+                Bank
+              </span>
+
+              BCA
+              <br />
+              Ihsan
+              <br />
+              <strong id="accountNumber">
+                1234567890
+              </strong>
+
+              <button
+                class="copy-btn"
+                onclick="copyAccount()"
+              >
+                Salin Rekening
+              </button>
+            </div>
+
+            <div class="panel-section">
+              <span class="panel-label">
+                Alamat Hadiah
+              </span>
+
+              Nama penerima
+              <br />
+              Alamat lengkap penerima hadiah
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div id="coupleHint">
+        Ketuk untuk mengenal mereka
+      </div>
+
+      <div id="navigationHint">
+        Geser untuk melanjutkan
+      </div>
+
+      <!-- RSVP -->
+      <section id="rsvpLayer">
+
+        <div class="rsvp-inner">
+
+          <div class="rsvp-heading">
+
+            <div class="small">
+              Ihsan & Syarifah
+            </div>
+
+            <h1>
+              RSVP
+            </h1>
+
+            <p>
+              Konfirmasikan kehadiran Anda
+              dan tinggalkan doa untuk kami.
+            </p>
+
+          </div>
+
+          <form
+            id="rsvpForm"
+            class="rsvp-form"
+          >
+
+            <div class="field">
+              <label for="guestName">
+                Nama
+              </label>
+
+              <input
+                id="guestName"
+                type="text"
+                required
+                placeholder="Nama Anda"
+              />
+            </div>
+
+            <div class="field">
+              <label for="guestMessage">
+                Ucapan & Doa
+              </label>
+
+              <textarea
+                id="guestMessage"
+                required
+                placeholder="Tuliskan ucapan untuk Ihsan & Syarifah..."
+              ></textarea>
+            </div>
+
+            <button
+              class="rsvp-submit"
+              type="submit"
+            >
+              Kirim Ucapan
+            </button>
+
+          </form>
+
+          <div id="messages"></div>
+
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+
+  <script>
+    /*
+     * ============================================================
+     * CINEMATIC WEDDING WEBSITE
+     * ============================================================
+     *
+     * Interaction:
+     *
+     * CLICK opening
+     *      ↓
+     * SCROLL mosque
+     *      ↓
+     * SCROLL couple
+     *      ↓
+     * CLICK Ihsan
+     *      ↓
+     * CLICK Syarifah
+     *      ↓
+     * SCROLL wedding moment
+     *      ↓
+     * CLICK ring
+     *      ↓
+     * CLICK event
+     *      ↓
+     * CLICK gift
+     *      ↓
+     * SCROLL final couple
+     *      ↓
+     * RSVP
+     *
+     * This is a prototype.
+     * Camera values can be tuned after visual testing.
+     */
+
+    const opening = document.getElementById("opening");
+    const camera = document.getElementById("camera");
+    const mosqueLayer = document.getElementById("mosqueLayer");
+    const backgroundLayer = document.getElementById("backgroundLayer");
+    const characterLayer = document.getElementById("characterLayer");
+
+    const duaOverlay = document.getElementById("duaOverlay");
+    const coupleHint = document.getElementById("coupleHint");
+    const navigationHint = document.getElementById("navigationHint");
+
+    const ihsanPanel = document.getElementById("ihsanPanel");
+    const syarifahPanel = document.getElementById("syarifahPanel");
+    const eventPanel = document.getElementById("eventPanel");
+    const giftPanel = document.getElementById("giftPanel");
+
+    const rsvpLayer = document.getElementById("rsvpLayer");
+
+    let state = "opening";
+
+    let scrollAccumulator = 0;
+
+    let touchStartY = 0;
+
+    let busy = false;
+
+    /*
+     * Camera state
+     *
+     * scale
+     * x
+     * y
+     *
+     * x/y are percentage-based camera translations.
+     */
+
+    const cameraStates = {
+
+      mosque: {
+        scale: 1.0,
+        x: 0,
+        y: 0
+      },
+
+      mosqueDoor: {
+        scale: 1.35,
+        x: 0,
+        y: -2
+      },
+
+      coupleCenter: {
+        scale: 1.55,
+        x: 0,
+        y: 0
+      },
+
+      ihsan: {
+        scale: 2.15,
+        x: -13,
+        y: 0
+      },
+
+      syarifah: {
+        scale: 2.15,
+        x: 13,
+        y: 0
+      },
+
+      wedding: {
+        scale: 1.45,
+        x: 0,
+        y: 0
+      },
+
+      ring: {
+        scale: 3.15,
+        x: 0,
+        y: 9
+      },
+
+      event: {
+        scale: 1.75,
+        x: 12,
+        y: 0
+      },
+
+      gift: {
+        scale: 1.75,
+        x: -12,
+        y: 0
+      },
+
+      final: {
+        scale: 1.45,
+        x: 0,
+        y: 0
+      }
+
+    };
+
+
+    function applyCamera(name, duration = 1200) {
+
+      const target = cameraStates[name];
+
+      if (!target) return;
+
+      camera.style.transition =
+        `transform ${duration}ms cubic-bezier(.22,.61,.36,1)`;
+
+      camera.style.transform =
+        `translate(${target.x}%, ${target.y}%)
+         scale(${target.scale})`;
+
+    }
+
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+    /*
+     * OPENING
+     */
+
+    opening.addEventListener("click", async () => {
+
+      if (state !== "opening") return;
+
+      state = "entering";
+
+      opening.classList.add("opened");
+
+      mosqueLayer.classList.add("visible");
+
+      await sleep(100);
+
+      /*
+       * First camera move:
+       * envelope → mosque door
+       */
+
+      applyCamera("mosqueDoor", 1800);
+
+      await sleep(1500);
+
+      state = "mosque";
+
+      navigationHint.textContent =
+        "Geser untuk masuk";
+
+      navigationHint.classList.add("active");
+
+    });
+
+
+    /*
+     * SCROLL ENGINE
+     */
+
+    window.addEventListener(
+      "wheel",
+      event => {
+
+        if (state === "rsvp") return;
+
+        event.preventDefault();
+
+        if (busy) return;
+
+        const direction =
+          event.deltaY > 0 ? 1 : -1;
+
+        handleNavigation(direction);
+
+      },
+      { passive: false }
+    );
+
+
+    /*
+     * MOBILE TOUCH SCROLL
+     */
+
+    window.addEventListener(
+      "touchstart",
+      event => {
+
+        if (!event.touches[0]) return;
+
+        touchStartY =
+          event.touches[0].clientY;
+
+      },
+      { passive: true }
+    );
+
+
+    window.addEventListener(
+      "touchend",
+      event => {
+
+        if (state === "rsvp") return;
+
+        if (!event.changedTouches[0]) return;
+
+        const touchEndY =
+          event.changedTouches[0].clientY;
+
+        const delta =
+          touchStartY - touchEndY;
+
+        if (Math.abs(delta) < 25) return;
+
+        const direction =
+          delta > 0 ? 1 : -1;
+
+        handleNavigation(direction);
+
+      },
+      { passive: true }
+    );
+
+
+    async function handleNavigation(direction) {
+
+      if (busy) return;
+
+      busy = true;
+
+      try {
+
+        if (direction > 0) {
+
+          await nextState();
+
+        } else {
+
+          await previousState();
+
+        }
+
+      } finally {
+
+        await sleep(200);
+
+        busy = false;
+
+      }
+
+    }
+
+
+    /*
+     * NEXT
+     */
+
+    async function nextState() {
+
+      switch (state) {
+
+        case "mosque":
+
+          state = "dua";
+
+          duaOverlay.classList.add("active");
+
+          navigationHint.textContent =
+            "Geser untuk masuk";
+
+          await sleep(900);
+
+          break;
+
+
+        case "dua":
+
+          duaOverlay.classList.remove("active");
+
+          applyCamera("coupleCenter", 1500);
+
+          state = "couple";
+
+          coupleHint.classList.add("active");
+
+          navigationHint.classList.remove("active");
+
+          await sleep(1200);
+
+          break;
+
+
+        case "couple":
+
+          /*
+           * Scroll from couple center
+           * moves camera into Ihsan.
+           */
+
+          applyCamera("ihsan", 1300);
+
+          state = "ihsan";
+
+          coupleHint.classList.remove("active");
+
+          await sleep(1000);
+
+          ihsanPanel.classList.add("active");
+
+          break;
+
+
+        case "syarifah":
+
+          /*
+           * Scroll after Syarifah:
+           * leave introduction and enter wedding moment.
+           */
+
+          syarifahPanel.classList.remove("active");
+
+          applyCamera("wedding", 1500);
+
+          state = "wedding";
+
+          await sleep(1200);
+
+          break;
+
+
+        case "wedding":
+
+          /*
+           * Prototype:
+           * scrolling enters ring moment.
+           *
+           * Actual desired interaction is CLICK.
+           * We keep scroll from accidentally skipping.
+           */
+
+          navigationHint.textContent =
+            "Ketuk untuk melihat lebih dekat";
+
+          navigationHint.classList.add("active");
+
+          break;
+
+
+        case "event":
+
+          /*
+           * Gift is a camera state in same information environment.
+           */
+
+          eventPanel.classList.remove("active");
+
+          applyCamera("gift", 1300);
+
+          state = "gift";
+
+          await sleep(1000);
+
+          giftPanel.classList.add("active");
+
+          break;
+
+
+        case "gift":
+
+          giftPanel.classList.remove("active");
+
+          applyCamera("final", 1500);
+
+          state = "final";
+
+          await sleep(1200);
+
+          navigationHint.classList.remove("active");
+
+          showRSVP();
+
+          break;
+
+
+        case "final":
+
+          showRSVP();
+
+          break;
+
+      }
+
+    }
+
+
+    /*
+     * PREVIOUS
+     */
+
+    async function previousState() {
+
+      switch (state) {
+
+        case "dua":
+
+          duaOverlay.classList.remove("active");
+
+          state = "mosque";
+
+          break;
+
+
+        case "couple":
+
+          applyCamera("mosqueDoor", 1200);
+
+          state = "mosque";
+
+          coupleHint.classList.remove("active");
+
+          break;
+
+
+        case "ihsan":
+
+          ihsanPanel.classList.remove("active");
+
+          applyCamera("coupleCenter", 1200);
+
+          state = "couple";
+
+          coupleHint.classList.add("active");
+
+          break;
+
+
+        case "syarifah":
+
+          syarifahPanel.classList.remove("active");
+
+          applyCamera("ihsan", 1200);
+
+          state = "ihsan";
+
+          ihsanPanel.classList.add("active");
+
+          break;
+
+
+        case "wedding":
+
+          applyCamera("syarifah", 1200);
+
+          state = "syarifah";
+
+          break;
+
+
+        case "ring":
+
+          applyCamera("wedding", 1200);
+
+          state = "wedding";
+
+          break;
+
+
+        case "event":
+
+          applyCamera("ring", 1200);
+
+          state = "ring";
+
+          break;
+
+
+        case "gift":
+
+          giftPanel.classList.remove("active");
+
+          applyCamera("event", 1200);
+
+          state = "event";
+
+          eventPanel.classList.add("active");
+
+          break;
+
+
+        case "final":
+
+          applyCamera("gift", 1200);
+
+          state = "gift";
+
+          giftPanel.classList.add("active");
+
+          break;
+
+      }
+
+    }
+
+
+    /*
+     * CLICK INTERACTIONS
+     */
+
+    stage.addEventListener(
+      "click",
+      event => {
+
+        /*
+         * Don't treat clicks on HTML buttons/panels
+         * as camera commands.
+         */
+
+        if (
+          event.target.closest(".info-panel") ||
+          event.target.closest("button") ||
+          event.target.closest("input") ||
+          event.target.closest("textarea")
+        ) {
+          return;
+        }
+
+        handleStageClick();
+
+      }
+    );
+
+
+    async function handleStageClick() {
+
+      if (busy) return;
+
+      busy = true;
+
+      try {
+
+        /*
+         * Couple → Ihsan
+         *
+         * The user requested this to be CLICK.
+         */
+
+        if (state === "couple") {
+
+          applyCamera("ihsan", 1200);
+
+          state = "ihsan";
+
+          coupleHint.classList.remove("active");
+
+          await sleep(900);
+
+          ihsanPanel.classList.add("active");
+
+          return;
+
+        }
+
+
+        /*
+         * Ihsan → Syarifah
+         */
+
+        if (state === "ihsan") {
+
+          ihsanPanel.classList.remove("active");
+
+          applyCamera("coupleCenter", 1000);
+
+          await sleep(800);
+
+          applyCamera("syarifah", 1200);
+
+          state = "syarifah";
+
+          await sleep(900);
+
+          syarifahPanel.classList.add("active");
+
+          return;
+
+        }
+
+
+        /*
+         * Wedding → Ring
+         */
+
+        if (state === "wedding") {
+
+          navigationHint.classList.remove("active");
+
+          applyCamera("ring", 1500);
+
+          state = "ring";
+
+          await sleep(1200);
+
+          navigationHint.textContent =
+            "Ketuk untuk melihat informasi";
+
+          navigationHint.classList.add("active");
+
+          return;
+
+        }
+
+
+        /*
+         * Ring → Event
+         */
+
+        if (state === "ring") {
+
+          navigationHint.classList.remove("active");
+
+          applyCamera("event", 1500);
+
+          state = "event";
+
+          await sleep(1000);
+
+          eventPanel.classList.add("active");
+
+          navigationHint.textContent =
+            "Ketuk untuk melanjutkan";
+
+          navigationHint.classList.add("active");
+
+          return;
+
+        }
+
+
+        /*
+         * Event → Gift
+         */
+
+        if (state === "event") {
+
+          eventPanel.classList.remove("active");
+
+          applyCamera("gift", 1300);
+
+          state = "gift";
+
+          await sleep(900);
+
+          giftPanel.classList.add("active");
+
+          navigationHint.textContent =
+            "Geser untuk melanjutkan";
+
+          return;
+
+        }
+
+      } finally {
+
+        await sleep(250);
+
+        busy = false;
+
+      }
+
+    }
+
+
+    /*
+     * RSVP
+     */
+
+    function showRSVP() {
+
+      state = "rsvp";
+
+      navigationHint.classList.remove("active");
+
+      rsvpLayer.classList.add("active");
+
+    }
+
+
+    /*
+     * COPY BANK
+     */
+
+    async function copyAccount() {
+
+      const number =
+        document.getElementById(
+          "accountNumber"
+        ).textContent.trim();
+
+      try {
+
+        await navigator.clipboard.writeText(number);
+
+        alert("Nomor rekening berhasil disalin.");
+
+      } catch {
+
+        alert(
+          "Nomor rekening: " + number
+        );
+
+      }
+
+    }
+
+
+    /*
+     * MAPS
+     */
+
+    function openMaps() {
+
+      /*
+       * Ganti URL ini dengan Google Maps
+       * venue sebenarnya.
+       */
+
+      window.open(
+        "https://maps.google.com",
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+    }
+
+
+    /*
+     * RSVP / GUESTBOOK PROTOTYPE
+     *
+     * Untuk sekarang data disimpan di localStorage.
+     *
+     * Nanti bisa kita sambungkan ke:
+     * Firebase
+     * Supabase
+     * Google Sheets
+     * backend sendiri
+     */
+
+    const rsvpForm =
+      document.getElementById("rsvpForm");
+
+    const messages =
+      document.getElementById("messages");
+
+
+    function loadMessages() {
+
+      const saved =
+        JSON.parse(
+          localStorage.getItem(
+            "ihsanSyarifahMessages"
+          ) || "[]"
+        );
+
+      messages.innerHTML = "";
+
+      saved.forEach(message => {
+
+        renderMessage(
+          message.name,
+          message.text
+        );
+
+      });
+
+    }
+
+
+    function renderMessage(name, text) {
+
+      const article =
+        document.createElement("article");
+
+      article.className = "message";
+
+      const strong =
+        document.createElement("strong");
+
+      strong.textContent = name;
+
+      const paragraph =
+        document.createElement("p");
+
+      paragraph.textContent = text;
+
+      article.appendChild(strong);
+      article.appendChild(paragraph);
+
+      messages.appendChild(article);
+
+    }
+
+
+    rsvpForm.addEventListener(
+      "submit",
+      event => {
+
+        event.preventDefault();
+
+        const name =
+          document
+            .getElementById("guestName")
+            .value
+            .trim();
+
+        const text =
+          document
+            .getElementById("guestMessage")
+            .value
+            .trim();
+
+        if (!name || !text) return;
+
+        const saved =
+          JSON.parse(
+            localStorage.getItem(
+              "ihsanSyarifahMessages"
+            ) || "[]"
+          );
+
+        saved.unshift({
+          name,
+          text
+        });
+
+        localStorage.setItem(
+          "ihsanSyarifahMessages",
+          JSON.stringify(saved)
+        );
+
+        renderMessage(name, text);
+
+        rsvpForm.reset();
+
+      }
+    );
+
+
+    /*
+     * INITIAL LOAD
+     */
+
+    loadMessages();
+
+    /*
+     * Initial camera.
+     */
+
+    camera.style.transform =
+      "translate(0%, 0%) scale(1)";
+
+  </script>
+
+</body>
+</html>
