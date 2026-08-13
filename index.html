@@ -1,414 +1,2134 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Undangan Pernikahan Ihsan & Syarifah</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-  <style>
-    :root {
-      --gold: #d4af37;
-      --gold-light: #f3e5ab;
-      --dark-green: #1a2e26;
-      --cream: #faf6f0;
-      --text-dark: #2c3531;
-    }
+<title>Ihsan & Syarifah</title>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      user-select: none;
-    }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #0d1310;
-      color: var(--cream);
-    }
+html,
+body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#17130f;
+}
 
-    /* VIEWPORT KAMERA */
-    #camera-viewport {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      cursor: pointer;
-    }
+body{
+  font-family:Georgia,"Times New Roman",serif;
+  color:#fff8ec;
+}
 
-    /* WORLD CONTAINER */
-    #world {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform-origin: center center;
-      will-change: transform, filter;
-    }
+/* =========================================================
+   SCENE SYSTEM
+========================================================= */
 
-    /* SCENE LAYERS */
-    .scene {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity 0.8s ease;
-    }
+.scene{
+  position:fixed;
+  inset:0;
+  display:none;
+  overflow:hidden;
+}
 
-    .scene.active {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-    }
+.scene.active{
+  display:block;
+}
 
-    .scene-img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
+.stage{
+  position:absolute;
+  left:50%;
+  top:50%;
 
-    /* WORLD 04-07: COMBINED LAYER (BACKGROUND + KARAKTER) */
-    .stage-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
+  width:100vw;
+  height:100svh;
 
-    .character-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      z-index: 2;
-      transition: transform 0.5s ease;
-    }
+  transform:
+    translate(-50%,-50%)
+    translate3d(0,0,0)
+    scale(1);
 
-    /* OVERLAY INFORMASI & ORNAMEN */
-    .info-overlay {
-      position: absolute;
-      z-index: 10;
-      max-width: 380px;
-      padding: 24px;
-      background: rgba(26, 46, 38, 0.85);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--gold);
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      opacity: 0;
-      transform: translateY(20px);
-      pointer-events: none;
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+  transform-origin:center center;
 
-    .info-overlay.active {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
+  transition:
+    transform 1.2s cubic-bezier(.2,.75,.18,1);
 
-    .info-left {
-      left: 8%;
-      top: 28%;
-    }
+  will-change:transform;
+}
 
-    .info-right {
-      right: 8%;
-      top: 28%;
-    }
+.stage img{
+  position:absolute;
+  inset:0;
 
-    .info-overlay h2 {
-      font-family: 'Cinzel', serif;
-      color: var(--gold-light);
-      font-size: 1.5rem;
-      margin-bottom: 8px;
-      border-bottom: 1px solid var(--gold);
-      padding-bottom: 6px;
-    }
+  width:100%;
+  height:100%;
 
-    .info-overlay h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      color: var(--gold);
-      margin-top: 10px;
-    }
+  object-fit:cover;
+  display:block;
 
-    .info-overlay p {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      color: #e0e0e0;
-      margin-top: 6px;
-    }
+  user-select:none;
+  -webkit-user-drag:none;
+}
 
-    /* RSVP FORM */
-    .rsvp-card {
-      width: 90%;
-      max-width: 450px;
-      background: rgba(15, 25, 20, 0.92);
-      border: 1px solid var(--gold);
-      padding: 30px;
-      border-radius: 16px;
-      text-align: center;
-    }
+.stage img.character{
+  object-fit:contain;
+}
 
-    .rsvp-card input, .rsvp-card select, .rsvp-card textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0 16px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      border-radius: 6px;
-      color: #fff;
-      font-family: inherit;
-    }
+.warm{
+  position:absolute;
+  inset:0;
 
-    .btn-gold {
-      background: linear-gradient(135deg, var(--gold), #997a15);
-      color: #fff;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 25px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+  background:rgba(214,168,105,.06);
 
-    .btn-gold:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-    }
+  pointer-events:none;
+}
 
-    /* INDIKATOR PETUNJUK INTERAKSI */
-    #action-prompt {
-      position: fixed;
-      bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid var(--gold);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      color: var(--gold-light);
-      pointer-events: none;
-      animation: pulse 2s infinite;
-    }
+.shade{
+  position:absolute;
+  inset:0;
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-      50% { opacity: 1; transform: translateX(-50%) scale(1.03); }
-    }
-  </style>
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 35%,
+      rgba(15,10,6,.40) 100%
+    );
+
+  pointer-events:none;
+}
+
+
+/* =========================================================
+   HINT
+========================================================= */
+
+.hint{
+  position:absolute;
+
+  left:50%;
+  bottom:max(
+    28px,
+    env(safe-area-inset-bottom) + 18px
+  );
+
+  transform:translateX(-50%);
+
+  z-index:20;
+
+  font:
+    10px/1 Arial,
+    sans-serif;
+
+  letter-spacing:.22em;
+  text-transform:uppercase;
+
+  white-space:nowrap;
+
+  text-shadow:
+    0 2px 10px rgba(0,0,0,.7);
+
+  opacity:.9;
+}
+
+
+/* =========================================================
+   OPENING
+========================================================= */
+
+#opening{
+  z-index:100;
+}
+
+#openingStage{
+  transition:
+    transform 1.8s
+    cubic-bezier(.18,.8,.16,1);
+}
+
+.opening-title{
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  width:90%;
+
+  text-align:center;
+
+  z-index:10;
+
+  text-shadow:
+    0 3px 18px rgba(0,0,0,.5);
+}
+
+.opening-title small{
+  font:
+    10px/1 Arial,
+    sans-serif;
+
+  letter-spacing:.3em;
+  text-transform:uppercase;
+}
+
+.opening-title h1{
+  margin:12px 0;
+
+  font-size:
+    clamp(32px,9vw,52px);
+
+  font-weight:400;
+}
+
+.opening-title p{
+  margin:0;
+
+  font:
+    10px/1.5 Arial,
+    sans-serif;
+
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+
+/* =========================================================
+   INFO PANEL
+========================================================= */
+
+.info{
+  position:absolute;
+
+  top:50%;
+
+  width:min(40vw,320px);
+
+  padding:20px;
+
+  z-index:30;
+
+  background:
+    rgba(255,249,239,.95);
+
+  color:#3c2d20;
+
+  border:
+    1px solid
+    rgba(183,139,76,.55);
+
+  box-shadow:
+    0 18px 55px
+    rgba(40,22,8,.22);
+
+  opacity:0;
+
+  transition:
+    opacity .8s ease,
+    transform .8s ease;
+}
+
+.info.left{
+  left:4vw;
+
+  transform:
+    translate(-20px,-50%);
+}
+
+.info.right{
+  right:4vw;
+
+  transform:
+    translate(20px,-50%);
+}
+
+.info.show{
+  opacity:1;
+
+  transform:
+    translate(0,-50%);
+}
+
+.orn{
+  color:#b78b4c;
+
+  letter-spacing:.4em;
+
+  margin-bottom:8px;
+}
+
+.eyebrow{
+  font:
+    8px/1 Arial,
+    sans-serif;
+
+  letter-spacing:.2em;
+
+  text-transform:uppercase;
+
+  color:#98754a;
+}
+
+.info h2{
+  margin:
+    5px 0 10px;
+
+  font-size:25px;
+
+  font-weight:400;
+
+  color:#6d4b27;
+}
+
+.info p{
+  margin:6px 0;
+
+  font-size:12px;
+
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   EVENT / GIFT BOARD
+========================================================= */
+
+.board{
+  position:absolute;
+
+  top:50%;
+
+  width:min(42vw,330px);
+
+  padding:22px;
+
+  z-index:30;
+
+  background:
+    rgba(255,249,239,.96);
+
+  color:#3c2d20;
+
+  border:
+    1px solid
+    rgba(183,139,76,.55);
+
+  box-shadow:
+    0 18px 55px
+    rgba(40,22,8,.22);
+
+  opacity:0;
+
+  transition:
+    opacity .8s ease,
+    transform .8s ease;
+}
+
+.board.left{
+  left:4vw;
+
+  transform:
+    translate(-20px,-50%);
+}
+
+.board.right{
+  right:4vw;
+
+  transform:
+    translate(20px,-50%);
+}
+
+.board.show{
+  opacity:1;
+
+  transform:
+    translate(0,-50%);
+}
+
+.board h2{
+  margin:
+    0 0 12px;
+
+  font-size:24px;
+
+  font-weight:400;
+
+  color:#6d4b27;
+}
+
+.row{
+  display:flex;
+
+  gap:10px;
+
+  padding:9px 0;
+
+  border-bottom:
+    1px solid
+    rgba(183,139,76,.22);
+}
+
+.row b{
+  width:55px;
+
+  flex:none;
+
+  font:
+    8px/1.3 Arial,
+    sans-serif;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+
+  color:#98754a;
+}
+
+.row span{
+  font-size:11px;
+
+  line-height:1.45;
+}
+
+.qr{
+  width:72px;
+  height:72px;
+
+  margin:
+    14px auto 0;
+
+  display:grid;
+  place-items:center;
+
+  border:
+    5px solid white;
+
+  background:
+    repeating-conic-gradient(
+      #33271d 0 25%,
+      #fff 0 50%
+    ) 50%/9px 9px;
+
+  color:#33271d;
+
+  font:
+    8px/1 Arial,
+    sans-serif;
+}
+
+.copy{
+  margin-top:12px;
+
+  padding:9px 12px;
+
+  border:
+    1px solid
+    rgba(109,75,39,.4);
+
+  background:transparent;
+
+  color:#6d4b27;
+
+  font:
+    9px/1 Arial,
+    sans-serif;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+}
+
+
+/* =========================================================
+   RSVP
+========================================================= */
+
+.rsvp-wrap{
+  position:absolute;
+
+  inset:0;
+
+  z-index:50;
+
+  display:grid;
+
+  place-items:center;
+
+  padding:
+    5vh 7vw;
+}
+
+.rsvp-panel{
+  width:min(86vw,410px);
+
+  max-height:84svh;
+
+  overflow:auto;
+
+  padding:24px;
+
+  background:
+    rgba(255,249,240,.96);
+
+  color:#3c2d20;
+
+  border:
+    1px solid
+    rgba(183,139,76,.55);
+
+  box-shadow:
+    0 20px 60px
+    rgba(40,22,8,.22);
+
+  opacity:0;
+
+  transform:
+    translateY(20px);
+
+  transition:
+    opacity .8s ease,
+    transform .8s ease;
+}
+
+.rsvp-panel.show{
+  opacity:1;
+
+  transform:
+    translateY(0);
+}
+
+.rsvp-panel h2{
+  margin:0 0 8px;
+
+  font-size:25px;
+
+  font-weight:400;
+
+  color:#6d4b27;
+}
+
+.rsvp-panel p{
+  font-size:11px;
+
+  line-height:1.6;
+}
+
+.field{
+  margin:11px 0;
+}
+
+.field label{
+  display:block;
+
+  margin-bottom:5px;
+
+  font:
+    8px/1 Arial,
+    sans-serif;
+
+  letter-spacing:.15em;
+
+  text-transform:uppercase;
+
+  color:#98754a;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+
+  padding:10px;
+
+  border:
+    1px solid
+    rgba(109,75,39,.25);
+
+  background:#fffdf9;
+
+  color:#3c2d20;
+}
+
+.field textarea{
+  min-height:80px;
+
+  resize:vertical;
+}
+
+.submit{
+  width:100%;
+
+  padding:12px;
+
+  border:0;
+
+  background:#8e6a3f;
+
+  color:white;
+
+  font:
+    9px/1 Arial,
+    sans-serif;
+
+  letter-spacing:.15em;
+
+  text-transform:uppercase;
+}
+
+#result{
+  margin-top:9px;
+
+  text-align:center;
+
+  font:
+    10px/1.5 Arial,
+    sans-serif;
+
+  color:#6d4b27;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+  .info,
+  .board{
+    width:42vw;
+
+    padding:14px;
+  }
+
+  .info h2,
+  .board h2{
+    font-size:20px;
+  }
+
+  .info p,
+  .row span{
+    font-size:9px;
+  }
+
+  .row b{
+    width:42px;
+
+    font-size:7px;
+  }
+
+}
+</style>
 </head>
+
+
 <body>
 
-  <div id="camera-viewport">
-    <div id="world">
-      
-      <div id="scene-01" class="scene active">
-        <img src="assets/01_OPENING_FRAME_ENVELOPE.webp" alt="Opening Envelope" class="scene-img">
-      </div>
 
-      <div id="scene-02" class="scene">
-        <img src="assets/02_MOSQUE_OPEN_DOOR.webp" alt="Mosque Door & Silhouette" class="scene-img">
-      </div>
+<!-- =======================================================
+     01 — OPENING
+======================================================= -->
 
-      <div id="scene-03" class="scene">
-        <img src="assets/03_COURTYARD_COUPLE_CARPET.webp" alt="Courtyard Couple Carpet" class="scene-img">
-      </div>
+<section
+  id="opening"
+  class="scene active"
+>
 
-      <div id="scene-main-world" class="scene">
-        <div class="stage-container">
-          <img src="assets/04-07_background.webp" alt="Pelaminan Background" class="scene-img">
-          
-          <img id="main-character" src="assets/04-07_karakter.webp" alt="Ihsan & Syarifah" class="character-layer">
-        </div>
-      </div>
+  <div
+    class="stage"
+    id="openingStage"
+  >
 
-      <div id="scene-08" class="scene">
-        <img src="assets/08_RSVP.webp" alt="RSVP Background" class="scene-img">
-        
-        <div class="rsvp-card">
-          <h2 style="font-family:'Cinzel',serif; color:var(--gold); margin-bottom:15px;">Konfirmasi Kehadiran</h2>
-          <form id="rsvp-form" onsubmit="event.preventDefault(); alert('Matur nuwun atas ucapan dan konfirmasinya!');">
-            <input type="text" placeholder="Nama Lengkap" required>
-            <select required>
-              <option value="">Status Kehadiran</option>
-              <option value="hadir">Hadir</option>
-              <option value="tidak_hadir">Berhalangan Hadir</option>
-            </select>
-            <textarea rows="3" placeholder="Berikan ucapan & doa terbaik..."></textarea>
-            <button type="submit" class="btn-gold">Kirim Ucapan</button>
-          </form>
-        </div>
-      </div>
+    <img
+      src="assets/01_OPENING_FRAME_ENVELOPE.webp"
+      alt="Opening undangan"
+    >
 
+  </div>
+
+
+  <div class="opening-title">
+
+    <small>
+      The Wedding of
+    </small>
+
+    <h1>
+      Ihsan &amp; Syarifah
+    </h1>
+
+    <p>
+      Dengan penuh cinta
+    </p>
+
+  </div>
+
+
+  <div class="hint">
+    Klik di mana saja untuk membuka
+  </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     02 — MASJID / PINTU TERBUKA
+======================================================= -->
+
+<section
+  id="mosque"
+  class="scene"
+>
+
+  <div
+    class="stage"
+    id="mosqueStage"
+  >
+
+    <img
+      src="assets/02_MOSQUE_OPEN DOOR.webp"
+      alt="Masjid dengan pintu terbuka"
+    >
+
+    <div class="warm"></div>
+    <div class="shade"></div>
+
+  </div>
+
+
+  <div class="hint">
+    Scroll perlahan untuk masuk
+  </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     03 — PASANGAN / KARAKTER DI ATAS KARPET
+
+     SATU ASSET.
+     PERKENALAN HANYA CAMERA MOVEMENT.
+======================================================= -->
+
+<section
+  id="couple"
+  class="scene"
+>
+
+  <div
+    class="stage"
+    id="coupleStage"
+  >
+
+    <img
+      src="assets/03_COURTYARD_COUPLE_CARPET.webp"
+      alt="Ihsan dan Syarifah"
+    >
+
+    <div class="warm"></div>
+    <div class="shade"></div>
+
+  </div>
+
+
+  <!-- INFO IHSAN — KIRI -->
+
+  <div
+    id="ihsanInfo"
+    class="info left"
+  >
+
+    <div class="orn">
+      ✦ ✦
     </div>
 
-    <div id="info-ihsan" class="info-overlay info-left">
-      <h2>Mempelai Pria</h2>
-      <h3>Ihsan Fauzi Noor</h3>
-      <p>Putra kedua dari Ibu Komsiah</p>
+    <div class="eyebrow">
+      Putra Kedua
     </div>
 
-    <div id="info-syarifah" class="info-overlay info-right">
-      <h2>Mempelai Wanita</h2>
-      <h3>Syarifah</h3>
-      <p>Putri tercinta dari Keluarga Bapak & Ibu</p>
+    <h2>
+      Ihsan
+    </h2>
+
+    <p>
+      Putra kedua dari
+      <br>
+      <strong>
+        Bapak &amp; Ibu Ihsan
+      </strong>
+    </p>
+
+    <p>
+      Pribadi yang tumbuh
+      dengan kasih, doa,
+      dan harapan keluarga.
+    </p>
+
+  </div>
+
+
+  <!-- INFO SYARIFAH — KANAN -->
+
+  <div
+    id="syarifahInfo"
+    class="info right"
+  >
+
+    <div class="orn">
+      ✦ ✦
     </div>
 
-    <div id="info-acara" class="info-overlay info-right">
-      <h2>Momen Akad & Resepsi</h2>
-      <p><strong>Hari/Tanggal:</strong> Sabtu, 24 Oktober 2026</p>
-      <p><strong>Waktu:</strong> 09.00 WIB - Selesai</p>
-      <p><strong>Lokasi:</strong> Masjid & Gedung Pernikahan</p>
-      <div style="margin-top:12px; text-align:center;">
-        <button class="btn-gold" style="padding:6px 16px; font-size:0.8rem;">Google Maps QR</button>
-      </div>
+    <div class="eyebrow">
+      Putri
     </div>
 
-    <div id="info-rekening" class="info-overlay info-left">
-      <h2>Tanda Kasih</h2>
-      <p>Bagi bapak/ibu/saudara/i yang ingin memberikan hadiah digital:</p>
-      <p style="margin-top:8px;"><strong>Bank BCA:</strong> 1234567890<br>a.n. Ihsan Fauzi Noor</p>
-      <p style="margin-top:6px;"><strong>Alamat Hadiah:</strong> Komplek Perumahan Indah No. 12, Tangerang</p>
+    <h2>
+      Syarifah
+    </h2>
+
+    <p>
+      Putri dari
+      <br>
+      <strong>
+        Bapak &amp; Ibu Syarifah
+      </strong>
+    </p>
+
+    <p>
+      Dengan penuh syukur
+      melangkah menuju
+      hari yang dinanti.
+    </p>
+
+  </div>
+
+
+  <div
+    id="coupleHint"
+    class="hint"
+  >
+    Klik untuk memperkenalkan
+  </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     04 — PELAMINAN / CINCIN
+
+     BACKGROUND + CHARACTER
+======================================================= -->
+
+<section
+  id="ring"
+  class="scene"
+>
+
+  <div
+    class="stage"
+    id="ringStage"
+  >
+
+    <img
+      src="assets/04-07_background.webp"
+      alt="Pelaminan"
+    >
+
+    <img
+      class="character"
+      src="assets/04-07_karakter.webp"
+      alt="Ihsan dan Syarifah"
+    >
+
+    <div class="warm"></div>
+    <div class="shade"></div>
+
+  </div>
+
+
+  <div
+    id="ringHint"
+    class="hint"
+  >
+    Klik untuk melihat cincin
+  </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     05 — INFO ACARA
+
+     PASANGAN KIRI
+     INFO ACARA KANAN
+======================================================= -->
+
+<section
+  id="event"
+  class="scene"
+>
+
+  <div
+    class="stage"
+    id="eventStage"
+  >
+
+    <img
+      src="assets/04-07_background.webp"
+      alt="Background pelaminan"
+    >
+
+    <img
+      class="character"
+      src="assets/04-07_karakter.webp"
+      alt="Ihsan dan Syarifah"
+    >
+
+    <div class="warm"></div>
+    <div class="shade"></div>
+
+  </div>
+
+
+  <div
+    id="eventBoard"
+    class="board right"
+  >
+
+    <h2>
+      Acara Pernikahan
+    </h2>
+
+
+    <div class="row">
+      <b>Hari</b>
+
+      <span>
+        Minggu, 00 Januari 2026
+      </span>
+    </div>
+
+
+    <div class="row">
+      <b>Waktu</b>
+
+      <span>
+        10.00 WIB — selesai
+      </span>
+    </div>
+
+
+    <div class="row">
+      <b>Tempat</b>
+
+      <span>
+        Gedung / Masjid Pernikahan
+      </span>
+    </div>
+
+
+    <div class="row">
+      <b>Alamat</b>
+
+      <span>
+        Alamat acara
+      </span>
+    </div>
+
+
+    <div class="qr">
+      MAPS
     </div>
 
   </div>
 
-  <div id="action-prompt">KLIK DI MANA SAJA UNTUK MEMBUKA</div>
 
-  <script>
-    let currentState = 0;
-    const totalStates = 10;
+  <div class="hint">
+    Klik untuk melanjutkan
+  </div>
 
-    const world = document.getElementById('world');
-    const promptText = document.getElementById('action-prompt');
+</section>
 
-    function updateCameraState(state) {
-      document.querySelectorAll('.info-overlay').forEach(el => el.classList.remove('active'));
-      
-      switch(state) {
-        case 0:
-          switchScene('scene-01');
-          gsap.to(world, { scale: 1, x: 0, y: 0, filter: "blur(0px)", duration: 1.2, ease: "power2.out" });
-          promptText.innerText = "KLIK DI MANA SAJA UNTUK MEMBUKA";
-          break;
 
-        case 1:
-          switchScene('scene-02');
-          gsap.to(world, { scale: 1.8, x: 0, y: -100, filter: "blur(0px)", duration: 1.8, ease: "power2.inOut" });
-          promptText.innerText = "SCROLL / KLIK UNTUK MASUK KE MASJID";
-          break;
 
-        case 2:
-          gsap.to(world, { scale: 2.5, filter: "blur(4px)", duration: 1, ease: "power1.in", onComplete: () => {
-            switchScene('scene-03');
-            gsap.to(world, { scale: 1.1, filter: "blur(0px)", duration: 1.2, ease: "power2.out" });
-          }});
-          promptText.innerText = "KLIK UNTUK MELANJUTKAN KE PASANGAN";
-          break;
+<!-- =======================================================
+     06 — REKENING / HADIAH
 
-        case 3:
-          switchScene('scene-main-world');
-          gsap.to(world, { scale: 2, x: "25%", y: "-10%", filter: "blur(0px)", duration: 1.8, ease: "power3.inOut" });
-          setTimeout(() => document.getElementById('info-ihsan').classList.add('active'), 1200);
-          promptText.innerText = "KLIK UNTUK MEMPERKENALKAN MEMPELAI WANITA";
-          break;
+     INFO KIRI
+     PASANGAN KANAN
+======================================================= -->
 
-        case 4:
-          gsap.to(world, { scale: 1.2, x: "0%", y: "0%", duration: 0.8, ease: "power2.in", onComplete: () => {
-            gsap.to(world, { scale: 2, x: "-25%", y: "-10%", duration: 1.5, ease: "power3.out" });
-            setTimeout(() => document.getElementById('info-syarifah').classList.add('active'), 1000);
-          }});
-          promptText.innerText = "SCROLL / KLIK UNTUK MOMEN AKAD";
-          break;
+<section
+  id="gift"
+  class="scene"
+>
 
-        case 5:
-          gsap.to(world, { scale: 1.8, x: "0%", y: "-5%", duration: 1.6, ease: "power3.inOut" });
-          promptText.innerText = "KLIK UNTUK CLOSE-UP MEMASANGKAN CINCIN";
-          break;
+  <div
+    class="stage"
+    id="giftStage"
+  >
 
-        case 6:
-          gsap.to(world, { scale: 3.5, x: "0%", y: "-15%", duration: 1.5, ease: "power4.out" });
-          promptText.innerText = "KLIK UNTUK INFORMASI ACARA";
-          break;
+    <img
+      src="assets/04-07_background.webp"
+      alt="Background pelaminan"
+    >
 
-        case 7:
-          gsap.to(world, { scale: 1.6, x: "-20%", y: "0%", duration: 1.5, ease: "power3.inOut" });
-          setTimeout(() => document.getElementById('info-acara').classList.add('active'), 1000);
-          promptText.innerText = "KLIK UNTUK INFO REKENING & HADIAH";
-          break;
+    <img
+      class="character"
+      src="assets/04-07_karakter.webp"
+      alt="Ihsan dan Syarifah"
+    >
 
-        case 8:
-          gsap.to(world, { scale: 1.6, x: "20%", y: "0%", duration: 1.5, ease: "power3.inOut" });
-          setTimeout(() => document.getElementById('info-rekening').classList.add('active'), 1000);
-          promptText.innerText = "SCROLL / KLIK UNTUK PAMER CINCIN & RSVP";
-          break;
+    <div class="warm"></div>
+    <div class="shade"></div>
 
-        case 9:
-          gsap.to(world, { scale: 1, x: "0%", y: "0%", duration: 1.2, ease: "power2.inOut", onComplete: () => {
-            switchScene('scene-08');
-            gsap.to(world, { scale: 1, duration: 1, ease: "power2.out" });
-          }});
-          promptText.innerText = "SILAKAN ISI UCAPAN & RSVP";
-          break;
-      }
+  </div>
+
+
+  <div
+    id="giftBoard"
+    class="board left"
+  >
+
+    <h2>
+      Hadiah &amp; Tanda Kasih
+    </h2>
+
+
+    <div class="row">
+
+      <b>Bank</b>
+
+      <span>
+        <strong>
+          BANK XXXX
+        </strong>
+
+        <br>
+
+        0000 0000 0000
+      </span>
+
+    </div>
+
+
+    <div class="row">
+
+      <b>A/N</b>
+
+      <span>
+        Ihsan / Syarifah
+      </span>
+
+    </div>
+
+
+    <div class="row">
+
+      <b>Hadiah</b>
+
+      <span>
+        Alamat penerimaan hadiah
+      </span>
+
+    </div>
+
+
+    <button
+      id="copyButton"
+      class="copy"
+    >
+      Salin rekening
+    </button>
+
+  </div>
+
+
+  <div class="hint">
+    Scroll untuk momen terakhir
+  </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     07 — CLOSING + RSVP
+======================================================= -->
+
+<section
+  id="rsvp"
+  class="scene"
+>
+
+  <div
+    class="stage"
+    id="rsvpStage"
+  >
+
+    <img
+      src="assets/04-07_background.webp"
+      alt="Pelaminan"
+    >
+
+    <img
+      class="character"
+      src="assets/04-07_karakter.webp"
+      alt="Pengantin"
+    >
+
+    <div class="warm"></div>
+    <div class="shade"></div>
+
+  </div>
+
+
+  <div class="rsvp-wrap">
+
+    <div
+      id="rsvpPanel"
+      class="rsvp-panel"
+    >
+
+      <div class="orn">
+        ✦ ✦
+      </div>
+
+      <h2>
+        RSVP &amp; Ucapan
+      </h2>
+
+      <p>
+        Berikan konfirmasi kehadiran
+        dan doa terbaik untuk
+        Ihsan &amp; Syarifah.
+      </p>
+
+
+      <div class="field">
+
+        <label>
+          Nama
+        </label>
+
+        <input
+          id="name"
+          placeholder="Nama Anda"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Kehadiran
+        </label>
+
+        <select id="attendance">
+
+          <option>
+            Hadir
+          </option>
+
+          <option>
+            Tidak hadir
+          </option>
+
+          <option>
+            Masih ragu
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Ucapan
+        </label>
+
+        <textarea
+          id="message"
+          placeholder="Tulis doa dan ucapan..."
+        ></textarea>
+
+      </div>
+
+
+      <button
+        id="submit"
+        class="submit"
+      >
+        Kirim Ucapan
+      </button>
+
+
+      <div
+        id="result"
+      ></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<script>
+
+/* =========================================================
+   SCENE CONTROLLER
+========================================================= */
+
+const scenes = [
+
+  document.getElementById("opening"),
+
+  document.getElementById("mosque"),
+
+  document.getElementById("couple"),
+
+  document.getElementById("ring"),
+
+  document.getElementById("event"),
+
+  document.getElementById("gift"),
+
+  document.getElementById("rsvp")
+
+];
+
+
+let current = 0;
+
+let busy = false;
+
+let mosqueStep = 0;
+
+let coupleStep = 0;
+
+let ringStep = 0;
+
+
+
+function showScene(index){
+
+  if(
+    index < 0 ||
+    index >= scenes.length ||
+    busy
+  ){
+    return;
+  }
+
+  busy = true;
+
+
+  scenes[current]
+    .classList
+    .remove("active");
+
+
+  scenes[index]
+    .classList
+    .add("active");
+
+
+  current = index;
+
+
+  setTimeout(
+    () => busy = false,
+    700
+  );
+
+}
+
+
+
+function camera(
+  stageId,
+  scale,
+  x = 0,
+  y = 0
+){
+
+  const stage =
+    document.getElementById(stageId);
+
+
+  stage.style.transform =
+
+    `translate(-50%,-50%)
+     translate3d(${x}%,${y}%,0)
+     scale(${scale})`;
+
+}
+
+
+/* =========================================================
+   OPENING
+
+   Klik di mana saja.
+   Kamera zoom ke pintu masjid.
+========================================================= */
+
+document
+.getElementById("opening")
+.addEventListener(
+  "click",
+  () => {
+
+    if(
+      current !== 0 ||
+      busy
+    ){
+      return;
     }
 
-    function switchScene(sceneId) {
-      document.querySelectorAll('.scene').forEach(scene => scene.classList.remove('active'));
-      document.getElementById(sceneId).classList.add('active');
+
+    camera(
+      "openingStage",
+      1.30
+    );
+
+
+    setTimeout(
+      () => {
+
+        showScene(1);
+
+        camera(
+          "mosqueStage",
+          1.02
+        );
+
+      },
+      1000
+    );
+
+  }
+);
+
+
+
+/* =========================================================
+   MASJID
+
+   Scroll pertama:
+   masuk ke pintu.
+
+   Scroll kedua:
+   semakin masuk.
+
+   Kemudian masuk ke pasangan.
+========================================================= */
+
+document
+.getElementById("mosque")
+.addEventListener(
+  "wheel",
+  event => {
+
+    event.preventDefault();
+
+
+    if(
+      current !== 1 ||
+      busy ||
+      event.deltaY <= 0
+    ){
+      return;
     }
 
-    // INTERAKSI KLIK & TOUCH
-    document.getElementById('camera-viewport').addEventListener('click', (e) => {
-      if(e.target.closest('.rsvp-card') || e.target.closest('.btn-gold')) return;
 
-      if(currentState < totalStates - 1) {
-        currentState++;
-        updateCameraState(currentState);
+    mosqueStep++;
+
+
+    if(
+      mosqueStep === 1
+    ){
+
+      camera(
+        "mosqueStage",
+        1.25,
+        0,
+        3
+      );
+
+    }
+
+
+    if(
+      mosqueStep >= 2
+    ){
+
+      camera(
+        "mosqueStage",
+        1.55,
+        0,
+        6
+      );
+
+
+      setTimeout(
+        () => {
+
+          showScene(2);
+
+        },
+        700
+      );
+
+    }
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+
+/* =========================================================
+   COUPLE
+
+   Klik 1:
+   Ihsan kanan.
+   Info Ihsan kiri.
+
+   Klik 2:
+   kembali tengah,
+   kemudian Syarifah kiri.
+   Info Syarifah kanan.
+
+   TIDAK GANTI SCENE.
+========================================================= */
+
+document
+.getElementById("couple")
+.addEventListener(
+  "click",
+  () => {
+
+    if(
+      current !== 2 ||
+      busy
+    ){
+      return;
+    }
+
+
+    const stage =
+      document.getElementById(
+        "coupleStage"
+      );
+
+
+    const ihsan =
+      document.getElementById(
+        "ihsanInfo"
+      );
+
+
+    const syarifah =
+      document.getElementById(
+        "syarifahInfo"
+      );
+
+
+    const hint =
+      document.getElementById(
+        "coupleHint"
+      );
+
+
+    /* -----------------------------------
+       IHSAN
+    ----------------------------------- */
+
+    if(
+      coupleStep === 0
+    ){
+
+      camera(
+        "coupleStage",
+        1.42,
+        13,
+        0
+      );
+
+
+      ihsan
+        .classList
+        .add("show");
+
+
+      hint.textContent =
+        "Klik untuk Syarifah";
+
+
+      coupleStep = 1;
+
+
+      return;
+
+    }
+
+
+    /* -----------------------------------
+       SYARIFAH
+    ----------------------------------- */
+
+    if(
+      coupleStep === 1
+    ){
+
+      ihsan
+        .classList
+        .remove("show");
+
+
+      camera(
+        "coupleStage",
+        1.04,
+        0,
+        0
+      );
+
+
+      setTimeout(
+        () => {
+
+          camera(
+            "coupleStage",
+            1.42,
+            -13,
+            0
+          );
+
+
+          syarifah
+            .classList
+            .add("show");
+
+        },
+        650
+      );
+
+
+      hint.textContent =
+        "Scroll untuk melanjutkan";
+
+
+      coupleStep = 2;
+
+    }
+
+  }
+);
+
+
+
+/* =========================================================
+   RING
+
+   Klik pertama:
+   zoom ke tangan/cincin.
+
+   Klik kedua:
+   zoom out.
+========================================================= */
+
+document
+.getElementById("ring")
+.addEventListener(
+  "click",
+  () => {
+
+    if(
+      current !== 3 ||
+      busy
+    ){
+      return;
+    }
+
+
+    const hint =
+      document.getElementById(
+        "ringHint"
+      );
+
+
+    if(
+      ringStep === 0
+    ){
+
+      camera(
+        "ringStage",
+        2.05,
+        0,
+        5
+      );
+
+
+      hint.textContent =
+        "Klik untuk kembali";
+
+
+      ringStep = 1;
+
+
+      return;
+
+    }
+
+
+    camera(
+      "ringStage",
+      1.05,
+      0,
+      0
+    );
+
+
+    hint.textContent =
+      "Scroll untuk melanjutkan";
+
+
+    ringStep = 2;
+
+  }
+);
+
+
+
+/* =========================================================
+   NEXT SCENE
+========================================================= */
+
+function nextScene(){
+
+  if(busy){
+    return;
+  }
+
+
+  /* Couple → Ring */
+
+  if(
+    current === 2
+  ){
+
+    document
+      .getElementById(
+        "ihsanInfo"
+      )
+      .classList
+      .remove("show");
+
+
+    document
+      .getElementById(
+        "syarifahInfo"
+      )
+      .classList
+      .remove("show");
+
+
+    showScene(3);
+
+
+    camera(
+      "ringStage",
+      1.05,
+      0,
+      0
+    );
+
+
+    ringStep = 0;
+
+
+    return;
+
+  }
+
+
+  /* Ring → Event */
+
+  if(
+    current === 3
+  ){
+
+    showScene(4);
+
+
+    camera(
+      "eventStage",
+      1.12,
+      -4,
+      0
+    );
+
+
+    setTimeout(
+      () => {
+
+        document
+          .getElementById(
+            "eventBoard"
+          )
+          .classList
+          .add("show");
+
+      },
+      300
+    );
+
+
+    return;
+
+  }
+
+
+  /* Event → Gift */
+
+  if(
+    current === 4
+  ){
+
+    document
+      .getElementById(
+        "eventBoard"
+      )
+      .classList
+      .remove("show");
+
+
+    showScene(5);
+
+
+    camera(
+      "giftStage",
+      1.12,
+      4,
+      0
+    );
+
+
+    setTimeout(
+      () => {
+
+        document
+          .getElementById(
+            "giftBoard"
+          )
+          .classList
+          .add("show");
+
+      },
+      300
+    );
+
+
+    return;
+
+  }
+
+
+  /* Gift → RSVP */
+
+  if(
+    current === 5
+  ){
+
+    document
+      .getElementById(
+        "giftBoard"
+      )
+      .classList
+      .remove("show");
+
+
+    showScene(6);
+
+
+    camera(
+      "rsvpStage",
+      1.16,
+      0,
+      0
+    );
+
+
+    setTimeout(
+      () => {
+
+        document
+          .getElementById(
+            "rsvpPanel"
+          )
+          .classList
+          .add("show");
+
+      },
+      500
+    );
+
+  }
+
+}
+
+
+
+/* =========================================================
+   PREVIOUS SCENE
+========================================================= */
+
+function previousScene(){
+
+  if(busy){
+    return;
+  }
+
+
+  if(
+    current === 6
+  ){
+
+    document
+      .getElementById(
+        "rsvpPanel"
+      )
+      .classList
+      .remove("show");
+
+
+    showScene(5);
+
+    return;
+
+  }
+
+
+  if(
+    current === 5
+  ){
+
+    document
+      .getElementById(
+        "giftBoard"
+      )
+      .classList
+      .remove("show");
+
+
+    showScene(4);
+
+    return;
+
+  }
+
+
+  if(
+    current === 4
+  ){
+
+    document
+      .getElementById(
+        "eventBoard"
+      )
+      .classList
+      .remove("show");
+
+
+    showScene(3);
+
+    return;
+
+  }
+
+
+  if(
+    current === 3
+  ){
+
+    showScene(2);
+
+  }
+
+}
+
+
+
+/* =========================================================
+   DESKTOP SCROLL
+========================================================= */
+
+window.addEventListener(
+  "wheel",
+  event => {
+
+    if(
+      current <= 1 ||
+      busy
+    ){
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    if(
+      event.deltaY > 0
+    ){
+
+      nextScene();
+
+    }
+    else if(
+      event.deltaY < 0
+    ){
+
+      previousScene();
+
+    }
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+
+/* =========================================================
+   MOBILE SWIPE
+========================================================= */
+
+let touchStartY = 0;
+
+
+window.addEventListener(
+  "touchstart",
+  event => {
+
+    touchStartY =
+      event.touches[0].clientY;
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+window.addEventListener(
+  "touchend",
+  event => {
+
+    const delta =
+      touchStartY -
+      event.changedTouches[0].clientY;
+
+
+    if(
+      Math.abs(delta) < 40
+    ){
+      return;
+    }
+
+
+    if(
+      current === 1 &&
+      delta > 0
+    ){
+
+      mosqueStep++;
+
+
+      if(
+        mosqueStep === 1
+      ){
+
+        camera(
+          "mosqueStage",
+          1.25,
+          0,
+          3
+        );
+
       }
-    });
+      else{
 
-    // INTERAKSI SCROLL WHEEL
-    let scrollTimeout;
-    window.addEventListener('wheel', (e) => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        if (e.deltaY > 0) {
-          if(currentState < totalStates - 1) {
-            currentState++;
-            updateCameraState(currentState);
-          }
-        } else if (e.deltaY < 0) {
-          if(currentState > 0) {
-            currentState--;
-            updateCameraState(currentState);
-          }
-        }
-      }, 80);
-    });
-  </script>
+        camera(
+          "mosqueStage",
+          1.55,
+          0,
+          6
+        );
+
+
+        setTimeout(
+          () => showScene(2),
+          500
+        );
+
+      }
+
+
+      return;
+
+    }
+
+
+    if(
+      current > 1
+    ){
+
+      if(
+        delta > 0
+      ){
+
+        nextScene();
+
+      }
+      else{
+
+        previousScene();
+
+      }
+
+    }
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+
+/* =========================================================
+   COPY REKENING
+========================================================= */
+
+document
+.getElementById("copyButton")
+.addEventListener(
+  "click",
+  async event => {
+
+    event.stopPropagation();
+
+
+    const number =
+      "0000 0000 0000";
+
+
+    try{
+
+      await navigator
+        .clipboard
+        .writeText(number);
+
+
+      event.target.textContent =
+        "Tersalin ✓";
+
+
+      setTimeout(
+        () => {
+
+          event.target.textContent =
+            "Salin rekening";
+
+        },
+        1800
+      );
+
+    }
+    catch{
+
+      alert(
+        "Nomor rekening: " +
+        number
+      );
+
+    }
+
+  }
+);
+
+
+
+/* =========================================================
+   RSVP DEMO
+
+   Ini masih frontend.
+   Database akan kita sambungkan nanti.
+========================================================= */
+
+document
+.getElementById("submit")
+.addEventListener(
+  "click",
+  () => {
+
+    const name =
+      document
+        .getElementById("name")
+        .value
+        .trim();
+
+
+    const message =
+      document
+        .getElementById("message")
+        .value
+        .trim();
+
+
+    const result =
+      document
+        .getElementById("result");
+
+
+    if(
+      !name ||
+      !message
+    ){
+
+      result.textContent =
+        "Mohon isi nama dan ucapan.";
+
+      return;
+
+    }
+
+
+    result.textContent =
+      `Terima kasih, ${name}. Ucapanmu sudah dicatat.`;
+
+  }
+);
+
+</script>
+
 </body>
 </html>
