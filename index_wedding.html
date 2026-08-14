@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Wedding Invitation — Ihsan & Syarifah</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0d0b09}
+body{touch-action:pan-y}
+#app{position:fixed;inset:0;overflow:hidden;background:#0d0b09}
+
+/* =========================
+   CAMERA
+========================= */
+#camera{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  transform-origin:50% 50%;
+  will-change:transform,filter;
+}
+.scene{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 850ms cubic-bezier(.22,.61,.36,1);
+}
+.scene.active{opacity:1;pointer-events:auto}
+.layer{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
+}
+
+/* =========================
+   SCENE 0 — TEKS UNDANGAN
+========================= */
+#scene00 .opening-content{
+  position:absolute;
+  z-index:10;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  padding:
+    0
+    8vw
+    max(7vh,55px);
+  text-align:center;
+  pointer-events:none;
+}
+
+#guest-label{
+  margin:0 0 14px;
+  color:rgba(255,255,255,.94);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(13px,3.7vw,18px);
+  letter-spacing:.18em;
+  text-shadow:0 2px 18px rgba(0,0,0,.5);
+}
+
+#guest-name{
+  margin:0 0 30px;
+  color:#fff;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(25px,7.2vw,38px);
+  font-weight:600;
+  line-height:1.12;
+  text-shadow:0 3px 20px rgba(0,0,0,.58);
+}
+
+#open-button{
+  pointer-events:auto;
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.96);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(14px,4vw,18px);
+  letter-spacing:.24em;
+  padding:10px 18px 12px;
+  cursor:pointer;
+  text-shadow:0 2px 15px rgba(0,0,0,.65);
+  transition:transform .25s ease,opacity .25s ease;
+}
+#open-button:active{transform:scale(.94)}
+#open-button::after{
+  content:"";
+  display:block;
+  width:58%;
+  height:1px;
+  margin:9px auto 0;
+  background:rgba(255,255,255,.75);
+}
+
+/* Setelah tombol diklik, teks menghilang perlahan */
+#scene00.opening-away .opening-content{
+  opacity:0;
+  transform:translateY(10px) scale(.98);
+  transition:opacity 500ms ease,transform 650ms ease;
+}
+
+/* =========================
+   LAYER A = POPUP + BOUNCE
+========================= */
+.popup{
+  opacity:0;
+  transform:scale(.72);
+  transform-origin:center;
+  will-change:transform,opacity;
+}
+.popup.show{
+  animation:popupBounce .95s cubic-bezier(.18,.89,.32,1.28) forwards;
+}
+@keyframes popupBounce{
+  0%{opacity:0;transform:scale(.72)}
+  55%{opacity:1;transform:scale(1.08)}
+  75%{transform:scale(.96)}
+  90%{transform:scale(1.025)}
+  100%{opacity:1;transform:scale(1)}
+}
+
+/* =========================
+   REDUCED MOTION
+========================= */
+@media(prefers-reduced-motion:reduce){
+  #camera,.scene{transition:none!important}
+  .popup.show{animation:none;opacity:1;transform:scale(1)}
+}
+</style>
+</head>
+
+<body>
+<div id="app">
+
+  <div id="camera">
+
+    <!-- =========================
+         SCENE 0
+         BACKGROUND: 00.webp
+    ========================== -->
+    <section class="scene active" id="scene00">
+      <img class="layer" src="assets/00.webp" alt="Amplop undangan">
+
+      <div class="opening-content">
+        <p id="guest-label">KEPADA YANG TERHORMAT</p>
+
+        <!--
+          Nama tamu nanti bisa diisi dari URL:
+          ?to=Nama%20Tamu
+        -->
+        <h1 id="guest-name">Nama Tamu Undangan</h1>
+
+        <button id="open-button" type="button">
+          BUKA UNDANGAN
+        </button>
+      </div>
+    </section>
+
+    <!-- =========================
+         SCENE 1
+         01.webp = background
+         01 A.webp = layer depan
+    ========================== -->
+    <section class="scene" id="scene01">
+      <img class="layer" src="assets/01.webp" alt="">
+      <img class="layer popup" id="popup01" src="assets/01%20A.webp" alt="">
+    </section>
+
+    <!-- SCENE 2 -->
+    <section class="scene" id="scene02">
+      <img class="layer" src="assets/02.webp" alt="">
+      <img class="layer popup" id="popup02" src="assets/02%20A.webp" alt="">
+    </section>
+
+    <!-- SCENE 3 -->
+    <section class="scene" id="scene03">
+      <img class="layer" src="assets/03.webp" alt="">
+      <img class="layer popup" id="popup03" src="assets/03%20A.webp" alt="">
+    </section>
+
+    <!-- SCENE 4 -->
+    <section class="scene" id="scene04">
+      <img class="layer" src="assets/04.webp" alt="">
+      <img class="layer popup" id="popup04" src="assets/04%20A.webp" alt="">
+    </section>
+
+    <!-- SCENE 5 -->
+    <section class="scene" id="scene05">
+      <img class="layer" src="assets/05.webp" alt="">
+      <img class="layer popup" id="popup05" src="assets/05%20A.webp" alt="">
+    </section>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const camera = document.getElementById("camera");
+  const scene00 = document.getElementById("scene00");
+  const openButton = document.getElementById("open-button");
+  const guestName = document.getElementById("guest-name");
+
+  const scenes = [
+    document.getElementById("scene00"),
+    document.getElementById("scene01"),
+    document.getElementById("scene02"),
+    document.getElementById("scene03"),
+    document.getElementById("scene04"),
+    document.getElementById("scene05")
+  ];
+
+  const popups = [
+    null,
+    document.getElementById("popup01"),
+    document.getElementById("popup02"),
+    document.getElementById("popup03"),
+    document.getElementById("popup04"),
+    document.getElementById("popup05")
+  ];
+
+  let currentScene = 0;
+  let opened = false;
+  let busy = false;
+  let wheelLock = false;
+  let touchStartY = null;
+
+  /*
+   * TITIK KAMERA.
+   *
+   * Scene 0:
+   * Saat tombol diklik, kamera melakukan zoom panjang
+   * menuju amplop.
+   *
+   * Nilai ini sengaja dibuat mudah direvisi.
+   * x positif = kamera bergeser ke kanan
+   * x negatif = kamera bergeser ke kiri
+   * y positif = kamera bergeser ke bawah
+   * y negatif = kamera bergeser ke atas
+   */
+  const cameraPresets = {
+    0:{x:0,y:0,scale:1},
+
+    /* Posisi akhir zoom amplop.
+       Nanti kita sesuaikan persis berdasarkan aset 00. */
+    0Envelope:{x:0,y:5,scale:2.15},
+
+    1:{x:0,y:0,scale:1},
+    2:{x:0,y:0,scale:1},
+    3:{x:0,y:0,scale:1},
+    4:{x:0,y:0,scale:1},
+    5:{x:0,y:0,scale:1}
+  };
+
+  function applyCamera(preset,duration=900,easing="cubic-bezier(.22,.61,.36,1)"){
+    camera.style.transition =
+      `transform ${duration}ms ${easing}`;
+    camera.style.transform =
+      `translate3d(${preset.x}%,${preset.y}%,0) scale(${preset.scale})`;
+  }
+
+  function activateScene(index){
+    scenes.forEach((scene,i)=>{
+      scene.classList.toggle("active",i===index);
+    });
+    currentScene=index;
+  }
+
+  function showScene(index, animatePopup=true){
+    if(index<0 || index>=scenes.length)return;
+
+    activateScene(index);
+    applyCamera(cameraPresets[index],1);
+
+    if(popups[index]){
+      popups[index].classList.remove("show");
+
+      if(animatePopup){
+        void popups[index].offsetWidth;
+        popups[index].classList.add("show");
+      }
+    }
+  }
+
+  /*
+   * Nama tamu:
+   * contoh:
+   * https://domainmu.github.io/?to=Budi%20Santoso
+   */
+  function loadGuestName(){
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("to");
+
+    if(name){
+      guestName.textContent = name.replace(/\+/g," ").trim();
+    }
+  }
+
+  /*
+   * PEMBUKAAN:
+   *
+   * 1. Klik "BUKA UNDANGAN"
+   * 2. Teks menghilang
+   * 3. Kamera zoom perlahan ke posisi amplop
+   * 4. Ada sedikit efek depth/parallax melalui easing + blur
+   * 5. Setelah kamera hampir sampai, crossfade smooth ke Scene 1
+   * 6. Layer 01 A muncul dengan popup + bounce
+   */
+  async function openInvitation(){
+    if(opened || busy)return;
+
+    opened=true;
+    busy=true;
+
+    openButton.disabled=true;
+    scene00.classList.add("opening-away");
+
+    /* Sedikit blur saat kamera mulai bergerak */
+    camera.style.transition =
+      "transform 2300ms cubic-bezier(.16,.72,.18,1), filter 700ms ease";
+    camera.style.filter="blur(.25px)";
+
+    camera.style.transform =
+      `translate3d(${cameraPresets["0Envelope"].x}%,${cameraPresets["0Envelope"].y}%,0)
+       scale(${cameraPresets["0Envelope"].scale})`;
+
+    /*
+      Crossfade dibuat mulai sebelum zoom selesai,
+      sehingga perpindahan ke scene 1 terasa menyatu.
+    */
+    await new Promise(resolve=>setTimeout(resolve,1750));
+
+    activateScene(1);
+
+    /*
+      Scene 1 mulai dari sedikit zoom lalu kembali ke normal.
+      Ini memberi rasa kamera "masuk" ke dunia scene berikutnya.
+    */
+    camera.style.transition =
+      "transform 1100ms cubic-bezier(.22,.61,.36,1), filter 800ms ease";
+
+    camera.style.transform="translate3d(0,0,0) scale(1.045)";
+    camera.style.filter="blur(0px)";
+
+    await new Promise(resolve=>setTimeout(resolve,850));
+
+    camera.style.transition =
+      "transform 700ms cubic-bezier(.22,.61,.36,1)";
+    camera.style.transform="translate3d(0,0,0) scale(1)";
+
+    await new Promise(resolve=>setTimeout(resolve,250));
+
+    if(popups[1]){
+      popups[1].classList.remove("show");
+      void popups[1].offsetWidth;
+      popups[1].classList.add("show");
+    }
+
+    busy=false;
+  }
+
+  openButton.addEventListener("click",(event)=>{
+    event.stopPropagation();
+    openInvitation();
+  });
+
+  /*
+   * Kerangka sementara untuk scene berikutnya.
+   * Nanti kita ganti dengan gerakan kamera detail
+   * sesuai alur yang kamu tentukan.
+   */
+  function nextByScroll(direction){
+    if(!opened || busy || wheelLock)return;
+
+    const next=currentScene+(direction>0?1:-1);
+    if(next<1 || next>=scenes.length)return;
+
+    wheelLock=true;
+    showScene(next,true);
+
+    setTimeout(()=>wheelLock=false,1100);
+  }
+
+  window.addEventListener("wheel",event=>{
+    if(!opened)return;
+    if(Math.abs(event.deltaY)<8)return;
+    nextByScroll(event.deltaY);
+  },{passive:true});
+
+  window.addEventListener("touchstart",event=>{
+    if(!opened)return;
+    touchStartY=event.touches[0].clientY;
+  },{passive:true});
+
+  window.addEventListener("touchend",event=>{
+    if(!opened || touchStartY===null)return;
+
+    const distance=touchStartY-event.changedTouches[0].clientY;
+
+    if(Math.abs(distance)>45){
+      nextByScroll(distance);
+    }
+
+    touchStartY=null;
+  },{passive:true});
+
+  /*
+   * Helper untuk revisi kamera lewat console:
+   *
+   * weddingCamera(1,{x:8,y:-4,scale:1.6})
+   */
+  window.weddingCamera=(sceneNumber,preset)=>{
+    if(!cameraPresets[sceneNumber])return;
+
+    cameraPresets[sceneNumber]={
+      ...cameraPresets[sceneNumber],
+      ...preset
+    };
+
+    if(currentScene===sceneNumber){
+      applyCamera(cameraPresets[sceneNumber],900);
+    }
+  };
+
+  window.weddingScene=(sceneNumber)=>{
+    showScene(sceneNumber,true);
+  };
+
+  loadGuestName();
+  camera.style.transform="translate3d(0,0,0) scale(1)";
+})();
+</script>
+</body>
+</html>
