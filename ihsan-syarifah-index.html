@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Ihsan & Syarifah</title>
+<style>
+:root{--ease:cubic-bezier(.22,.75,.2,1);--dur:1100ms}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}
+body{font-family:Georgia,"Times New Roman",serif;touch-action:none}
+#app{position:fixed;inset:0;overflow:hidden;background:#111}
+#camera{position:absolute;inset:0;overflow:hidden;transform-origin:50% 50%;will-change:transform;transition:transform var(--dur) var(--ease)}
+.scene{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden;transition:opacity 700ms ease}
+.scene.active{opacity:1;visibility:visible}
+.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;user-select:none;-webkit-user-drag:none;pointer-events:none}
+#vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 48%,rgba(0,0,0,.18) 100%);opacity:.5}
+#blur{position:absolute;inset:0;pointer-events:none;opacity:0;background:rgba(255,250,240,.05);backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0);transition:opacity 700ms ease,backdrop-filter 700ms ease,-webkit-backdrop-filter 700ms ease}
+#hint{position:absolute;left:50%;bottom:5.5vh;transform:translateX(-50%);color:rgba(255,250,240,.94);font-size:11px;letter-spacing:.32em;text-align:center;white-space:nowrap;text-shadow:0 1px 8px rgba(0,0,0,.4);pointer-events:none;transition:opacity .45s ease}
+#progress{position:absolute;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);display:flex;gap:5px;opacity:.45;pointer-events:none}
+#progress i{width:4px;height:4px;border-radius:50%;background:#fff;display:block}
+#progress i.on{opacity:1;transform:scale(1.5)}
+.tapzone{position:absolute;inset:0;z-index:20;cursor:pointer}
+#rsvp{position:absolute;inset:0;display:none;z-index:30;align-items:center;justify-content:center;padding:24px;background:rgba(20,14,10,.18);backdrop-filter:blur(3px)}
+#rsvp.show{display:flex}
+.card{width:min(90%,420px);max-height:80vh;overflow:auto;padding:26px 22px;border:1px solid rgba(155,113,54,.45);background:rgba(255,250,239,.95);box-shadow:0 20px 70px rgba(0,0,0,.25);color:#5d452c}
+.card h2{margin:0 0 5px;text-align:center;font-weight:500;font-size:28px}
+.card p{margin:0 0 18px;text-align:center;font-size:12px;letter-spacing:.16em}
+.card input,.card textarea{width:100%;padding:12px 13px;margin:0 0 10px;border:1px solid rgba(120,90,50,.3);background:#fffdf8;font:inherit;color:#4f3b28}
+.card textarea{min-height:95px;resize:none}
+.card button{width:100%;padding:12px;border:0;background:#8b673b;color:#fff;font:inherit;letter-spacing:.12em}
+.comments{margin-top:16px;display:grid;gap:8px}
+.comment{padding:10px;border-left:2px solid #b08a54;background:rgba(180,140,80,.08);font-size:12px}
+.close{position:absolute;right:18px;top:18px;width:32px;height:32px;border:1px solid rgba(100,70,40,.3);border-radius:50%;background:#fff8;color:#5d452c}
+@media (min-width:700px){#app{max-width:520px;left:50%;right:auto;width:100%;transform:translateX(-50%)}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="camera">
+    <section class="scene active" id="s0"><img class="layer" src="assets/00.webp" alt=""></section>
+
+    <section class="scene" id="s1">
+      <img class="layer" src="assets/01.webp" alt="">
+      <img class="layer" src="assets/01%20benda.webp" alt="">
+    </section>
+
+    <section class="scene" id="s2">
+      <img class="layer" src="assets/02.webp" alt="">
+      <img class="layer" src="assets/02%20karakter.webp" alt="">
+    </section>
+
+    <section class="scene" id="s3">
+      <img class="layer" src="assets/03.webp" alt="">
+      <img class="layer" src="assets/03%20karakter.webp" alt="">
+    </section>
+
+    <section class="scene" id="s4">
+      <img class="layer" src="assets/04.webp" alt="">
+      <img class="layer" src="assets/04%20karakter.webp" alt="">
+    </section>
+
+    <section class="scene" id="s5">
+      <img class="layer" src="assets/05.webp" alt="">
+      <img class="layer" src="assets/05%20karakter.webp" alt="">
+    </section>
+  </div>
+
+  <div id="vignette"></div>
+  <div id="blur"></div>
+  <div id="hint">KLIK DI MANA SAJA UNTUK MEMBUKA</div>
+
+  <div id="progress">
+    <i class="on"></i><i></i><i></i><i></i><i></i><i></i>
+  </div>
+
+  <div class="tapzone" id="tapzone"></div>
+
+  <div id="rsvp">
+    <div class="card">
+      <button class="close" id="closeRsvp">×</button>
+      <h2>RSVP & Ucapan</h2>
+      <p>UNTUK IHSAN & SYARIFAH</p>
+      <input id="guest" placeholder="Nama">
+      <textarea id="message" placeholder="Tulis ucapan untuk kedua mempelai..."></textarea>
+      <button id="send">KIRIM UCAPAN</button>
+      <div class="comments" id="comments"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const camera=document.getElementById('camera');
+  const scenes=[...document.querySelectorAll('.scene')];
+  const hint=document.getElementById('hint');
+  const blur=document.getElementById('blur');
+  const dots=[...document.querySelectorAll('#progress i')];
+  const rsvp=document.getElementById('rsvp');
+  const tapzone=document.getElementById('tapzone');
+
+  let scene=0, step=0, busy=false, touchStartY=0;
+
+  /*
+    Semua aset dianggap sudah kamu susun/framing.
+    Kode hanya menumpuk background + layer karakter/benda.
+    Posisi kamera di bawah ini yang bergerak.
+  */
+  const poses={
+    s0:{scale:1,x:0,y:0},
+
+    // Scene 01: masuk menuju pintu/siluet.
+    s1:{scale:1.22,x:0,y:2},
+    s1deep:{scale:1.65,x:0,y:5},
+
+    // Scene 02: perkenalan.
+    // Ihsan berada di kanan layar -> kamera sedikit ke kanan.
+    // Syarifah berada di kiri -> kamera sedikit ke kiri.
+    s2center:{scale:1.12,x:0,y:1},
+    s2ihsan:{scale:1.72,x:13,y:1},
+    s2syarifah:{scale:1.72,x:-13,y:1},
+
+    // Scene 03: pelaminan -> tangan/cincin.
+    s3center:{scale:1.12,x:0,y:0},
+    s3hands:{scale:2.15,x:0,y:7},
+
+    // Scene 04: satu scene, dua arah kamera.
+    // Event: pasangan di kiri, info di kanan.
+    // Rekening/hadiah: kebalikan.
+    s4event:{scale:1.48,x:-13,y:0},
+    s4account:{scale:1.48,x:13,y:0},
+
+    // Scene 05: kembali ke tengah.
+    s5:{scale:1.08,x:0,y:0}
+  };
+
+  function applyPose(name,duration=1100){
+    const p=poses[name];
+    camera.style.transitionDuration=duration+'ms';
+    camera.style.transform=`translate3d(${p.x}%,${p.y}%,0) scale(${p.scale})`;
+  }
+
+  function showScene(n){
+    scenes.forEach((el,i)=>el.classList.toggle('active',i===n));
+    dots.forEach((d,i)=>d.classList.toggle('on',i===n));
+    scene=n;
+  }
+
+  function move(name,duration=1100){
+    busy=true;
+    applyPose(name,duration);
+    setTimeout(()=>busy=false,duration+50);
+  }
+
+  function setHint(text,show=true){
+    hint.textContent=text;
+    hint.style.opacity=show?'0.94':'0';
+  }
+
+  function openInvitation(){
+    showScene(1);
+    step=0;
+    setHint('SCROLL UNTUK MASUK');
+    move('s1',1200);
+  }
+
+  function tap(){
+    if(busy || rsvp.classList.contains('show')) return;
+
+    if(scene===0){
+      openInvitation();
+      return;
+    }
+
+    if(scene===2){
+      if(step===0){
+        step=1;
+        setHint('KLIK UNTUK MELIHAT SYARIFAH');
+        move('s2ihsan',1150);
+      }else if(step===1){
+        step=2;
+        setHint('SCROLL UNTUK MELANJUTKAN');
+        move('s2syarifah',1150);
+      }
+      return;
+    }
+
+    if(scene===3){
+      if(step===0){
+        step=1;
+        setHint('KLIK UNTUK MELIHAT CINCIN');
+        move('s3hands',1050);
+      }else if(step===1){
+        step=0;
+        showScene(4);
+        setHint('KLIK UNTUK MELIHAT REKENING & HADIAH');
+        move('s4event',1150);
+      }
+      return;
+    }
+
+    if(scene===4 && step===0){
+      step=1;
+      setHint('SCROLL UNTUK MELANJUTKAN');
+      move('s4account',1150);
+      return;
+    }
+
+    if(scene===5){
+      rsvp.classList.add('show');
+    }
+  }
+
+  function next(){
+    if(busy || rsvp.classList.contains('show')) return;
+
+    if(scene===1){
+      if(step===0){
+        step=1;
+        setHint('SCROLL LAGI');
+        blur.style.opacity='.9';
+        blur.style.backdropFilter='blur(2px)';
+        blur.style.webkitBackdropFilter='blur(2px)';
+        move('s1deep',1200);
+      }else{
+        blur.style.opacity='0';
+        blur.style.backdropFilter='blur(0)';
+        blur.style.webkitBackdropFilter='blur(0)';
+        showScene(2);
+        step=0;
+        setHint('KLIK UNTUK MEMPERKENALKAN IHSAN');
+        move('s2center',1200);
+      }
+      return;
+    }
+
+    if(scene===2 && step===2){
+      showScene(3);
+      step=0;
+      setHint('KLIK UNTUK MELIHAT CINCIN');
+      move('s3center',1200);
+      return;
+    }
+
+    if(scene===4 && step===1){
+      showScene(5);
+      step=0;
+      setHint('KLIK UNTUK RSVP & UCAPAN');
+      move('s5',1200);
+      return;
+    }
+  }
+
+  tapzone.addEventListener('click',tap);
+
+  window.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaY)>8) next();
+  },{passive:true});
+
+  window.addEventListener('touchstart',e=>{
+    touchStartY=e.touches[0].clientY;
+  },{passive:true});
+
+  window.addEventListener('touchend',e=>{
+    const delta=e.changedTouches[0].clientY-touchStartY;
+    if(delta<-28) next();
+  },{passive:true});
+
+  document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+
+  document.getElementById('closeRsvp').onclick=()=>rsvp.classList.remove('show');
+
+  const guest=document.getElementById('guest');
+  const message=document.getElementById('message');
+  const comments=document.getElementById('comments');
+
+  function renderComments(){
+    comments.innerHTML='';
+    const data=JSON.parse(localStorage.getItem('weddingComments')||'[]');
+    data.slice().reverse().forEach(c=>{
+      const el=document.createElement('div');
+      el.className='comment';
+      el.innerHTML='<strong>'+escapeHtml(c.name)+'</strong><br>'+escapeHtml(c.message);
+      comments.appendChild(el);
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  }
+
+  document.getElementById('send').onclick=()=>{
+    const name=guest.value.trim(), msg=message.value.trim();
+    if(!name || !msg) return;
+    const data=JSON.parse(localStorage.getItem('weddingComments')||'[]');
+    data.push({name,message:msg});
+    localStorage.setItem('weddingComments',JSON.stringify(data));
+    guest.value=''; message.value='';
+    renderComments();
+  };
+
+  renderComments();
+  applyPose('s0',0);
+})();
+</script>
+</body>
+</html>
