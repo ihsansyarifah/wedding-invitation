@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Wedding Invitation — Ihsan & Syarifah</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0d0b09}
+body{touch-action:pan-y}
+#app{position:fixed;inset:0;overflow:hidden;background:#0d0b09}
+#camera{position:absolute;inset:0;overflow:hidden;transform-origin:50% 50%;will-change:transform}
+.scene{position:absolute;inset:0;overflow:hidden;opacity:0;pointer-events:none}
+.scene.active{opacity:1;pointer-events:auto}
+.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;user-select:none;-webkit-user-drag:none;pointer-events:none}
+
+/* File "A" = layer di atas background, muncul dengan popup + bounce */
+.popup{opacity:0;transform:scale(.72);transform-origin:center;will-change:transform,opacity}
+.popup.show{animation:popupBounce .95s cubic-bezier(.18,.89,.32,1.28) forwards}
+@keyframes popupBounce{
+  0%{opacity:0;transform:scale(.72)}
+  55%{opacity:1;transform:scale(1.08)}
+  75%{transform:scale(.96)}
+  90%{transform:scale(1.025)}
+  100%{opacity:1;transform:scale(1)}
+}
+#openingHint{
+position:absolute;left:50%;bottom:max(6vh,42px);transform:translateX(-50%);
+color:rgba(255,255,255,.88);font:clamp(12px,3.2vw,16px) Georgia,serif;
+letter-spacing:.28em;white-space:nowrap;text-shadow:0 2px 12px rgba(0,0,0,.55);
+z-index:50;animation:hintPulse 2.2s ease-in-out infinite;pointer-events:none
+}
+#openingHint.hidden{display:none}
+@keyframes hintPulse{0%,100%{opacity:.58}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+#camera{transition:none!important}
+.popup.show{animation:none;opacity:1;transform:scale(1)}
+#openingHint{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="camera">
+
+    <!-- ANGKA SAJA = BACKGROUND -->
+    <section class="scene active" id="scene00">
+      <img class="layer" src="assets/00.webp" alt="Pembukaan undangan">
+    </section>
+
+    <!-- ANGKA + A = LAYER YANG DITUMPUK + POPUP/BOUNCE -->
+    <section class="scene" id="scene01">
+      <img class="layer" src="assets/01.webp" alt="">
+      <img class="layer popup" id="popup01" src="assets/01%20A.webp" alt="">
+    </section>
+
+    <section class="scene" id="scene02">
+      <img class="layer" src="assets/02.webp" alt="">
+      <img class="layer popup" id="popup02" src="assets/02%20A.webp" alt="">
+    </section>
+
+    <section class="scene" id="scene03">
+      <img class="layer" src="assets/03.webp" alt="">
+      <img class="layer popup" id="popup03" src="assets/03%20A.webp" alt="">
+    </section>
+
+    <section class="scene" id="scene04">
+      <img class="layer" src="assets/04.webp" alt="">
+      <img class="layer popup" id="popup04" src="assets/04%20A.webp" alt="">
+    </section>
+
+    <section class="scene" id="scene05">
+      <img class="layer" src="assets/05.webp" alt="">
+      <img class="layer popup" id="popup05" src="assets/05%20A.webp" alt="">
+    </section>
+
+  </div>
+  <div id="openingHint">KLIK DI MANA SAJA UNTUK MEMBUKA</div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const camera=document.getElementById("camera");
+  const openingHint=document.getElementById("openingHint");
+
+  const scenes=[
+    document.getElementById("scene00"),
+    document.getElementById("scene01"),
+    document.getElementById("scene02"),
+    document.getElementById("scene03"),
+    document.getElementById("scene04"),
+    document.getElementById("scene05")
+  ];
+
+  const popups=[
+    null,
+    document.getElementById("popup01"),
+    document.getElementById("popup02"),
+    document.getElementById("popup03"),
+    document.getElementById("popup04"),
+    document.getElementById("popup05")
+  ];
+
+  let currentScene=0;
+  let opened=false;
+  let busy=false;
+  let wheelLock=false;
+  let touchStartY=null;
+
+  /*
+    Titik kamera akan kita revisi satu per satu.
+    x positif = kamera ke kanan
+    x negatif = kamera ke kiri
+    y positif = kamera ke bawah
+    y negatif = kamera ke atas
+    scale lebih besar = zoom in
+  */
+  const cameraPresets={
+    0:{x:0,y:0,scale:1},
+    1:{x:0,y:0,scale:1},
+    2:{x:0,y:0,scale:1},
+    3:{x:0,y:0,scale:1},
+    4:{x:0,y:0,scale:1},
+    5:{x:0,y:0,scale:1}
+  };
+
+  function applyCamera(preset,duration=900){
+    camera.style.transition=
+      `transform ${duration}ms cubic-bezier(.22,.61,.36,1)`;
+    camera.style.transform=
+      `translate3d(${preset.x}%,${preset.y}%,0) scale(${preset.scale})`;
+  }
+
+  function showScene(index,animatePopup=true){
+    if(index<0||index>=scenes.length)return;
+
+    scenes.forEach((scene,i)=>{
+      scene.classList.toggle("active",i===index);
+    });
+
+    currentScene=index;
+    applyCamera(cameraPresets[index],1);
+
+    if(popups[index]){
+      popups[index].classList.remove("show");
+      if(animatePopup){
+        void popups[index].offsetWidth;
+        popups[index].classList.add("show");
+      }
+    }
+  }
+
+  const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+
+  /* Klik pembuka: masuk scene 01, lalu 01 A popup + bounce */
+  async function openInvitation(){
+    if(opened||busy)return;
+
+    opened=true;
+    busy=true;
+    openingHint.classList.add("hidden");
+
+    showScene(1,false);
+    await wait(250);
+
+    if(popups[1])popups[1].classList.add("show");
+
+    busy=false;
+  }
+
+  document.addEventListener("click",()=>{
+    if(!opened)openInvitation();
+  });
+
+  /*
+    Versi awal: scroll berpindah scene.
+    Setelah kamu revisi, bagian ini kita ubah menjadi
+    scroll = gerakan kamera di dalam scene.
+  */
+  function nextByScroll(direction){
+    if(!opened||busy||wheelLock)return;
+
+    const next=currentScene+(direction>0?1:-1);
+    if(next<1||next>=scenes.length)return;
+
+    wheelLock=true;
+    showScene(next,true);
+    setTimeout(()=>wheelLock=false,1100);
+  }
+
+  window.addEventListener("wheel",event=>{
+    if(!opened)return;
+    if(Math.abs(event.deltaY)<8)return;
+    nextByScroll(event.deltaY);
+  },{passive:true});
+
+  window.addEventListener("touchstart",event=>{
+    if(!opened)return;
+    touchStartY=event.touches[0].clientY;
+  },{passive:true});
+
+  window.addEventListener("touchend",event=>{
+    if(!opened||touchStartY===null)return;
+    const distance=touchStartY-event.changedTouches[0].clientY;
+    if(Math.abs(distance)>45)nextByScroll(distance);
+    touchStartY=null;
+  },{passive:true});
+
+  /* Helper untuk menentukan titik kamera saat revisi nanti */
+  window.weddingCamera=(sceneNumber,preset)=>{
+    cameraPresets[sceneNumber]={
+      ...cameraPresets[sceneNumber],
+      ...preset
+    };
+    if(currentScene===sceneNumber){
+      applyCamera(cameraPresets[sceneNumber],900);
+    }
+  };
+
+  window.weddingScene=sceneNumber=>showScene(sceneNumber,true);
+
+  camera.style.transform="translate3d(0,0,0) scale(1)";
+})();
+</script>
+</body>
+</html>
