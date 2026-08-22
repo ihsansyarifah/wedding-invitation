@@ -1,16 +1,15 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js';
+
 import {
     getFirestore,
     collection,
     addDoc,
     getDocs,
-    updateDoc,
     deleteDoc,
     doc,
     query,
     orderBy,
     serverTimestamp,
-    increment,
 } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -27,16 +26,39 @@ const db = getFirestore(app);
 
 const commentsCollection = collection(db, 'comments');
 
+/**
+ * ID unik untuk browser pemilik komentar.
+ *
+ * ID ini disimpan di localStorage sehingga
+ * browser yang sama bisa mengenali komentarnya sendiri.
+ */
+const getOwnerId = () => {
+    const key = 'ihsan_syarifah_owner_id';
+
+    let ownerId = localStorage.getItem(key);
+
+    if (!ownerId) {
+        ownerId =
+            crypto.randomUUID?.() ??
+            `${Date.now()}-${Math.random()
+                .toString(36)
+                .substring(2)}`;
+
+        localStorage.setItem(key, ownerId);
+    }
+
+    return ownerId;
+};
+
 export {
     db,
     commentsCollection,
     addDoc,
     getDocs,
-    updateDoc,
     deleteDoc,
     doc,
     query,
     orderBy,
     serverTimestamp,
-    increment,
+    getOwnerId,
 };
