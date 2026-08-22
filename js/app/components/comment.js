@@ -60,6 +60,58 @@ export const comment = (() => {
     const lastRender = [];
 
     /**
+     * Mengubah tanggal Firestore menjadi format Indonesia.
+     *
+     * Contoh:
+     * 22 Agustus 2026
+     *
+     * @param {object|string|Date|null} value
+     * @returns {string}
+     */
+    const formatCommentDate = (value) => {
+        let date = null;
+
+        if (
+            value &&
+            typeof value.toDate === 'function'
+        ) {
+            date = value.toDate();
+        } else if (value instanceof Date) {
+            date = value;
+        } else if (
+            typeof value === 'string' &&
+            value.length > 0
+        ) {
+            const parsed = new Date(value);
+
+            if (!Number.isNaN(parsed.getTime())) {
+                date = parsed;
+            }
+        }
+
+        if (!date) {
+            return '';
+        }
+
+        const months = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+
+        return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    };
+
+    /**
      * Mengubah Firestore document menjadi format
      * yang dimengerti oleh card.js.
      *
@@ -68,16 +120,6 @@ export const comment = (() => {
      */
     const normalizeComment = (snapshot) => {
         const data = snapshot.data();
-
-        let createdAt = '';
-
-        if (data.createdAt?.toDate) {
-            createdAt = data.createdAt.toDate().toISOString();
-        } else if (data.createdAt instanceof Date) {
-            createdAt = data.createdAt.toISOString();
-        } else if (typeof data.createdAt === 'string') {
-            createdAt = data.createdAt;
-        }
 
         return {
             uuid: snapshot.id,
@@ -98,7 +140,16 @@ export const comment = (() => {
                 ? data.comment
                 : null,
 
-            created_at: createdAt,
+            /*
+             * Sekarang hanya tanggal.
+             *
+             * Contoh:
+             * 22 Agustus 2026
+             */
+            created_at:
+                formatCommentDate(
+                    data.createdAt
+                ),
 
             is_admin: false,
 
@@ -156,16 +207,59 @@ export const comment = (() => {
             }
         });
 
+        /*
+         * created_at sekarang sudah berupa:
+         *
+         * 22 Agustus 2026
+         *
+         * Jadi untuk sorting kita tidak boleh menggunakan
+         * created_at secara langsung.
+         *
+         * Kita tetap menggunakan timestamp asli dari Firestore.
+         */
+        const getCreatedTime = (item) => {
+            const raw = item.__raw;
+
+            if (
+                raw?.createdAt &&
+                typeof raw.createdAt.toDate === 'function'
+            ) {
+                return raw.createdAt
+                    .toDate()
+                    .getTime();
+            }
+
+            if (
+                raw?.createdAt instanceof Date
+            ) {
+                return raw.createdAt.getTime();
+            }
+
+            if (
+                typeof raw?.createdAt === 'string'
+            ) {
+                const date =
+                    new Date(
+                        raw.createdAt
+                    );
+
+                if (
+                    !Number.isNaN(
+                        date.getTime()
+                    )
+                ) {
+                    return date.getTime();
+                }
+            }
+
+            return 0;
+        };
+
         const sortNewest = (a, b) => {
-            const aTime = a.created_at
-                ? new Date(a.created_at).getTime()
-                : 0;
-
-            const bTime = b.created_at
-                ? new Date(b.created_at).getTime()
-                : 0;
-
-            return bTime - aTime;
+            return (
+                getCreatedTime(b) -
+                getCreatedTime(a)
+            );
         };
 
         roots.sort(sortNewest);
