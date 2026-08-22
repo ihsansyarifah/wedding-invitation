@@ -13,6 +13,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    setDoc,
     updateDoc,
     deleteDoc,
     query,
@@ -308,6 +309,7 @@ export {
     doc,
     getDoc,
     getDocs,
+    setDoc,
     updateDoc,
     deleteDoc,
 
