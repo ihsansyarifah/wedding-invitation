@@ -18,6 +18,6 @@
         "build:public": "npm run build && node -e \"const fs = require('fs-extra'); fs.ensureDir('public').then(() => Promise.all(['assets', 'css', 'dist', 'index.html', 'dashboard.html'].map((f) => fs.copy(f, 'public/' + f)))).then(() => console.log('✅ Successfully!'));\""
     },
     "dependencies": {
-        "esbuild": "^0.25.10"
-    }
+        "esbuild": "^0.25.10",
+        "firebase": "^12.18.0"
 }
