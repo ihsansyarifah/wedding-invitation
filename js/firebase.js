@@ -1,10 +1,10 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+import { initializeApp } from 'firebase/app';
 
 import {
     getAuth,
     signInAnonymously,
     onAuthStateChanged,
-} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+} from 'firebase/auth';
 
 import {
     getFirestore,
@@ -21,7 +21,7 @@ import {
     startAfter,
     serverTimestamp,
     where,
-} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
+} from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -35,12 +35,14 @@ const firebaseConfig = {
 
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 const db = getFirestore(app);
 
 
 /**
- * Login tamu menggunakan Firebase Anonymous Authentication.
+ * Login menggunakan Firebase Anonymous Authentication.
  *
  * @returns {Promise<import('firebase/auth').User>}
  */
@@ -61,7 +63,7 @@ const loginAnonymously = async () => {
 
 
 /**
- * Menunggu sampai Firebase Authentication siap.
+ * Menunggu Firebase Authentication siap.
  *
  * @returns {Promise<import('firebase/auth').User>}
  */
@@ -71,12 +73,19 @@ const waitForAuth = () => new Promise((resolve, reject) => {
         return;
     }
 
+    let finished = false;
+
     const unsubscribe = onAuthStateChanged(
         auth,
         (user) => {
-            unsubscribe();
+            if (finished) {
+                return;
+            }
 
             if (user) {
+                finished = true;
+                unsubscribe();
+
                 console.info(
                     '[Firebase] User siap:',
                     user.uid
@@ -87,11 +96,35 @@ const waitForAuth = () => new Promise((resolve, reject) => {
             }
 
             loginAnonymously()
-                .then(resolve)
-                .catch(reject);
+                .then((anonymousUser) => {
+                    if (finished) {
+                        return;
+                    }
+
+                    finished = true;
+                    unsubscribe();
+
+                    resolve(anonymousUser);
+                })
+                .catch((error) => {
+                    if (finished) {
+                        return;
+                    }
+
+                    finished = true;
+                    unsubscribe();
+
+                    reject(error);
+                });
         },
         (error) => {
+            if (finished) {
+                return;
+            }
+
+            finished = true;
             unsubscribe();
+
             reject(error);
         }
     );
@@ -117,12 +150,20 @@ const commentsCollection = () => {
 const createComment = async (data) => {
     const user = await waitForAuth();
 
-    return addDoc(commentsCollection(), {
-        ...data,
-        ownerUid: user.uid,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-    });
+    return addDoc(
+        commentsCollection(),
+        {
+            ...data,
+
+            ownerUid: user.uid,
+
+            createdAt:
+                serverTimestamp(),
+
+            updatedAt:
+                serverTimestamp(),
+        }
+    );
 };
 
 
@@ -133,12 +174,16 @@ const createComment = async (data) => {
  * @returns {Promise<import('firebase/firestore').DocumentSnapshot>}
  */
 const getComment = (id) => {
-    return getDoc(doc(db, 'comments', id));
+    return getDoc(
+        doc(db, 'comments', id)
+    );
 };
 
 
 /**
  * Mengubah komentar.
+ *
+ * Hanya pemilik komentar yang boleh mengubahnya.
  *
  * @param {string} id
  * @param {object} data
@@ -147,28 +192,42 @@ const getComment = (id) => {
 const updateComment = async (id, data) => {
     const user = await waitForAuth();
 
-    const reference = doc(db, 'comments', id);
-    const snapshot = await getDoc(reference);
+    const reference =
+        doc(db, 'comments', id);
+
+    const snapshot =
+        await getDoc(reference);
 
     if (!snapshot.exists()) {
-        throw new Error('Comment not found.');
+        throw new Error(
+            'Comment not found.'
+        );
     }
 
-    if (snapshot.data().ownerUid !== user.uid) {
+    if (
+        snapshot.data().ownerUid !==
+        user.uid
+    ) {
         throw new Error(
             'You can only edit your own comment.'
         );
     }
 
-    return updateDoc(reference, {
-        ...data,
-        updatedAt: serverTimestamp(),
-    });
+    return updateDoc(
+        reference,
+        {
+            ...data,
+            updatedAt:
+                serverTimestamp(),
+        }
+    );
 };
 
 
 /**
  * Menghapus komentar.
+ *
+ * Hanya pemilik komentar yang boleh menghapusnya.
  *
  * @param {string} id
  * @returns {Promise<void>}
@@ -176,14 +235,22 @@ const updateComment = async (id, data) => {
 const removeComment = async (id) => {
     const user = await waitForAuth();
 
-    const reference = doc(db, 'comments', id);
-    const snapshot = await getDoc(reference);
+    const reference =
+        doc(db, 'comments', id);
+
+    const snapshot =
+        await getDoc(reference);
 
     if (!snapshot.exists()) {
-        throw new Error('Comment not found.');
+        throw new Error(
+            'Comment not found.'
+        );
     }
 
-    if (snapshot.data().ownerUid !== user.uid) {
+    if (
+        snapshot.data().ownerUid !==
+        user.uid
+    ) {
         throw new Error(
             'You can only delete your own comment.'
         );
@@ -201,39 +268,24 @@ const removeComment = async (id) => {
  * @returns {Promise<import('firebase/firestore').QuerySnapshot>}
  */
 const getComments = async ({
-    maxResults = 20
+    maxResults = 20,
 } = {}) => {
 
     const commentsQuery = query(
         commentsCollection(),
-        orderBy('createdAt', 'desc'),
+
+        orderBy(
+            'createdAt',
+            'desc'
+        ),
+
         limit(maxResults)
     );
 
-    return getDocs(commentsQuery);
+    return getDocs(
+        commentsQuery
+    );
 };
-
-
-/**
- * TES FIREBASE ANONYMOUS LOGIN
- *
- * Bagian ini sengaja dijalankan otomatis.
- * Tujuannya memastikan setiap tamu mendapatkan
- * UID anonim dari Firebase.
- */
-waitForAuth()
-    .then((user) => {
-        console.info(
-            '[Firebase] Anonymous user aktif:',
-            user.uid
-        );
-    })
-    .catch((error) => {
-        console.error(
-            '[Firebase] Anonymous login gagal:',
-            error
-        );
-    });
 
 
 export {
@@ -258,6 +310,7 @@ export {
     getDocs,
     updateDoc,
     deleteDoc,
+
     query,
     orderBy,
     limit,
