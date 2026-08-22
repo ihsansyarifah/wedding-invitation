@@ -1,9 +1,11 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+
 import {
     getAuth,
     signInAnonymously,
     onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+
 import {
     getFirestore,
     collection,
@@ -35,7 +37,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 /**
- * Login tamu menggunakan Firebase Anonymous Authentication.
+ * Login menggunakan Firebase Anonymous Authentication.
  *
  * @returns {Promise<import('firebase/auth').User>}
  */
@@ -45,11 +47,14 @@ const loginAnonymously = async () => {
     }
 
     const credential = await signInAnonymously(auth);
+
+    console.info('[Firebase] Anonymous login berhasil:', credential.user.uid);
+
     return credential.user;
 };
 
 /**
- * Menunggu sampai Firebase Authentication siap.
+ * Menunggu Firebase Authentication siap.
  *
  * @returns {Promise<import('firebase/auth').User>}
  */
@@ -65,6 +70,7 @@ const waitForAuth = () => new Promise((resolve, reject) => {
             unsubscribe();
 
             if (user) {
+                console.info('[Firebase] User siap:', user.uid);
                 resolve(user);
                 return;
             }
@@ -81,7 +87,9 @@ const waitForAuth = () => new Promise((resolve, reject) => {
 });
 
 /**
- * Nama collection komentar.
+ * Collection komentar.
+ *
+ * @returns {import('firebase/firestore').CollectionReference}
  */
 const commentsCollection = () => collection(db, 'comments');
 
@@ -108,7 +116,9 @@ const createComment = async (data) => {
  * @param {string} id
  * @returns {Promise<import('firebase/firestore').DocumentSnapshot>}
  */
-const getComment = (id) => getDoc(doc(db, 'comments', id));
+const getComment = (id) => {
+    return getDoc(doc(db, 'comments', id));
+};
 
 /**
  * Mengubah komentar.
@@ -159,7 +169,7 @@ const removeComment = async (id) => {
 };
 
 /**
- * Mengambil komentar.
+ * Mengambil komentar terbaru.
  *
  * @param {object} options
  * @param {number} [options.maxResults=20]
@@ -179,14 +189,17 @@ export {
     app,
     auth,
     db,
+
     loginAnonymously,
     waitForAuth,
+
     commentsCollection,
     createComment,
     getComment,
     getComments,
     updateComment,
     removeComment,
+
     collection,
     addDoc,
     doc,
