@@ -23,6 +23,7 @@ import {
     where,
 } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyCxTII7lrjTrcqq-HBaOEHBz7uqg5Zl9T8",
     authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
@@ -32,12 +33,14 @@ const firebaseConfig = {
     appId: "1:877091672086:web:9758a37f0c575cc1b3a537",
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+
 /**
- * Login menggunakan Firebase Anonymous Authentication.
+ * Login tamu menggunakan Firebase Anonymous Authentication.
  *
  * @returns {Promise<import('firebase/auth').User>}
  */
@@ -48,13 +51,17 @@ const loginAnonymously = async () => {
 
     const credential = await signInAnonymously(auth);
 
-    console.info('[Firebase] Anonymous login berhasil:', credential.user.uid);
+    console.info(
+        '[Firebase] Anonymous login berhasil:',
+        credential.user.uid
+    );
 
     return credential.user;
 };
 
+
 /**
- * Menunggu Firebase Authentication siap.
+ * Menunggu sampai Firebase Authentication siap.
  *
  * @returns {Promise<import('firebase/auth').User>}
  */
@@ -70,7 +77,11 @@ const waitForAuth = () => new Promise((resolve, reject) => {
             unsubscribe();
 
             if (user) {
-                console.info('[Firebase] User siap:', user.uid);
+                console.info(
+                    '[Firebase] User siap:',
+                    user.uid
+                );
+
                 resolve(user);
                 return;
             }
@@ -86,12 +97,16 @@ const waitForAuth = () => new Promise((resolve, reject) => {
     );
 });
 
+
 /**
  * Collection komentar.
  *
  * @returns {import('firebase/firestore').CollectionReference}
  */
-const commentsCollection = () => collection(db, 'comments');
+const commentsCollection = () => {
+    return collection(db, 'comments');
+};
+
 
 /**
  * Membuat komentar baru.
@@ -110,6 +125,7 @@ const createComment = async (data) => {
     });
 };
 
+
 /**
  * Mengambil satu komentar berdasarkan ID.
  *
@@ -120,6 +136,7 @@ const getComment = (id) => {
     return getDoc(doc(db, 'comments', id));
 };
 
+
 /**
  * Mengubah komentar.
  *
@@ -129,6 +146,7 @@ const getComment = (id) => {
  */
 const updateComment = async (id, data) => {
     const user = await waitForAuth();
+
     const reference = doc(db, 'comments', id);
     const snapshot = await getDoc(reference);
 
@@ -137,7 +155,9 @@ const updateComment = async (id, data) => {
     }
 
     if (snapshot.data().ownerUid !== user.uid) {
-        throw new Error('You can only edit your own comment.');
+        throw new Error(
+            'You can only edit your own comment.'
+        );
     }
 
     return updateDoc(reference, {
@@ -145,6 +165,7 @@ const updateComment = async (id, data) => {
         updatedAt: serverTimestamp(),
     });
 };
+
 
 /**
  * Menghapus komentar.
@@ -154,6 +175,7 @@ const updateComment = async (id, data) => {
  */
 const removeComment = async (id) => {
     const user = await waitForAuth();
+
     const reference = doc(db, 'comments', id);
     const snapshot = await getDoc(reference);
 
@@ -162,11 +184,14 @@ const removeComment = async (id) => {
     }
 
     if (snapshot.data().ownerUid !== user.uid) {
-        throw new Error('You can only delete your own comment.');
+        throw new Error(
+            'You can only delete your own comment.'
+        );
     }
 
     return deleteDoc(reference);
 };
+
 
 /**
  * Mengambil komentar terbaru.
@@ -175,7 +200,10 @@ const removeComment = async (id) => {
  * @param {number} [options.maxResults=20]
  * @returns {Promise<import('firebase/firestore').QuerySnapshot>}
  */
-const getComments = async ({ maxResults = 20 } = {}) => {
+const getComments = async ({
+    maxResults = 20
+} = {}) => {
+
     const commentsQuery = query(
         commentsCollection(),
         orderBy('createdAt', 'desc'),
@@ -184,6 +212,29 @@ const getComments = async ({ maxResults = 20 } = {}) => {
 
     return getDocs(commentsQuery);
 };
+
+
+/**
+ * TES FIREBASE ANONYMOUS LOGIN
+ *
+ * Bagian ini sengaja dijalankan otomatis.
+ * Tujuannya memastikan setiap tamu mendapatkan
+ * UID anonim dari Firebase.
+ */
+waitForAuth()
+    .then((user) => {
+        console.info(
+            '[Firebase] Anonymous user aktif:',
+            user.uid
+        );
+    })
+    .catch((error) => {
+        console.error(
+            '[Firebase] Anonymous login gagal:',
+            error
+        );
+    });
+
 
 export {
     app,
