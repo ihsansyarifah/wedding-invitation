@@ -30,10 +30,16 @@ export const guest = (() => {
      * @returns {void}
      */
     const countDownDate = () => {
-        const count = (new Date(document.body.getAttribute('data-time').replace(' ', 'T'))).getTime();
+        const count = (
+            new Date(
+                document.body
+                    .getAttribute('data-time')
+                    .replace(' ', 'T')
+            )
+        ).getTime();
 
         /**
-         * @param {number} num 
+         * @param {number} num
          * @returns {string}
          */
         const pad = (num) => num < 10 ? `0${num}` : `${num}`;
@@ -46,46 +52,95 @@ export const guest = (() => {
         const updateCountdown = () => {
             const distance = Math.abs(count - Date.now());
 
-            day.textContent = pad(Math.floor(distance / (1000 * 60 * 60 * 24)));
-            hour.textContent = pad(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-            minute.textContent = pad(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-            second.textContent = pad(Math.floor((distance % (1000 * 60)) / 1000));
+            day.textContent = pad(
+                Math.floor(
+                    distance / (1000 * 60 * 60 * 24)
+                )
+            );
 
-            util.timeOut(updateCountdown, 1000 - (Date.now() % 1000));
+            hour.textContent = pad(
+                Math.floor(
+                    (distance % (1000 * 60 * 60 * 24)) /
+                    (1000 * 60 * 60)
+                )
+            );
+
+            minute.textContent = pad(
+                Math.floor(
+                    (distance % (1000 * 60 * 60)) /
+                    (1000 * 60)
+                )
+            );
+
+            second.textContent = pad(
+                Math.floor(
+                    (distance % (1000 * 60)) /
+                    1000
+                )
+            );
+
+            util.timeOut(
+                updateCountdown,
+                1000 - (Date.now() % 1000)
+            );
         };
 
         util.timeOut(updateCountdown);
     };
 
     /**
+     * Menampilkan nama tamu dari ?to=
+     *
      * @returns {void}
      */
     const showGuestName = () => {
-        /**
-         * Make sure "to=" is the last query string.
-         * Ex. ulems.my.id/?id=some-uuid-here&to=name
-         */
+
         const raw = window.location.search.split('to=');
         let name = null;
 
-        if (raw.length > 1 && raw[1].length >= 1) {
+        if (
+            raw.length > 1 &&
+            raw[1].length >= 1
+        ) {
             name = window.decodeURIComponent(raw[1]);
         }
 
         if (name) {
-            const guestName = document.getElementById('guest-name');
-            const div = document.createElement('div');
+            const guestName =
+                document.getElementById('guest-name');
+
+            const div =
+                document.createElement('div');
+
             div.classList.add('m-2');
 
-            const template = `<small class="mt-0 mb-1 mx-0 p-0">${util.escapeHtml(guestName?.getAttribute('data-message'))}</small><p class="m-0 p-0" style="font-size: 1.25rem">${util.escapeHtml(name)}</p>`;
-            util.safeInnerHTML(div, template);
+            const template = `
+                <small class="mt-0 mb-1 mx-0 p-0">
+                    ${util.escapeHtml(
+                        guestName?.getAttribute(
+                            'data-message'
+                        ) ?? ''
+                    )}
+                </small>
 
+                <p
+                    class="m-0 p-0"
+                    style="font-size: 1.25rem"
+                >
+                    ${util.escapeHtml(name)}
+                </p>
+            `;
+
+            util.safeInnerHTML(div, template);
             guestName?.appendChild(div);
         }
 
-        const form = document.getElementById('form-name');
+        const form =
+            document.getElementById('form-name');
+
         if (form) {
-            form.value = information.get('name') ?? name;
+            form.value =
+                information.get('name') ?? name ?? '';
         }
     };
 
@@ -93,56 +148,97 @@ export const guest = (() => {
      * @returns {Promise<void>}
      */
     const slide = async () => {
+
         const interval = 6000;
-        const slides = document.querySelectorAll('.slide-desktop');
+        const slides =
+            document.querySelectorAll('.slide-desktop');
 
         if (!slides || slides.length === 0) {
             return;
         }
 
-        const desktopEl = document.getElementById('root')?.querySelector('.d-sm-block');
+        const desktopEl =
+            document
+                .getElementById('root')
+                ?.querySelector('.d-sm-block');
+
         if (!desktopEl) {
             return;
         }
 
-        desktopEl.dispatchEvent(new Event('undangan.slide.stop'));
+        desktopEl.dispatchEvent(
+            new Event('undangan.slide.stop')
+        );
 
-        if (window.getComputedStyle(desktopEl).display === 'none') {
+        if (
+            window.getComputedStyle(desktopEl).display ===
+            'none'
+        ) {
             return;
         }
 
         if (slides.length === 1) {
-            await util.changeOpacity(slides[0], true);
+            await util.changeOpacity(
+                slides[0],
+                true
+            );
+
             return;
         }
 
         let index = 0;
+
         for (const [i, s] of slides.entries()) {
             if (i === index) {
-                s.classList.add('slide-desktop-active');
-                await util.changeOpacity(s, true);
+                s.classList.add(
+                    'slide-desktop-active'
+                );
+
+                await util.changeOpacity(
+                    s,
+                    true
+                );
+
                 break;
             }
         }
 
         let run = true;
-        const nextSlide = async () => {
-            await util.changeOpacity(slides[index], false);
-            slides[index].classList.remove('slide-desktop-active');
 
-            index = (index + 1) % slides.length;
+        const nextSlide = async () => {
+
+            await util.changeOpacity(
+                slides[index],
+                false
+            );
+
+            slides[index].classList.remove(
+                'slide-desktop-active'
+            );
+
+            index =
+                (index + 1) % slides.length;
 
             if (run) {
-                slides[index].classList.add('slide-desktop-active');
-                await util.changeOpacity(slides[index], true);
+                slides[index].classList.add(
+                    'slide-desktop-active'
+                );
+
+                await util.changeOpacity(
+                    slides[index],
+                    true
+                );
             }
 
             return run;
         };
 
-        desktopEl.addEventListener('undangan.slide.stop', () => {
-            run = false;
-        });
+        desktopEl.addEventListener(
+            'undangan.slide.stop',
+            () => {
+                run = false;
+            }
+        );
 
         const loop = async () => {
             if (await nextSlide()) {
@@ -158,22 +254,41 @@ export const guest = (() => {
      * @returns {void}
      */
     const open = (button) => {
+
         button.disabled = true;
-        document.body.scrollIntoView({ behavior: 'instant' });
-        document.getElementById('root').classList.remove('opacity-0');
+
+        document.body.scrollIntoView({
+            behavior: 'instant'
+        });
+
+        document
+            .getElementById('root')
+            .classList.remove('opacity-0');
 
         if (theme.isAutoMode()) {
-            document.getElementById('button-theme').classList.remove('d-none');
+            document
+                .getElementById('button-theme')
+                .classList.remove('d-none');
         }
 
         slide();
         theme.spyTop();
 
         confetti.basicAnimation();
-        util.timeOut(confetti.openAnimation, 1500);
 
-        document.dispatchEvent(new Event('undangan.open'));
-        util.changeOpacity(document.getElementById('welcome'), false).then((el) => el.remove());
+        util.timeOut(
+            confetti.openAnimation,
+            1500
+        );
+
+        document.dispatchEvent(
+            new Event('undangan.open')
+        );
+
+        util.changeOpacity(
+            document.getElementById('welcome'),
+            false
+        ).then((el) => el.remove());
     };
 
     /**
@@ -181,13 +296,27 @@ export const guest = (() => {
      * @returns {void}
      */
     const modal = (img) => {
-        document.getElementById('button-modal-click').setAttribute('href', img.src);
-        document.getElementById('button-modal-download').setAttribute('data-src', img.src);
 
-        const i = document.getElementById('show-modal-image');
+        document
+            .getElementById('button-modal-click')
+            .setAttribute('href', img.src);
+
+        document
+            .getElementById('button-modal-download')
+            .setAttribute(
+                'data-src',
+                img.src
+            );
+
+        const i =
+            document.getElementById(
+                'show-modal-image'
+            );
+
         i.src = img.src;
         i.width = img.width;
         i.height = img.height;
+
         bs.modal('modal-image').show();
     };
 
@@ -195,81 +324,159 @@ export const guest = (() => {
      * @returns {void}
      */
     const modalImageClick = () => {
-        document.getElementById('show-modal-image').addEventListener('click', (e) => {
-            const abs = e.currentTarget.parentNode.querySelector('.position-absolute');
 
-            abs.classList.contains('d-none')
-                ? abs.classList.replace('d-none', 'd-flex')
-                : abs.classList.replace('d-flex', 'd-none');
-        });
+        document
+            .getElementById('show-modal-image')
+            .addEventListener('click', (e) => {
+
+                const abs =
+                    e.currentTarget.parentNode
+                        .querySelector(
+                            '.position-absolute'
+                        );
+
+                abs.classList.contains('d-none')
+                    ? abs.classList.replace(
+                        'd-none',
+                        'd-flex'
+                    )
+                    : abs.classList.replace(
+                        'd-flex',
+                        'd-none'
+                    );
+            });
     };
 
     /**
-     * @param {HTMLDivElement} div 
+     * @param {HTMLDivElement} div
      * @returns {void}
      */
     const showStory = (div) => {
+
         if (navigator.vibrate) {
             navigator.vibrate(500);
         }
 
-        confetti.tapTapAnimation(div, 100);
-        util.changeOpacity(div, false).then((e) => e.remove());
+        confetti.tapTapAnimation(
+            div,
+            100
+        );
+
+        util.changeOpacity(
+            div,
+            false
+        ).then((e) => e.remove());
     };
 
     /**
      * @returns {void}
      */
-    const closeInformation = () => information.set('info', true);
+    const closeInformation = () =>
+        information.set('info', true);
 
     /**
      * @returns {void}
      */
     const normalizeArabicFont = () => {
-        document.querySelectorAll('.font-arabic').forEach((el) => {
-            el.innerHTML = String(el.innerHTML).normalize('NFC');
-        });
+
+        document
+            .querySelectorAll('.font-arabic')
+            .forEach((el) => {
+                el.innerHTML =
+                    String(el.innerHTML)
+                        .normalize('NFC');
+            });
     };
 
     /**
      * @returns {void}
      */
     const animateSvg = () => {
-        document.querySelectorAll('svg').forEach((el) => {
-            if (el.hasAttribute('data-class')) {
-                util.timeOut(() => el.classList.add(el.getAttribute('data-class')), parseInt(el.getAttribute('data-time')));
-            }
-        });
+
+        document
+            .querySelectorAll('svg')
+            .forEach((el) => {
+
+                if (el.hasAttribute('data-class')) {
+                    util.timeOut(
+                        () => el.classList.add(
+                            el.getAttribute(
+                                'data-class'
+                            )
+                        ),
+                        parseInt(
+                            el.getAttribute(
+                                'data-time'
+                            )
+                        )
+                    );
+                }
+            });
     };
 
     /**
+     * Google Calendar
+     * Data sudah disesuaikan untuk
+     * pernikahan Ihsan & Syarifah.
+     *
      * @returns {void}
      */
     const buildGoogleCalendar = () => {
-        /**
-         * @param {string} d 
-         * @returns {string}
-         */
-        const formatDate = (d) => (new Date(d.replace(' ', 'T') + ':00Z')).toISOString().replace(/[-:]/g, '').split('.').shift();
 
-        const url = new URL('https://calendar.google.com/calendar/render');
+        const formatDate = (d) =>
+            (
+                new Date(
+                    d.replace(' ', 'T') + ':00+07:00'
+                )
+            )
+                .toISOString()
+                .replace(/[-:]/g, '')
+                .split('.')
+                .shift();
+
+        const url = new URL(
+            'https://calendar.google.com/calendar/render'
+        );
+
         const data = new URLSearchParams({
             action: 'TEMPLATE',
-            text: 'The Wedding of Wahyu and Riski',
-            dates: `${formatDate('2023-03-15 10:00')}/${formatDate('2023-03-15 11:00')}`,
-            details: 'Tanpa mengurangi rasa hormat, kami mengundang Anda untuk berkenan menghadiri acara pernikahan kami. Terima kasih atas perhatian dan doa restu Anda, yang menjadi kebahagiaan serta kehormatan besar bagi kami.',
-            location: 'RT 10 RW 02, Desa Pajerukan, Kec. Kalibagor, Kab. Banyumas, Jawa Tengah 53191.',
-            ctz: config.get('tz'),
+
+            text: 'The Wedding of Ihsan & Syarifah',
+
+            dates:
+                `${formatDate(
+                    '2026-12-20 08:00'
+                )}/${formatDate(
+                    '2026-12-20 14:00'
+                )}`,
+
+            details:
+                'Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Anda untuk berkenan menghadiri acara pernikahan Ihsan & Syarifah. Akad dilaksanakan pukul 08.00 WIB dan resepsi pukul 11.00–14.00 WIB.',
+
+            location:
+                'Masjid Cibadak Daarul Matiin, Kecamatan Cibadak, Kabupaten Sukabumi.',
+
+            ctz: 'Asia/Jakarta',
         });
 
         url.search = data.toString();
-        document.querySelector('#home button')?.addEventListener('click', () => window.open(url, '_blank'));
+
+        document
+            .querySelector('#home button')
+            ?.addEventListener(
+                'click',
+                () => window.open(
+                    url,
+                    '_blank'
+                )
+            );
     };
 
     /**
      * @returns {object}
      */
     const loaderLibs = () => {
+
         progress.add();
 
         /**
@@ -277,9 +484,14 @@ export const guest = (() => {
          * @returns {void}
          */
         const load = (opt) => {
+
             loader(opt)
-                .then(() => progress.complete('libs'))
-                .catch(() => progress.invalid('libs'));
+                .then(() =>
+                    progress.complete('libs')
+                )
+                .catch(() =>
+                    progress.invalid('libs')
+                );
         };
 
         return {
@@ -291,6 +503,7 @@ export const guest = (() => {
      * @returns {Promise<void>}
      */
     const booting = async () => {
+
         animateSvg();
         countDownDate();
         showGuestName();
@@ -299,24 +512,44 @@ export const guest = (() => {
         buildGoogleCalendar();
 
         if (information.has('presence')) {
-            document.getElementById('form-presence').value = information.get('presence') ? '1' : '2';
+            document.getElementById(
+                'form-presence'
+            ).value =
+                information.get('presence')
+                    ? '1'
+                    : '2';
         }
 
         if (information.get('info')) {
-            document.getElementById('information')?.remove();
+            document
+                .getElementById('information')
+                ?.remove();
         }
 
-        // wait until welcome screen is show.
-        await util.changeOpacity(document.getElementById('welcome'), true);
+        await util.changeOpacity(
+            document.getElementById('welcome'),
+            true
+        );
 
-        // remove loading screen and show welcome screen.
-        await util.changeOpacity(document.getElementById('loading'), false).then((el) => el.remove());
+        await util.changeOpacity(
+            document.getElementById('loading'),
+            false
+        ).then((el) => el.remove());
     };
 
     /**
+     * Halaman sudah siap.
+     *
+     * Tidak lagi melakukan:
+     *
+     * session.guest(...)
+     *
+     * karena komentar akan menggunakan Firebase.
+     *
      * @returns {void}
      */
     const pageLoaded = () => {
+
         lang.init();
         offline.init();
         comment.init();
@@ -325,66 +558,117 @@ export const guest = (() => {
         config = storage('config');
         information = storage('information');
 
+        /*
+         * Konfigurasi lokal untuk website.
+         * Sebelumnya konfigurasi ini datang
+         * dari API Ulems.
+         */
+        config.set('tz', 'Asia/Jakarta');
+        config.set(
+            'is_confetti_animation',
+            document.body.getAttribute(
+                'data-confetti'
+            ) === 'true'
+        );
+
+        /*
+         * Fitur komentar Firebase.
+         */
+        config.set('can_reply', true);
+        config.set('can_edit', false);
+        config.set('can_delete', false);
+
         const vid = video.init();
         const img = image.init();
         const aud = audio.init();
         const lib = loaderLibs();
-        const token = document.body.getAttribute('data-key');
-        const params = new URLSearchParams(window.location.search);
 
-        window.addEventListener('resize', util.debounce(slide));
-        document.addEventListener('undangan.progress.done', () => booting());
-        document.addEventListener('hide.bs.modal', () => document.activeElement?.blur());
-        document.getElementById('button-modal-download').addEventListener('click', (e) => {
-            img.download(e.currentTarget.getAttribute('data-src'));
+        window.addEventListener(
+            'resize',
+            util.debounce(slide)
+        );
+
+        document.addEventListener(
+            'undangan.progress.done',
+            () => booting()
+        );
+
+        document.addEventListener(
+            'hide.bs.modal',
+            () => document.activeElement?.blur()
+        );
+
+        document
+            .getElementById(
+                'button-modal-download'
+            )
+            .addEventListener(
+                'click',
+                (e) => img.download(
+                    e.currentTarget.getAttribute(
+                        'data-src'
+                    )
+                )
+            );
+
+        /*
+         * Tidak ada lagi pengecekan data-key
+         * untuk menentukan apakah komentar
+         * boleh dimuat.
+         *
+         * Komentar sekarang milik Firebase.
+         */
+
+        progress.add();
+        progress.add();
+
+        if (!img.hasDataSrc()) {
+            img.load();
+        }
+
+        vid.load();
+        aud.load();
+
+        lib.load({
+            confetti:
+                document.body.getAttribute(
+                    'data-confetti'
+                ) === 'true'
         });
 
-        if (!token || token.length <= 0) {
-            document.getElementById('comment')?.remove();
-            document.querySelector('a.nav-link[href="#comment"]')?.closest('li.nav-item')?.remove();
+        comment.show()
+            .then(() =>
+                progress.complete('comment')
+            )
+            .catch((error) => {
+                console.error(
+                    'Failed to load Firebase comments:',
+                    error
+                );
 
-            vid.load();
-            img.load();
-            aud.load();
-            lib.load({ confetti: document.body.getAttribute('data-confetti') === 'true' });
-        }
+                progress.invalid('comment');
+            });
 
-        if (token && token.length > 0) {
-            // add 2 progress for config and comment.
-            // before img.load();
-            progress.add();
-            progress.add();
-
-            // if don't have data-src.
-            if (!img.hasDataSrc()) {
-                img.load();
-            }
-
-            session.guest(params.get('k') ?? token).then(({ data }) => {
-                document.dispatchEvent(new Event('undangan.session'));
-                progress.complete('config');
-
-                if (img.hasDataSrc()) {
-                    img.load();
-                }
-
-                vid.load();
-                aud.load();
-                lib.load({ confetti: data.is_confetti_animation });
-
-                comment.show()
-                    .then(() => progress.complete('comment'))
-                    .catch(() => progress.invalid('comment'));
-
-            }).catch(() => progress.invalid('config'));
-        }
+        /*
+         * Progress config tidak lagi berasal
+         * dari Ulems.
+         */
+        progress.complete('config');
     };
 
     /**
      * @returns {object}
      */
     const init = () => {
+
         theme.init();
+
+        /*
+         * Session masih diinisialisasi karena
+         * beberapa komponen lama membutuhkannya,
+         * tetapi tidak lagi digunakan untuk
+         * mengambil konfigurasi dari Ulems.
+         */
         session.init();
 
         if (session.isAdmin()) {
@@ -395,20 +679,27 @@ export const guest = (() => {
             storage('comment').clear();
         }
 
-        window.addEventListener('load', () => {
-            pool.init(pageLoaded, [
-                'image',
-                'video',
-                'audio',
-                'libs',
-                'gif',
-            ]);
-        });
+        window.addEventListener(
+            'load',
+            () => {
+                pool.init(
+                    pageLoaded,
+                    [
+                        'image',
+                        'video',
+                        'audio',
+                        'libs',
+                        'gif',
+                    ]
+                );
+            }
+        );
 
         return {
             util,
             theme,
             comment,
+
             guest: {
                 open,
                 modal,
