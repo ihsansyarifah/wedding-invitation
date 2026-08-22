@@ -9,9 +9,6 @@ import { storage } from '../../common/storage.js';
 import {
     db,
     waitForAuth,
-} from '../../firebase.js';
-
-import {
     collection,
     addDoc,
     getDocs,
@@ -22,7 +19,7 @@ import {
     query,
     where,
     serverTimestamp,
-} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
+} from '../../firebase.js';
 
 export const comment = (() => {
 
@@ -91,7 +88,9 @@ export const comment = (() => {
              */
             own: snapshot.id,
 
-            name: typeof data.name === 'string' ? data.name : 'Tamu',
+            name: typeof data.name === 'string'
+                ? data.name
+                : 'Tamu',
 
             presence: data.presence === true,
 
@@ -117,7 +116,9 @@ export const comment = (() => {
 
             comments: [],
 
-            like_count: Number(data.likeCount ?? 0),
+            like_count: Number(
+                data.likeCount ?? 0
+            ),
         };
     };
 
@@ -142,8 +143,14 @@ export const comment = (() => {
         items.forEach((item) => {
             const raw = item.__raw;
 
-            if (raw?.parentId && map.has(raw.parentId)) {
-                map.get(raw.parentId).comments.push(item);
+            if (
+                raw?.parentId &&
+                map.has(raw.parentId)
+            ) {
+                map
+                    .get(raw.parentId)
+                    .comments
+                    .push(item);
             } else {
                 roots.push(item);
             }
@@ -165,7 +172,10 @@ export const comment = (() => {
 
         const sortReplies = (item) => {
             item.comments.sort(sortNewest);
-            item.comments.forEach(sortReplies);
+
+            item.comments.forEach(
+                sortReplies
+            );
         };
 
         roots.forEach(sortReplies);
@@ -202,10 +212,14 @@ export const comment = (() => {
      * @param {boolean} disabled
      * @returns {void}
      */
-    const changeActionButton = (id, disabled) => {
-        const element = document.querySelector(
-            `[data-button-action="${id}"]`
-        );
+    const changeActionButton = (
+        id,
+        disabled
+    ) => {
+        const element =
+            document.querySelector(
+                `[data-button-action="${id}"]`
+            );
 
         if (!element) {
             return;
@@ -221,9 +235,15 @@ export const comment = (() => {
      * @returns {void}
      */
     const removeInnerForm = (id) => {
-        changeActionButton(id, false);
+        changeActionButton(
+            id,
+            false
+        );
 
-        const element = document.getElementById(`inner-${id}`);
+        const element =
+            document.getElementById(
+                `inner-${id}`
+            );
 
         if (element) {
             element.remove();
@@ -237,21 +257,35 @@ export const comment = (() => {
      * @returns {void}
      */
     const showOrHide = (button) => {
-        const rawIds = button.getAttribute('data-uuids');
+        const rawIds =
+            button.getAttribute(
+                'data-uuids'
+            );
 
         if (!rawIds) {
             return;
         }
 
         const ids = rawIds.split(',');
-        const isShow = button.getAttribute('data-show') === 'true';
-        const uuid = button.getAttribute('data-uuid');
 
-        const currentShow = showHide.get('show');
+        const isShow =
+            button.getAttribute(
+                'data-show'
+            ) === 'true';
+
+        const uuid =
+            button.getAttribute(
+                'data-uuid'
+            );
+
+        const currentShow =
+            showHide.get('show');
 
         button.setAttribute(
             'data-show',
-            isShow ? 'false' : 'true'
+            isShow
+                ? 'false'
+                : 'true'
         );
 
         button.innerText = isShow
@@ -261,12 +295,18 @@ export const comment = (() => {
         showHide.set(
             'show',
             isShow
-                ? currentShow.filter((i) => i !== uuid)
-                : [...currentShow, uuid]
+                ? currentShow.filter(
+                    (i) => i !== uuid
+                )
+                : [
+                    ...currentShow,
+                    uuid,
+                ]
         );
 
         for (const id of ids) {
-            const hidden = showHide.get('hidden');
+            const hidden =
+                showHide.get('hidden');
 
             showHide.set(
                 'hidden',
@@ -279,10 +319,14 @@ export const comment = (() => {
                 })
             );
 
-            const element = document.getElementById(id);
+            const element =
+                document.getElementById(id);
 
             if (element) {
-                element.classList.toggle('d-none', isShow);
+                element.classList.toggle(
+                    'd-none',
+                    isShow
+                );
             }
         }
     };
@@ -292,27 +336,44 @@ export const comment = (() => {
      * @param {string} uuid
      * @returns {void}
      */
-    const showMore = (anchor, uuid) => {
-        const content = document.getElementById(`content-${uuid}`);
+    const showMore = (
+        anchor,
+        uuid
+    ) => {
+        const content =
+            document.getElementById(
+                `content-${uuid}`
+            );
 
         if (!content) {
             return;
         }
 
-        const encoded = content.getAttribute('data-comment');
+        const encoded =
+            content.getAttribute(
+                'data-comment'
+            );
 
         if (!encoded) {
             return;
         }
 
-        const original = util.base64Decode(encoded);
+        const original =
+            util.base64Decode(
+                encoded
+            );
 
         const isCollapsed =
-            anchor.getAttribute('data-show') === 'false';
+            anchor.getAttribute(
+                'data-show'
+            ) === 'false';
 
         const text = isCollapsed
             ? original
-            : original.slice(0, card.maxCommentLength) + '...';
+            : original.slice(
+                0,
+                card.maxCommentLength
+            ) + '...';
 
         util.safeInnerHTML(
             content,
@@ -327,7 +388,9 @@ export const comment = (() => {
 
         anchor.setAttribute(
             'data-show',
-            isCollapsed ? 'true' : 'false'
+            isCollapsed
+                ? 'true'
+                : 'false'
         );
     };
 
@@ -339,23 +402,32 @@ export const comment = (() => {
     const loadAllComments = async () => {
         await waitForAuth();
 
-        const commentsQuery = query(
-            collection(db, 'comments'),
-            where(
-                'invitationId',
-                '==',
-                INVITATION_ID
-            )
-        );
+        const commentsQuery =
+            query(
+                collection(
+                    db,
+                    'comments'
+                ),
+                where(
+                    'invitationId',
+                    '==',
+                    INVITATION_ID
+                )
+            );
 
-        const snapshot = await getDocs(commentsQuery);
+        const snapshot =
+            await getDocs(
+                commentsQuery
+            );
 
         const items = [];
 
         snapshot.forEach((item) => {
-            const normalized = normalizeComment(item);
+            const normalized =
+                normalizeComment(item);
 
-            normalized.__raw = item.data();
+            normalized.__raw =
+                item.data();
 
             items.push(normalized);
         });
@@ -373,7 +445,11 @@ export const comment = (() => {
         await waitForAuth();
 
         return getDoc(
-            doc(db, 'comments', id)
+            doc(
+                db,
+                'comments',
+                id
+            )
         );
     };
 
@@ -385,23 +461,34 @@ export const comment = (() => {
      * @returns {Promise<import('firebase/firestore').DocumentSnapshot>}
      */
     const getOwnComment = async (id) => {
-        const user = await waitForAuth();
+        const user =
+            await waitForAuth();
 
-        const snapshot = await getFirebaseComment(id);
+        const snapshot =
+            await getFirebaseComment(id);
 
         if (!snapshot.exists()) {
-            throw new Error('Komentar tidak ditemukan.');
+            throw new Error(
+                'Komentar tidak ditemukan.'
+            );
         }
 
-        const data = snapshot.data();
+        const data =
+            snapshot.data();
 
-        if (data.ownerUid !== user.uid) {
+        if (
+            data.ownerUid !==
+            user.uid
+        ) {
             throw new Error(
                 'Kamu hanya bisa mengubah komentar milikmu sendiri.'
             );
         }
 
-        if (data.invitationId !== INVITATION_ID) {
+        if (
+            data.invitationId !==
+            INVITATION_ID
+        ) {
             throw new Error(
                 'Komentar bukan milik undangan ini.'
             );
@@ -435,49 +522,69 @@ export const comment = (() => {
      * @param {ReturnType<typeof dto.commentShowMore>[]} hide
      * @returns {ReturnType<typeof dto.commentShowMore>[]}
      */
-    const traverse = (items, hide = []) => {
-        const dataShow = showHide.get('show');
+    const traverse = (
+        items,
+        hide = []
+    ) => {
+        const dataShow =
+            showHide.get('show');
 
         const buildHide = (lists) => {
             lists.forEach((item) => {
                 if (
                     hide.find(
-                        (i) => i.uuid === item.uuid
+                        (i) =>
+                            i.uuid === item.uuid
                     )
                 ) {
-                    buildHide(item.comments);
+                    buildHide(
+                        item.comments
+                    );
+
                     return;
                 }
 
-                hide.push(
-                    {
-                        uuid: item.uuid,
-                        show: false,
-                    }
-                );
+                hide.push({
+                    uuid: item.uuid,
+                    show: false,
+                });
 
-                buildHide(item.comments);
+                buildHide(
+                    item.comments
+                );
             });
         };
 
         const setVisible = (lists) => {
             lists.forEach((item) => {
-                if (!dataShow.includes(item.uuid)) {
-                    setVisible(item.comments);
+                if (
+                    !dataShow.includes(
+                        item.uuid
+                    )
+                ) {
+                    setVisible(
+                        item.comments
+                    );
+
                     return;
                 }
 
                 item.comments.forEach((c) => {
-                    const i = hide.findIndex(
-                        (h) => h.uuid === c.uuid
-                    );
+                    const i =
+                        hide.findIndex(
+                            (h) =>
+                                h.uuid === c.uuid
+                        );
 
                     if (i !== -1) {
-                        hide[i].show = true;
+                        hide[i].show =
+                            true;
                     }
                 });
 
-                setVisible(item.comments);
+                setVisible(
+                    item.comments
+                );
             });
         };
 
@@ -493,14 +600,14 @@ export const comment = (() => {
      * @returns {Promise<object>}
      */
     const show = async () => {
-
-        // Hapus listener like lama.
         lastRender.forEach((uuid) => {
             like.removeListener(uuid);
         });
 
         if (
-            comments.getAttribute('data-loading') === 'false'
+            comments.getAttribute(
+                'data-loading'
+            ) === 'false'
         ) {
             comments.setAttribute(
                 'data-loading',
@@ -508,54 +615,68 @@ export const comment = (() => {
             );
 
             comments.innerHTML =
-                card.renderLoading().repeat(
-                    pagination.getPer()
-                );
+                card
+                    .renderLoading()
+                    .repeat(
+                        pagination.getPer()
+                    );
         }
 
         try {
-            const allItems = await loadAllComments();
+            const allItems =
+                await loadAllComments();
 
-            const tree = buildTree(allItems);
+            const tree =
+                buildTree(allItems);
 
-            const total = tree.length;
+            const total =
+                tree.length;
 
-            const per = pagination.getPer();
+            const per =
+                pagination.getPer();
 
-            const next = Number(
-                pagination.getNext()
-            ) || 0;
+            const next =
+                Number(
+                    pagination.getNext()
+                ) || 0;
 
-            /*
-             * Pagination tetap menggunakan sistem lama,
-             * tetapi datanya berasal dari Firebase.
-             */
-            const pageItems = tree.slice(
-                next,
-                next + per
-            );
+            const pageItems =
+                tree.slice(
+                    next,
+                    next + per
+                );
 
             comments.setAttribute(
                 'data-loading',
                 'false'
             );
 
-            for (const uuid of lastRender) {
+            for (
+                const uuid of lastRender
+            ) {
                 await gif.remove(uuid);
             }
 
-            if (pageItems.length === 0) {
+            if (
+                pageItems.length === 0
+            ) {
                 comments.innerHTML =
                     onNullComment();
 
-                pagination.setTotal(total);
-
-                comments.dispatchEvent(
-                    new Event('undangan.comment.result')
+                pagination.setTotal(
+                    total
                 );
 
                 comments.dispatchEvent(
-                    new Event('undangan.comment.done')
+                    new Event(
+                        'undangan.comment.result'
+                    )
+                );
+
+                comments.dispatchEvent(
+                    new Event(
+                        'undangan.comment.done'
+                    )
                 );
 
                 return {
@@ -567,10 +688,14 @@ export const comment = (() => {
             }
 
             const flatten = (items) => {
-                return items.flatMap((item) => [
-                    item.uuid,
-                    ...flatten(item.comments),
-                ]);
+                return items.flatMap(
+                    (item) => [
+                        item.uuid,
+                        ...flatten(
+                            item.comments
+                        ),
+                    ]
+                );
             };
 
             lastRender.splice(
@@ -583,12 +708,16 @@ export const comment = (() => {
                 'hidden',
                 traverse(
                     pageItems,
-                    showHide.get('hidden')
+                    showHide.get(
+                        'hidden'
+                    )
                 )
             );
 
             const cleanItems =
-                pageItems.map(cleanComment);
+                pageItems.map(
+                    cleanComment
+                );
 
             let data =
                 await card.renderContentMany(
@@ -607,22 +736,26 @@ export const comment = (() => {
                 data
             );
 
-            /*
-             * Like masih akan kita migrasikan ke Firebase
-             * di langkah berikutnya.
-             */
-            lastRender.forEach((uuid) => {
-                like.addListener(uuid);
-            });
+            lastRender.forEach(
+                (uuid) => {
+                    like.addListener(uuid);
+                }
+            );
 
-            pagination.setTotal(total);
-
-            comments.dispatchEvent(
-                new Event('undangan.comment.result')
+            pagination.setTotal(
+                total
             );
 
             comments.dispatchEvent(
-                new Event('undangan.comment.done')
+                new Event(
+                    'undangan.comment.result'
+                )
+            );
+
+            comments.dispatchEvent(
+                new Event(
+                    'undangan.comment.done'
+                )
             );
 
             return {
@@ -651,11 +784,15 @@ export const comment = (() => {
             `;
 
             comments.dispatchEvent(
-                new Event('undangan.comment.result')
+                new Event(
+                    'undangan.comment.result'
+                )
             );
 
             comments.dispatchEvent(
-                new Event('undangan.comment.done')
+                new Event(
+                    'undangan.comment.done'
+                )
             );
 
             return {
@@ -674,17 +811,28 @@ export const comment = (() => {
      * @returns {Promise<void>}
      */
     const remove = async (button) => {
-        if (!util.ask('Are you sure?')) {
+        if (
+            !util.ask(
+                'Are you sure?'
+            )
+        ) {
             return;
         }
 
         const id =
-            button.getAttribute('data-uuid');
+            button.getAttribute(
+                'data-uuid'
+            );
 
-        changeActionButton(id, true);
+        changeActionButton(
+            id,
+            true
+        );
 
         const btn =
-            util.disableButton(button);
+            util.disableButton(
+                button
+            );
 
         const likes =
             like.getButtonLike(id);
@@ -707,35 +855,46 @@ export const comment = (() => {
 
             owns.unset(id);
 
-            document.querySelectorAll(
-                'a[onclick="undangan.comment.showOrHide(this)"]'
-            ).forEach((n) => {
-                const raw =
-                    n.getAttribute('data-uuids');
-
-                if (!raw) {
-                    return;
-                }
-
-                const oldUuids =
-                    raw.split(',');
-
-                if (oldUuids.includes(id)) {
-                    const uuids =
-                        oldUuids
-                            .filter((i) => i !== id)
-                            .join(',');
-
-                    if (uuids.length === 0) {
-                        n.remove();
-                    } else {
-                        n.setAttribute(
-                            'data-uuids',
-                            uuids
+            document
+                .querySelectorAll(
+                    'a[onclick="undangan.comment.showOrHide(this)"]'
+                )
+                .forEach((n) => {
+                    const raw =
+                        n.getAttribute(
+                            'data-uuids'
                         );
+
+                    if (!raw) {
+                        return;
                     }
-                }
-            });
+
+                    const oldUuids =
+                        raw.split(',');
+
+                    if (
+                        oldUuids.includes(id)
+                    ) {
+                        const uuids =
+                            oldUuids
+                                .filter(
+                                    (i) =>
+                                        i !== id
+                                )
+                                .join(',');
+
+                        if (
+                            uuids.length === 0
+                        ) {
+                            n.remove();
+                        } else {
+                            n.setAttribute(
+                                'data-uuids',
+                                uuids
+                            );
+                        }
+                    }
+                });
 
             const element =
                 document.getElementById(id);
@@ -749,9 +908,11 @@ export const comment = (() => {
                     `[data-uuid="${id}"]`
                 );
 
-            replies.forEach((element) => {
-                element.remove();
-            });
+            replies.forEach(
+                (element) => {
+                    element.remove();
+                }
+            );
 
             if (
                 comments.children.length === 0
@@ -802,7 +963,9 @@ export const comment = (() => {
      */
     const update = async (button) => {
         const id =
-            button.getAttribute('data-uuid');
+            button.getAttribute(
+                'data-uuid'
+            );
 
         let isPresent = false;
 
@@ -813,6 +976,7 @@ export const comment = (() => {
 
         if (presence) {
             presence.disabled = true;
+
             isPresent =
                 presence.value === '1';
         }
@@ -890,20 +1054,19 @@ export const comment = (() => {
         }
 
         const btn =
-            util.disableButton(button);
+            util.disableButton(
+                button
+            );
 
         try {
             const snapshot =
                 await getOwnComment(id);
 
             const updateData = {
-                updatedAt: serverTimestamp(),
+                updatedAt:
+                    serverTimestamp(),
             };
 
-            /*
-             * Kalau GIF sedang aktif, komentar teks
-             * dibuat null seperti perilaku lama.
-             */
             if (gifIsOpen) {
                 updateData.comment = null;
             } else {
@@ -916,12 +1079,16 @@ export const comment = (() => {
                     isPresent;
             }
 
-            if (gifIsOpen && gifId) {
+            if (
+                gifIsOpen &&
+                gifId
+            ) {
                 updateData.gifId =
                     gifId;
             } else if (!gifIsOpen) {
                 updateData.gifId =
                     null;
+
                 updateData.gifUrl =
                     null;
             }
@@ -988,7 +1155,9 @@ export const comment = (() => {
                     .getElementById(
                         `gif-result-${id}`
                     )
-                    ?.querySelector('img');
+                    ?.querySelector(
+                        'img'
+                    );
 
             if (image) {
                 const gifImage =
@@ -1071,15 +1240,22 @@ export const comment = (() => {
             document.getElementById(
                 'form-presence'
             ).value =
-                isPresent ? '1' : '2';
+                isPresent
+                    ? '1'
+                    : '2';
 
-            storage('information').set(
+            storage(
+                'information'
+            ).set(
                 'presence',
                 isPresent
             );
         }
 
-        if (!presence || !badge) {
+        if (
+            !presence ||
+            !badge
+        ) {
             return;
         }
 
@@ -1112,7 +1288,9 @@ export const comment = (() => {
      */
     const send = async (button) => {
         const id =
-            button.getAttribute('data-uuid');
+            button.getAttribute(
+                'data-uuid'
+            );
 
         const name =
             document.getElementById(
@@ -1122,12 +1300,17 @@ export const comment = (() => {
         const nameValue =
             name?.value?.trim() ?? '';
 
-        if (nameValue.length === 0) {
+        if (
+            nameValue.length === 0
+        ) {
             util.notify(
                 'Name cannot be empty.'
             ).warning();
 
-            if (id && name) {
+            if (
+                id &&
+                name
+            ) {
                 name.scrollIntoView({
                     block: 'center',
                 });
@@ -1190,13 +1373,19 @@ export const comment = (() => {
 
         const form =
             document.getElementById(
-                `form-${id ? `inner-${id}` : 'comment'}`
+                `form-${
+                    id
+                        ? `inner-${id}`
+                        : 'comment'
+                }`
             );
 
         if (
             !gifIsOpen &&
-            (!form ||
-                form.value?.trim().length === 0)
+            (
+                !form ||
+                form.value?.trim().length === 0
+            )
         ) {
             util.notify(
                 'Comments cannot be empty.'
@@ -1234,19 +1423,19 @@ export const comment = (() => {
         }
 
         const btn =
-            util.disableButton(button);
+            util.disableButton(
+                button
+            );
 
         const isPresence =
             presence
                 ? presence.value === '1'
                 : true;
 
-        /*
-         * Simpan data tamu secara lokal,
-         * seperti perilaku template sebelumnya.
-         */
         const info =
-            storage('information');
+            storage(
+                'information'
+            );
 
         info.set(
             'name',
@@ -1312,10 +1501,6 @@ export const comment = (() => {
                     payload
                 );
 
-            /*
-             * own dipakai supaya komentar yang baru dibuat
-             * langsung dianggap milik user ini.
-             */
             owns.set(
                 reference.id,
                 reference.id
@@ -1332,13 +1517,10 @@ export const comment = (() => {
                 gifCancel.click();
             }
 
-            /*
-             * Setelah berhasil simpan, reload komentar
-             * dari Firestore agar struktur reply/pagination
-             * tetap konsisten.
-             */
             if (!id) {
-                if (pagination.reset()) {
+                if (
+                    pagination.reset()
+                ) {
                     await show();
 
                     comments.scrollIntoView();
@@ -1355,19 +1537,14 @@ export const comment = (() => {
                 comments.scrollIntoView();
 
             } else {
-                /*
-                 * Reply.
-                 *
-                 * Kita reload agar reply masuk ke tree
-                 * Firestore dengan benar.
-                 */
                 showHide.set(
                     'hidden',
                     showHide
                         .get('hidden')
                         .concat([
                             {
-                                uuid: reference.id,
+                                uuid:
+                                    reference.id,
                                 show: true,
                             },
                         ])
@@ -1401,7 +1578,9 @@ export const comment = (() => {
                             'data-show'
                         ) === 'false'
                     ) {
-                        showOrHide(anchorTag);
+                        showOrHide(
+                            anchorTag
+                        );
                     }
                 }
             }
@@ -1477,7 +1656,10 @@ export const comment = (() => {
      * @param {string} id
      * @returns {Promise<void>}
      */
-    const cancel = async (button, id) => {
+    const cancel = async (
+        button,
+        id
+    ) => {
         const presence =
             document.getElementById(
                 `form-inner-presence-${id}`
@@ -1503,7 +1685,9 @@ export const comment = (() => {
                 : false;
 
         const btn =
-            util.disableButton(button);
+            util.disableButton(
+                button
+            );
 
         if (
             gif.isOpen(id) &&
@@ -1512,7 +1696,9 @@ export const comment = (() => {
                     !gif.getResultId(id) &&
                     isChecklist === isPresent
                 ) ||
-                util.ask('Are you sure?')
+                util.ask(
+                    'Are you sure?'
+                )
             )
         ) {
             await gif.remove(id);
@@ -1542,7 +1728,9 @@ export const comment = (() => {
                 ) &&
                 isChecklist === isPresent
             ) ||
-            util.ask('Are you sure?')
+            util.ask(
+                'Are you sure?'
+            )
         ) {
             removeInnerForm(id);
             return;
@@ -1566,7 +1754,10 @@ export const comment = (() => {
         gif.remove(uuid).then(() => {
             gif.onOpen(
                 uuid,
-                () => gif.removeGifSearch(uuid)
+                () =>
+                    gif.removeGifSearch(
+                        uuid
+                    )
             );
 
             const button =
@@ -1611,12 +1802,9 @@ export const comment = (() => {
             true
         );
 
-        /*
-         * Pastikan komentar memang milik UID Firebase
-         * yang sedang aktif.
-         */
         try {
             await getOwnComment(id);
+
         } catch (error) {
             console.error(
                 '[Firebase] Edit ditolak:',
@@ -1686,8 +1874,13 @@ export const comment = (() => {
             gif.onOpen(
                 id,
                 () => {
-                    gif.removeGifSearch(id);
-                    gif.removeButtonBack(id);
+                    gif.removeGifSearch(
+                        id
+                    );
+
+                    gif.removeButtonBack(
+                        id
+                    );
                 }
             );
 
@@ -1706,7 +1899,10 @@ export const comment = (() => {
                 `content-${id}`
             );
 
-        if (!formInner || !content) {
+        if (
+            !formInner ||
+            !content
+        ) {
             return;
         }
 
@@ -1717,7 +1913,9 @@ export const comment = (() => {
 
         const original =
             encoded
-                ? util.base64Decode(encoded)
+                ? util.base64Decode(
+                    encoded
+                )
                 : '';
 
         formInner.value =
@@ -1758,14 +1956,18 @@ export const comment = (() => {
         showHide =
             storage('comment');
 
-        if (!showHide.has('hidden')) {
+        if (
+            !showHide.has('hidden')
+        ) {
             showHide.set(
                 'hidden',
                 []
             );
         }
 
-        if (!showHide.has('show')) {
+        if (
+            !showHide.has('show')
+        ) {
             showHide.set(
                 'show',
                 []
