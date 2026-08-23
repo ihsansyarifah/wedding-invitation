@@ -587,15 +587,20 @@
     <div class="loading-page position-fixed top-0 start-0 w-100 h-100 overflow-hidden" id="welcome"
         style="opacity: 0; z-index: 1050;">
 
-        <!-- Background Cover -->
-        <img src="./assets/images/background-cover.png"
-            alt="background cover"
-            class="position-absolute top-50 start-50 translate-middle w-100 h-100"
-            style="object-fit: cover; z-index: 0;">
-
-        <!-- Overlay -->
-        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"
-            style="z-index: 1;"></div>
+        <!-- Background Cover
+             Menggunakan CSS background agar tidak ikut diproses
+             oleh image loader bawaan template. -->
+        <div class="position-absolute top-0 start-0 w-100 h-100"
+            style="
+                z-index: 0;
+                background-image:
+                    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+                    url('./assets/images/background-cover.png');
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            ">
+        </div>
 
         <!-- Cover Content -->
         <div class="position-relative d-flex justify-content-center align-items-center vh-100 overflow-y-auto"
