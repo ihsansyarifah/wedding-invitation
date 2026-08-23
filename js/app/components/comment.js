@@ -278,30 +278,6 @@ export const comment = (() => {
     };
 
     /**
-     * @returns {string}
-     */
-    const onNullComment = () => {
-        const desc = lang
-            .on(
-                'id',
-                '📢 Yuk, share undangan ini biar makin rame komentarnya! 🎉'
-            )
-            .on(
-                'en',
-                '📢 Let\'s share this invitation to get more comments! 🎉'
-            )
-            .get();
-
-        return `
-            <div class="text-center p-4 mx-0 mt-0 mb-3 bg-theme-auto rounded-4 shadow">
-                <p class="fw-bold p-0 m-0" style="font-size: 0.95rem;">
-                    ${desc}
-                </p>
-            </div>
-        `;
-    };
-
-    /**
      * @param {string} id
      * @param {boolean} disabled
      * @returns {void}
@@ -754,8 +730,7 @@ export const comment = (() => {
             if (
                 pageItems.length === 0
             ) {
-                comments.innerHTML =
-                    onNullComment();
+                comments.innerHTML = '';
 
                 pagination.setTotal(
                     total
@@ -819,10 +794,10 @@ export const comment = (() => {
                 );
 
             if (
-                pageItems.length < per ||
-                next + per >= total
+                pageItems.length >= per &&
+                next + per < total
             ) {
-                data += onNullComment();
+                data += '';
             }
 
             util.safeInnerHTML(
@@ -1011,8 +986,7 @@ export const comment = (() => {
             if (
                 comments.children.length === 0
             ) {
-                comments.innerHTML =
-                    onNullComment();
+                comments.innerHTML = '';
             }
 
         } catch (error) {
