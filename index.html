@@ -250,66 +250,123 @@
                             </p>
 
                             <button type="button" class="btn btn-outline-auto rounded-pill shadow-sm px-4"
-                                data-bs-toggle="modal" data-bs-target="#modal-love-story">
+                                data-bs-toggle="offcanvas" data-bs-target="#offcanvas-love-story"
+                                aria-controls="offcanvas-love-story">
                                 <i class="fa-solid fa-book-open me-2"></i>Baca Kisah Kami
                             </button>
                         </div>
                     </div>
                 </section>
 
-                <!-- Fullscreen Kisah Kami -->
-                <div class="modal fade" id="modal-love-story" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-fullscreen m-0">
-                        <div class="modal-content border-0 rounded-0 bg-black text-white">
-                            <div class="modal-body position-relative overflow-y-auto d-flex align-items-center justify-content-center"
-                                style="min-height: 100vh;">
+                <!-- Panel Kisah Kami -->
+                <div class="offcanvas offcanvas-end love-story-panel" tabindex="-1" id="offcanvas-love-story"
+                    aria-labelledby="offcanvas-love-story-label">
 
-                                <!-- Background video akan dipasang di sini nanti -->
-                                <div class="position-absolute top-0 start-0 w-100 h-100"
-                                    style="background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.65));">
-                                </div>
+                    <div class="offcanvas-body position-relative overflow-y-auto p-0 text-white"
+                        style="background: #000;">
 
-                                <div class="position-relative text-center px-4 py-5"
-                                    style="max-width: 720px; z-index: 1;">
+                        <!-- Background video akan dipasang di sini nanti -->
+                        <div class="position-absolute top-0 start-0 w-100 h-100"
+                            style="background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.68)); pointer-events: none;">
+                        </div>
 
-                                    <h2 class="font-esthetic mb-4" style="font-size: 2.5rem;">
-                                        Kisah Kami
-                                    </h2>
+                        <div class="position-relative text-center px-4 py-5" style="z-index: 1;">
 
-                                    <div style="font-size: 1rem; line-height: 1.9;">
-                                        <p>Kami bertemu saat kuliah di Politeknik AKA Bogor.</p>
-                                        <p>Tiga tahun kami menjalani masa kuliah bersama.</p>
-                                        <p>Setelah lulus, kami berpisah dan menjalani kehidupan masing-masing.</p>
-                                        <p>Tiga tahun berlalu.</p>
-                                        <p>Sampai akhirnya kami dipertemukan kembali lewat sebuah gitar.</p>
-                                        <p>Dari sana, kami kembali dekat dan mulai menghabiskan waktu bersama.</p>
-                                        <p>Kami pergi ke air terjun dan bukit, menikmati waktu dan mengenal satu sama lain lebih dekat.</p>
-                                        <p>Sampai akhirnya, kami kembali dihadapkan pada sebuah pilihan.</p>
-                                        <p>Kali ini bukan hanya tentang perasaan.</p>
-                                        <p>Kami ingin melangkah lebih jauh.</p>
-                                        <p>Di hadapan keluarga, kami menyampaikan niat untuk hidup bersama.</p>
-                                        <p>Dengan penuh harapan, niat itu diterima.</p>
+                            <h2 id="offcanvas-love-story-label" class="font-esthetic mb-4"
+                                style="font-size: 2.5rem;">
+                                Kisah Kami
+                            </h2>
 
-                                        <h3 class="font-esthetic my-4" style="font-size: 1.7rem;">26 JULI 2026</h3>
+                            <div style="font-size: 1rem; line-height: 1.9;">
 
-                                        <p>Hari itu menjadi awal dari janji yang lebih besar.</p>
-                                        <p>Janji untuk saling menemani, untuk selamanya.</p>
-                                        <p>Dan akhirnya, kami menikah.</p>
+                                <p>Kami bertemu saat kuliah di Politeknik AKA Bogor.</p>
 
-                                        <h3 class="font-esthetic my-4" style="font-size: 1.7rem;">20 DESEMBER 2026</h3>
+                                <p>Tiga tahun kami menjalani masa kuliah bersama.</p>
 
-                                        <p>Ini adalah kisah kami.</p>
-                                    </div>
+                                <p>Setelah lulus, kami berpisah dan menjalani kehidupan masing-masing.</p>
 
-                                    <button type="button" class="btn btn-light rounded-pill shadow mt-4 px-4"
-                                        data-bs-dismiss="modal">
-                                        <i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Undangan
-                                    </button>
-                                </div>
+                                <p>Tiga tahun berlalu.</p>
+
+                                <p>Sampai akhirnya kami dipertemukan kembali lewat sebuah gitar.</p>
+
+                                <p>Dari sana, kami kembali dekat dan mulai menghabiskan waktu bersama.</p>
+
+                                <p>Kami pergi ke air terjun dan bukit, menikmati waktu dan mengenal satu sama lain lebih dekat.</p>
+
+                                <p>Sampai akhirnya, kami kembali dihadapkan pada sebuah pilihan.</p>
+
+                                <p>Kali ini bukan hanya tentang perasaan.</p>
+
+                                <p>Kami ingin melangkah lebih jauh.</p>
+
+                                <p>Di hadapan keluarga, kami menyampaikan niat untuk hidup bersama.</p>
+
+                                <p>Dengan penuh harapan, niat itu diterima.</p>
+
+                                <h3 class="font-esthetic my-4" style="font-size: 1.7rem;">26 JULI 2026</h3>
+
+                                <p>Hari itu menjadi awal dari janji yang lebih besar.</p>
+
+                                <p>Janji untuk saling menemani, untuk selamanya.</p>
+
+                                <p>Dan akhirnya, kami menikah.</p>
+
+                                <h3 class="font-esthetic my-4" style="font-size: 1.7rem;">20 DESEMBER 2026</h3>
+
+                                <p>Ini adalah kisah kami.</p>
                             </div>
+
+                            <button type="button" class="btn btn-light rounded-pill shadow mt-4 px-4"
+                                data-bs-dismiss="offcanvas">
+                                <i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Undangan
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <style>
+                    /* Kisah Kami: di desktop tetap berada di panel undangan sebelah kanan. */
+                    .love-story-panel {
+                        width: 100%;
+                        max-width: 100%;
+                        background: #000;
+                        color: #fff;
+                    }
+
+                    .love-story-panel .offcanvas-body {
+                        scrollbar-width: thin;
+                    }
+
+                    @media (min-width: 576px) {
+                        .love-story-panel {
+                            width: 58.333333%;
+                        }
+                    }
+
+                    @media (min-width: 768px) {
+                        .love-story-panel {
+                            width: 50%;
+                        }
+                    }
+
+                    @media (min-width: 992px) {
+                        .love-story-panel {
+                            width: 41.666667%;
+                        }
+                    }
+
+                    @media (min-width: 1200px) {
+                        .love-story-panel {
+                            width: 33.333333%;
+                        }
+                    }
+
+                    @media (min-width: 1400px) {
+                        .love-story-panel {
+                            width: 25%;
+                        }
+                    }
+                </style>
 
                 <!-- Wave Separator -->
                 <div class="svg-wrapper">
