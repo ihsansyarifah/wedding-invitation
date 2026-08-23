@@ -262,12 +262,11 @@
                 <div class="offcanvas offcanvas-end love-story-panel" tabindex="-1" id="offcanvas-love-story"
                     aria-labelledby="offcanvas-love-story-label">
 
-                    <div class="offcanvas-body position-relative overflow-y-auto p-0 text-white"
-                        style="background: #000;">
+                    <div class="offcanvas-body position-relative overflow-y-auto p-0 love-story-body">
 
                         <!-- Background video akan dipasang di sini nanti -->
-                        <div class="position-absolute top-0 start-0 w-100 h-100"
-                            style="background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.68)); pointer-events: none;">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 love-story-overlay"
+                            aria-hidden="true">
                         </div>
 
                         <div class="position-relative text-center px-4 py-5" style="z-index: 1;">
@@ -316,7 +315,7 @@
                                 <p>Ini adalah kisah kami.</p>
                             </div>
 
-                            <button type="button" class="btn btn-light rounded-pill shadow mt-4 px-4"
+                            <button type="button" class="btn btn-outline-auto rounded-pill shadow mt-4 px-4"
                                 data-bs-dismiss="offcanvas">
                                 <i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Undangan
                             </button>
@@ -325,16 +324,33 @@
                 </div>
 
                 <style>
-                    /* Kisah Kami: di desktop tetap berada di panel undangan sebelah kanan. */
+                    /* Kisah Kami: mengikuti Light/Dark Mode dan tetap berada di panel kanan. */
                     .love-story-panel {
                         width: 100%;
                         max-width: 100%;
-                        background: #000;
-                        color: #fff;
                     }
 
                     .love-story-panel .offcanvas-body {
                         scrollbar-width: thin;
+                        background-color: rgb(var(--bs-body-bg-rgb));
+                        color: var(--bs-body-color);
+                    }
+
+                    .love-story-overlay {
+                        pointer-events: none;
+                        background: rgba(255, 255, 255, 0.72);
+                    }
+
+                    html[data-bs-theme="dark"] .love-story-overlay {
+                        background: rgba(0, 0, 0, 0.72);
+                    }
+
+                    html[data-bs-theme="light"] .love-story-overlay {
+                        background: rgba(255, 255, 255, 0.72);
+                    }
+
+                    .love-story-panel .position-relative.text-center {
+                        color: var(--bs-body-color);
                     }
 
                     @media (min-width: 576px) {
