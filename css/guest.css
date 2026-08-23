@@ -1,18 +1,18 @@
 @import url("common.css");
 @import url("animation.css");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
 
 html {
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
 }
 
-.with-scrollbar {
-    scrollbar-width: auto !important;
-    -ms-overflow-style: auto !important;
+body {
+    font-family: 'Lora', serif !important;
 }
 
 .font-esthetic {
-    font-family: 'Sacramento', cursive !important;
+    font-family: 'Cinzel Decorative', serif !important;
 }
 
 .font-arabic {
