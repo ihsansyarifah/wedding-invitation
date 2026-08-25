@@ -187,7 +187,7 @@ html[data-bs-theme="dark"] .story-video {
 }
 
 .story-actions .btn {
-    min-width: 175px;
+    min-width: 220px;
 }
 
 @media (max-width:575.98px) {
@@ -226,7 +226,7 @@ html[data-bs-theme="dark"] .story-video {
     }
 
     .story-actions .btn {
-        width: min(100%, 240px);
+        width: min(100%, 260px);
     }
 }
 
@@ -560,12 +560,7 @@ data-time="2026-12-20 08:00:00">
      HALAMAN KISAH KAMI
      ========================================================= -->
 <div id="love-story-page" aria-hidden="true">
-
-    <button type="button" class="btn btn-outline-auto story-close shadow-sm" aria-label="Kembali" onclick="closeLoveStory()">
-        <i class="fa-solid fa-arrow-left"></i>
-    </button>
-
-    <div class="story-video-layer">
+<div class="story-video-layer">
         <!--
             Taruh video cerita di:
             ./assets/video/kisah-kami.mp4
@@ -589,11 +584,7 @@ data-time="2026-12-20 08:00:00">
                 Ada yang harus berpisah, berjalan masing-masing,<br>
                 lalu dipertemukan kembali di waktu yang tepat.
             </p>
-            <div class="story-hint">
-                Scroll perlahan
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-        </div>
+</div>
 
         <section class="story-block">
             <h3 class="story-year">2019</h3>
@@ -625,12 +616,13 @@ data-time="2026-12-20 08:00:00">
             <p class="story-final">Memulai kehidupan bersama.</p>
 
             <div class="story-actions">
-                <button type="button" class="btn btn-outline-auto rounded-pill shadow px-4" onclick="closeLoveStory()">
-                    <i class="fa-solid fa-arrow-left me-2"></i>Kembali
-                </button>
-
-                <button type="button" class="btn btn-outline-auto rounded-pill shadow px-4" onclick="continueToInvitation()">
-                    Lanjut ke Undangan <i class="fa-solid fa-arrow-right ms-2"></i>
+                <button
+                    type="button"
+                    class="btn btn-outline-auto rounded-pill shadow px-4"
+                    onclick="continueToInvitation()"
+                >
+                    <i class="fa-solid fa-arrow-left me-2"></i>
+                    Kembali ke Undangan
                 </button>
             </div>
         </div>
