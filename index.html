@@ -60,28 +60,26 @@ body.story-open {
 }
 
 .story-video {
-    position: absolute;
-    inset: -3%;
-    width: 106%;
-    height: 106%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    opacity: .16;
+    opacity: .32;
     filter: blur(3px);
-    transform: scale(1.03);
+    transform: scale(1.02);
 }
 
 .story-video-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255,255,255,.70);
+    background: rgba(255,255,255,.58);
 }
 
 html[data-bs-theme="dark"] .story-video {
-    opacity: .25;
+    opacity: .32;
 }
 
 html[data-bs-theme="dark"] .story-video-overlay {
-    background: rgba(0,0,0,.76);
+    background: rgba(0,0,0,.58);
 }
 
 /* Tombol kembali berbentuk lingkaran */
@@ -108,7 +106,7 @@ html[data-bs-theme="dark"] .story-video-overlay {
     width: min(100%, 720px);
     min-height: 100vh;
     margin: auto;
-    padding: 11vh 24px 12vh;
+    padding: 7vh 24px 12vh;
 }
 
 /* Tidak ada judul KISAH KAMI di atas 2019.
@@ -189,6 +187,158 @@ html[data-bs-theme="dark"] .story-video-overlay {
     }
 }
 
+
+/* =========================
+   ORNAMEN 2D — BUKAN BINGKAI KOTAK
+   ========================= */
+.page-ornaments {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.page-ornament {
+    position: absolute;
+    width: 150px;
+    height: 180px;
+    opacity: .82;
+}
+
+.page-ornament::before,
+.page-ornament::after {
+    content: "";
+    position: absolute;
+    display: block;
+}
+
+/* Bentuk daun sederhana dengan CSS agar ringan dan tidak pecah */
+.page-ornament::before {
+    width: 105px;
+    height: 145px;
+    border-left: 2px solid rgba(151,126,77,.42);
+    border-radius: 50%;
+    transform: rotate(-28deg);
+}
+
+.page-ornament::after {
+    width: 70px;
+    height: 110px;
+    border-right: 2px solid rgba(151,126,77,.28);
+    border-radius: 50%;
+    transform: rotate(24deg);
+}
+
+/* Daun kecil */
+.page-ornament span,
+.page-ornament span::before,
+.page-ornament span::after {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 10px;
+    border: 1.5px solid rgba(104,126,79,.52);
+    border-radius: 100% 0 100% 0;
+    transform: rotate(-35deg);
+}
+
+.page-ornament span {
+    left: 38px;
+    top: 58px;
+}
+
+.page-ornament span::before {
+    content: "";
+    left: 22px;
+    top: 18px;
+}
+
+.page-ornament span::after {
+    content: "";
+    left: 5px;
+    top: 38px;
+    transform: rotate(-55deg);
+}
+
+/* Titik bunga kecil */
+.page-ornament i {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid rgba(174,142,79,.45);
+    background: rgba(236,221,182,.35);
+}
+
+.page-ornament i:nth-child(2) { left: 82px; top: 35px; }
+.page-ornament i:nth-child(3) { left: 105px; top: 82px; }
+.page-ornament i:nth-child(4) { left: 52px; top: 112px; }
+
+.ornament-top-left {
+    top: 0;
+    left: 0;
+    transform: rotate(-8deg);
+}
+
+.ornament-top-right {
+    top: 0;
+    right: 0;
+    transform: scaleX(-1) rotate(-8deg);
+}
+
+.ornament-bottom-left {
+    bottom: 0;
+    left: 0;
+    transform: scaleY(-1) rotate(-8deg);
+}
+
+.ornament-bottom-right {
+    right: 0;
+    bottom: 0;
+    transform: scale(-1,-1) rotate(-8deg);
+}
+
+/* Ornamen tidak terlalu menonjol pada dark mode */
+html[data-bs-theme="dark"] .page-ornament {
+    opacity: .48;
+}
+
+html[data-bs-theme="dark"] .page-ornament::before {
+    border-color: rgba(214,190,133,.42);
+}
+
+html[data-bs-theme="dark"] .page-ornament::after {
+    border-color: rgba(214,190,133,.25);
+}
+
+@media (max-width:575.98px) {
+    .page-ornament {
+        width: 105px;
+        height: 135px;
+        opacity: .72;
+    }
+
+    .page-ornament::before {
+        width: 75px;
+        height: 105px;
+    }
+
+    .page-ornament::after {
+        width: 52px;
+        height: 85px;
+    }
+
+    .page-ornament span {
+        left: 25px;
+        top: 42px;
+    }
+
+    .page-ornament i:nth-child(2) { left: 58px; top: 25px; }
+    .page-ornament i:nth-child(3) { left: 74px; top: 62px; }
+    .page-ornament i:nth-child(4) { left: 38px; top: 84px; }
+}
+
 /* Desktop background */
 .desktop-background {
     position: absolute;
@@ -202,6 +352,315 @@ html[data-bs-theme="dark"] .story-video-overlay {
     object-fit: cover;
     opacity: .30;
 }
+
+/* =========================
+   ORNAMEN HALAMAN 2D
+   Tidak menggunakan bingkai kotak.
+   Ornamen ringan di sudut halaman.
+   ========================= */
+
+.page-ornament {
+    position: absolute;
+    z-index: 3;
+    width: 145px;
+    height: 145px;
+    pointer-events: none;
+    opacity: .82;
+}
+
+.page-ornament::before,
+.page-ornament::after {
+    content: "";
+    position: absolute;
+    display: block;
+}
+
+/* Rangkaian daun sederhana */
+.page-ornament::before {
+    width: 92px;
+    height: 3px;
+    background: currentColor;
+    border-radius: 999px;
+    opacity: .42;
+}
+
+.page-ornament::after {
+    width: 18px;
+    height: 32px;
+    border: 2px solid currentColor;
+    border-radius: 100% 0 100% 0;
+    opacity: .58;
+}
+
+/* Atas kiri */
+.ornament-top-left {
+    top: 0;
+    left: 0;
+    color: #a99768;
+}
+
+.ornament-top-left::before {
+    top: 36px;
+    left: 12px;
+    transform: rotate(28deg);
+}
+
+.ornament-top-left::after {
+    top: 17px;
+    left: 45px;
+    transform: rotate(48deg);
+    box-shadow:
+        22px 12px 0 -1px transparent,
+        38px 28px 0 -1px transparent;
+}
+
+/* Atas kanan */
+.ornament-top-right {
+    top: 0;
+    right: 0;
+    color: #a99768;
+    transform: scaleX(-1);
+}
+
+/* Bawah kiri */
+.ornament-bottom-left {
+    bottom: 0;
+    left: 0;
+    color: #8d9870;
+    transform: scaleY(-1);
+}
+
+/* Bawah kanan */
+.ornament-bottom-right {
+    bottom: 0;
+    right: 0;
+    color: #8d9870;
+    transform: scale(-1);
+}
+
+/* Sentuhan bunga kecil */
+.page-ornament .ornament-flower,
+.page-ornament .ornament-leaf {
+    position: absolute;
+    display: block;
+}
+
+.ornament-leaf {
+    width: 17px;
+    height: 28px;
+    border: 2px solid currentColor;
+    border-radius: 100% 0 100% 0;
+}
+
+.ornament-flower {
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    opacity: .58;
+}
+
+.ornament-top-left .leaf-1 {
+    top: 55px; left: 28px; transform: rotate(-30deg);
+}
+.ornament-top-left .leaf-2 {
+    top: 72px; left: 50px; transform: rotate(35deg);
+}
+.ornament-top-left .flower-1 {
+    top: 38px; left: 83px;
+}
+
+.ornament-top-right .leaf-1 {
+    top: 55px; left: 28px; transform: rotate(-30deg);
+}
+.ornament-top-right .leaf-2 {
+    top: 72px; left: 50px; transform: rotate(35deg);
+}
+.ornament-top-right .flower-1 {
+    top: 38px; left: 83px;
+}
+
+.ornament-bottom-left .leaf-1 {
+    top: 55px; left: 28px; transform: rotate(-30deg);
+}
+.ornament-bottom-left .leaf-2 {
+    top: 72px; left: 50px; transform: rotate(35deg);
+}
+.ornament-bottom-left .flower-1 {
+    top: 38px; left: 83px;
+}
+
+.ornament-bottom-right .leaf-1 {
+    top: 55px; left: 28px; transform: rotate(-30deg);
+}
+.ornament-bottom-right .leaf-2 {
+    top: 72px; left: 50px; transform: rotate(35deg);
+}
+.ornament-bottom-right .flower-1 {
+    top: 38px; left: 83px;
+}
+
+/* Dark mode */
+html[data-bs-theme="dark"] .page-ornament {
+    color: #c4ae78;
+    opacity: .72;
+}
+
+/* Pada layar kecil, ornamen diperkecil agar teks tetap lapang */
+@media (max-width:575.98px) {
+    .page-ornament {
+        width: 112px;
+        height: 112px;
+        opacity: .68;
+    }
+
+    .page-ornament::before {
+        width: 72px;
+        height: 2px;
+        top: 28px;
+        left: 8px;
+    }
+
+    .page-ornament::after {
+        width: 14px;
+        height: 25px;
+        top: 12px;
+        left: 34px;
+    }
+
+    .ornament-top-left .leaf-1,
+    .ornament-top-right .leaf-1,
+    .ornament-bottom-left .leaf-1,
+    .ornament-bottom-right .leaf-1 {
+        top: 42px; left: 20px;
+        width: 14px; height: 22px;
+    }
+
+    .ornament-top-left .leaf-2,
+    .ornament-top-right .leaf-2,
+    .ornament-bottom-left .leaf-2,
+    .ornament-bottom-right .leaf-2 {
+        top: 56px; left: 38px;
+        width: 14px; height: 22px;
+    }
+
+    .ornament-top-left .flower-1,
+    .ornament-top-right .flower-1,
+    .ornament-bottom-left .flower-1,
+    .ornament-bottom-right .flower-1 {
+        top: 30px; left: 65px;
+        width: 11px; height: 11px;
+    }
+}
+
+/* Ornamen tidak menutupi elemen interaktif */
+#love-story-page .page-ornament {
+    z-index: 1;
+}
+
+
+/* =========================================================
+   ORNAMEN HALAMAN — 2D SEDERHANA, TANPA KOTAK
+   ========================================================= */
+#site-ornaments {
+    position: fixed;
+    inset: 0;
+    z-index: 1020;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.site-ornament {
+    position: absolute;
+    width: clamp(135px, 28vw, 245px);
+    height: clamp(180px, 34vw, 300px);
+    opacity: .72;
+}
+
+.site-ornament svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+.ornament-tl { top: 0; left: 0; }
+.ornament-tr { top: 0; right: 0; transform: scaleX(-1); }
+.ornament-bl { bottom: 0; left: 0; transform: scaleY(-1); }
+.ornament-br { bottom: 0; right: 0; transform: scale(-1); }
+
+.ornament-line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ornament-leaf {
+    fill: currentColor;
+    opacity: .72;
+}
+
+.ornament-soft {
+    fill: currentColor;
+    opacity: .28;
+}
+
+.ornament-gold {
+    color: #b49a67;
+}
+
+.ornament-green {
+    color: #7d8460;
+}
+
+.ornament-lantern {
+    color: #b49a67;
+    opacity: .62;
+}
+
+.ornament-ketupat {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    opacity: .62;
+}
+
+html[data-bs-theme="dark"] .site-ornament {
+    opacity: .58;
+}
+
+html[data-bs-theme="dark"] .ornament-gold {
+    color: #c7b27d;
+}
+
+html[data-bs-theme="dark"] .ornament-green {
+    color: #9da17d;
+}
+
+/* Ornamen tidak ikut tampil di halaman Kisah Kami,
+   karena video sudah menjadi elemen visual utamanya. */
+body.story-open #site-ornaments {
+    display: none;
+}
+
+/* Supaya ornamen tidak mengganggu tombol navbar/floating button. */
+#navbar-menu,
+#button-theme,
+#button-music {
+    position: relative;
+    z-index: 1031;
+}
+
+@media (max-width: 575.98px) {
+    .site-ornament {
+        width: 145px;
+        height: 195px;
+        opacity: .68;
+    }
+}
+
 </style>
 </head>
 
@@ -213,6 +672,82 @@ data-confetti="true"
 data-time="2026-12-20 08:00:00">
 
 <div class="row m-0 p-0 opacity-0" id="root">
+
+<!-- ORNAMEN HALAMAN -->
+<div id="site-ornaments" aria-hidden="true">
+
+    <!-- Kiri atas: daun + gantungan lampu -->
+    <div class="site-ornament ornament-tl ornament-green">
+        <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+            <path class="ornament-line" d="M8 16 C52 42, 70 75, 88 112 C103 142, 108 170, 101 203"/>
+            <path class="ornament-line" d="M36 38 C63 54, 79 70, 95 91"/>
+            <path class="ornament-line" d="M55 66 C83 77, 98 89, 113 108"/>
+            <ellipse class="ornament-leaf" transform="rotate(-38 42 50)" cx="42" cy="50" rx="13" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(30 69 72)" cx="69" cy="72" rx="14" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(-34 81 103)" cx="81" cy="103" rx="15" ry="6"/>
+            <ellipse class="ornament-soft" transform="rotate(35 28 31)" cx="28" cy="31" rx="10" ry="5"/>
+            <path class="ornament-line" d="M151 0 V47"/>
+            <path class="ornament-line" d="M139 48 H163 L168 58 H134 Z"/>
+            <path class="ornament-line" d="M137 59 H165 L161 91 H141 Z"/>
+            <path class="ornament-line" d="M142 91 L151 101 L160 91"/>
+            <path class="ornament-line" d="M146 61 V88 M156 61 V88"/>
+            <circle class="ornament-soft" cx="151" cy="75" r="5"/>
+        </svg>
+    </div>
+
+    <!-- Kanan atas -->
+    <div class="site-ornament ornament-tr ornament-green">
+        <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+            <path class="ornament-line" d="M8 16 C52 42, 70 75, 88 112 C103 142, 108 170, 101 203"/>
+            <path class="ornament-line" d="M36 38 C63 54, 79 70, 95 91"/>
+            <path class="ornament-line" d="M55 66 C83 77, 98 89, 113 108"/>
+            <ellipse class="ornament-leaf" transform="rotate(-38 42 50)" cx="42" cy="50" rx="13" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(30 69 72)" cx="69" cy="72" rx="14" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(-34 81 103)" cx="81" cy="103" rx="15" ry="6"/>
+            <ellipse class="ornament-soft" transform="rotate(35 28 31)" cx="28" cy="31" rx="10" ry="5"/>
+            <path class="ornament-line" d="M151 0 V47"/>
+            <path class="ornament-line" d="M139 48 H163 L168 58 H134 Z"/>
+            <path class="ornament-line" d="M137 59 H165 L161 91 H141 Z"/>
+            <path class="ornament-line" d="M142 91 L151 101 L160 91"/>
+            <path class="ornament-line" d="M146 61 V88 M156 61 V88"/>
+            <circle class="ornament-soft" cx="151" cy="75" r="5"/>
+        </svg>
+    </div>
+
+    <!-- Kiri bawah: daun + bentuk ketupat sederhana -->
+    <div class="site-ornament ornament-bl ornament-green">
+        <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+            <path class="ornament-line" d="M8 16 C50 35, 73 63, 92 98 C109 130, 113 165, 103 207"/>
+            <ellipse class="ornament-leaf" transform="rotate(-42 42 48)" cx="42" cy="48" rx="14" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(32 70 72)" cx="70" cy="72" rx="15" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(-31 86 103)" cx="86" cy="103" rx="16" ry="6"/>
+            <ellipse class="ornament-soft" transform="rotate(34 28 29)" cx="28" cy="29" rx="11" ry="5"/>
+            <path class="ornament-ketupat ornament-gold" d="M142 196 L174 228 L142 260 L110 228 Z"/>
+            <path class="ornament-ketupat ornament-gold" d="M126 212 L158 244 M158 212 L126 244"/>
+            <path class="ornament-line ornament-gold" d="M142 260 V281"/>
+            <path class="ornament-line ornament-gold" d="M136 281 Q142 289 148 281"/>
+            <path class="ornament-line ornament-gold" d="M142 196 V181"/>
+        </svg>
+    </div>
+
+    <!-- Kanan bawah -->
+    <div class="site-ornament ornament-br ornament-green">
+        <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+            <path class="ornament-line" d="M8 16 C50 35, 73 63, 92 98 C109 130, 113 165, 103 207"/>
+            <ellipse class="ornament-leaf" transform="rotate(-42 42 48)" cx="42" cy="48" rx="14" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(32 70 72)" cx="70" cy="72" rx="15" ry="6"/>
+            <ellipse class="ornament-leaf" transform="rotate(-31 86 103)" cx="86" cy="103" rx="16" ry="6"/>
+            <ellipse class="ornament-soft" transform="rotate(34 28 29)" cx="28" cy="29" rx="11" ry="5"/>
+            <path class="ornament-ketupat ornament-gold" d="M142 196 L174 228 L142 260 L110 228 Z"/>
+            <path class="ornament-ketupat ornament-gold" d="M126 212 L158 244 M158 212 L126 244"/>
+            <path class="ornament-line ornament-gold" d="M142 260 V281"/>
+            <path class="ornament-line ornament-gold" d="M136 281 Q142 289 148 281"/>
+            <path class="ornament-line ornament-gold" d="M142 196 V181"/>
+        </svg>
+    </div>
+</div>
+
+
 
 <!-- =========================================================
      DESKTOP
@@ -233,7 +768,22 @@ data-time="2026-12-20 08:00:00">
 <!-- =========================================================
      KONTEN UTAMA
      ========================================================= -->
-<div class="col-sm-7 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-0 p-0">
+<div class="col-sm-7 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-0 p-0 position-relative">
+
+<div class="page-ornaments" aria-hidden="true">
+    <div class="page-ornament ornament-top-left">
+        <span></span><i></i><i></i><i></i>
+    </div>
+    <div class="page-ornament ornament-top-right">
+        <span></span><i></i><i></i><i></i>
+    </div>
+    <div class="page-ornament ornament-bottom-left">
+        <span></span><i></i><i></i><i></i>
+    </div>
+    <div class="page-ornament ornament-bottom-right">
+        <span></span><i></i><i></i><i></i>
+    </div>
+</div>
 
 <main
     data-bs-spy="scroll"
@@ -297,6 +847,16 @@ data-time="2026-12-20 08:00:00">
 
 <!-- MEMPELAI -->
 <section class="bg-white-black text-center" id="bride">
+    <div class="page-ornament ornament-top-left" aria-hidden="true">
+        <span class="ornament-leaf leaf-1"></span>
+        <span class="ornament-leaf leaf-2"></span>
+        <span class="ornament-flower flower-1"></span>
+    </div>
+    <div class="page-ornament ornament-bottom-right" aria-hidden="true">
+        <span class="ornament-leaf leaf-1"></span>
+        <span class="ornament-leaf leaf-2"></span>
+        <span class="ornament-flower flower-1"></span>
+    </div>
 
     <h2 class="font-arabic py-4 m-0" style="font-size:2rem">
         بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
@@ -422,6 +982,16 @@ data-time="2026-12-20 08:00:00">
 
 <!-- TANGGAL -->
 <section class="bg-white-black pb-2" id="wedding-date">
+    <div class="page-ornament ornament-top-left" aria-hidden="true">
+        <span class="ornament-leaf leaf-1"></span>
+        <span class="ornament-leaf leaf-2"></span>
+        <span class="ornament-flower flower-1"></span>
+    </div>
+    <div class="page-ornament ornament-bottom-right" aria-hidden="true">
+        <span class="ornament-leaf leaf-1"></span>
+        <span class="ornament-leaf leaf-2"></span>
+        <span class="ornament-flower flower-1"></span>
+    </div>
 
     <div class="container text-center">
 
@@ -638,6 +1208,16 @@ data-time="2026-12-20 08:00:00">
 
 <!-- UCAPAN -->
 <section class="bg-light-dark my-0 pb-0 pt-3" id="comment">
+    <div class="page-ornament ornament-top-left" aria-hidden="true">
+        <span class="ornament-leaf leaf-1"></span>
+        <span class="ornament-leaf leaf-2"></span>
+        <span class="ornament-flower flower-1"></span>
+    </div>
+    <div class="page-ornament ornament-bottom-right" aria-hidden="true">
+        <span class="ornament-leaf leaf-1"></span>
+        <span class="ornament-leaf leaf-2"></span>
+        <span class="ornament-flower flower-1"></span>
+    </div>
 
     <div class="container">
 
