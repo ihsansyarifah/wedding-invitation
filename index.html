@@ -666,17 +666,48 @@ body.story-open #site-ornaments {
 
 
 /* Logo IS pada layar loading */
-#loading img[alt="IS"] {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-    object-fit: contain;
-}
-
 /* Saat benar-benar fullscreen, halaman mengisi seluruh area aplikasi. */
 :fullscreen {
     width: 100%;
     height: 100%;
+}
+
+
+/* Logo IS pada layar loading - HTML murni, tanpa request gambar */
+.loading-is-logo {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.12em;
+    color: var(--bs-body-color, #212529);
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    line-height: 1;
+    user-select: none;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.loading-is-logo span:first-child {
+    transform: translateX(1px);
+}
+.loading-is-logo span:last-child {
+    transform: translateX(-1px);
+}
+
+
+/* Fallback aman jika asset eksternal lambat dimuat */
+html, body {
+    min-height: 100%;
+}
+img {
+    max-width: 100%;
 }
 
 </style>
@@ -1635,12 +1666,9 @@ data-time="2026-12-20 08:00:00">
 
         <div class="d-flex flex-column width-loading text-center">
 
-            <img
-                src="./assets/images/icon-192x192.png"
-                fetchpriority="high"
-                class="img-fluid mb-3 mx-auto object-fit-contain"
-                alt="IS"
-                style="width:3.5rem;height:3.5rem;opacity:1">
+            <div class="loading-is-logo" aria-label="IS" role="img">
+    <span>I</span><span>S</span>
+</div>
 
             <div
                 class="progress"
