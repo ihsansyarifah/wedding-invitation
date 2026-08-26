@@ -98,7 +98,7 @@ html[data-bs-theme="dark"] #welcome{background:linear-gradient(rgba(33,27,25,.5)
                     <div class="accent-line"></div>
                     <p class="mb-1">Minggu</p><p class="mb-4" style="font-size:1.15rem">20 Desember 2026</p>
                     <img src="./assets/images/placeholder.webp" alt="Foto Ihsan &amp; Syarifah" onclick="undangan.guest.modal(this)" class="couple-photo rounded-circle cursor-pointer">
-                    <button id="calendar-button" type="button" class="btn btn-outline-auto btn-sm rounded-pill shadow px-4"><i class="fa-solid fa-calendar-check me-2"></i>Save Google Calendar</button>
+                    <a id="calendar-button" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=The%20Wedding%20of%20Ihsan%20%26%20Syarifah&amp;dates=20261220T010000Z%2F20261220T070000Z&amp;details=Tanpa%20mengurangi%20rasa%20hormat%2C%20kami%20mengundang%20Anda%20untuk%20berkenan%20menghadiri%20acara%20pernikahan%20kami.&amp;location=Masjid%20Cibadak%20Daarul%20Matiin%2C%20Kecamatan%20Cibadak%2C%20Kabupaten%20Sukabumi.&amp;ctz=Asia%2FJakarta" target="_blank" rel="noopener noreferrer" class="btn btn-outline-auto btn-sm rounded-pill shadow px-4"><i class="fa-solid fa-calendar-check me-2"></i>Save Google Calendar</a>
                     <div class="d-flex justify-content-center align-items-center mt-4 mb-2"><div class="mouse-animation border border-secondary border-2 rounded-5 px-2 py-1 opacity-50"><div class="scroll-animation rounded-4 bg-secondary"></div></div></div>
                     <p class="pb-2 m-0 text-secondary" style="font-size:.825rem">Scroll Down</p>
                 </div>
@@ -200,15 +200,7 @@ html[data-bs-theme="dark"] #welcome{background:linear-gradient(rgba(33,27,25,.5)
     window.continueToInvitation=function(){if(!page)return;if(video){video.pause();video.currentTime=0;}page.classList.remove('is-open');page.setAttribute('aria-hidden','true');document.body.classList.remove('story-open');};
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&page&&page.classList.contains('is-open'))window.continueToInvitation();});
 })();
-(function(){
-    const button=document.getElementById('calendar-button');
-    if(!button)return;
-    button.addEventListener('click',function(){
-        const url=new URL('https://calendar.google.com/calendar/render');
-        url.search=new URLSearchParams({action:'TEMPLATE',text:'The Wedding of Ihsan & Syarifah',dates:'20261220T010000Z/20261220T070000Z',details:'Tanpa mengurangi rasa hormat, kami mengundang Anda untuk berkenan menghadiri acara pernikahan kami.',location:'Masjid Cibadak Daarul Matiin, Kecamatan Cibadak, Kabupaten Sukabumi.',ctz:'Asia/Jakarta'}).toString();
-        window.open(url.toString(),'_blank','noopener,noreferrer');
-    });
-})();
+;
 </script>
 </body>
 </html>
