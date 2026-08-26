@@ -63,9 +63,16 @@ export const image = (() => {
      * @param {HTMLImageElement} el 
      * @returns {void}
      */
-    const getByDefault = (el) => {
-        el.onerror = () => progress.invalid('image');
-        el.onload = () => {
+const getByDefault = (el) => {
+    const src = el.getAttribute('src');
+
+    if (!src) {
+        progress.complete('image', true);
+        return;
+    }
+
+    el.onerror = () => progress.invalid('image');
+    el.onload = () => {
             el.width = el.naturalWidth;
             el.height = el.naturalHeight;
             progress.complete('image');
