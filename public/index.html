@@ -675,6 +675,147 @@ html[data-bs-theme="dark"] #root .gift-card{
 }
 </style>
 
+
+<style id="mobile-layout-fix">
+/* =========================================================
+   MOBILE FIX
+   Desktop layout tetap. HP dipaksa kembali mengikuti viewport.
+   ========================================================= */
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+
+@media (max-width: 575.98px) {
+
+    /* Root harus benar-benar satu kolom selebar viewport. */
+    #root {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        transform-origin: top center;
+    }
+
+    #root > .col-sm-7,
+    #root > div:last-child {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* Kolom cover desktop benar-benar tidak mengambil ruang di HP. */
+    #root > .sticky-top {
+        display: none !important;
+        width: 0 !important;
+        max-width: 0 !important;
+        flex: 0 0 0 !important;
+    }
+
+    #root main {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    #root main > section,
+    #root main > .svg-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Jangan biarkan gambar/background menjadi lebih lebar dari layar. */
+    #root img {
+        max-width: 100%;
+    }
+
+    #root .bg-cover-home {
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    /* Container Bootstrap tetap punya ruang HP normal. */
+    #root .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Kartu tidak boleh memaksa horizontal overflow. */
+    #root .section-card,
+    #root .gift-card,
+    #root .date-pill {
+        max-width: calc(100vw - 24px);
+        box-sizing: border-box;
+    }
+
+    /* Foto pasangan tetap responsif. */
+    #root .couple-photo {
+        width: min(78vw, 310px) !important;
+        height: min(78vw, 310px) !important;
+    }
+
+    #root .person-photo {
+        width: 155px !important;
+        height: 155px !important;
+    }
+
+    /* Teks panjang tidak boleh membuat halaman melebar. */
+    #root h1,
+    #root h2,
+    #root h3,
+    #root p,
+    #root small,
+    #root a,
+    #root button {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+
+    /* Nav bawah tetap selebar layar HP. */
+    #navbar-menu {
+        width: 100% !important;
+        max-width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+
+    /* Efek awan/gradasi tetap ada, tetapi tidak boleh membuat
+       horizontal scroll pada HP. */
+    #root main::before,
+    #root main::after {
+        left: -34% !important;
+        width: 168% !important;
+        max-width: none !important;
+    }
+
+    /* Love Story juga selalu selebar viewport HP. */
+    #love-story-page,
+    #love-story-page .story-page-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    #love-story-page .story-page-content {
+        padding-left: 22px !important;
+        padding-right: 22px !important;
+    }
+}
+</style>
+
 </head>
 
 <body
