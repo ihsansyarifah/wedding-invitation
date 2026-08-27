@@ -435,185 +435,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
     }
 }
 </style>
-<style>
-
-/* =========================================================
-   REVISI TERBARU — visual flow + loading safety
-   Struktur HTML dan fungsi guest.js tetap dipertahankan.
-   ========================================================= */
-
-/* Loading harus benar-benar berada DI BAWAH welcome saat selesai */
-#loading {
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 1040 !important;
-}
-
-#welcome {
-    z-index: 1055 !important;
-}
-
-/* Satu gradasi panjang dari atas sampai bawah.
-   Section tidak lagi terasa seperti halaman/card yang terpisah. */
-main {
-    position: relative;
-    isolation: isolate;
-    background:
-        linear-gradient(
-            180deg,
-            #fffaf6 0%,
-            #fff8f3 14%,
-            #faeee8 32%,
-            #f6e1d9 51%,
-            #eac8bd 70%,
-            #dba8a1 86%,
-            #b96f63 100%
-        );
-}
-
-/* Semua section menyatu dengan gradasi utama */
-main > section.section-soft,
-main > section.section-paper {
-    background: transparent !important;
-}
-
-/* Hilangkan gelombang SVG lama karena terlihat seperti batas halaman */
-main > .svg-wrapper {
-    display: none !important;
-}
-
-/* Aksen "awan" sangat samar — bukan gambar/aset.
-   Bentuk kiri dan kanan sengaja dibuat tidak simetris. */
-main::before,
-main::after {
-    content: "";
-    position: absolute;
-    left: -18%;
-    width: 136%;
-    pointer-events: none;
-    z-index: -1;
-    opacity: .34;
-    filter: blur(18px);
-}
-
-main::before {
-    top: 17%;
-    height: 270px;
-    background: #f8eee7;
-    border-radius: 47% 53% 61% 39% / 44% 36% 64% 56%;
-    transform: rotate(-3.5deg);
-}
-
-main::after {
-    top: 58%;
-    height: 310px;
-    background: #dba8a1;
-    border-radius: 63% 37% 42% 58% / 52% 62% 38% 48%;
-    transform: rotate(4deg);
-    opacity: .18;
-}
-
-/* Tambahan bidang samar yang mengikuti isi section,
-   supaya perpindahan warna terasa organik, bukan garis lurus. */
-.section-soft,
-.section-paper {
-    position: relative;
-    overflow: hidden;
-}
-
-.section-soft::after,
-.section-paper::after {
-    content: "";
-    position: absolute;
-    width: 145%;
-    height: 180px;
-    left: -25%;
-    bottom: -100px;
-    pointer-events: none;
-    background: rgba(255,250,246,.28);
-    border-radius: 58% 42% 51% 49% / 55% 45% 55% 45%;
-    transform: rotate(-2.5deg);
-    filter: blur(16px);
-}
-
-.section-paper::after {
-    left: -20%;
-    transform: rotate(3.5deg);
-}
-
-/* Tidak ada sudut "batas halaman" pada area utama */
-.section-soft,
-.section-paper {
-    border: 0 !important;
-}
-
-/* Salam & Arab sedikit diperkecil */
-#bride > h2.font-arabic {
-    font-size: 1.72rem !important;
-}
-
-#bride > h2.font-esthetic {
-    font-size: 1.72rem !important;
-    line-height: 1.28 !important;
-}
-
-.section-paper h2.font-arabic {
-    font-size: 1.72rem !important;
-}
-
-.section-paper h2.font-esthetic {
-    font-size: 1.72rem !important;
-    line-height: 1.3 !important;
-}
-
-/* Tetap nyaman di layar HP */
-@media (max-width: 575.98px) {
-    #bride > h2.font-arabic,
-    #bride > h2.font-esthetic,
-    .section-paper h2.font-arabic,
-    .section-paper h2.font-esthetic {
-        font-size: 1.65rem !important;
-    }
-}
-
-/* Dark mode mengikuti warna dasar tema */
-html[data-bs-theme="dark"] main {
-    background:
-        linear-gradient(
-            180deg,
-            #211b19 0%,
-            #271f1d 20%,
-            #2d2421 42%,
-            #352824 64%,
-            #3d2b27 82%,
-            #4a302b 100%
-        );
-}
-
-html[data-bs-theme="dark"] main::before {
-    background: #3a2a26;
-    opacity: .24;
-}
-
-html[data-bs-theme="dark"] main::after {
-    background: #b06f63;
-    opacity: .10;
-}
-
-html[data-bs-theme="dark"] .section-soft::after,
-html[data-bs-theme="dark"] .section-paper::after {
-    background: rgba(255,255,255,.045);
-}
-
-/* Loading fallback lebih tegas:
-   bila progress sudah 100%, welcome pasti muncul di atas loading. */
-#loading.is-finished {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
-
-</style>
 </head>
 
 <body
@@ -1769,92 +1590,160 @@ html[data-bs-theme="dark"] .section-paper::after {
 <!--
     FIX LOADING 100%
     ----------------
-    guest.js tetap dipakai untuk seluruh fungsi undangan.
-    Script ini hanya memastikan overlay loading tidak menutupi welcome
-    setelah progress benar-benar mencapai 100%.
+    Loading tidak lagi bergantung hanya pada event dari guest.js.
+    Saat progress-bar mencapai 100% atau progress-info berisi [100%],
+    loading akan ditutup dan welcome akan ditampilkan.
 -->
 <script>
-(function () {
-    let finished = false;
-    let observer = null;
-    let timer = null;
+(function(){
 
-    function finishLoading() {
-        if (finished) return;
+    let finished = false;
+
+    function finishLoading(){
+
+        if(finished){
+            return;
+        }
+
         finished = true;
 
         const loading = document.getElementById('loading');
         const welcome = document.getElementById('welcome');
 
-        if (loading) {
-            loading.classList.add('is-finished');
+        if(loading){
+
             loading.style.opacity = '0';
-            loading.style.visibility = 'hidden';
             loading.style.pointerEvents = 'none';
 
-            setTimeout(function () {
+            setTimeout(function(){
+
                 loading.style.display = 'none';
-            }, 400);
+
+            },350);
+
         }
 
-        if (welcome) {
+        if(welcome){
+
             welcome.style.display = 'flex';
             welcome.style.opacity = '1';
-            welcome.style.visibility = 'visible';
             welcome.style.pointerEvents = 'auto';
+
         }
 
-        if (timer) clearInterval(timer);
-        if (observer) observer.disconnect();
     }
 
-    function checkProgress() {
-        if (finished) return;
+
+    function checkProgress(){
 
         const bar = document.getElementById('progress-bar');
         const info = document.getElementById('progress-info');
 
-        if (!bar || !info) return;
+        if(!bar || !info){
+            return;
+        }
 
         const width = parseFloat(bar.style.width) || 0;
         const text = info.textContent || '';
 
-        if (width >= 100 || text.indexOf('[100%]') !== -1) {
+        if(
+            width >= 100 ||
+            text.indexOf('[100%]') !== -1
+        ){
+
             finishLoading();
+
         }
+
     }
 
-    window.addEventListener('undangan.progress.done', finishLoading);
-    document.addEventListener('undangan.progress.done', finishLoading);
+
+    /*
+     * Dengarkan event dari kedua kemungkinan target:
+     * window dan document.
+     */
+    window.addEventListener(
+        'undangan.progress.done',
+        finishLoading
+    );
+
+    document.addEventListener(
+        'undangan.progress.done',
+        finishLoading
+    );
+
+
+    /*
+     * Pantau perubahan progress bar.
+     */
+    const observer = new MutationObserver(function(){
+
+        checkProgress();
+
+    });
+
 
     const bar = document.getElementById('progress-bar');
     const info = document.getElementById('progress-info');
 
-    if (window.MutationObserver) {
-        observer = new MutationObserver(checkProgress);
 
-        if (bar) {
-            observer.observe(bar, {
-                attributes: true,
-                attributeFilter: ['style'],
-                childList: true,
-                subtree: true
-            });
-        }
+    if(bar){
 
-        if (info) {
-            observer.observe(info, {
-                characterData: true,
-                childList: true,
-                subtree: true
-            });
-        }
+        observer.observe(
+            bar,
+            {
+                attributes:true,
+                attributeFilter:['style'],
+                childList:true,
+                subtree:true
+            }
+        );
+
     }
 
-    /* Polling sebagai fallback untuk browser/guest.js tertentu. */
-    timer = setInterval(checkProgress, 150);
 
+    if(info){
+
+        observer.observe(
+            info,
+            {
+                characterData:true,
+                childList:true,
+                subtree:true
+            }
+        );
+
+    }
+
+
+    /*
+     * Fallback tambahan.
+     * Setiap 200ms cek apakah loading sudah 100%.
+     */
+    const timer = setInterval(function(){
+
+        checkProgress();
+
+        const loading = document.getElementById('loading');
+
+        if(
+            finished ||
+            (loading && loading.style.display === 'none')
+        ){
+
+            clearInterval(timer);
+            observer.disconnect();
+
+        }
+
+    },200);
+
+
+    /*
+     * Cek sekali saat script dijalankan.
+     */
     checkProgress();
+
 })();
 </script>
 
