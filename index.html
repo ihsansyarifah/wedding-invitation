@@ -435,13 +435,253 @@ html[data-bs-theme="dark"] .story-video-overlay{
     }
 }
 </style>
+
+<style id="undangan-revision">
+/* =========================================================
+   IHsan & Syarifah — visual revision
+   Base: original working index.html
+   No new image assets required.
+   ========================================================= */
+
+/* ---------- 1. Long vertical color atmosphere ---------- */
+html[data-bs-theme="light"] body{
+    background:
+        linear-gradient(
+            180deg,
+            #fffaf6 0%,
+            #fff8f3 13%,
+            #fdf0e9 28%,
+            #f7ddd4 45%,
+            #efc3ba 62%,
+            #dfa39b 78%,
+            #c77c72 90%,
+            #8e4a40 100%
+        );
+}
+
+/* Keep original section structure, but let the gradient show through. */
+html[data-bs-theme="light"] #root main > .section-soft,
+html[data-bs-theme="light"] #root main > .section-paper{
+    background: transparent;
+}
+
+/* Organic, asymmetrical cloud-like transition. */
+html[data-bs-theme="light"] #root main{
+    position: relative;
+    isolation: isolate;
+    background: transparent;
+}
+
+html[data-bs-theme="light"] #root main::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    top:7%;
+    left:-34%;
+    width:168%;
+    height:39%;
+    pointer-events:none;
+    background:
+        radial-gradient(
+            ellipse 37% 21% at 18% 30%,
+            rgba(255,250,246,.68) 0 48%,
+            transparent 73%
+        ),
+        radial-gradient(
+            ellipse 42% 23% at 86% 47%,
+            rgba(255,248,243,.52) 0 44%,
+            transparent 73%
+        ),
+        radial-gradient(
+            ellipse 35% 20% at 35% 75%,
+            rgba(255,242,235,.34) 0 43%,
+            transparent 74%
+        );
+    filter:blur(13px);
+    opacity:.9;
+    transform:rotate(-2.7deg);
+}
+
+html[data-bs-theme="light"] #root main::after{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    top:42%;
+    left:-31%;
+    width:165%;
+    height:47%;
+    pointer-events:none;
+    background:
+        radial-gradient(
+            ellipse 39% 20% at 76% 23%,
+            rgba(247,218,208,.48) 0 44%,
+            transparent 74%
+        ),
+        radial-gradient(
+            ellipse 43% 22% at 20% 53%,
+            rgba(231,178,169,.32) 0 43%,
+            transparent 74%
+        ),
+        radial-gradient(
+            ellipse 35% 18% at 88% 78%,
+            rgba(190,111,102,.25) 0 40%,
+            transparent 73%
+        );
+    filter:blur(16px);
+    opacity:.8;
+    transform:rotate(3.4deg);
+}
+
+/* Preserve cards; only soften them so they don't become hard page boundaries. */
+html[data-bs-theme="light"] #root .section-card,
+html[data-bs-theme="light"] #root .gift-card{
+    background:rgba(255,250,246,.48);
+    backdrop-filter:blur(2px);
+}
+
+/* ---------- 2. Greeting slightly smaller ---------- */
+#bride .opening-arabic{
+    font-size:1.72rem !important;
+    line-height:1.5 !important;
+}
+
+#bride .opening-salam{
+    font-size:1.58rem !important;
+    line-height:1.35 !important;
+}
+
+/* If the original page uses the inline styles instead of the helper classes,
+   these selectors still target exactly the two greeting headings. */
+#bride > h2.font-arabic{
+    font-size:1.72rem !important;
+    line-height:1.5 !important;
+}
+
+#bride > h2.font-esthetic{
+    font-size:1.58rem !important;
+    line-height:1.35 !important;
+}
+
+/* ---------- 3. Welcome transition: fade + gentle zoom + soft veil ---------- */
+#welcome{
+    transform:scale(1);
+    opacity:1;
+    transition:
+        opacity .72s ease,
+        transform .82s cubic-bezier(.22,.61,.36,1),
+        visibility .82s ease;
+    will-change:opacity,transform;
+}
+
+#welcome::after{
+    content:"";
+    position:absolute;
+    inset:-12%;
+    z-index:-1;
+    pointer-events:none;
+    background:
+        radial-gradient(
+            ellipse at 24% 42%,
+            rgba(255,255,255,.48) 0 24%,
+            transparent 58%
+        ),
+        radial-gradient(
+            ellipse at 76% 58%,
+            rgba(255,248,243,.38) 0 22%,
+            transparent 57%
+        );
+    filter:blur(20px);
+    opacity:0;
+    transition:opacity .72s ease;
+}
+
+#welcome.undangan-opening{
+    opacity:0 !important;
+    transform:scale(1.035);
+    pointer-events:none !important;
+}
+
+#welcome.undangan-opening::after{
+    opacity:1;
+}
+
+#root{
+    opacity:0;
+    transform:scale(1.015);
+    transition:
+        opacity .9s ease .12s,
+        transform 1.05s cubic-bezier(.22,.61,.36,1) .05s;
+}
+
+#root.undangan-enter{
+    opacity:1 !important;
+    transform:scale(1);
+}
+
+/* ---------- 4. No pink flower/confetti ---------- */
+html[data-bs-theme="light"] .confetti,
+html[data-bs-theme="light"] .confetti-container,
+html[data-bs-theme="light"] [class*="confetti"]{
+    pointer-events:none;
+}
+
+/* ---------- 5. Mobile balance ---------- */
+@media (max-width:575.98px){
+    #bride .opening-arabic,
+    #bride > h2.font-arabic{
+        font-size:1.48rem !important;
+    }
+
+    #bride .opening-salam,
+    #bride > h2.font-esthetic{
+        font-size:1.34rem !important;
+    }
+}
+
+/* ---------- 6. Dark mode remains compatible ---------- */
+html[data-bs-theme="dark"] body{
+    background:
+        linear-gradient(
+            180deg,
+            #211b19 0%,
+            #281f1d 20%,
+            #302421 40%,
+            #392925 60%,
+            #47302b 78%,
+            #56342e 100%
+        );
+}
+
+html[data-bs-theme="dark"] #root main > .section-soft,
+html[data-bs-theme="dark"] #root main > .section-paper{
+    background:transparent;
+}
+
+html[data-bs-theme="dark"] #root main::before{
+    background:
+        radial-gradient(ellipse 40% 22% at 20% 30%,rgba(255,255,255,.09) 0 45%,transparent 74%),
+        radial-gradient(ellipse 43% 22% at 86% 52%,rgba(255,220,210,.07) 0 44%,transparent 74%);
+}
+
+html[data-bs-theme="dark"] #root main::after{
+    background:
+        radial-gradient(ellipse 42% 22% at 76% 28%,rgba(220,150,140,.08) 0 44%,transparent 74%),
+        radial-gradient(ellipse 40% 21% at 20% 66%,rgba(180,110,100,.07) 0 42%,transparent 74%);
+}
+
+html[data-bs-theme="dark"] #root .section-card,
+html[data-bs-theme="dark"] #root .gift-card{
+    background:rgba(255,255,255,.055);
+}
+</style>
+
 </head>
 
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
     data-url="https://api.ulems.my.id/"
     data-audio="./assets/music/musik-ihsan-syarifah.mpeg"
-    data-confetti="true"
+    data-confetti="false"
     data-time="2026-12-20 08:00:00"
 >
 
@@ -1744,6 +1984,71 @@ html[data-bs-theme="dark"] .story-video-overlay{
      */
     checkProgress();
 
+})();
+</script>
+
+
+<script id="undangan-visual-transition">
+(function () {
+    const welcome = document.getElementById('welcome');
+    const root = document.getElementById('root');
+
+    if (!welcome || !root) return;
+
+    let opening = false;
+
+    function prepare() {
+        if (!opening && root.classList.contains('opacity-0')) {
+            root.classList.remove('undangan-enter');
+        }
+    }
+
+    function watch() {
+        if (opening) return;
+
+        const welcomeVisible =
+            getComputedStyle(welcome).display !== 'none' &&
+            parseFloat(getComputedStyle(welcome).opacity || '0') > 0.05;
+
+        const rootVisible = !root.classList.contains('opacity-0');
+
+        if (!welcomeVisible && rootVisible) {
+            opening = true;
+            root.classList.add('undangan-enter');
+        }
+    }
+
+    const observer = new MutationObserver(function () {
+        watch();
+    });
+
+    observer.observe(welcome, {
+        attributes: true,
+        attributeFilter: ['style', 'class']
+    });
+
+    observer.observe(root, {
+        attributes: true,
+        attributeFilter: ['style', 'class']
+    });
+
+    /* Intercept only the visual moment of the existing button.
+       The original onclick/guest.js action still runs normally. */
+    const openButton = welcome.querySelector('[onclick*="undangan.guest.open"]');
+
+    if (openButton) {
+        openButton.addEventListener('click', function () {
+            welcome.classList.add('undangan-opening');
+
+            /* Give guest.js its normal time to reveal the invitation. */
+            setTimeout(function () {
+                root.classList.add('undangan-enter');
+            }, 120);
+        }, { capture: true });
+    }
+
+    prepare();
+    watch();
 })();
 </script>
 
