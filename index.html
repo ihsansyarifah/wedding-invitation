@@ -52,6 +52,16 @@ body{
     font-family:'Josefin Sans',sans-serif!important
 }
 
+/* =========================================================
+   HILANGKAN EFEK YANG BERTERBANGAN / CONFETTI SAJA
+   Tidak mengubah foto, musik, komentar, atau layout.
+   ========================================================= */
+body > canvas{
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+}
+
 .desktop-cover{
     background:var(--bs-body-bg)
 }
@@ -477,7 +487,7 @@ html[data-bs-theme="dark"] .story-video-overlay{
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
     data-url="https://api.ulems.my.id/"
     data-audio="./assets/music/musik-ihsan-syarifah.mpeg"
-    data-confetti="true"
+    data-confetti="false"
     data-time="2026-12-20 08:00:00"
 >
 
