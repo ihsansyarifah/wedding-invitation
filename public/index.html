@@ -53,6 +53,75 @@ body{
 }
 
 /* =========================================================
+   BACKGROUND BERLANJUT
+   Placeholder tetap menjadi foto blur di bagian atas, lalu
+   perlahan memudar menjadi warna cream/paper sampai bawah.
+   Tidak membutuhkan asset gradasi tambahan.
+   ========================================================= */
+main{
+    position:relative;
+    isolation:isolate;
+    background:var(--cream);
+    overflow:hidden
+}
+
+main::before{
+    content:"";
+    position:absolute;
+    z-index:0;
+    top:-2%;
+    left:-3%;
+    width:106%;
+    height:760px;
+    background:url('./assets/images/placeholder.webp') center top/cover no-repeat;
+    filter:blur(7px);
+    opacity:.22;
+    transform:scale(1.03);
+    pointer-events:none
+}
+
+main::after{
+    content:"";
+    position:absolute;
+    z-index:0;
+    inset:0;
+    background:linear-gradient(
+        to bottom,
+        rgba(255,250,246,.18) 0,
+        rgba(255,250,246,.38) 18%,
+        rgba(255,250,246,.72) 38%,
+        rgba(248,238,231,.94) 58%,
+        rgba(248,238,231,1) 78%,
+        rgba(248,238,231,1) 100%
+    );
+    pointer-events:none
+}
+
+main > *{
+    position:relative;
+    z-index:1
+}
+
+html[data-bs-theme="dark"] main{
+    background:#211b19
+}
+
+html[data-bs-theme="dark"] main::before{
+    opacity:.14
+}
+
+html[data-bs-theme="dark"] main::after{
+    background:linear-gradient(
+        to bottom,
+        rgba(33,27,25,.18) 0,
+        rgba(33,27,25,.45) 20%,
+        rgba(33,27,25,.78) 42%,
+        rgba(42,33,30,.96) 62%,
+        rgba(42,33,30,1) 100%
+    )
+}
+
+/* =========================================================
    HILANGKAN EFEK YANG BERTERBANGAN / CONFETTI SAJA
    Tidak mengubah foto, musik, komentar, atau layout.
    ========================================================= */
@@ -159,6 +228,20 @@ html[data-bs-theme="dark"] .section-paper{
     background:#2a211e
 }
 
+.bg-cover-home{
+    display:none !important
+}
+
+/* Sections stay transparent so the background does not break between them. */
+main .section-soft,
+main .section-paper{
+    background:transparent !important
+}
+
+main .svg-wrapper{
+    background:transparent
+}
+
 .section-card{
     background:rgba(255,255,255,.56);
     border:1px solid rgba(185,148,98,.2);
@@ -254,9 +337,30 @@ html[data-bs-theme="dark"] .gift-card{
     justify-content:center;
     padding:1.25rem;
     opacity:1;
-    background:
-        linear-gradient(rgba(255,250,246,.42),rgba(255,250,246,.74)),
-        url('./assets/images/placeholder.webp') center/cover no-repeat
+    background:linear-gradient(
+        to bottom,
+        rgba(255,250,246,.42) 0%,
+        rgba(255,250,246,.62) 48%,
+        rgba(248,238,231,.92) 100%
+    );
+    overflow:hidden
+}
+
+#welcome::before{
+    content:"";
+    position:absolute;
+    inset:-14px;
+    z-index:0;
+    background:url('./assets/images/placeholder.webp') center/cover no-repeat;
+    filter:blur(7px);
+    transform:scale(1.04);
+    opacity:.72;
+    pointer-events:none
+}
+
+#welcome > *{
+    position:relative;
+    z-index:1
 }
 
 html[data-bs-theme="dark"] #welcome{
@@ -659,6 +763,20 @@ html[data-bs-theme="dark"] .story-video-overlay{
                 </div>
 
             </section>
+
+
+            <div class="svg-wrapper">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1440 320"
+                    class="color-theme-svg no-gap-bottom"
+                >
+                    <path
+                        fill="currentColor"
+                        d="M0 160l48-16c48-16 144-48 240-37.3 96 10.3 192 64.3 288 58.6C672 160 768 96 864 96s192 64 288 58.7c96-5.7 192-79.7 240-117.4L1440 0v320H0z"
+                    ></path>
+                </svg>
+            </div>
 
 
             <section class="section-paper text-center" id="bride">
@@ -1758,74 +1876,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
 
     checkProgress();
 
-})();
-</script>
-
-
-<!--
-    GIF COMMENT DISABLED
-    --------------------
-    Fitur GIF/Tenor pada balasan komentar disembunyikan.
-    Kolom ucapan, reply, edit, delete, dan like tetap digunakan.
--->
-<style id="disable-comment-gif">
-    [id*="gif" i],
-    [class*="gif" i],
-    [data-gif],
-    [data-tenor],
-    iframe[src*="tenor.com" i],
-    iframe[src*="giphy.com" i] {
-        display: none !important;
-    }
-</style>
-
-<script>
-(function () {
-    function removeGifElements(root) {
-        if (!root || !root.querySelectorAll) return;
-
-        const selectors = [
-            '[id*="gif" i]',
-            '[class*="gif" i]',
-            '[data-gif]',
-            '[data-tenor]',
-            'iframe[src*="tenor.com" i]',
-            'iframe[src*="giphy.com" i]'
-        ];
-
-        root.querySelectorAll(selectors.join(',')).forEach(function (el) {
-            el.remove();
-        });
-
-        root.querySelectorAll('*').forEach(function (el) {
-            const text = (el.textContent || '').trim();
-            if (
-                text === 'Search for a GIF on Tenor' ||
-                text.includes('Search for a GIF on Tenor')
-            ) {
-                el.remove();
-            }
-        });
-    }
-
-    function clean() {
-        removeGifElements(document.body);
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', clean);
-    } else {
-        clean();
-    }
-
-    const observer = new MutationObserver(function () {
-        clean();
-    });
-
-    observer.observe(document.documentElement, {
-        childList: true,
-        subtree: true
-    });
 })();
 </script>
 
