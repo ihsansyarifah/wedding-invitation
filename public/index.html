@@ -415,6 +415,30 @@ html[data-bs-theme="dark"] .story-video-overlay{
     margin-top:4rem
 }
 
+/* ==========================================
+   TYPOGRAPHY REVISI
+   ========================================== */
+
+/* Bismillah dan Alhamdulillah SAMA BESAR.
+   Keduanya sedikit lebih kecil dari sebelumnya. */
+.font-arabic{
+    font-size:1.55rem !important;
+    line-height:1.7;
+}
+
+/* Assalamualaikum dan Wassalamualaikum
+   dibuat lebih kecil dari judul dan nama mempelai. */
+.greeting-title{
+    font-family:var(--font-esthetic,Georgia,serif);
+    font-size:1.65rem !important;
+    line-height:1.35;
+}
+
+/* Nama mempelai tetap menjadi teks yang lebih besar. */
+.person-name{
+    font-size:2rem !important;
+}
+
 @media(max-width:575.98px){
     .person-photo{
         width:155px;
@@ -432,6 +456,18 @@ html[data-bs-theme="dark"] .story-video-overlay{
 
     .story-page-content{
         padding:9vh 22px 10vh
+    }
+
+    .font-arabic{
+        font-size:1.55rem !important;
+    }
+
+    .greeting-title{
+        font-size:1.65rem !important;
+    }
+
+    .person-name{
+        font-size:2rem !important;
     }
 }
 </style>
@@ -631,11 +667,13 @@ html[data-bs-theme="dark"] .story-video-overlay{
 
             <section class="section-paper text-center" id="bride">
 
-                <h2 class="font-arabic py-4 m-0" style="font-size:2rem">
+                <!-- BISMILLAH: 1.55rem -->
+                <h2 class="font-arabic py-4 m-0">
                     بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
                 </h2>
 
-                <h2 class="font-esthetic py-3 m-0" style="font-size:2rem">
+                <!-- ASSALAMUALAIKUM: 1.65rem -->
+                <h2 class="greeting-title py-3 m-0">
                     Assalamualaikum Warahmatullahi Wabarakatuh
                 </h2>
 
@@ -660,7 +698,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
 
                         <h2
                             class="font-esthetic person-name mt-4 mb-1"
-                            style="font-size:2rem"
                         >
                             Ihsan Fauzi Noor, S.T.
                         </h2>
@@ -699,7 +736,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
 
                         <h2
                             class="font-esthetic person-name mt-4 mb-1"
-                            style="font-size:2rem"
                         >
                             Syarifah Umaimah, S.T.
                         </h2>
@@ -1196,17 +1232,13 @@ html[data-bs-theme="dark"] .story-video-overlay{
                         Terima kasih atas perhatian dan doa restu Anda, yang menjadi kebahagiaan serta kehormatan besar bagi kami.
                     </p>
 
-                    <h2
-                        class="font-esthetic"
-                        style="font-size:2rem"
-                    >
+                    <!-- WASSALAMUALAIKUM: 1.65rem -->
+                    <h2 class="greeting-title">
                         Wassalamualaikum Warahmatullahi Wabarakatuh
                     </h2>
 
-                    <h2
-                        class="font-arabic pt-3"
-                        style="font-size:2rem"
-                    >
+                    <!-- ALHAMDULILLAH: 1.55rem, SAMA DENGAN BISMILLAH -->
+                    <h2 class="font-arabic pt-3">
                         اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ
                     </h2>
 
@@ -1658,10 +1690,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
     }
 
 
-    /*
-     * Dengarkan event dari kedua kemungkinan target:
-     * window dan document.
-     */
     window.addEventListener(
         'undangan.progress.done',
         finishLoading
@@ -1673,9 +1701,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
     );
 
 
-    /*
-     * Pantau perubahan progress bar.
-     */
     const observer = new MutationObserver(function(){
 
         checkProgress();
@@ -1716,10 +1741,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
     }
 
 
-    /*
-     * Fallback tambahan.
-     * Setiap 200ms cek apakah loading sudah 100%.
-     */
     const timer = setInterval(function(){
 
         checkProgress();
@@ -1739,9 +1760,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
     },200);
 
 
-    /*
-     * Cek sekali saat script dijalankan.
-     */
     checkProgress();
 
 })();
