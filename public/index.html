@@ -1761,5 +1761,73 @@ html[data-bs-theme="dark"] .story-video-overlay{
 })();
 </script>
 
+
+<!--
+    GIF COMMENT DISABLED
+    --------------------
+    Fitur GIF/Tenor pada balasan komentar disembunyikan.
+    Kolom ucapan, reply, edit, delete, dan like tetap digunakan.
+-->
+<style id="disable-comment-gif">
+    [id*="gif" i],
+    [class*="gif" i],
+    [data-gif],
+    [data-tenor],
+    iframe[src*="tenor.com" i],
+    iframe[src*="giphy.com" i] {
+        display: none !important;
+    }
+</style>
+
+<script>
+(function () {
+    function removeGifElements(root) {
+        if (!root || !root.querySelectorAll) return;
+
+        const selectors = [
+            '[id*="gif" i]',
+            '[class*="gif" i]',
+            '[data-gif]',
+            '[data-tenor]',
+            'iframe[src*="tenor.com" i]',
+            'iframe[src*="giphy.com" i]'
+        ];
+
+        root.querySelectorAll(selectors.join(',')).forEach(function (el) {
+            el.remove();
+        });
+
+        root.querySelectorAll('*').forEach(function (el) {
+            const text = (el.textContent || '').trim();
+            if (
+                text === 'Search for a GIF on Tenor' ||
+                text.includes('Search for a GIF on Tenor')
+            ) {
+                el.remove();
+            }
+        });
+    }
+
+    function clean() {
+        removeGifElements(document.body);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', clean);
+    } else {
+        clean();
+    }
+
+    const observer = new MutationObserver(function () {
+        clean();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
+})();
+</script>
+
 </body>
 </html>
