@@ -61,8 +61,18 @@ body{
 main{
     position:relative;
     isolation:isolate;
-    background:var(--cream);
-    overflow:hidden
+    overflow:hidden;
+    background:
+        linear-gradient(
+            180deg,
+            #f5dfc4 0%,
+            #f2d4bd 20%,
+            #e8a0a7 43%,
+            #dc818d 58%,
+            #c96870 73%,
+            #9b4c42 88%,
+            #7f3b2f 100%
+        );
 }
 
 main::before{
@@ -75,7 +85,7 @@ main::before{
     height:760px;
     background:url('./assets/images/placeholder.webp') center top/cover no-repeat;
     filter:blur(7px);
-    opacity:.22;
+    opacity:.30;
     transform:scale(1.03);
     pointer-events:none
 }
@@ -85,16 +95,19 @@ main::after{
     position:absolute;
     z-index:0;
     inset:0;
-    background:linear-gradient(
-        to bottom,
-        rgba(255,250,246,.18) 0,
-        rgba(255,250,246,.38) 18%,
-        rgba(255,250,246,.72) 38%,
-        rgba(248,238,231,.94) 58%,
-        rgba(248,238,231,1) 78%,
-        rgba(248,238,231,1) 100%
-    );
-    pointer-events:none
+    pointer-events:none;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(245,223,196,.22) 0%,
+            rgba(245,223,196,.34) 12%,
+            rgba(242,212,189,.38) 24%,
+            rgba(232,160,167,.30) 38%,
+            rgba(220,129,141,.28) 52%,
+            rgba(201,104,112,.34) 68%,
+            rgba(155,76,66,.42) 84%,
+            rgba(127,59,47,.50) 100%
+        );
 }
 
 main > *{
@@ -238,9 +251,6 @@ main .section-paper{
     background:transparent !important
 }
 
-main .svg-wrapper{
-    background:transparent
-}
 
 .section-card{
     background:rgba(255,255,255,.56);
@@ -763,20 +773,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
                 </div>
 
             </section>
-
-
-            <div class="svg-wrapper">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 1440 320"
-                    class="color-theme-svg no-gap-bottom"
-                >
-                    <path
-                        fill="currentColor"
-                        d="M0 160l48-16c48-16 144-48 240-37.3 96 10.3 192 64.3 288 58.6C672 160 768 96 864 96s192 64 288 58.7c96-5.7 192-79.7 240-117.4L1440 0v320H0z"
-                    ></path>
-                </svg>
-            </div>
 
 
             <section class="section-paper text-center" id="bride">
