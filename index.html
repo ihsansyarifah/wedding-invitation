@@ -61,18 +61,8 @@ body{
 main{
     position:relative;
     isolation:isolate;
-    overflow:hidden;
-    background:
-        linear-gradient(
-            180deg,
-            #f5dfc4 0%,
-            #f4ddc7 18%,
-            #f2d4bd 36%,
-            #edc0bd 52%,
-            #e8a0a7 68%,
-            #df8d9a 84%,
-            #dc818d 100%
-        );
+    background:var(--cream);
+    overflow:hidden
 }
 
 main::before{
@@ -85,7 +75,7 @@ main::before{
     height:760px;
     background:url('./assets/images/placeholder.webp') center top/cover no-repeat;
     filter:blur(7px);
-    opacity:.30;
+    opacity:.22;
     transform:scale(1.03);
     pointer-events:none
 }
@@ -95,18 +85,16 @@ main::after{
     position:absolute;
     z-index:0;
     inset:0;
-    pointer-events:none;
-    background:
-        linear-gradient(
-            180deg,
-            rgba(245,223,196,.20) 0%,
-            rgba(245,223,196,.28) 14%,
-            rgba(242,212,189,.30) 30%,
-            rgba(237,192,189,.26) 48%,
-            rgba(232,160,167,.24) 66%,
-            rgba(223,141,154,.26) 84%,
-            rgba(220,129,141,.30) 100%
-        );
+    background:linear-gradient(
+        to bottom,
+        rgba(255,250,246,.18) 0,
+        rgba(255,250,246,.38) 18%,
+        rgba(255,250,246,.72) 38%,
+        rgba(248,238,231,.94) 58%,
+        rgba(248,238,231,1) 78%,
+        rgba(248,238,231,1) 100%
+    );
+    pointer-events:none
 }
 
 main > *{
@@ -536,6 +524,66 @@ html[data-bs-theme="dark"] .story-video-overlay{
     display:flex;
     justify-content:center;
     margin-top:4rem
+}
+
+/* ==========================================
+   KOMENTAR — KOTAK SCROLL INTERNAL
+   ========================================== */
+
+.comments-box{
+    max-height:420px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    margin-top:.5rem;
+    padding:.75rem .65rem .35rem;
+    border:1px solid rgba(185,148,98,.22);
+    border-radius:1.5rem;
+    background:rgba(255,255,255,.34);
+    box-shadow:0 12px 30px rgba(91,62,49,.06);
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+}
+
+.comments-box #comments{
+    padding-top:.25rem!important;
+    padding-bottom:.25rem!important;
+}
+
+.comments-box #pagination{
+    position:sticky;
+    bottom:0;
+    z-index:2;
+    margin-top:.35rem!important;
+    padding:.55rem .15rem .25rem;
+    background:linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,250,246,.92) 35%,
+        rgba(255,250,246,.98)
+    );
+}
+
+html[data-bs-theme="dark"] .comments-box{
+    background:rgba(255,255,255,.045);
+    border-color:rgba(185,148,98,.18);
+}
+
+html[data-bs-theme="dark"] .comments-box #pagination{
+    background:linear-gradient(
+        to bottom,
+        rgba(33,27,25,0),
+        rgba(33,27,25,.92) 35%,
+        rgba(33,27,25,.98)
+    );
+}
+
+@media(max-width:575.98px){
+    .comments-box{
+        max-height:400px;
+        border-radius:1.35rem;
+        padding:.65rem .55rem .3rem;
+    }
 }
 
 /* ==========================================
@@ -1311,16 +1359,22 @@ html[data-bs-theme="dark"] .story-video-overlay{
                     </div>
 
 
-                    <div
-                        class="py-3"
-                        id="comments"
-                        data-loading="false"
-                    ></div>
+                    <!-- Hanya daftar komentar + pagination yang scroll di dalam kotak. -->
+                    <div class="comments-box" aria-label="Daftar ucapan dan doa">
 
-                    <nav
-                        class="d-flex d-none justify-content-center mt-1"
-                        id="pagination"
-                    ></nav>
+                        <div
+                            class="py-3"
+                            id="comments"
+                            data-loading="false"
+                        ></div>
+
+                        <nav
+                            class="d-flex d-none justify-content-center mt-1"
+                            id="pagination"
+                            aria-label="Navigasi halaman komentar"
+                        ></nav>
+
+                    </div>
 
                 </div>
 
@@ -1659,6 +1713,38 @@ html[data-bs-theme="dark"] .story-video-overlay{
 
 </div>
 
+
+<!-- KOMENTAR: 5 KOMENTAR UTAMA PER HALAMAN -->
+<script>
+(function(){
+
+    let configured = false;
+
+    document.addEventListener(
+        'undangan.session',
+        function(){
+
+            if(configured){
+                return;
+            }
+
+            if(
+                window.undangan &&
+                window.undangan.comment &&
+                window.undangan.comment.pagination &&
+                typeof window.undangan.comment.pagination.setPer === 'function'
+            ){
+
+                window.undangan.comment.pagination.setPer(5);
+                configured = true;
+
+            }
+
+        }
+    );
+
+})();
+</script>
 
 <script>
 (function(){
