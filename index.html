@@ -643,19 +643,20 @@ html[data-bs-theme="dark"] .comments-box #pagination{
 }
 
 
+
 /* NAVBAR BAWAH — INDIKATOR BAGIAN AKTIF */
 #navbar-menu .nav-link{
-    opacity:.62;
+    opacity:.58;
     color:inherit;
     transition:opacity .2s ease, color .2s ease;
 }
 #navbar-menu .nav-link.is-current{
     opacity:1;
-    color:#6b4a3c !important;
+    color:#000 !important;
     font-weight:600;
 }
 html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
-    color:#f8eee7 !important;
+    color:#fff !important;
 }
 
 </style>
@@ -1493,53 +1494,89 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
 <!-- NAVBAR ACTIVE STATE -->
 <script>
 (function(){
-    function setupNavbarActive(){
-        const scroller = document.querySelector('#root main');
-        const nav = document.getElementById('navbar-menu');
-        if(!scroller || !nav) return;
+    function initNavbarIndicator(){
 
-        const links = Array.from(nav.querySelectorAll('a.nav-link[href^="#"]'));
+        const nav = document.getElementById('navbar-menu');
+        if(!nav) return;
+
+        const links = Array.from(
+            nav.querySelectorAll('a.nav-link[href^="#"]')
+        );
+
         const sections = links.map(function(link){
-            return document.getElementById(link.getAttribute('href').slice(1));
+            return document.getElementById(
+                link.getAttribute('href').substring(1)
+            );
         }).filter(Boolean);
 
         if(!sections.length) return;
 
-        function update(){
-            const marker = scroller.scrollTop + scroller.clientHeight * 0.35;
+        function updateActive(){
+
+            const marker = window.innerHeight * 0.35;
             let active = sections[0];
 
-            sections.forEach(function(section){
-                if(section.offsetTop <= marker) active = section;
-            });
+            for(let i = 0; i < sections.length; i++){
+
+                const rect = sections[i].getBoundingClientRect();
+
+                if(rect.top <= marker && rect.bottom > marker){
+                    active = sections[i];
+                    break;
+                }
+
+                if(rect.top <= marker){
+                    active = sections[i];
+                }
+            }
 
             links.forEach(function(link){
-                const activeNow =
+
+                const isActive =
                     link.getAttribute('href') === '#' + active.id;
-                link.classList.toggle('is-current', activeNow);
-                if(activeNow) link.setAttribute('aria-current','page');
-                else link.removeAttribute('aria-current');
+
+                link.classList.toggle('is-current', isActive);
+
+                if(isActive){
+                    link.setAttribute('aria-current', 'page');
+                }else{
+                    link.removeAttribute('aria-current');
+                }
             });
         }
 
-        scroller.addEventListener('scroll', update, {passive:true});
-        window.addEventListener('resize', update, {passive:true});
+        let ticking = false;
+
+        window.addEventListener('scroll', function(){
+
+            if(ticking) return;
+
+            ticking = true;
+
+            window.requestAnimationFrame(function(){
+                updateActive();
+                ticking = false;
+            });
+
+        }, {passive:true});
+
+        window.addEventListener('resize', updateActive, {passive:true});
 
         links.forEach(function(link){
             link.addEventListener('click', function(){
-                setTimeout(update, 50);
-                setTimeout(update, 400);
-                setTimeout(update, 800);
+                setTimeout(updateActive, 50);
+                setTimeout(updateActive, 300);
+                setTimeout(updateActive, 700);
             });
         });
 
-        update();
+        updateActive();
     }
 
     if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', setupNavbarActive);
+        document.addEventListener('DOMContentLoaded', initNavbarIndicator);
     }else{
-        setupNavbarActive();
+        initNavbarIndicator();
     }
 })();
 </script>
