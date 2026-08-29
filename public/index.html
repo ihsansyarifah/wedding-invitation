@@ -641,6 +641,40 @@ html[data-bs-theme="dark"] .comments-box #pagination{
         font-size:2rem !important;
     }
 }
+
+/* ==========================================
+   NAVBAR BAWAH — INDIKATOR BAGIAN AKTIF
+   ========================================== */
+
+/*
+ * Bootstrap ScrollSpy tetap menentukan link .active.
+ * Link aktif hanya dibuat sedikit lebih gelap agar
+ * pengguna tahu sedang berada di bagian mana.
+ */
+#navbar-menu .nav-link{
+    color:inherit;
+    opacity:.62;
+    transition:opacity .2s ease, color .2s ease, transform .2s ease;
+}
+
+#navbar-menu .nav-link.active{
+    opacity:1;
+    color:#6b4a3c;
+    font-weight:600;
+}
+
+#navbar-menu .nav-link.active i{
+    opacity:1;
+}
+
+#navbar-menu .nav-link:not(.active) i{
+    opacity:.78;
+}
+
+html[data-bs-theme="dark"] #navbar-menu .nav-link.active{
+    color:#f8eee7;
+}
+
 </style>
 </head>
 
@@ -750,6 +784,7 @@ html[data-bs-theme="dark"] .comments-box #pagination{
             data-bs-spy="scroll"
             data-bs-target="#navbar-menu"
             data-bs-root-margin="25% 0% 0% 0%"
+            data-bs-threshold="0,0.15,0.5,1"
             data-bs-smooth-scroll="true"
             tabindex="0"
         >
@@ -1471,6 +1506,78 @@ html[data-bs-theme="dark"] .comments-box #pagination{
 
 </div>
 
+
+
+<!-- NAVBAR ACTIVE STATE -->
+<script>
+(function(){
+
+    function initNavbarSpy(){
+
+        const main = document.querySelector('#root main');
+        const nav = document.getElementById('navbar-menu');
+
+        if(!main || !nav){
+            return;
+        }
+
+        const links = Array.from(
+            nav.querySelectorAll('a.nav-link[href^="#"]')
+        );
+
+        const sections = links
+            .map(function(link){
+                const id = link.getAttribute('href').slice(1);
+                return document.getElementById(id);
+            })
+            .filter(Boolean);
+
+        if(!sections.length){
+            return;
+        }
+
+        function updateActive(){
+
+            const scrollTop = main.scrollTop;
+            const marker = scrollTop + (main.clientHeight * 0.30);
+
+            let current = sections[0];
+
+            sections.forEach(function(section){
+                if(section.offsetTop <= marker){
+                    current = section;
+                }
+            });
+
+            links.forEach(function(link){
+                const id = link.getAttribute('href').slice(1);
+                const active = current && current.id === id;
+
+                link.classList.toggle('active', active);
+
+                if(active){
+                    link.setAttribute('aria-current','page');
+                }else{
+                    link.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        main.addEventListener('scroll', updateActive, {passive:true});
+        window.addEventListener('resize', updateActive, {passive:true});
+
+        updateActive();
+
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', initNavbarSpy);
+    }else{
+        initNavbarSpy();
+    }
+
+})();
+</script>
 
 <div class="floating-controls">
 
