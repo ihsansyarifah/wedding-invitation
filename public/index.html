@@ -7,8 +7,8 @@
 <meta name="description" content="Undangan pernikahan Ihsan dan Syarifah.">
 <meta name="theme-color" content="#fffaf7">
 
-<link rel="icon" type="image/png" sizes="192x192" href="./assets/images/icon-is-192x192.png">
-<link rel="apple-touch-icon" sizes="192x192" href="./assets/images/icon-is-192x192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./assets/images/icon-is-192x192.png?v=20260831">
+<link rel="apple-touch-icon" sizes="192x192" href="./assets/images/icon-is-192x192.png?v=20260831">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +73,7 @@ main::before{
     left:-3%;
     width:106%;
     height:760px;
-    background:url('./assets/images/placeholder.webp') center top/cover no-repeat;
+    background:url('./assets/images/placeholder.webp?v=20260831') center top/cover no-repeat;
     filter:blur(7px);
     opacity:.22;
     transform:scale(1.03);
@@ -348,7 +348,7 @@ html[data-bs-theme="dark"] .gift-card{
     position:absolute;
     inset:-14px;
     z-index:0;
-    background:url('./assets/images/placeholder.webp') center/cover no-repeat;
+    background:url('./assets/images/placeholder.webp?v=20260831') center/cover no-repeat;
     filter:blur(7px);
     transform:scale(1.04);
     opacity:.72;
@@ -363,7 +363,7 @@ html[data-bs-theme="dark"] .gift-card{
 html[data-bs-theme="dark"] #welcome{
     background:
         linear-gradient(rgba(33,27,25,.5),rgba(33,27,25,.82)),
-        url('./assets/images/placeholder.webp') center/cover no-repeat
+        url('./assets/images/placeholder.webp?v=20260831') center/cover no-repeat
 }
 
 .welcome-card{
@@ -660,6 +660,31 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
 }
 
 </style>
+<script>
+(function(){
+    const ASSET_VERSION = '20260831';
+
+    function versionAssetUrl(url){
+        if(typeof url !== 'string' || !url.startsWith('./assets/')) return url;
+        if(/[?&]v=/.test(url)) return url;
+        return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'v=' + ASSET_VERSION;
+    }
+
+    document.querySelectorAll('img[src],source[src],video[src],audio[src],link[href],script[src]').forEach(function(el){
+        const attr = el.hasAttribute('src') ? 'src' : 'href';
+        const value = el.getAttribute(attr);
+        const next = versionAssetUrl(value);
+        if(next !== value) el.setAttribute(attr, next);
+    });
+
+    document.querySelectorAll('[data-src]').forEach(function(el){
+        const value = el.getAttribute('data-src');
+        const next = versionAssetUrl(value);
+        if(next !== value) el.setAttribute('data-src', next);
+    });
+})();
+</script>
+
 </head>
 
 <body
@@ -671,7 +696,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
 >
 
 <div id="loading" class="loading-page d-flex flex-column justify-content-center align-items-center text-center">
-    <img src="./assets/images/logo-is.png" alt="Logo Ihsan &amp; Syarifah" class="loading-logo">
+    <img src="./assets/images/logo-is.png?v=20260831" alt="Logo Ihsan &amp; Syarifah" class="loading-logo">
 
     <div class="progress width-loading" role="progressbar" aria-label="Loading">
         <div id="progress-bar" class="progress-bar" style="width:0%"></div>
@@ -685,7 +710,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     <div class="welcome-card">
 
         <img
-            src="./assets/images/logo-is.png"
+            src="./assets/images/logo-is.png?v=20260831"
             alt="Logo I &amp; S"
             class="welcome-logo"
         >
@@ -728,7 +753,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
         <div class="position-relative desktop-cover d-flex justify-content-center align-items-center vh-100">
 
             <img
-                src="./assets/images/placeholder.webp"
+                src="./assets/images/placeholder.webp?v=20260831"
                 alt="Ihsan &amp; Syarifah"
                 class="desktop-cover-photo"
             >
@@ -736,7 +761,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
             <div class="desktop-cover-content">
 
                 <img
-                    src="./assets/images/logo-is.png"
+                    src="./assets/images/logo-is.png?v=20260831"
                     alt="Logo I &amp; S"
                     class="is-brand"
                 >
@@ -777,7 +802,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
             >
 
                 <img
-                    src="./assets/images/placeholder.webp"
+                    src="./assets/images/placeholder.webp?v=20260831"
                     alt="Ihsan &amp; Syarifah"
                     class="position-absolute opacity-25 top-50 start-50 translate-middle bg-cover-home"
                 >
@@ -785,7 +810,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
                 <div class="position-relative text-center px-3 py-5">
 
                     <img
-                        src="./assets/images/logo-is.png"
+                        src="./assets/images/logo-is.png?v=20260831"
                         alt="Logo I &amp; S"
                         class="cover-monogram"
                     >
@@ -807,7 +832,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
                     </p>
 
                     <img
-                        src="./assets/images/placeholder.webp"
+                        src="./assets/images/placeholder.webp?v=20260831"
                         alt="Foto Ihsan &amp; Syarifah"
                         onclick="undangan.guest.modal(this)"
                         class="couple-photo rounded-circle cursor-pointer"
@@ -864,7 +889,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
                     >
 
                         <img
-                            src="./assets/images/cowo.webp"
+                            src="./assets/images/cowo.webp?v=20260831"
                             alt="Ihsan Fauzi Noor"
                             onclick="undangan.guest.modal(this)"
                             class="person-photo rounded-circle mx-auto d-block cursor-pointer"
@@ -902,7 +927,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
                     >
 
                         <img
-                            src="./assets/images/cewe.webp"
+                            src="./assets/images/cewe.webp?v=20260831"
                             alt="Syarifah Umaimah"
                             onclick="undangan.guest.modal(this)"
                             class="person-photo rounded-circle mx-auto d-block cursor-pointer"
@@ -972,7 +997,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
                     <div class="section-card p-4">
 
                         <img
-                            src="./assets/images/logo-is.png"
+                            src="./assets/images/logo-is.png?v=20260831"
                             alt="I &amp; S"
                             class="footer-mark"
                         >
@@ -1114,7 +1139,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
                         </small>
 
                         <img
-                            src="./assets/images/lokasi-akad-qrcode.png"
+                            src="./assets/images/lokasi-akad-qrcode.png?v=20260831"
                             alt="QR Code lokasi akad"
                             class="img-fluid rounded-3 shadow-sm mx-auto d-block"
                             style="width:180px;max-width:70%"
@@ -1403,7 +1428,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
                 <div class="container text-center">
 
                     <img
-                        src="./assets/images/logo-is.png"
+                        src="./assets/images/logo-is.png?v=20260831"
                         alt="Logo I &amp; S"
                         class="footer-mark"
                     >
@@ -1634,7 +1659,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
 
                     <img
                         id="show-modal-image"
-                        src="./assets/images/placeholder.webp"
+                        src="./assets/images/placeholder.webp?v=20260831"
                         alt="Preview"
                         class="img-fluid rounded-3 d-block mx-auto"
                         style="max-height:82vh;object-fit:contain"
@@ -1691,7 +1716,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
             preload="metadata"
         >
             <source
-                src="./assets/video/kisah-kami.mp4"
+                src="./assets/video/kisah-kami.mp4?v=20260831"
                 type="video/mp4"
             >
         </video>
