@@ -685,23 +685,39 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
 })();
 </script>
 
-<style id="custom-background-only">
-html, body {
-    background: #F3E2CC !important;
+<!-- AUTO ASSET CACHE BUSTING -->
+<script>
+(function(){
+'use strict';
+var CACHE_VERSION=Date.now();
+
+function version(url){
+    if(!url || typeof url!=='string') return url;
+    if(url.indexOf('./assets/')!==0 || /[?&]v=/.test(url)) return url;
+    return url+(url.indexOf('?')===-1?'?':'&')+'v='+CACHE_VERSION;
 }
-body {
-    background: linear-gradient(
-        180deg,
-        #F3E2CC 0%,
-        #EBC5BE 48%,
-        #D98291 100%
-    ) !important;
-    background-attachment: scroll !important;
+
+function update(){
+    document.querySelectorAll(
+        'img[src],source[src],video[src],audio[src],iframe[src],link[href],script[src],[data-src]'
+    ).forEach(function(el){
+        ['src','href','data-src'].forEach(function(attr){
+            if(el.hasAttribute(attr)){
+                var oldUrl=el.getAttribute(attr), newUrl=version(oldUrl);
+                if(newUrl!==oldUrl) el.setAttribute(attr,newUrl);
+            }
+        });
+    });
 }
-main {
-    background: transparent !important;
+
+if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',update,{once:true});
+}else{
+    update();
 }
-</style>
+})();
+</script>
+<!-- END AUTO ASSET CACHE BUSTING -->
 
 </head>
 
@@ -983,24 +999,31 @@ main {
                         Allah Subhanahu Wa Ta'ala berfirman
                     </h2>
 
-                    <div class="section-card quote-card mt-4 p-3">
-                        <p class="p-1 mb-2">
-                            Dan segala sesuatu Kami ciptakan berpasang-pasangan agar kamu mengingat (kebesaran Allah).
+                    <div class="section-card quote-card mt-4 p-4">
+
+                        <div
+                            class="font-arabic"
+                            dir="rtl"
+                            lang="ar"
+                            style="font-size:1.7rem !important; line-height:2.1; margin-bottom:1.5rem;"
+                        >
+                            وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ
+                        </div>
+
+                        <p class="mb-2" style="font-size:.82rem;letter-spacing:.08em;">
+                            Terjemahan
+                        </p>
+
+                        <p class="p-1 mb-3" style="line-height:1.8">
+                            Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.
+                            <br><br>
+                            Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.
                         </p>
 
                         <p class="m-0 text-secondary">
-                            QS. Adh-Dhariyat: 49
-                        </p>
-                    </div>
-
-                    <div class="section-card quote-card mt-4 p-3">
-                        <p class="p-1 mb-2">
-                            dan sesungguhnya Dialah yang menciptakan pasangan laki-laki dan perempuan,
+                            QS. Ar-Rum: 21
                         </p>
 
-                        <p class="m-0 text-secondary">
-                            QS. An-Najm: 45
-                        </p>
                     </div>
 
                 </div>
@@ -2098,7 +2121,7 @@ main {
             finished ||
             (loading && loading.style.display === 'none')
         ){
-
+html
             clearInterval(timer);
             observer.disconnect();
 
