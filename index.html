@@ -719,6 +719,41 @@ if(document.readyState==='loading'){
 </script>
 <!-- END AUTO ASSET CACHE BUSTING -->
 
+
+<!-- AUTO VIDEO CACHE BUSTING -->
+<script>
+(function () {
+    'use strict';
+
+    var VIDEO_CACHE_VERSION = Date.now();
+
+    function refreshVideos() {
+        document.querySelectorAll('video source[src]').forEach(function (source) {
+            var url = source.getAttribute('src');
+            if (!url || url.indexOf('./assets/video/') !== 0) return;
+
+            url = url.replace(/[?&]v=[^&]*/, '');
+            source.setAttribute(
+                'src',
+                url + (url.indexOf('?') === -1 ? '?' : '&') +
+                'v=' + VIDEO_CACHE_VERSION
+            );
+        });
+
+        document.querySelectorAll('video').forEach(function (video) {
+            try { video.load(); } catch (e) {}
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', refreshVideos, { once: true });
+    } else {
+        refreshVideos();
+    }
+})();
+</script>
+<!-- END AUTO VIDEO CACHE BUSTING -->
+
 </head>
 
 <body
@@ -1006,18 +1041,14 @@ if(document.readyState==='loading'){
                             dir="rtl"
                             lang="ar"
                             style="font-size:1.7rem !important; line-height:2.1; margin-bottom:1.5rem;"
-                        >
-                            وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ
-                        </div>
+                        >وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</div>
 
                         <p class="mb-2" style="font-size:.82rem;letter-spacing:.08em;">
                             Terjemahan
                         </p>
 
                         <p class="p-1 mb-3" style="line-height:1.8">
-                            Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.
-                            <br><br>
-                            Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.
+                            Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.<br><br>Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.
                         </p>
 
                         <p class="m-0 text-secondary">
@@ -1757,7 +1788,7 @@ if(document.readyState==='loading'){
             preload="metadata"
         >
             <source
-                src="./assets/video/kisah-kami.mp4?v=20260831"
+                src="./assets/video/kisah-kami.mp4"
                 type="video/mp4"
             >
         </video>
