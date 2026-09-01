@@ -29,6 +29,8 @@
     --gold:#b99462;
     --green:#7c8764;
     --pink:#dba8a1;
+    --vanilla:#F4E0C7;
+    --flamingo:#D98A96;
     --shadow:0 16px 45px rgba(91,62,49,.12)
 }
 
@@ -87,12 +89,12 @@ main::after{
     inset:0;
     background:linear-gradient(
         to bottom,
-        rgba(255,250,246,.18) 0,
-        rgba(255,250,246,.38) 18%,
-        rgba(255,250,246,.72) 38%,
-        rgba(248,238,231,.94) 58%,
-        rgba(248,238,231,1) 78%,
-        rgba(248,238,231,1) 100%
+        rgba(244,224,199,.10) 0%,
+        rgba(244,224,199,.34) 20%,
+        rgba(244,224,199,.66) 40%,
+        rgba(217,138,150,.50) 65%,
+        rgba(217,138,150,.68) 82%,
+        rgba(217,138,150,.82) 100%
     );
     pointer-events:none
 }
@@ -100,6 +102,89 @@ main::after{
 main > *{
     position:relative;
     z-index:1
+}
+
+
+/* =========================================================
+   AKSEN LOVE + BUNGA DI BACKGROUND
+   Ornamen dibuat ringan agar tetap elegan dan tidak menutup teks.
+   ========================================================= */
+.floral-bg{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+}
+
+.floral-bg .decor-heart,
+.floral-bg .decor-flower{
+    position:absolute;
+    display:block;
+    user-select:none;
+    pointer-events:none;
+    line-height:1;
+    font-family:Georgia,serif;
+    font-weight:400;
+}
+
+.floral-bg .decor-heart{
+    color:rgba(201,116,129,.34);
+    text-shadow:0 2px 8px rgba(107,74,60,.05);
+}
+
+.floral-bg .decor-flower{
+    color:rgba(184,148,98,.34);
+    text-shadow:0 2px 8px rgba(107,74,60,.04);
+}
+
+.decor-heart.h1{top:7%;left:7%;font-size:2rem;transform:rotate(-13deg)}
+.decor-heart.h2{top:23%;right:8%;font-size:1.35rem;transform:rotate(14deg)}
+.decor-heart.h3{top:49%;left:5%;font-size:1.55rem;transform:rotate(-8deg)}
+.decor-heart.h4{top:69%;right:6%;font-size:2.1rem;transform:rotate(12deg)}
+.decor-heart.h5{top:88%;left:13%;font-size:1.25rem;transform:rotate(-15deg)}
+
+.decor-flower.f1{top:12%;right:12%;font-size:2.2rem;transform:rotate(8deg)}
+.decor-flower.f2{top:34%;left:9%;font-size:1.65rem;transform:rotate(-12deg)}
+.decor-flower.f3{top:57%;right:11%;font-size:1.9rem;transform:rotate(10deg)}
+.decor-flower.f4{top:76%;left:8%;font-size:2rem;transform:rotate(-7deg)}
+.decor-flower.f5{top:94%;right:15%;font-size:1.45rem;transform:rotate(15deg)}
+
+/* Bunga kecil yang menyatu dengan area kartu */
+.section-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.section-card::before{
+    content:'♡';
+    position:absolute;
+    top:10px;
+    right:16px;
+    color:rgba(201,116,129,.24);
+    font:400 1.35rem/1 Georgia,serif;
+    transform:rotate(12deg);
+    pointer-events:none;
+}
+
+.section-card::after{
+    content:'✿';
+    position:absolute;
+    bottom:9px;
+    left:13px;
+    color:rgba(184,148,98,.22);
+    font:400 1.15rem/1 Georgia,serif;
+    transform:rotate(-12deg);
+    pointer-events:none;
+}
+
+@media(max-width:575.98px){
+    .floral-bg .decor-heart{opacity:.8}
+    .floral-bg .decor-flower{opacity:.8}
+    .decor-heart.h1{left:4%;font-size:1.65rem}
+    .decor-heart.h4{right:3%;font-size:1.75rem}
+    .decor-flower.f1{right:5%;font-size:1.8rem}
+    .decor-flower.f3{right:4%;font-size:1.55rem}
 }
 
 html[data-bs-theme="dark"] main{
@@ -866,6 +951,20 @@ if(document.readyState==='loading'){
             tabindex="0"
         >
 
+            <div class="floral-bg" aria-hidden="true">
+                <span class="decor-heart h1">♡</span>
+                <span class="decor-heart h2">♡</span>
+                <span class="decor-heart h3">♡</span>
+                <span class="decor-heart h4">♡</span>
+                <span class="decor-heart h5">♡</span>
+
+                <span class="decor-flower f1">✿</span>
+                <span class="decor-flower f2">❀</span>
+                <span class="decor-flower f3">✿</span>
+                <span class="decor-flower f4">❀</span>
+                <span class="decor-flower f5">✿</span>
+            </div>
+
             <section
                 id="home"
                 class="section-soft position-relative overflow-hidden p-0 m-0"
@@ -1028,14 +1127,7 @@ if(document.readyState==='loading'){
 
                 <div class="container text-center">
 
-                    <h2
-                        class="font-esthetic pt-3 pb-1 m-0"
-                        style="font-size:2rem"
-                    >
-                        Allah Subhanahu Wa Ta'ala berfirman
-                    </h2>
-
-                    <div class="section-card quote-card mt-4 p-4">
+                    <div class="section-card quote-card mt-2 p-4">
 
                         <div
                             class="font-arabic"
@@ -1048,7 +1140,9 @@ if(document.readyState==='loading'){
                             Terjemahan
                         </p>
 
-                        <p class="p-1 mb-3" style="line-height:1.8">Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.<br><br>Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.</p>
+                        <p class="p-1 mb-3" style="line-height:1.8">
+                            Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.<br><br>Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.
+                        </p>
 
                         <p class="m-0 text-secondary">
                             QS. Ar-Rum: 21
