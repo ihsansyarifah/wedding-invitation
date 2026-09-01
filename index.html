@@ -7,13 +7,13 @@
 <meta name="description" content="Undangan pernikahan Ihsan dan Syarifah.">
 <meta name="theme-color" content="#fffaf7">
 
-<link rel="icon" type="image/png" sizes="192x192" href="./assets/images/icon-is-192x192.png?v=20260831">
-<link rel="apple-touch-icon" sizes="192x192" href="./assets/images/icon-is-192x192.png?v=20260831">
+<link rel="icon" type="image/png" sizes="192x192" href="./assets/images/icon-is-192x192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="./assets/images/icon-is-192x192.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Lateef:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="./css/guest.css">
@@ -73,7 +73,7 @@ main::before{
     left:-3%;
     width:106%;
     height:760px;
-    background:url('./assets/images/placeholder.webp?v=20260831') center top/cover no-repeat;
+    background:url('./assets/images/placeholder.webp') center top/cover no-repeat;
     filter:blur(7px);
     opacity:.22;
     transform:scale(1.03);
@@ -87,12 +87,12 @@ main::after{
     inset:0;
     background:linear-gradient(
         to bottom,
-        rgba(244,224,199,.12) 0%,
-        rgba(244,224,199,.35) 20%,
-        rgba(244,224,199,.68) 40%,
-        rgba(230,170,170,.58) 65%,
-        rgba(222,139,150,.72) 82%,
-        rgba(222,139,150,.85) 100%
+        rgba(255,250,246,.18) 0,
+        rgba(255,250,246,.38) 18%,
+        rgba(255,250,246,.72) 38%,
+        rgba(248,238,231,.94) 58%,
+        rgba(248,238,231,1) 78%,
+        rgba(248,238,231,1) 100%
     );
     pointer-events:none
 }
@@ -348,7 +348,7 @@ html[data-bs-theme="dark"] .gift-card{
     position:absolute;
     inset:-14px;
     z-index:0;
-    background:url('./assets/images/placeholder.webp?v=20260831') center/cover no-repeat;
+    background:url('./assets/images/placeholder.webp') center/cover no-repeat;
     filter:blur(7px);
     transform:scale(1.04);
     opacity:.72;
@@ -363,7 +363,7 @@ html[data-bs-theme="dark"] .gift-card{
 html[data-bs-theme="dark"] #welcome{
     background:
         linear-gradient(rgba(33,27,25,.5),rgba(33,27,25,.82)),
-        url('./assets/images/placeholder.webp?v=20260831') center/cover no-repeat
+        url('./assets/images/placeholder.webp') center/cover no-repeat
 }
 
 .welcome-card{
@@ -527,74 +527,16 @@ html[data-bs-theme="dark"] .story-video-overlay{
 }
 
 /* ==========================================
-   KOMENTAR — KOTAK SCROLL INTERNAL
-   ========================================== */
-
-.comments-box{
-    max-height:420px;
-    overflow-y:auto;
-    overflow-x:hidden;
-    margin-top:.5rem;
-    padding:.75rem .65rem .35rem;
-    border:1px solid rgba(185,148,98,.22);
-    border-radius:1.5rem;
-    background:rgba(255,255,255,.34);
-    box-shadow:0 12px 30px rgba(91,62,49,.06);
-    overscroll-behavior:contain;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:thin;
-}
-
-.comments-box #comments{
-    padding-top:.25rem!important;
-    padding-bottom:.25rem!important;
-}
-
-.comments-box #pagination{
-    position:sticky;
-    bottom:0;
-    z-index:2;
-    margin-top:.35rem!important;
-    padding:.55rem .15rem .25rem;
-    background:linear-gradient(
-        to bottom,
-        rgba(255,255,255,0),
-        rgba(255,250,246,.92) 35%,
-        rgba(255,250,246,.98)
-    );
-}
-
-html[data-bs-theme="dark"] .comments-box{
-    background:rgba(255,255,255,.045);
-    border-color:rgba(185,148,98,.18);
-}
-
-html[data-bs-theme="dark"] .comments-box #pagination{
-    background:linear-gradient(
-        to bottom,
-        rgba(33,27,25,0),
-        rgba(33,27,25,.92) 35%,
-        rgba(33,27,25,.98)
-    );
-}
-
-@media(max-width:575.98px){
-    .comments-box{
-        max-height:400px;
-        border-radius:1.35rem;
-        padding:.65rem .55rem .3rem;
-    }
-}
-
-/* ==========================================
    TYPOGRAPHY REVISI
    ========================================== */
 
 /* Bismillah dan Alhamdulillah SAMA BESAR.
    Keduanya sedikit lebih kecil dari sebelumnya. */
 .font-arabic{
+    font-family:'Lateef',serif !important;
     font-size:1.55rem !important;
     line-height:1.7;
+    font-weight:400;
 }
 
 /* Assalamualaikum dan Wassalamualaikum
@@ -641,119 +583,7 @@ html[data-bs-theme="dark"] .comments-box #pagination{
         font-size:2rem !important;
     }
 }
-
-
-
-/* NAVBAR BAWAH — INDIKATOR BAGIAN AKTIF */
-#navbar-menu .nav-link{
-    opacity:.58;
-    color:inherit;
-    transition:opacity .2s ease, color .2s ease;
-}
-#navbar-menu .nav-link.is-current{
-    opacity:1;
-    color:#000 !important;
-    font-weight:600;
-}
-html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
-    color:#fff !important;
-}
-
 </style>
-<script>
-(function(){
-    const ASSET_VERSION = '20260831';
-
-    function versionAssetUrl(url){
-        if(typeof url !== 'string' || !url.startsWith('./assets/')) return url;
-        if(/[?&]v=/.test(url)) return url;
-        return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'v=' + ASSET_VERSION;
-    }
-
-    document.querySelectorAll('img[src],source[src],video[src],audio[src],link[href],script[src]').forEach(function(el){
-        const attr = el.hasAttribute('src') ? 'src' : 'href';
-        const value = el.getAttribute(attr);
-        const next = versionAssetUrl(value);
-        if(next !== value) el.setAttribute(attr, next);
-    });
-
-    document.querySelectorAll('[data-src]').forEach(function(el){
-        const value = el.getAttribute('data-src');
-        const next = versionAssetUrl(value);
-        if(next !== value) el.setAttribute('data-src', next);
-    });
-})();
-</script>
-
-<!-- AUTO ASSET CACHE BUSTING -->
-<script>
-(function(){
-'use strict';
-var CACHE_VERSION=Date.now();
-
-function version(url){
-    if(!url || typeof url!=='string') return url;
-    if(url.indexOf('./assets/')!==0 || /[?&]v=/.test(url)) return url;
-    return url+(url.indexOf('?')===-1?'?':'&')+'v='+CACHE_VERSION;
-}
-
-function update(){
-    document.querySelectorAll(
-        'img[src],source[src],video[src],audio[src],iframe[src],link[href],script[src],[data-src]'
-    ).forEach(function(el){
-        ['src','href','data-src'].forEach(function(attr){
-            if(el.hasAttribute(attr)){
-                var oldUrl=el.getAttribute(attr), newUrl=version(oldUrl);
-                if(newUrl!==oldUrl) el.setAttribute(attr,newUrl);
-            }
-        });
-    });
-}
-
-if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',update,{once:true});
-}else{
-    update();
-}
-})();
-</script>
-<!-- END AUTO ASSET CACHE BUSTING -->
-
-
-<!-- AUTO VIDEO CACHE BUSTING -->
-<script>
-(function () {
-    'use strict';
-
-    var VIDEO_CACHE_VERSION = Date.now();
-
-    function refreshVideos() {
-        document.querySelectorAll('video source[src]').forEach(function (source) {
-            var url = source.getAttribute('src');
-            if (!url || url.indexOf('./assets/video/') !== 0) return;
-
-            url = url.replace(/[?&]v=[^&]*/, '');
-            source.setAttribute(
-                'src',
-                url + (url.indexOf('?') === -1 ? '?' : '&') +
-                'v=' + VIDEO_CACHE_VERSION
-            );
-        });
-
-        document.querySelectorAll('video').forEach(function (video) {
-            try { video.load(); } catch (e) {}
-        });
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', refreshVideos, { once: true });
-    } else {
-        refreshVideos();
-    }
-})();
-</script>
-<!-- END AUTO VIDEO CACHE BUSTING -->
-
 </head>
 
 <body
@@ -765,7 +595,7 @@ if(document.readyState==='loading'){
 >
 
 <div id="loading" class="loading-page d-flex flex-column justify-content-center align-items-center text-center">
-    <img src="./assets/images/logo-is.png?v=20260831" alt="Logo Ihsan &amp; Syarifah" class="loading-logo">
+    <img src="./assets/images/logo-is.png" alt="Logo Ihsan &amp; Syarifah" class="loading-logo">
 
     <div class="progress width-loading" role="progressbar" aria-label="Loading">
         <div id="progress-bar" class="progress-bar" style="width:0%"></div>
@@ -779,7 +609,7 @@ if(document.readyState==='loading'){
     <div class="welcome-card">
 
         <img
-            src="./assets/images/logo-is.png?v=20260831"
+            src="./assets/images/logo-is.png"
             alt="Logo I &amp; S"
             class="welcome-logo"
         >
@@ -822,7 +652,7 @@ if(document.readyState==='loading'){
         <div class="position-relative desktop-cover d-flex justify-content-center align-items-center vh-100">
 
             <img
-                src="./assets/images/placeholder.webp?v=20260831"
+                src="./assets/images/placeholder.webp"
                 alt="Ihsan &amp; Syarifah"
                 class="desktop-cover-photo"
             >
@@ -830,7 +660,7 @@ if(document.readyState==='loading'){
             <div class="desktop-cover-content">
 
                 <img
-                    src="./assets/images/logo-is.png?v=20260831"
+                    src="./assets/images/logo-is.png"
                     alt="Logo I &amp; S"
                     class="is-brand"
                 >
@@ -861,6 +691,7 @@ if(document.readyState==='loading'){
         <main
             data-bs-spy="scroll"
             data-bs-target="#navbar-menu"
+            data-bs-root-margin="25% 0% 0% 0%"
             data-bs-smooth-scroll="true"
             tabindex="0"
         >
@@ -871,7 +702,7 @@ if(document.readyState==='loading'){
             >
 
                 <img
-                    src="./assets/images/placeholder.webp?v=20260831"
+                    src="./assets/images/placeholder.webp"
                     alt="Ihsan &amp; Syarifah"
                     class="position-absolute opacity-25 top-50 start-50 translate-middle bg-cover-home"
                 >
@@ -879,7 +710,7 @@ if(document.readyState==='loading'){
                 <div class="position-relative text-center px-3 py-5">
 
                     <img
-                        src="./assets/images/logo-is.png?v=20260831"
+                        src="./assets/images/logo-is.png"
                         alt="Logo I &amp; S"
                         class="cover-monogram"
                     >
@@ -901,7 +732,7 @@ if(document.readyState==='loading'){
                     </p>
 
                     <img
-                        src="./assets/images/placeholder.webp?v=20260831"
+                        src="./assets/images/placeholder.webp"
                         alt="Foto Ihsan &amp; Syarifah"
                         onclick="undangan.guest.modal(this)"
                         class="couple-photo rounded-circle cursor-pointer"
@@ -958,7 +789,7 @@ if(document.readyState==='loading'){
                     >
 
                         <img
-                            src="./assets/images/cowo.webp?v=20260831"
+                            src="./assets/images/cowo.webp"
                             alt="Ihsan Fauzi Noor"
                             onclick="undangan.guest.modal(this)"
                             class="person-photo rounded-circle mx-auto d-block cursor-pointer"
@@ -971,7 +802,7 @@ if(document.readyState==='loading'){
                         </h2>
 
                         <p class="mt-3 mb-1" style="font-size:1.1rem">
-                            Putra kedua
+                            Putra ke-2
                         </p>
 
                         <p class="mb-0">Bapak Budiono</p>
@@ -996,7 +827,7 @@ if(document.readyState==='loading'){
                     >
 
                         <img
-                            src="./assets/images/cewe.webp?v=20260831"
+                            src="./assets/images/cewe.webp"
                             alt="Syarifah Umaimah"
                             onclick="undangan.guest.modal(this)"
                             class="person-photo rounded-circle mx-auto d-block cursor-pointer"
@@ -1009,12 +840,12 @@ if(document.readyState==='loading'){
                         </h2>
 
                         <p class="mt-3 mb-1" style="font-size:1.1rem">
-                            Putri pertama
+                            Putri ke-1
                         </p>
 
-                        <p class="mb-0">Bapak Mohamad Rusmin</p>
+                        <p class="mb-0">Bapak Budiono</p>
                         <p class="mb-0">dan</p>
-                        <p class="mb-0">Ibu Yunisar Harahap</p>
+                        <p class="mb-0">Ibu Komsiah</p>
 
                     </div>
 
@@ -1034,27 +865,24 @@ if(document.readyState==='loading'){
                         Allah Subhanahu Wa Ta'ala berfirman
                     </h2>
 
-                    <div class="section-card quote-card mt-4 p-4">
-
-                        <div
-                            class="font-arabic"
-                            dir="rtl"
-                            lang="ar"
-                            style="font-size:1.7rem !important; line-height:2.1; margin-bottom:1.5rem;"
-                        >وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</div>
-
-                        <p class="mb-2" style="font-size:.82rem;letter-spacing:.08em;">
-                            Terjemahan
-                        </p>
-
-                        <p class="p-1 mb-3" style="line-height:1.8">
-                            Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.<br><br>Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.
+                    <div class="section-card quote-card mt-4 p-3">
+                        <p class="p-1 mb-2">
+                            Dan segala sesuatu Kami ciptakan berpasang-pasangan agar kamu mengingat (kebesaran Allah).
                         </p>
 
                         <p class="m-0 text-secondary">
-                            QS. Ar-Rum: 21
+                            QS. Adh-Dhariyat: 49
+                        </p>
+                    </div>
+
+                    <div class="section-card quote-card mt-4 p-3">
+                        <p class="p-1 mb-2">
+                            dan sesungguhnya Dialah yang menciptakan pasangan laki-laki dan perempuan,
                         </p>
 
+                        <p class="m-0 text-secondary">
+                            QS. An-Najm: 45
+                        </p>
                     </div>
 
                 </div>
@@ -1069,7 +897,7 @@ if(document.readyState==='loading'){
                     <div class="section-card p-4">
 
                         <img
-                            src="./assets/images/logo-is.png?v=20260831"
+                            src="./assets/images/logo-is.png"
                             alt="I &amp; S"
                             class="footer-mark"
                         >
@@ -1211,7 +1039,7 @@ if(document.readyState==='loading'){
                         </small>
 
                         <img
-                            src="./assets/images/lokasi-akad-qrcode.png?v=20260831"
+                            src="./assets/images/lokasi-akad-qrcode.png"
                             alt="QR Code lokasi akad"
                             class="img-fluid rounded-3 shadow-sm mx-auto d-block"
                             style="width:180px;max-width:70%"
@@ -1473,22 +1301,16 @@ if(document.readyState==='loading'){
                     </div>
 
 
-                    <!-- Hanya daftar komentar + pagination yang scroll di dalam kotak. -->
-                    <div class="comments-box" aria-label="Daftar ucapan dan doa">
+                    <div
+                        class="py-3"
+                        id="comments"
+                        data-loading="false"
+                    ></div>
 
-                        <div
-                            class="py-3"
-                            id="comments"
-                            data-loading="false"
-                        ></div>
-
-                        <nav
-                            class="d-flex d-none justify-content-center mt-1"
-                            id="pagination"
-                            aria-label="Navigasi halaman komentar"
-                        ></nav>
-
-                    </div>
+                    <nav
+                        class="d-flex d-none justify-content-center mt-1"
+                        id="pagination"
+                    ></nav>
 
                 </div>
 
@@ -1500,7 +1322,7 @@ if(document.readyState==='loading'){
                 <div class="container text-center">
 
                     <img
-                        src="./assets/images/logo-is.png?v=20260831"
+                        src="./assets/images/logo-is.png"
                         alt="Logo I &amp; S"
                         class="footer-mark"
                     >
@@ -1537,7 +1359,6 @@ if(document.readyState==='loading'){
         <nav
             class="navbar navbar-expand sticky-bottom rounded-top-4 border-top p-0"
             id="navbar-menu"
-            aria-label="Navigasi undangan"
         >
 
             <ul class="navbar-nav nav-justified w-100 align-items-center">
@@ -1586,97 +1407,6 @@ if(document.readyState==='loading'){
 
 </div>
 
-
-
-<!-- NAVBAR ACTIVE STATE -->
-<script>
-(function(){
-    function initNavbarIndicator(){
-
-        const nav = document.getElementById('navbar-menu');
-        if(!nav) return;
-
-        const links = Array.from(
-            nav.querySelectorAll('a.nav-link[href^="#"]')
-        );
-
-        const sections = links.map(function(link){
-            return document.getElementById(
-                link.getAttribute('href').substring(1)
-            );
-        }).filter(Boolean);
-
-        if(!sections.length) return;
-
-        function updateActive(){
-
-            const marker = window.innerHeight * 0.35;
-            let active = sections[0];
-
-            for(let i = 0; i < sections.length; i++){
-
-                const rect = sections[i].getBoundingClientRect();
-
-                if(rect.top <= marker && rect.bottom > marker){
-                    active = sections[i];
-                    break;
-                }
-
-                if(rect.top <= marker){
-                    active = sections[i];
-                }
-            }
-
-            links.forEach(function(link){
-
-                const isActive =
-                    link.getAttribute('href') === '#' + active.id;
-
-                link.classList.toggle('is-current', isActive);
-
-                if(isActive){
-                    link.setAttribute('aria-current', 'page');
-                }else{
-                    link.removeAttribute('aria-current');
-                }
-            });
-        }
-
-        let ticking = false;
-
-        window.addEventListener('scroll', function(){
-
-            if(ticking) return;
-
-            ticking = true;
-
-            window.requestAnimationFrame(function(){
-                updateActive();
-                ticking = false;
-            });
-
-        }, {passive:true});
-
-        window.addEventListener('resize', updateActive, {passive:true});
-
-        links.forEach(function(link){
-            link.addEventListener('click', function(){
-                setTimeout(updateActive, 50);
-                setTimeout(updateActive, 300);
-                setTimeout(updateActive, 700);
-            });
-        });
-
-        updateActive();
-    }
-
-    if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', initNavbarIndicator);
-    }else{
-        initNavbarIndicator();
-    }
-})();
-</script>
 
 <div class="floating-controls">
 
@@ -1731,7 +1461,7 @@ if(document.readyState==='loading'){
 
                     <img
                         id="show-modal-image"
-                        src="./assets/images/placeholder.webp?v=20260831"
+                        src="./assets/images/placeholder.webp"
                         alt="Preview"
                         class="img-fluid rounded-3 d-block mx-auto"
                         style="max-height:82vh;object-fit:contain"
@@ -1919,38 +1649,6 @@ if(document.readyState==='loading'){
 
 </div>
 
-
-<!-- KOMENTAR: 5 KOMENTAR UTAMA PER HALAMAN -->
-<script>
-(function(){
-
-    let configured = false;
-
-    document.addEventListener(
-        'undangan.session',
-        function(){
-
-            if(configured){
-                return;
-            }
-
-            if(
-                window.undangan &&
-                window.undangan.comment &&
-                window.undangan.comment.pagination &&
-                typeof window.undangan.comment.pagination.setPer === 'function'
-            ){
-
-                window.undangan.comment.pagination.setPer(5);
-                configured = true;
-
-            }
-
-        }
-    );
-
-})();
-</script>
 
 <script>
 (function(){
@@ -2152,7 +1850,7 @@ if(document.readyState==='loading'){
             finished ||
             (loading && loading.style.display === 'none')
         ){
-html
+
             clearInterval(timer);
             observer.disconnect();
 
