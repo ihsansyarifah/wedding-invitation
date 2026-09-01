@@ -671,6 +671,17 @@ html[data-bs-theme="dark"] .comments-box #pagination{
     }
 }
 
+
+/* Nama halaman awal dibuat tiga baris: Ihsan / & / Syarifah. */
+.welcome-name-line,
+.welcome-name-amp{
+    display:block;
+}
+.welcome-name-amp{
+    line-height:.9;
+    margin:.05rem 0;
+}
+
 /* ==========================================
    TYPOGRAPHY REVISI
    ========================================== */
@@ -874,7 +885,11 @@ if(document.readyState==='loading'){
         <p class="mb-2 text-secondary">The Wedding of</p>
 
         <h1 class="font-esthetic welcome-name mb-2">
-            Ihsan &amp; Syarifah
+            
+            <span class="welcome-name-line">Ihsan</span>
+            <span class="welcome-name-amp">&amp;</span>
+            <span class="welcome-name-line">Syarifah</span>
+        
         </h1>
 
         <p class="welcome-date text-secondary mb-4">
@@ -1026,6 +1041,127 @@ if(document.readyState==='loading'){
                     <p class="pb-2 m-0 text-secondary" style="font-size:.825rem">
                         Scroll Down
                     </p>
+
+                </div>
+
+            </section>
+
+<div class="text-center" style="padding:1.25rem 1rem .25rem">
+    <h2 class="font-arabic py-2 m-0">
+        بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+    </h2>
+</div>
+
+<section class="section-soft pt-2 pb-4">
+
+                <div class="container text-center">
+
+                    <div class="section-card quote-card mt-2 p-4">
+
+                        <div
+                            class="font-arabic"
+                            dir="rtl"
+                            lang="ar"
+                            style="font-size:1.7rem !important; line-height:2.1; margin-bottom:1.5rem;"
+                        >وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</div>
+
+                        <p class="mb-2" style="font-size:.82rem;letter-spacing:.08em;">
+                            Terjemahan
+                        </p>
+
+                        <p class="p-1 mb-3" style="line-height:1.8">
+                            Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.<br><br>Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.
+                        </p>
+
+                        <p class="m-0 text-secondary">
+                            QS. Ar-Rum: 21
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+<section class="section-paper text-center" id="bride">
+
+                <!-- BISMILLAH: 1.55rem -->
+                <h2 class="font-arabic py-4 m-0">
+                    بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+                </h2>
+
+                <p class="pb-4 px-3 m-0" style="font-size:.95rem">
+                    Tanpa mengurangi rasa hormat, kami mengundang Anda untuk berkenan menghadiri acara pernikahan kami.
+                </p>
+
+                <div class="overflow-x-hidden pb-4">
+
+                    <div
+                        class="pb-2"
+                        data-aos="fade-right"
+                        data-aos-duration="1600"
+                    >
+
+                        <img
+                            src="./assets/images/cowo.webp?v=20260831"
+                            alt="Ihsan Fauzi Noor"
+                            onclick="undangan.guest.modal(this)"
+                            class="person-photo rounded-circle mx-auto d-block cursor-pointer"
+                        >
+
+                        <h2
+                            class="font-esthetic person-name mt-4 mb-1"
+                        >
+                            Ihsan Fauzi Noor, S.T.
+                        </h2>
+
+                        <p class="mt-3 mb-1" style="font-size:1.1rem">
+                            Putra kedua
+                        </p>
+
+                        <p class="mb-0">Bapak Budiono</p>
+                        <p class="mb-0">dan</p>
+                        <p class="mb-0">Ibu Komsiah</p>
+
+                    </div>
+
+
+                    <h2
+                        class="font-esthetic mt-4 mb-3"
+                        style="font-size:4rem"
+                    >
+                        &amp;
+                    </h2>
+
+
+                    <div
+                        class="pb-2"
+                        data-aos="fade-left"
+                        data-aos-duration="1600"
+                    >
+
+                        <img
+                            src="./assets/images/cewe.webp?v=20260831"
+                            alt="Syarifah Umaimah"
+                            onclick="undangan.guest.modal(this)"
+                            class="person-photo rounded-circle mx-auto d-block cursor-pointer"
+                        >
+
+                        <h2
+                            class="font-esthetic person-name mt-4 mb-1"
+                        >
+                            Syarifah Umaimah, S.T.
+                        </h2>
+
+                        <p class="mt-3 mb-1" style="font-size:1.1rem">
+                            Putri pertama
+                        </p>
+
+                        <p class="mb-0">Bapak Mohamad Rusmin</p>
+                        <p class="mb-0">dan</p>
+                        <p class="mb-0">Ibu Yunisar Harahap</p>
+
+                    </div>
 
                 </div>
 
@@ -1195,129 +1331,6 @@ if(document.readyState==='loading'){
                 </div>
 
             </section>
-
-
-
-
-
-<!-- BISMILLAH: 1.55rem -->
-                <h2 class="font-arabic py-4 m-0">
-                    بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
-                </h2>
-
-<section class="section-soft pt-2 pb-4">
-
-                <div class="container text-center">
-
-                    <div class="section-card quote-card mt-2 p-4">
-
-                        <div
-                            class="font-arabic"
-                            dir="rtl"
-                            lang="ar"
-                            style="font-size:1.7rem !important; line-height:2.1; margin-bottom:1.5rem;"
-                        >وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</div>
-
-                        <p class="mb-2" style="font-size:.82rem;letter-spacing:.08em;">
-                            Terjemahan
-                        </p>
-
-                        <p class="p-1 mb-3" style="line-height:1.8">
-                            Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.<br><br>Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.
-                        </p>
-
-                        <p class="m-0 text-secondary">
-                            QS. Ar-Rum: 21
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-<section class="section-paper text-center" id="bride">
-
-<p class="pb-4 px-3 m-0" style="font-size:.95rem">
-                    Tanpa mengurangi rasa hormat, kami mengundang Anda untuk berkenan menghadiri acara pernikahan kami.
-                </p>
-
-                <div class="overflow-x-hidden pb-4">
-
-                    <div
-                        class="pb-2"
-                        data-aos="fade-right"
-                        data-aos-duration="1600"
-                    >
-
-                        <img
-                            src="./assets/images/cowo.webp?v=20260831"
-                            alt="Ihsan Fauzi Noor"
-                            onclick="undangan.guest.modal(this)"
-                            class="person-photo rounded-circle mx-auto d-block cursor-pointer"
-                        >
-
-                        <h2
-                            class="font-esthetic person-name mt-4 mb-1"
-                        >
-                            Ihsan Fauzi Noor, S.T.
-                        </h2>
-
-                        <p class="mt-3 mb-1" style="font-size:1.1rem">
-                            Putra kedua
-                        </p>
-
-                        <p class="mb-0">Bapak Budiono</p>
-                        <p class="mb-0">dan</p>
-                        <p class="mb-0">Ibu Komsiah</p>
-
-                    </div>
-
-
-                    <h2
-                        class="font-esthetic mt-4 mb-3"
-                        style="font-size:4rem"
-                    >
-                        &amp;
-                    </h2>
-
-
-                    <div
-                        class="pb-2"
-                        data-aos="fade-left"
-                        data-aos-duration="1600"
-                    >
-
-                        <img
-                            src="./assets/images/cewe.webp?v=20260831"
-                            alt="Syarifah Umaimah"
-                            onclick="undangan.guest.modal(this)"
-                            class="person-photo rounded-circle mx-auto d-block cursor-pointer"
-                        >
-
-                        <h2
-                            class="font-esthetic person-name mt-4 mb-1"
-                        >
-                            Syarifah Umaimah, S.T.
-                        </h2>
-
-                        <p class="mt-3 mb-1" style="font-size:1.1rem">
-                            Putri pertama
-                        </p>
-
-                        <p class="mb-0">Bapak Mohamad Rusmin</p>
-                        <p class="mb-0">dan</p>
-                        <p class="mb-0">Ibu Yunisar Harahap</p>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-
 
 <section class="section-soft pb-4 pt-3">
 
@@ -1613,6 +1626,28 @@ if(document.readyState==='loading'){
                 </div>
 
             </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
