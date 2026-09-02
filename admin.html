@@ -127,6 +127,10 @@
             font-size: 14px;
         }
 
+        /* =========================
+           STATISTIK
+        ========================== */
+
         .stats {
             display: flex;
             gap: 12px;
@@ -151,6 +155,10 @@
             font-size: 13px;
             margin-top: 4px;
         }
+
+        /* =========================
+           KOMENTAR
+        ========================== */
 
         .comment {
             border: 1px solid #eee;
@@ -221,6 +229,10 @@
             .btn-delete {
                 width: 100%;
             }
+
+            .stat {
+                min-width: calc(50% - 6px);
+            }
         }
     </style>
 </head>
@@ -282,6 +294,7 @@
 
                 <div>
                     <h1>Dashboard Ucapan</h1>
+
                     <div class="subtitle">
                         Ihsan & Syarifah
                     </div>
@@ -299,12 +312,15 @@
 
 
         <main>
+
             <div class="container">
 
                 <div id="dashboardMessage"></div>
 
 
-                <!-- STATISTIK -->
+                <!-- =========================
+                     RINGKASAN
+                ========================== -->
 
                 <div class="card">
 
@@ -325,12 +341,42 @@
                             </div>
                         </div>
 
+
+                        <div class="stat">
+                            <div
+                                id="totalPresent"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                            <div class="stat-label">
+                                Hadir
+                            </div>
+                        </div>
+
+
+                        <div class="stat">
+                            <div
+                                id="totalAbsent"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                            <div class="stat-label">
+                                Tidak Hadir
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
 
 
-                <!-- KOMENTAR -->
+                <!-- =========================
+                     UCAPAN
+                ========================== -->
 
                 <div class="card">
 
@@ -346,6 +392,7 @@
                 </div>
 
             </div>
+
         </main>
 
     </section>
@@ -361,12 +408,14 @@
             initializeApp
         } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
+
         import {
             getAuth,
             signInWithEmailAndPassword,
             onAuthStateChanged,
             signOut
         } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
         import {
             getFirestore,
@@ -445,6 +494,12 @@
 
         const totalComments =
             document.getElementById("totalComments");
+
+        const totalPresent =
+            document.getElementById("totalPresent");
+
+        const totalAbsent =
+            document.getElementById("totalAbsent");
 
 
         // =========================
@@ -553,8 +608,6 @@
                 }
 
 
-                // Pastikan akun adalah admin
-
                 if (user.uid !== ADMIN_UID) {
 
                     await signOut(auth);
@@ -569,8 +622,6 @@
                     return;
                 }
 
-
-                // Admin berhasil login
 
                 loginSection.classList.add(
                     "hidden"
@@ -615,9 +666,47 @@
                     );
 
 
+                // =========================
+                // HITUNG STATISTIK
+                // =========================
+
+                let hadir = 0;
+                let tidakHadir = 0;
+
+
+                snapshot.forEach(
+                    (commentSnapshot) => {
+
+                        const data =
+                            commentSnapshot.data();
+
+                        if (data.presence === true) {
+
+                            hadir++;
+
+                        } else {
+
+                            tidakHadir++;
+
+                        }
+
+                    }
+                );
+
+
                 totalComments.textContent =
                     snapshot.size;
 
+                totalPresent.textContent =
+                    hadir;
+
+                totalAbsent.textContent =
+                    tidakHadir;
+
+
+                // =========================
+                // JIKA KOSONG
+                // =========================
 
                 if (snapshot.empty) {
 
@@ -630,6 +719,10 @@
 
                 commentsList.innerHTML = "";
 
+
+                // =========================
+                // TAMPILKAN UCAPAN
+                // =========================
 
                 snapshot.forEach(
                     (commentSnapshot) => {
@@ -736,7 +829,8 @@
                 "click",
                 () => deleteComment(
                     id,
-                    wrapper
+                    wrapper,
+                    data.presence === true
                 )
             );
 
@@ -765,7 +859,7 @@
                 "presence";
 
             presence.textContent =
-                data.presence
+                data.presence === true
                     ? "Hadir"
                     : "Tidak hadir";
 
@@ -788,7 +882,8 @@
 
         async function deleteComment(
             id,
-            element
+            element,
+            wasPresent
         ) {
 
             const confirmed =
@@ -816,17 +911,47 @@
                 element.remove();
 
 
+                // Update Total
                 const currentTotal =
                     Number(
                         totalComments.textContent
                     );
-
 
                 totalComments.textContent =
                     Math.max(
                         0,
                         currentTotal - 1
                     );
+
+
+                // Update Hadir / Tidak Hadir
+                if (wasPresent) {
+
+                    const currentPresent =
+                        Number(
+                            totalPresent.textContent
+                        );
+
+                    totalPresent.textContent =
+                        Math.max(
+                            0,
+                            currentPresent - 1
+                        );
+
+                } else {
+
+                    const currentAbsent =
+                        Number(
+                            totalAbsent.textContent
+                        );
+
+                    totalAbsent.textContent =
+                        Math.max(
+                            0,
+                            currentAbsent - 1
+                        );
+
+                }
 
 
                 showMessage(
