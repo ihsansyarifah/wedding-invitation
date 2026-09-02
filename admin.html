@@ -356,16 +356,30 @@ html[data-bs-theme="dark"] .section-card{
 .person-name{
     color:var(--brown);
     font-size:clamp(1.15rem,5.5vw,2rem)!important;
-    white-space:nowrap;
+    font-weight:400;
+    white-space:nowrap!important;
     width:100%;
     max-width:100%;
+    min-width:0;
+    margin-left:auto;
+    margin-right:auto;
     letter-spacing:-0.025em;
     line-height:1.2;
     display:block;
+    text-align:center;
 }
 
 html[data-bs-theme="dark"] .person-name{
     color:#f8eee7
+}
+
+/* Nama mempelai: mengecil bersama-sama di HP agar tetap 1 baris. */
+@media (max-width:575.98px){
+    .person-name{
+        font-size:clamp(1.15rem,5.5vw,1.65rem)!important;
+        white-space:nowrap!important;
+        letter-spacing:-0.03em;
+    }
 }
 
 .date-pill{
@@ -708,16 +722,7 @@ html[data-bs-theme="dark"] .comments-box #pagination{
     line-height:1.35;
 }
 
-/* Nama mempelai tetap menjadi teks yang lebih besar. */
-.person-name{
-    font-size:clamp(1.15rem,5.5vw,2rem)!important;
-    white-space:nowrap;
-    width:100%;
-    max-width:100%;
-    letter-spacing:-0.025em;
-    line-height:1.2;
-    display:block;
-}
+
 
 @media(max-width:575.98px){
     .person-photo{
