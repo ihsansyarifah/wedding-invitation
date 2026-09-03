@@ -1001,17 +1001,15 @@ let h=0,n=0,html='';
 snap.forEach(d=>{
 const x=d.data();
 x.presence?h++:n++;
-html+='<div class="comment">
-<div class="comment-head">
-<div>
-<div class="comment-name">'+esc(x.name||'Tamu')+'</div>
-<div class="muted">'+date(x.createdAt)+'</div>
-</div>
-<button class="btn danger" data-del="'+d.id+'">Hapus</button>
-</div>
-<div class="comment-text">'+esc(x.comment||'')+'</div>
-<span class="presence">'+(x.presence?'Hadir':'Tidak hadir')+'</span>
-</div>'
+html+='<div class="comment">'+
+'<div class="comment-head">'+
+'<div><div class="comment-name">'+esc(x.name||'Tamu')+'</div>'+
+'<div class="muted">'+date(x.createdAt)+'</div></div>'+
+'<button class="btn danger" data-del="'+d.id+'">Hapus</button>'+
+'</div>'+
+'<div class="comment-text">'+esc(x.comment||'')+'</div>'+
+'<span class="presence">'+(x.presence?'Hadir':'Tidak hadir')+'</span>'+
+'</div>'
 }
 );
 
