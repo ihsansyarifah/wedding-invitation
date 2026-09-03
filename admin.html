@@ -15,7 +15,7 @@
   <div id="loginMsg"></div>
   <div class="field"><label>Email</label><input id="email" type="email" autocomplete="email"></div>
   <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div>
-  <button id="loginBtn" class="btn" style="width:100%">Login</button>
+  <button id="loginBtn" class="btn" style="width:100%">Login</button><p class="small" style="margin:10px 0 0">Jika login gagal, kode Firebase asli akan ditampilkan supaya penyebabnya bisa kita perbaiki tepat.</p>
  </div>
 </section>
 
@@ -92,9 +92,11 @@ $('loginBtn').onclick=async()=>{
       'auth/network-request-failed':'Koneksi ke Firebase gagal. Periksa internet lalu coba lagi.',
       'auth/operation-not-allowed':'Login Email/Password belum diaktifkan di Firebase Authentication.',
       'auth/configuration-not-found':'Konfigurasi Firebase Authentication belum aktif.',
-      'auth/api-key-not-valid.-please-pass-a-valid-api-key.':'API key Firebase tidak valid.'
+      'auth/api-key-not-valid.-please-pass-a-valid-api-key.':'Firebase menolak API key. Kode asli ditampilkan di bawah agar penyebabnya bisa diperbaiki.'
     };
-    const friendly=messages[code]||('Login gagal. Kode: '+(code||'tidak diketahui')+(e?.message?' — '+e.message:''));
+    const friendly=(messages[code]||'Login gagal.')+
+      '<br><small>Kode Firebase: <b>'+esc(code||'tidak diketahui')+'</b>'+
+      (e?.message?' — '+esc(e.message):'')+'</small>';
     loginMsg(friendly,false);
   }finally{
     $('loginBtn').disabled=false;
