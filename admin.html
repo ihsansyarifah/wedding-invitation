@@ -1,193 +1,1043 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dashboard Ucapan — Ihsan & Syarifah</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f7f3ef;color:#3f312b}
-button,input{font:inherit}
-button{cursor:pointer;border:0}
-.hidden{display:none!important}
-.wrap{width:min(100% - 28px,1100px);margin:auto}
-.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #eadfd7}
-.top .wrap{display:flex;justify-content:space-between;align-items:center;padding:15px 0;gap:12px}
-.brand h1{font-size:21px;margin:0}
-.brand p{font-size:12px;color:#8c7d75;margin:4px 0 0}
-.btn{border-radius:12px;padding:10px 14px;background:#6b4a3c;color:#fff}
-.btn.light{background:#eee5df;color:#49362e}
-.btn.danger{background:#c9534f}
-.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 8px 28px #5b3e3110;margin:18px 0}
-.card h2{font-size:18px;margin:0 0 14px}
-.field{margin:0 0 13px}
-.field label{display:block;font-size:12px;font-weight:700;margin:0 0 6px;color:#6b5a51}
-.field input{width:100%;border:1px solid #dfd4cd;border-radius:11px;padding:10px 11px;background:#fff;color:#3f312b}
-.notice{padding:11px 13px;border-radius:11px;margin-bottom:14px;font-size:13px}
-.ok{background:#edf8ef;color:#2e7d38}
-.err{background:#fff0f0;color:#b52e2e}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:#f7f3ef;border-radius:13px;padding:14px}
-.num{font-size:25px;font-weight:700}
-.lbl{font-size:12px;color:#8c7d75;margin-top:4px}
-.comment{border:1px solid #eee1da;border-radius:13px;padding:14px;margin:10px 0}
-.comment-head{display:flex;justify-content:space-between;gap:10px}
-.comment-name{font-weight:700}
-.muted{font-size:12px;color:#999}
-.comment-text{white-space:pre-wrap;line-height:1.55;margin:10px 0}
-.presence{font-size:12px;padding:4px 8px;border-radius:99px;background:#f0ece8}
-.small{font-size:12px;color:#8c7d75}
-.login{max-width:430px;margin:70px auto}
-@media(max-width:760px){
-  .stats{grid-template-columns:1fr}
-  .top .wrap{align-items:flex-start}
-}
-</style>
-</head>
-<body>
-<section id="login" class="login wrap">
- <div class="card">
-  <h2>Login Admin</h2><p class="small">Kelola ucapan sekaligus isi & tampilan undangan.</p>
-  <div id="loginMsg"></div>
-  <div class="field"><label>Email</label><input id="email" type="email" autocomplete="email"></div>
-  <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div>
-  <button id="loginBtn" class="btn" style="width:100%">Login</button><p class="small" style="margin:10px 0 0">Jika login gagal, kode Firebase asli akan ditampilkan supaya penyebabnya bisa kita perbaiki tepat.</p>
- </div>
-</section>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<section id="app" class="hidden">
-<header class="top"><div class="wrap"><div class="brand"><h1>Dashboard Ucapan</h1><p>Ihsan &amp; Syarifah</p></div><button id="logout" class="btn light">Logout</button></div></header>
-<main class="wrap">
- <div id="msg"></div>
- <section>
-  <div class="card"><h2>Ringkasan Kehadiran</h2><div class="stats">
-   <div class="stat"><div class="num" id="total">0</div><div class="lbl">Total Ucapan</div></div>
-   <div class="stat"><div class="num" id="hadir">0</div><div class="lbl">Hadir</div></div>
-   <div class="stat"><div class="num" id="tidak">0</div><div class="lbl">Tidak Hadir</div></div>
-  </div></div>
-  <div class="card"><h2>Ucapan &amp; Doa</h2><div id="comments">Memuat...</div></div>
- </section>
-</main>
-</section>
+    <title>Admin Ucapan - Ihsan & Syarifah</title>
 
-<script type="module">
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
-import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
-import {getFirestore,collection,query,orderBy,getDocs,deleteDoc,doc} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
-
-const firebaseConfig={apiKey:'AIzaSyCxTII7lrTrcqq-HBaOEHBz7uqg5Zl9T8',authDomain:'undangan-ihsan-syarifah.firebaseapp.com',projectId:'undangan-ihsan-syarifah',storageBucket:'undangan-ihsan-syarifah.firebasestorage.app',messagingSenderId:'877091672086',appId:'1:877091672086:web:9758a37f0c575cc1b3a537'};
-const ADMIN_UID='DwMXUyfyChMp85zsb9L5rFy6Tg53';
-
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-const $=id=>document.getElementById(id);
-
-function esc(s){
-  return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
-}
-function loginMsg(t,ok=false){
-  $('loginMsg').innerHTML='<div class="notice '+(ok?'ok':'err')+'">'+t+'</div>';
-}
-function msg(t,ok=true){
-  $('msg').innerHTML='<div class="notice '+(ok?'ok':'err')+'">'+t+'</div>';
-  setTimeout(()=>$('msg').innerHTML='',4000);
-}
-
-$('loginBtn').onclick=async()=>{
-  const email=$('email').value.trim();
-  const password=$('password').value;
-  if(!email||!password){loginMsg('Email dan password wajib diisi.');return}
-  $('loginBtn').disabled=true;
-  $('loginBtn').textContent='Memeriksa...';
-  try{
-    await signInWithEmailAndPassword(auth,email,password);
-  }catch(e){
-    console.error('Firebase Login Error:',e);
-    const code=e?.code||'';
-    const messages={
-      'auth/invalid-credential':'Email atau password tidak cocok.',
-      'auth/invalid-login-credentials':'Email atau password tidak cocok.',
-      'auth/wrong-password':'Password salah.',
-      'auth/user-not-found':'Akun admin tidak ditemukan.',
-      'auth/invalid-email':'Format email tidak valid.',
-      'auth/user-disabled':'Akun admin sedang dinonaktifkan.',
-      'auth/too-many-requests':'Terlalu banyak percobaan login. Tunggu beberapa saat.',
-      'auth/network-request-failed':'Koneksi ke Firebase gagal.',
-      'auth/operation-not-allowed':'Login Email/Password belum diaktifkan.',
-      'auth/configuration-not-found':'Konfigurasi Firebase Authentication belum aktif.',
-      'auth/api-key-not-valid.-please-pass-a-valid-api-key.':'API key Firebase ditolak.'
-    };
-    loginMsg((messages[code]||'Login gagal.')+'<br><small>Kode: <b>'+esc(code||'tidak diketahui')+'</b></small>');
-  }finally{
-    $('loginBtn').disabled=false;
-    $('loginBtn').textContent='Login';
-  }
-};
-
-$('logout').onclick=()=>signOut(auth);
-
-onAuthStateChanged(auth,async user=>{
-  if(!user){
-    $('app').classList.add('hidden');
-    $('login').classList.remove('hidden');
-    return;
-  }
-  if(user.uid!==ADMIN_UID){
-    await signOut(auth);
-    loginMsg('Akun ini bukan akun admin.');
-    return;
-  }
-  $('login').classList.add('hidden');
-  $('app').classList.remove('hidden');
-  loadComments();
-});
-
-async function loadComments(){
-  $('comments').textContent='Memuat...';
-  try{
-    const q=query(collection(db,'comments'),orderBy('createdAt','desc'));
-    const snap=await getDocs(q);
-    let hadir=0,tidak=0,html='';
-    snap.forEach(d=>{
-      const x=d.data();
-      if(x.presence) hadir++; else tidak++;
-      html+='<div class="comment">'+
-        '<div class="comment-head"><div><div class="comment-name">'+esc(x.name||'Tamu')+'</div>'+
-        '<div class="muted">'+date(x.createdAt)+'</div></div>'+
-        '<button class="btn danger" data-del="'+esc(d.id)+'">Hapus</button></div>'+
-        '<div class="comment-text">'+esc(x.comment||'')+'</div>'+
-        '<span class="presence">'+(x.presence?'Hadir':'Tidak hadir')+'</span>'+
-        '</div>';
-    });
-    $('total').textContent=snap.size;
-    $('hadir').textContent=hadir;
-    $('tidak').textContent=tidak;
-    $('comments').innerHTML=html||'<div class="small">Belum ada ucapan.</div>';
-
-    document.querySelectorAll('[data-del]').forEach(b=>{
-      b.onclick=async()=>{
-        if(!confirm('Hapus ucapan ini?')) return;
-        try{
-          await deleteDoc(doc(db,'comments',b.dataset.del));
-          msg('Ucapan berhasil dihapus.');
-          loadComments();
-        }catch(e){
-          console.error(e);
-          msg('Gagal menghapus: '+(e?.message||e),false);
+    <style>
+        * {
+            box-sizing: border-box;
         }
-      };
-    });
-  }catch(e){
-    console.error(e);
-    $('comments').innerHTML='<div class="notice err">Gagal memuat ucapan.<br><small>'+esc(e?.message||e)+'</small></div>';
-  }
-}
-function date(ts){
-  try{
-    const d=ts?.toDate?ts.toDate():new Date(ts);
-    return d.toLocaleString('id-ID');
-  }catch{return ''}
-}
-</script>
-</body></html>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f3ef;
+            color: #333;
+        }
+
+        .container {
+            width: min(100% - 30px, 900px);
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #eee;
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        main {
+            padding: 30px 0 50px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.05);
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: #333;
+            color: white;
+        }
+
+        .btn-logout {
+            background: #eee;
+            color: #333;
+        }
+
+        .btn-delete {
+            background: #d9534f;
+            color: white;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error {
+            background: #fff0f0;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #effaf1;
+            color: #287d36;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* =========================
+           STATISTIK
+        ========================== */
+
+        .stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 150px;
+            background: #f7f3ef;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .stat-number {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* =========================
+           KOMENTAR
+        ========================== */
+
+        .comment {
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 17px;
+            margin-bottom: 13px;
+        }
+
+        .comment:last-child {
+            margin-bottom: 0;
+        }
+
+        .comment-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .comment-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .comment-time {
+            color: #999;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .comment-text {
+            margin: 14px 0;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .presence {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #f3f3f3;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px 15px;
+            color: #999;
+        }
+
+        .loading {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+        }
+
+        @media (max-width: 600px) {
+            header .container {
+                align-items: flex-start;
+            }
+
+            .comment-head {
+                flex-direction: column;
+            }
+
+            .btn-delete {
+                width: 100%;
+            }
+
+            .stat {
+                min-width: calc(50% - 6px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         LOGIN
+    ========================== -->
+
+    <section id="loginSection">
+        <div class="container">
+            <div class="card login-card">
+
+                <h2>Login Admin</h2>
+
+                <p class="subtitle">
+                    Dashboard Ucapan & Doa
+                </p>
+
+                <br>
+
+                <div id="loginError" class="error hidden"></div>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email admin"
+                    autocomplete="email"
+                >
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                >
+
+                <button
+                    id="loginButton"
+                    class="btn-login"
+                >
+                    Login
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+    <section id="dashboardSection" class="hidden">
+
+        <header>
+            <div class="container">
+
+                <div>
+                    <h1>Dashboard Ucapan</h1>
+
+                    <div class="subtitle">
+                        Ihsan & Syarifah
+                    </div>
+                </div>
+
+                <button
+                    id="logoutButton"
+                    class="btn-logout"
+                >
+                    Logout
+                </button>
+
+            </div>
+        </header>
+
+
+        <main>
+
+            <div class="container">
+
+                <div id="dashboardMessage"></div>
+
+
+                <!-- =========================
+                     RINGKASAN
+                ========================== -->
+
+                <div class="card">
+
+                    <h2>Ringkasan</h2>
+
+                    <div class="stats">
+
+                        <div class="stat">
+                            <div
+                                id="totalComments"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                            <div class="stat-label">
+                                Total Ucapan
+                            </div>
+                        </div>
+
+
+                        <div class="stat">
+                            <div
+                                id="totalPresent"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                            <div class="stat-label">
+                                Hadir
+                            </div>
+                        </div>
+
+
+                        <div class="stat">
+                            <div
+                                id="totalAbsent"
+                                class="stat-number"
+                            >
+                                0
+                            </div>
+
+                            <div class="stat-label">
+                                Tidak Hadir
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     UCAPAN
+                ========================== -->
+
+                <div class="card">
+
+                    <h2>Ucapan & Doa</h2>
+
+                    <div
+                        id="commentsList"
+                        class="loading"
+                    >
+                        Memuat ucapan...
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </section>
+
+
+    <!-- =========================
+         FIREBASE
+    ========================== -->
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            query,
+            orderBy,
+            getDocs,
+            deleteDoc,
+            doc
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        // =========================
+        // FIREBASE CONFIG
+        // =========================
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxTII7lrjTrcqq-HBaOEHBz7uqg5Zl9T8",
+            authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
+            projectId: "undangan-ihsan-syarifah",
+            storageBucket: "undangan-ihsan-syarifah.firebasestorage.app",
+            messagingSenderId: "877091672086",
+            appId: "1:877091672086:web:9758a37f0c575cc1b3a537"
+        };
+
+
+        // =========================
+        // INIT FIREBASE
+        // =========================
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getFirestore(app);
+
+
+        // =========================
+        // ADMIN UID
+        // =========================
+
+        const ADMIN_UID =
+            "DwMXUyfyChMp85zsb9L5rFy6Tg53";
+
+
+        // =========================
+        // ELEMENTS
+        // =========================
+
+        const loginSection =
+            document.getElementById("loginSection");
+
+        const dashboardSection =
+            document.getElementById("dashboardSection");
+
+        const emailInput =
+            document.getElementById("email");
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+        const loginError =
+            document.getElementById("loginError");
+
+        const dashboardMessage =
+            document.getElementById("dashboardMessage");
+
+        const commentsList =
+            document.getElementById("commentsList");
+
+        const totalComments =
+            document.getElementById("totalComments");
+
+        const totalPresent =
+            document.getElementById("totalPresent");
+
+        const totalAbsent =
+            document.getElementById("totalAbsent");
+
+
+        // =========================
+        // LOGIN
+        // =========================
+
+        loginButton.addEventListener(
+            "click",
+            async () => {
+
+                const email =
+                    emailInput.value.trim();
+
+                const password =
+                    passwordInput.value;
+
+
+                loginError.classList.add(
+                    "hidden"
+                );
+
+
+                if (!email || !password) {
+
+                    loginError.textContent =
+                        "Email dan password wajib diisi.";
+
+                    loginError.classList.remove(
+                        "hidden"
+                    );
+
+                    return;
+                }
+
+
+                loginButton.disabled = true;
+
+                loginButton.textContent =
+                    "Login...";
+
+
+                try {
+
+                    await signInWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
+                    );
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    loginError.textContent =
+                        "Email atau password salah.";
+
+                    loginError.classList.remove(
+                        "hidden"
+                    );
+
+                } finally {
+
+                    loginButton.disabled = false;
+
+                    loginButton.textContent =
+                        "Login";
+                }
+
+            }
+        );
+
+
+        // =========================
+        // LOGOUT
+        // =========================
+
+        logoutButton.addEventListener(
+            "click",
+            async () => {
+
+                await signOut(auth);
+
+            }
+        );
+
+
+        // =========================
+        // AUTH STATE
+        // =========================
+
+        onAuthStateChanged(
+            auth,
+            async (user) => {
+
+                if (!user) {
+
+                    loginSection.classList.remove(
+                        "hidden"
+                    );
+
+                    dashboardSection.classList.add(
+                        "hidden"
+                    );
+
+                    return;
+                }
+
+
+                if (user.uid !== ADMIN_UID) {
+
+                    await signOut(auth);
+
+                    loginError.textContent =
+                        "Akun ini bukan akun admin.";
+
+                    loginError.classList.remove(
+                        "hidden"
+                    );
+
+                    return;
+                }
+
+
+                loginSection.classList.add(
+                    "hidden"
+                );
+
+                dashboardSection.classList.remove(
+                    "hidden"
+                );
+
+
+                loadComments();
+
+            }
+        );
+
+
+        // =========================
+        // LOAD COMMENTS
+        // =========================
+
+        async function loadComments() {
+
+            commentsList.innerHTML =
+                '<div class="loading">Memuat ucapan...</div>';
+
+
+            try {
+
+                const commentsQuery =
+                    query(
+                        collection(db, "comments"),
+                        orderBy(
+                            "createdAt",
+                            "desc"
+                        )
+                    );
+
+
+                const snapshot =
+                    await getDocs(
+                        commentsQuery
+                    );
+
+
+                // =========================
+                // HITUNG STATISTIK
+                // =========================
+
+                let hadir = 0;
+                let tidakHadir = 0;
+
+
+                snapshot.forEach(
+                    (commentSnapshot) => {
+
+                        const data =
+                            commentSnapshot.data();
+
+                        if (data.presence === true) {
+
+                            hadir++;
+
+                        } else {
+
+                            tidakHadir++;
+
+                        }
+
+                    }
+                );
+
+
+                totalComments.textContent =
+                    snapshot.size;
+
+                totalPresent.textContent =
+                    hadir;
+
+                totalAbsent.textContent =
+                    tidakHadir;
+
+
+                // =========================
+                // JIKA KOSONG
+                // =========================
+
+                if (snapshot.empty) {
+
+                    commentsList.innerHTML =
+                        '<div class="empty">Belum ada ucapan.</div>';
+
+                    return;
+                }
+
+
+                commentsList.innerHTML = "";
+
+
+                // =========================
+                // TAMPILKAN UCAPAN
+                // =========================
+
+                snapshot.forEach(
+                    (commentSnapshot) => {
+
+                        const data =
+                            commentSnapshot.data();
+
+                        const id =
+                            commentSnapshot.id;
+
+
+                        const commentElement =
+                            createCommentElement(
+                                id,
+                                data
+                            );
+
+
+                        commentsList.appendChild(
+                            commentElement
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                commentsList.innerHTML =
+                    '<div class="error">Gagal memuat ucapan.</div>';
+
+            }
+
+        }
+
+
+        // =========================
+        // CREATE COMMENT ELEMENT
+        // =========================
+
+        function createCommentElement(
+            id,
+            data
+        ) {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "comment";
+
+
+            const head =
+                document.createElement("div");
+
+            head.className =
+                "comment-head";
+
+
+            const info =
+                document.createElement("div");
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "comment-name";
+
+            name.textContent =
+                data.name || "Tamu";
+
+
+            const time =
+                document.createElement("div");
+
+            time.className =
+                "comment-time";
+
+            time.textContent =
+                formatDate(
+                    data.createdAt
+                );
+
+
+            info.appendChild(name);
+
+            info.appendChild(time);
+
+
+            const deleteButton =
+                document.createElement("button");
+
+            deleteButton.className =
+                "btn-delete";
+
+            deleteButton.textContent =
+                "Hapus";
+
+
+            deleteButton.addEventListener(
+                "click",
+                () => deleteComment(
+                    id,
+                    wrapper,
+                    data.presence === true
+                )
+            );
+
+
+            head.appendChild(info);
+
+            head.appendChild(
+                deleteButton
+            );
+
+
+            const text =
+                document.createElement("div");
+
+            text.className =
+                "comment-text";
+
+            text.textContent =
+                data.comment || "";
+
+
+            const presence =
+                document.createElement("span");
+
+            presence.className =
+                "presence";
+
+            presence.textContent =
+                data.presence === true
+                    ? "Hadir"
+                    : "Tidak hadir";
+
+
+            wrapper.appendChild(head);
+
+            wrapper.appendChild(text);
+
+            wrapper.appendChild(presence);
+
+
+            return wrapper;
+
+        }
+
+
+        // =========================
+        // DELETE COMMENT
+        // =========================
+
+        async function deleteComment(
+            id,
+            element,
+            wasPresent
+        ) {
+
+            const confirmed =
+                confirm(
+                    "Yakin ingin menghapus ucapan ini?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                await deleteDoc(
+                    doc(
+                        db,
+                        "comments",
+                        id
+                    )
+                );
+
+
+                element.remove();
+
+
+                // Update Total
+                const currentTotal =
+                    Number(
+                        totalComments.textContent
+                    );
+
+                totalComments.textContent =
+                    Math.max(
+                        0,
+                        currentTotal - 1
+                    );
+
+
+                // Update Hadir / Tidak Hadir
+                if (wasPresent) {
+
+                    const currentPresent =
+                        Number(
+                            totalPresent.textContent
+                        );
+
+                    totalPresent.textContent =
+                        Math.max(
+                            0,
+                            currentPresent - 1
+                        );
+
+                } else {
+
+                    const currentAbsent =
+                        Number(
+                            totalAbsent.textContent
+                        );
+
+                    totalAbsent.textContent =
+                        Math.max(
+                            0,
+                            currentAbsent - 1
+                        );
+
+                }
+
+
+                showMessage(
+                    "Ucapan berhasil dihapus.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Gagal menghapus ucapan.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        // =========================
+        // MESSAGE
+        // =========================
+
+        function showMessage(
+            message,
+            type
+        ) {
+
+            dashboardMessage.innerHTML =
+                `<div class="${type}">
+                    ${message}
+                </div>`;
+
+
+            setTimeout(
+                () => {
+
+                    dashboardMessage.innerHTML =
+                        "";
+
+                },
+                3000
+            );
+
+        }
+
+
+        // =========================
+        // DATE FORMAT
+        // =========================
+
+        function formatDate(
+            timestamp
+        ) {
+
+            if (
+                !timestamp ||
+                !timestamp.toDate
+            ) {
+
+                return "Baru saja";
+
+            }
+
+
+            const date =
+                timestamp.toDate();
+
+
+            return date.toLocaleString(
+                "id-ID",
+                {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
