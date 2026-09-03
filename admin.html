@@ -69,7 +69,38 @@ function loadStyleInputs(){let s=data.styles?.[$('styleKey').value]||{};for(cons
 function applyStyle(){const k=$('styleKey').value;data.styles=data.styles||{};data.styles[k]={fontSize:$('fontSize').value,fontFamily:$('fontFamily').value,fontWeight:$('fontWeight').value,letterSpacing:$('letterSpacing').value,textAlign:$('textAlign').value,color:$('color').value,lineHeight:$('lineHeight').value,fontStyle:$('fontStyle').value};msg('Pengaturan teks sudah masuk. Klik Simpan Semua untuk menyimpan.')}
 async function saveAll(){try{data.updatedAt=new Date().toISOString();await setDoc(settingsRef,data,{merge:true});msg('Semua perubahan berhasil disimpan. Website akan mengambil perubahan otomatis.')}catch(e){console.error(e);msg('Gagal menyimpan: '+e.message,false)}}
 function loadData(s){data={...defaults,...s,styles:{...defaults.styles,...(s.styles||{})}};buildFields();buildStyleSelect();$('videoOpacity').value=data.styles?.storyVideo?.opacity??.2;$('videoBlur').value=data.styles?.storyVideo?.blur??3;$('overlayOpacity').value=data.styles?.storyVideo?.overlayOpacity??.76;$('akadMapUrl').value=data.akadMapUrl||'';$('giftMapUrl').value=data.giftMapUrl||'';$('calendarUrl').value=data.calendarUrl||''}
-$('loginBtn').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);loginMsg('Login berhasil',true)}catch(e){loginMsg('Email atau password salah.')}};$('logout').onclick=()=>signOut(auth);onAuthStateChanged(auth,async user=>{if(!user)return $('app').classList.add('hidden');if(user.uid!==ADMIN_UID){await signOut(auth);return loginMsg('Akun ini bukan akun admin.')} $('login').classList.add('hidden');$('app').classList.remove('hidden');const snap=await getDoc(settingsRef);loadData(snap.exists()?snap.data():defaults);loadComments()});
+$('loginBtn').onclick=async()=>{
+  const email=$('email').value.trim();
+  const password=$('password').value;
+  if(!email || !password){loginMsg('Email dan password wajib diisi.');return}
+  $('loginBtn').disabled=true;
+  $('loginBtn').textContent='Memeriksa...';
+  try{
+    await signInWithEmailAndPassword(auth,email,password);
+    loginMsg('Login berhasil',true);
+  }catch(e){
+    console.error('Firebase Login Error:',e);
+    const code=e?.code||'';
+    const messages={
+      'auth/invalid-credential':'Email atau password tidak cocok.',
+      'auth/invalid-login-credentials':'Email atau password tidak cocok.',
+      'auth/wrong-password':'Password salah.',
+      'auth/user-not-found':'Akun dengan email tersebut tidak ditemukan.',
+      'auth/invalid-email':'Format email tidak valid.',
+      'auth/user-disabled':'Akun admin sedang dinonaktifkan di Firebase.',
+      'auth/too-many-requests':'Terlalu banyak percobaan login. Tunggu beberapa saat lalu coba lagi.',
+      'auth/network-request-failed':'Koneksi ke Firebase gagal. Periksa internet lalu coba lagi.',
+      'auth/operation-not-allowed':'Login Email/Password belum diaktifkan di Firebase Authentication.',
+      'auth/configuration-not-found':'Konfigurasi Firebase Authentication belum aktif.',
+      'auth/api-key-not-valid.-please-pass-a-valid-api-key.':'API key Firebase tidak valid.'
+    };
+    const friendly=messages[code]||('Login gagal. Kode: '+(code||'tidak diketahui')+(e?.message?' — '+e.message:''));
+    loginMsg(friendly,false);
+  }finally{
+    $('loginBtn').disabled=false;
+    $('loginBtn').textContent='Login';
+  }
+};$('logout').onclick=()=>signOut(auth);onAuthStateChanged(auth,async user=>{if(!user)return $('app').classList.add('hidden');if(user.uid!==ADMIN_UID){await signOut(auth);return loginMsg('Akun ini bukan akun admin.')} $('login').classList.add('hidden');$('app').classList.remove('hidden');const snap=await getDoc(settingsRef);loadData(snap.exists()?snap.data():defaults);loadComments()});
 $('styleKey').onchange=loadStyleInputs;$('applyStyle').onclick=applyStyle;$('saveAll').onclick=saveAll;$('saveVideo').onclick=()=>{data.styles=data.styles||{};data.styles.storyVideo={opacity:Number($('videoOpacity').value),blur:Number($('videoBlur').value),overlayOpacity:Number($('overlayOpacity').value)};saveAll()};$('saveLinks').onclick=()=>{data.akadMapUrl=$('akadMapUrl').value.trim();data.giftMapUrl=$('giftMapUrl').value.trim();data.calendarUrl=$('calendarUrl').value.trim();saveAll()};
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('editTab').classList.toggle('hidden',b.dataset.tab!=='edit');$('commentsTab').classList.toggle('hidden',b.dataset.tab!=='comments')});
 async function loadComments(){try{const q=query(collection(db,'comments'),orderBy('createdAt','desc'));const snap=await getDocs(q);let h=0,n=0,html='';snap.forEach(d=>{const x=d.data();x.presence?h++:n++;html+='<div class="comment"><div class="comment-head"><div><div class="comment-name">'+esc(x.name||'Tamu')+'</div><div class="muted">'+date(x.createdAt)+'</div></div><button class="btn danger" data-del="'+d.id+'">Hapus</button></div><div class="comment-text">'+esc(x.comment||'')+'</div><span class="presence">'+(x.presence?'Hadir':'Tidak hadir')+'</span></div>'});$('total').textContent=snap.size;$('hadir').textContent=h;$('tidak').textContent=n;$('comments').innerHTML=html||'<div class="small">Belum ada ucapan.</div>';document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus ucapan ini?')){await deleteDoc(doc(db,'comments',b.dataset.del));loadComments()}})}catch(e){$('comments').textContent='Gagal memuat ucapan.'}}
