@@ -811,30 +811,19 @@ $('loginMsg').innerHTML='<div class="notice '+(ok?'ok':'err')+'">'+t+'</div>'
 
 function buildFields(){
 let h='';
-
 for(const [g,keys] of fieldGroups){
-h+='<div class="section-title">'+g+'</div>';
-
-for(const k of keys){
-h+='<div class="field">
-<label>'+k.replaceAll('_',' ')+'</label>
-<textarea data-key="'+k+'">'+esc(data[k]??'')+'</textarea>
-</div>'
-}
-
+  h+='<div class="section-title">'+g+'</div>';
+  for(const k of keys){
+    h+='<div class="field"><label>'+k.replaceAll('_',' ')+'</label><textarea data-key="'+k+'">'+esc(data[k]??'')+'</textarea></div>';
+  }
 }
 $('fields').innerHTML=h;
-
 document.querySelectorAll('[data-key]').forEach(el=>el.addEventListener('input',()=>data[el.dataset.key]=el.value));
-
-document.querySelectorAll('[data-edit-placeholder]').forEach(el=>el.addEventListener('input',()=>data[el.dataset.editPlaceholder]=el.value))
+document.querySelectorAll('[data-edit-placeholder]').forEach(el=>el.addEventListener('input',()=>data[el.dataset.editPlaceholder]=el.value));
 }
 
 function esc(s){
-return String(s).replaceAll('&','&amp;
-').replaceAll('<','&lt;
-').replaceAll('>','&gt;
-')
+return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
 }
 
 function buildStyleSelect(){
