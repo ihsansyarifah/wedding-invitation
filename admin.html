@@ -1,1043 +1,568 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Ucapan & Doa</title>
+<style>
+:root{
+  --paper:#f7f1e7;
+  --card:#fffdf9;
+  --ink:#4d4036;
+  --muted:#8b7b6c;
+  --line:#e5d9ca;
+  --accent:#9b7955;
+  --accent-dark:#76583d;
+  --danger:#a84b45;
+  --danger-bg:#fff0ee;
+  --green:#597b5c;
+  --green-bg:#edf5ed;
+  --shadow:0 12px 35px rgba(91,70,48,.10);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(180,145,105,.12),transparent 28%),
+    radial-gradient(circle at 90% 100%,rgba(180,145,105,.10),transparent 30%),
+    var(--paper);
+  color:var(--ink);
+  font-family:Georgia,"Times New Roman",serif;
+}
+button,input{font:inherit}
+.hidden{display:none!important}
+.wrap{width:min(1050px,calc(100% - 28px));margin:auto}
+.login-page{min-height:100vh;display:grid;place-items:center;padding:24px}
+.login-card{
+  width:min(440px,100%);
+  background:rgba(255,253,249,.96);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:34px;
+  box-shadow:var(--shadow);
+}
+.brand{text-align:center;margin-bottom:28px}
+.brand .small{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.brand h1{font-size:28px;font-weight:400;margin:10px 0 5px}
+.brand p{margin:0;color:var(--muted);font-size:14px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:13px;margin-bottom:7px;color:var(--muted)}
+.field input{
+  width:100%;padding:13px 14px;border:1px solid var(--line);
+  border-radius:12px;background:#fff;color:var(--ink);outline:none;
+}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(155,121,85,.10)}
+.btn{
+  border:0;border-radius:12px;padding:12px 16px;cursor:pointer;
+  transition:.18s ease;
+}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn-primary{width:100%;background:var(--accent);color:white}
+.btn-primary:hover{background:var(--accent-dark)}
+.error{
+  margin-top:14px;padding:12px;border-radius:10px;
+  background:var(--danger-bg);color:var(--danger);font-size:13px;line-height:1.5;
+}
+.hint{font-size:12px;color:var(--muted);line-height:1.5;margin-top:16px;text-align:center}
 
-    <title>Admin Ucapan - Ihsan & Syarifah</title>
+header{
+  position:sticky;top:0;z-index:10;
+  background:rgba(247,241,231,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.header-title{font-size:20px}
+.header-title span{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.btn-logout{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn-logout:hover{background:#fff}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+main{padding:28px 0 50px}
+.notice{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px 16px;margin-bottom:18px;font-size:13px;color:var(--muted);
+}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;
+}
+.stat{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:18px;box-shadow:0 5px 20px rgba(91,70,48,.05);
+}
+.stat .label{font-size:12px;color:var(--muted);letter-spacing:.5px}
+.stat .number{font-size:30px;margin-top:7px}
+.stat.present .number{color:var(--green)}
+.stat.absent .number{color:var(--danger)}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f7f3ef;
-            color: #333;
-        }
+.toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:13px;margin-bottom:18px;
+}
+.search{
+  flex:1;min-width:210px;padding:11px 13px;border:1px solid var(--line);
+  border-radius:10px;outline:none;background:white;color:var(--ink);
+}
+.filter{
+  padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+  background:white;color:var(--ink);
+}
+.btn-refresh{background:#f1e9de;color:var(--ink)}
+.btn-refresh:hover{background:#e9ddcf}
 
-        .container {
-            width: min(100% - 30px, 900px);
-            margin: 0 auto;
-        }
-
-        header {
-            background: white;
-            border-bottom: 1px solid #eee;
-            padding: 18px 0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        header .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 22px;
-        }
-
-        .subtitle {
-            margin-top: 5px;
-            color: #888;
-            font-size: 13px;
-        }
-
-        main {
-            padding: 30px 0 50px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.05);
-        }
-
-        .login-card {
-            max-width: 450px;
-            margin: 50px auto;
-        }
-
-        h2 {
-            margin-top: 0;
-            font-size: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 13px 14px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 15px;
-        }
-
-        button {
-            border: 0;
-            border-radius: 10px;
-            padding: 11px 16px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-login {
-            width: 100%;
-            background: #333;
-            color: white;
-        }
-
-        .btn-logout {
-            background: #eee;
-            color: #333;
-        }
-
-        .btn-delete {
-            background: #d9534f;
-            color: white;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .error {
-            background: #fff0f0;
-            color: #c62828;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .success {
-            background: #effaf1;
-            color: #287d36;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        /* =========================
-           STATISTIK
-        ========================== */
-
-        .stats {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            flex: 1;
-            min-width: 150px;
-            background: #f7f3ef;
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .stat-number {
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        .stat-label {
-            color: #888;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        /* =========================
-           KOMENTAR
-        ========================== */
-
-        .comment {
-            border: 1px solid #eee;
-            border-radius: 14px;
-            padding: 17px;
-            margin-bottom: 13px;
-        }
-
-        .comment:last-child {
-            margin-bottom: 0;
-        }
-
-        .comment-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .comment-name {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .comment-time {
-            color: #999;
-            font-size: 12px;
-            margin-top: 4px;
-        }
-
-        .comment-text {
-            margin: 14px 0;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        .presence {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 20px;
-            background: #f3f3f3;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .empty {
-            text-align: center;
-            padding: 40px 15px;
-            color: #999;
-        }
-
-        .loading {
-            text-align: center;
-            color: #999;
-            padding: 30px;
-        }
-
-        @media (max-width: 600px) {
-            header .container {
-                align-items: flex-start;
-            }
-
-            .comment-head {
-                flex-direction: column;
-            }
-
-            .btn-delete {
-                width: 100%;
-            }
-
-            .stat {
-                min-width: calc(50% - 6px);
-            }
-        }
-    </style>
+.list{display:grid;gap:12px}
+.comment{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:18px;box-shadow:0 5px 20px rgba(91,70,48,.04);
+}
+.comment-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.name{font-size:18px}
+.time{font-size:11px;color:var(--muted);margin-top:4px}
+.badge{
+  flex:none;font-size:11px;padding:6px 9px;border-radius:99px;
+  white-space:nowrap;
+}
+.badge.present{background:var(--green-bg);color:var(--green)}
+.badge.absent{background:var(--danger-bg);color:var(--danger)}
+.badge.unknown{background:#f0eee9;color:var(--muted)}
+.message{
+  margin:15px 0 14px;padding:14px;background:#faf7f1;border-radius:12px;
+  white-space:pre-wrap;line-height:1.65;font-size:14px;
+}
+.comment-bottom{display:flex;justify-content:flex-end}
+.btn-delete{background:var(--danger-bg);color:var(--danger);border:1px solid #f0d1ce}
+.btn-delete:hover{background:#ffe5e2}
+.empty{
+  text-align:center;padding:45px 20px;background:var(--card);
+  border:1px dashed var(--line);border-radius:18px;color:var(--muted);
+}
+.loading{text-align:center;color:var(--muted);padding:35px}
+.toast{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
+  background:#4d4036;color:white;padding:11px 16px;border-radius:12px;
+  opacity:0;pointer-events:none;transition:.2s;z-index:50;font-size:13px;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:650px){
+  .login-card{padding:26px 20px}
+  .stats{grid-template-columns:1fr}
+  .header-title{font-size:17px}
+  .comment-top{display:block}
+  .badge{display:inline-block;margin-top:10px}
+  .toolbar{padding:10px}
+  .search{min-width:100%}
+}
+</style>
 </head>
 
 <body>
 
-    <!-- =========================
-         LOGIN
-    ========================== -->
+<section id="loginPage" class="login-page">
+  <div class="login-card">
+    <div class="brand">
+      <div class="small">Undangan Pernikahan</div>
+      <h1>Ihsan &amp; Syarifah</h1>
+      <p>Admin Ucapan &amp; Doa</p>
+    </div>
 
-    <section id="loginSection">
-        <div class="container">
-            <div class="card login-card">
+    <form id="loginForm">
+      <div class="field">
+        <label for="email">Email Admin</label>
+        <input id="email" type="email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+      </div>
+      <button id="loginBtn" class="btn btn-primary" type="submit">Masuk</button>
+    </form>
 
-                <h2>Login Admin</h2>
+    <div id="loginError" class="error hidden"></div>
+    <div class="hint">
+      Halaman ini hanya untuk mengelola <b>Ucapan &amp; Doa</b>.<br>
+      Isi undangan tetap diedit langsung melalui <b>index.html</b>.
+    </div>
+  </div>
+</section>
 
-                <p class="subtitle">
-                    Dashboard Ucapan & Doa
-                </p>
+<section id="app" class="hidden">
+  <header>
+    <div class="wrap header-inner">
+      <div class="header-title">
+        Ucapan &amp; Doa
+        <span>Dashboard Admin</span>
+      </div>
+      <button id="logoutBtn" class="btn btn-logout">Keluar</button>
+    </div>
+  </header>
 
-                <br>
+  <main class="wrap">
+    <div class="notice">
+      Di halaman ini kamu hanya bisa <b>melihat</b>, memantau status <b>Hadir / Tidak Hadir</b>,
+      dan <b>menghapus</b> ucapan. Tidak ada fitur untuk mengubah isi undangan.
+    </div>
 
-                <div id="loginError" class="error hidden"></div>
+    <section class="stats">
+      <div class="stat">
+        <div class="label">TOTAL UCAPAN</div>
+        <div id="totalStat" class="number">0</div>
+      </div>
+      <div class="stat present">
+        <div class="label">HADIR</div>
+        <div id="presentStat" class="number">0</div>
+      </div>
+      <div class="stat absent">
+        <div class="label">TIDAK HADIR</div>
+        <div id="absentStat" class="number">0</div>
+      </div>
+    </section>
 
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Email admin"
-                    autocomplete="email"
-                >
+    <section class="toolbar">
+      <input id="searchInput" class="search" type="search" placeholder="Cari nama atau ucapan...">
+      <select id="filterSelect" class="filter">
+        <option value="all">Semua</option>
+        <option value="present">Hadir</option>
+        <option value="absent">Tidak Hadir</option>
+        <option value="unknown">Status tidak diketahui</option>
+      </select>
+      <button id="refreshBtn" class="btn btn-refresh">↻ Muat ulang</button>
+    </section>
 
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    autocomplete="current-password"
-                >
+    <section id="list" class="list">
+      <div class="loading">Memuat ucapan...</div>
+    </section>
+  </main>
+</section>
 
-                <button
-                    id="loginButton"
-                    class="btn-login"
-                >
-                    Login
-                </button>
+<div id="toast" class="toast"></div>
 
-            </div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+/* =========================================================
+   FIREBASE
+   ========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyCxTII7lrTrqq-HBaOEHBz7uqg5Zl9T8",
+  authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
+  projectId: "undangan-ihsan-syarifah",
+  storageBucket: "undangan-ihsan-syarifah.firebasestorage.app",
+  messagingSenderId: "877091672086",
+  appId: "1:877091672086:web:9758a37f0c575cc1b3a537"
+};
+
+const ADMIN_UID = "DwMXUyfyChMp85zsb9L5rFy6Tg53";
+
+const appFirebase = initializeApp(firebaseConfig);
+const auth = getAuth(appFirebase);
+const db = getFirestore(appFirebase);
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+const loginPage = document.getElementById("loginPage");
+const appPage = document.getElementById("app");
+const loginForm = document.getElementById("loginForm");
+const loginBtn = document.getElementById("loginBtn");
+const loginError = document.getElementById("loginError");
+const logoutBtn = document.getElementById("logoutBtn");
+const refreshBtn = document.getElementById("refreshBtn");
+const searchInput = document.getElementById("searchInput");
+const filterSelect = document.getElementById("filterSelect");
+const list = document.getElementById("list");
+const totalStat = document.getElementById("totalStat");
+const presentStat = document.getElementById("presentStat");
+const absentStat = document.getElementById("absentStat");
+const toast = document.getElementById("toast");
+
+let comments = [];
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = "Memproses...";
+  loginError.classList.add("hidden");
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    loginError.textContent = readableFirebaseError(error);
+    loginError.classList.remove("hidden");
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Masuk";
+  }
+});
+
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+});
+
+/* =========================================================
+   AUTH STATE + ADMIN LOCK
+   ========================================================= */
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    loginPage.classList.remove("hidden");
+    appPage.classList.add("hidden");
+    return;
+  }
+
+  if (user.uid !== ADMIN_UID) {
+    loginError.textContent =
+      "Akun ini berhasil login, tetapi bukan akun admin yang diizinkan.";
+    loginError.classList.remove("hidden");
+    await signOut(auth);
+    return;
+  }
+
+  loginPage.classList.add("hidden");
+  appPage.classList.remove("hidden");
+  await loadComments();
+});
+
+/* =========================================================
+   LOAD COMMENTS
+   ========================================================= */
+async function loadComments() {
+  list.innerHTML = '<div class="loading">Memuat ucapan...</div>';
+
+  try {
+    const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+
+    comments = snapshot.docs.map((item) => ({
+      id: item.id,
+      ...item.data()
+    }));
+
+    updateStats();
+    renderComments();
+  } catch (error) {
+    list.innerHTML = `
+      <div class="empty">
+        <b>Gagal memuat ucapan.</b><br><br>
+        ${escapeHtml(readableFirebaseError(error))}
+      </div>
+    `;
+  }
+}
+
+refreshBtn.addEventListener("click", loadComments);
+searchInput.addEventListener("input", renderComments);
+filterSelect.addEventListener("change", renderComments);
+
+/* =========================================================
+   STATS
+   ========================================================= */
+function updateStats() {
+  const present = comments.filter((item) => item.presence === true).length;
+  const absent = comments.filter((item) => item.presence === false).length;
+
+  totalStat.textContent = comments.length;
+  presentStat.textContent = present;
+  absentStat.textContent = absent;
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+function renderComments() {
+  const keyword = searchInput.value.trim().toLowerCase();
+  const filter = filterSelect.value;
+
+  const filtered = comments.filter((item) => {
+    const name = String(item.name || "").toLowerCase();
+    const message = String(item.comment || "").toLowerCase();
+
+    const matchesSearch =
+      !keyword || name.includes(keyword) || message.includes(keyword);
+
+    let matchesFilter = true;
+
+    if (filter === "present") matchesFilter = item.presence === true;
+    if (filter === "absent") matchesFilter = item.presence === false;
+    if (filter === "unknown")
+      matchesFilter = typeof item.presence !== "boolean";
+
+    return matchesSearch && matchesFilter;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = `
+      <div class="empty">
+        ${comments.length
+          ? "Tidak ada ucapan yang cocok dengan pencarian/filter."
+          : "Belum ada ucapan & doa."}
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = filtered.map((item) => {
+    const status = getPresence(item.presence);
+    const time = formatDate(item.createdAt);
+
+    return `
+      <article class="comment">
+        <div class="comment-top">
+          <div>
+            <div class="name">${escapeHtml(item.name || "Tanpa nama")}</div>
+            <div class="time">${escapeHtml(time)}</div>
+          </div>
+          <span class="badge ${status.className}">${status.label}</span>
         </div>
-    </section>
 
-
-    <!-- =========================
-         DASHBOARD
-    ========================== -->
-
-    <section id="dashboardSection" class="hidden">
-
-        <header>
-            <div class="container">
-
-                <div>
-                    <h1>Dashboard Ucapan</h1>
-
-                    <div class="subtitle">
-                        Ihsan & Syarifah
-                    </div>
-                </div>
-
-                <button
-                    id="logoutButton"
-                    class="btn-logout"
-                >
-                    Logout
-                </button>
-
-            </div>
-        </header>
-
-
-        <main>
-
-            <div class="container">
-
-                <div id="dashboardMessage"></div>
-
-
-                <!-- =========================
-                     RINGKASAN
-                ========================== -->
-
-                <div class="card">
-
-                    <h2>Ringkasan</h2>
-
-                    <div class="stats">
-
-                        <div class="stat">
-                            <div
-                                id="totalComments"
-                                class="stat-number"
-                            >
-                                0
-                            </div>
-
-                            <div class="stat-label">
-                                Total Ucapan
-                            </div>
-                        </div>
-
-
-                        <div class="stat">
-                            <div
-                                id="totalPresent"
-                                class="stat-number"
-                            >
-                                0
-                            </div>
-
-                            <div class="stat-label">
-                                Hadir
-                            </div>
-                        </div>
-
-
-                        <div class="stat">
-                            <div
-                                id="totalAbsent"
-                                class="stat-number"
-                            >
-                                0
-                            </div>
-
-                            <div class="stat-label">
-                                Tidak Hadir
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =========================
-                     UCAPAN
-                ========================== -->
-
-                <div class="card">
-
-                    <h2>Ucapan & Doa</h2>
-
-                    <div
-                        id="commentsList"
-                        class="loading"
-                    >
-                        Memuat ucapan...
-                    </div>
-
-                </div>
-
-            </div>
-
-        </main>
-
-    </section>
-
-
-    <!-- =========================
-         FIREBASE
-    ========================== -->
-
-    <script type="module">
-
-        import {
-            initializeApp
-        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-        import {
-            getAuth,
-            signInWithEmailAndPassword,
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-        import {
-            getFirestore,
-            collection,
-            query,
-            orderBy,
-            getDocs,
-            deleteDoc,
-            doc
-        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-        // =========================
-        // FIREBASE CONFIG
-        // =========================
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCxTII7lrjTrcqq-HBaOEHBz7uqg5Zl9T8",
-            authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
-            projectId: "undangan-ihsan-syarifah",
-            storageBucket: "undangan-ihsan-syarifah.firebasestorage.app",
-            messagingSenderId: "877091672086",
-            appId: "1:877091672086:web:9758a37f0c575cc1b3a537"
-        };
-
-
-        // =========================
-        // INIT FIREBASE
-        // =========================
-
-        const app = initializeApp(firebaseConfig);
-
-        const auth = getAuth(app);
-
-        const db = getFirestore(app);
-
-
-        // =========================
-        // ADMIN UID
-        // =========================
-
-        const ADMIN_UID =
-            "DwMXUyfyChMp85zsb9L5rFy6Tg53";
-
-
-        // =========================
-        // ELEMENTS
-        // =========================
-
-        const loginSection =
-            document.getElementById("loginSection");
-
-        const dashboardSection =
-            document.getElementById("dashboardSection");
-
-        const emailInput =
-            document.getElementById("email");
-
-        const passwordInput =
-            document.getElementById("password");
-
-        const loginButton =
-            document.getElementById("loginButton");
-
-        const logoutButton =
-            document.getElementById("logoutButton");
-
-        const loginError =
-            document.getElementById("loginError");
-
-        const dashboardMessage =
-            document.getElementById("dashboardMessage");
-
-        const commentsList =
-            document.getElementById("commentsList");
-
-        const totalComments =
-            document.getElementById("totalComments");
-
-        const totalPresent =
-            document.getElementById("totalPresent");
-
-        const totalAbsent =
-            document.getElementById("totalAbsent");
-
-
-        // =========================
-        // LOGIN
-        // =========================
-
-        loginButton.addEventListener(
-            "click",
-            async () => {
-
-                const email =
-                    emailInput.value.trim();
-
-                const password =
-                    passwordInput.value;
-
-
-                loginError.classList.add(
-                    "hidden"
-                );
-
-
-                if (!email || !password) {
-
-                    loginError.textContent =
-                        "Email dan password wajib diisi.";
-
-                    loginError.classList.remove(
-                        "hidden"
-                    );
-
-                    return;
-                }
-
-
-                loginButton.disabled = true;
-
-                loginButton.textContent =
-                    "Login...";
-
-
-                try {
-
-                    await signInWithEmailAndPassword(
-                        auth,
-                        email,
-                        password
-                    );
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    loginError.textContent =
-                        "Email atau password salah.";
-
-                    loginError.classList.remove(
-                        "hidden"
-                    );
-
-                } finally {
-
-                    loginButton.disabled = false;
-
-                    loginButton.textContent =
-                        "Login";
-                }
-
-            }
-        );
-
-
-        // =========================
-        // LOGOUT
-        // =========================
-
-        logoutButton.addEventListener(
-            "click",
-            async () => {
-
-                await signOut(auth);
-
-            }
-        );
-
-
-        // =========================
-        // AUTH STATE
-        // =========================
-
-        onAuthStateChanged(
-            auth,
-            async (user) => {
-
-                if (!user) {
-
-                    loginSection.classList.remove(
-                        "hidden"
-                    );
-
-                    dashboardSection.classList.add(
-                        "hidden"
-                    );
-
-                    return;
-                }
-
-
-                if (user.uid !== ADMIN_UID) {
-
-                    await signOut(auth);
-
-                    loginError.textContent =
-                        "Akun ini bukan akun admin.";
-
-                    loginError.classList.remove(
-                        "hidden"
-                    );
-
-                    return;
-                }
-
-
-                loginSection.classList.add(
-                    "hidden"
-                );
-
-                dashboardSection.classList.remove(
-                    "hidden"
-                );
-
-
-                loadComments();
-
-            }
-        );
-
-
-        // =========================
-        // LOAD COMMENTS
-        // =========================
-
-        async function loadComments() {
-
-            commentsList.innerHTML =
-                '<div class="loading">Memuat ucapan...</div>';
-
-
-            try {
-
-                const commentsQuery =
-                    query(
-                        collection(db, "comments"),
-                        orderBy(
-                            "createdAt",
-                            "desc"
-                        )
-                    );
-
-
-                const snapshot =
-                    await getDocs(
-                        commentsQuery
-                    );
-
-
-                // =========================
-                // HITUNG STATISTIK
-                // =========================
-
-                let hadir = 0;
-                let tidakHadir = 0;
-
-
-                snapshot.forEach(
-                    (commentSnapshot) => {
-
-                        const data =
-                            commentSnapshot.data();
-
-                        if (data.presence === true) {
-
-                            hadir++;
-
-                        } else {
-
-                            tidakHadir++;
-
-                        }
-
-                    }
-                );
-
-
-                totalComments.textContent =
-                    snapshot.size;
-
-                totalPresent.textContent =
-                    hadir;
-
-                totalAbsent.textContent =
-                    tidakHadir;
-
-
-                // =========================
-                // JIKA KOSONG
-                // =========================
-
-                if (snapshot.empty) {
-
-                    commentsList.innerHTML =
-                        '<div class="empty">Belum ada ucapan.</div>';
-
-                    return;
-                }
-
-
-                commentsList.innerHTML = "";
-
-
-                // =========================
-                // TAMPILKAN UCAPAN
-                // =========================
-
-                snapshot.forEach(
-                    (commentSnapshot) => {
-
-                        const data =
-                            commentSnapshot.data();
-
-                        const id =
-                            commentSnapshot.id;
-
-
-                        const commentElement =
-                            createCommentElement(
-                                id,
-                                data
-                            );
-
-
-                        commentsList.appendChild(
-                            commentElement
-                        );
-
-                    }
-                );
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                commentsList.innerHTML =
-                    '<div class="error">Gagal memuat ucapan.</div>';
-
-            }
-
-        }
-
-
-        // =========================
-        // CREATE COMMENT ELEMENT
-        // =========================
-
-        function createCommentElement(
-            id,
-            data
-        ) {
-
-            const wrapper =
-                document.createElement("div");
-
-            wrapper.className =
-                "comment";
-
-
-            const head =
-                document.createElement("div");
-
-            head.className =
-                "comment-head";
-
-
-            const info =
-                document.createElement("div");
-
-
-            const name =
-                document.createElement("div");
-
-            name.className =
-                "comment-name";
-
-            name.textContent =
-                data.name || "Tamu";
-
-
-            const time =
-                document.createElement("div");
-
-            time.className =
-                "comment-time";
-
-            time.textContent =
-                formatDate(
-                    data.createdAt
-                );
-
-
-            info.appendChild(name);
-
-            info.appendChild(time);
-
-
-            const deleteButton =
-                document.createElement("button");
-
-            deleteButton.className =
-                "btn-delete";
-
-            deleteButton.textContent =
-                "Hapus";
-
-
-            deleteButton.addEventListener(
-                "click",
-                () => deleteComment(
-                    id,
-                    wrapper,
-                    data.presence === true
-                )
-            );
-
-
-            head.appendChild(info);
-
-            head.appendChild(
-                deleteButton
-            );
-
-
-            const text =
-                document.createElement("div");
-
-            text.className =
-                "comment-text";
-
-            text.textContent =
-                data.comment || "";
-
-
-            const presence =
-                document.createElement("span");
-
-            presence.className =
-                "presence";
-
-            presence.textContent =
-                data.presence === true
-                    ? "Hadir"
-                    : "Tidak hadir";
-
-
-            wrapper.appendChild(head);
-
-            wrapper.appendChild(text);
-
-            wrapper.appendChild(presence);
-
-
-            return wrapper;
-
-        }
-
-
-        // =========================
-        // DELETE COMMENT
-        // =========================
-
-        async function deleteComment(
-            id,
-            element,
-            wasPresent
-        ) {
-
-            const confirmed =
-                confirm(
-                    "Yakin ingin menghapus ucapan ini?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            try {
-
-                await deleteDoc(
-                    doc(
-                        db,
-                        "comments",
-                        id
-                    )
-                );
-
-
-                element.remove();
-
-
-                // Update Total
-                const currentTotal =
-                    Number(
-                        totalComments.textContent
-                    );
-
-                totalComments.textContent =
-                    Math.max(
-                        0,
-                        currentTotal - 1
-                    );
-
-
-                // Update Hadir / Tidak Hadir
-                if (wasPresent) {
-
-                    const currentPresent =
-                        Number(
-                            totalPresent.textContent
-                        );
-
-                    totalPresent.textContent =
-                        Math.max(
-                            0,
-                            currentPresent - 1
-                        );
-
-                } else {
-
-                    const currentAbsent =
-                        Number(
-                            totalAbsent.textContent
-                        );
-
-                    totalAbsent.textContent =
-                        Math.max(
-                            0,
-                            currentAbsent - 1
-                        );
-
-                }
-
-
-                showMessage(
-                    "Ucapan berhasil dihapus.",
-                    "success"
-                );
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "Gagal menghapus ucapan.",
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        // =========================
-        // MESSAGE
-        // =========================
-
-        function showMessage(
-            message,
-            type
-        ) {
-
-            dashboardMessage.innerHTML =
-                `<div class="${type}">
-                    ${message}
-                </div>`;
-
-
-            setTimeout(
-                () => {
-
-                    dashboardMessage.innerHTML =
-                        "";
-
-                },
-                3000
-            );
-
-        }
-
-
-        // =========================
-        // DATE FORMAT
-        // =========================
-
-        function formatDate(
-            timestamp
-        ) {
-
-            if (
-                !timestamp ||
-                !timestamp.toDate
-            ) {
-
-                return "Baru saja";
-
-            }
-
-
-            const date =
-                timestamp.toDate();
-
-
-            return date.toLocaleString(
-                "id-ID",
-                {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
-
-        }
-
-    </script>
+        <div class="message">${escapeHtml(item.comment || "")}</div>
+
+        <div class="comment-bottom">
+          <button
+            class="btn btn-delete"
+            data-delete-id="${escapeHtml(item.id)}"
+            type="button"
+          >Hapus</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  list.querySelectorAll("[data-delete-id]").forEach((button) => {
+    button.addEventListener("click", () => deleteComment(button.dataset.deleteId));
+  });
+}
+
+/* =========================================================
+   DELETE
+   ========================================================= */
+async function deleteComment(id) {
+  const item = comments.find((comment) => comment.id === id);
+  if (!item) return;
+
+  const name = item.name || "ucapan ini";
+
+  const confirmed = confirm(
+    `Hapus ucapan dari "${name}"?\n\nTindakan ini tidak bisa dibatalkan.`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    await deleteDoc(doc(db, "comments", id));
+
+    comments = comments.filter((comment) => comment.id !== id);
+    updateStats();
+    renderComments();
+    showToast("Ucapan berhasil dihapus.");
+  } catch (error) {
+    alert("Gagal menghapus ucapan.\n\n" + readableFirebaseError(error));
+  }
+}
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+function getPresence(value) {
+  if (value === true) {
+    return { label: "✓ HADIR", className: "present" };
+  }
+
+  if (value === false) {
+    return { label: "✕ TIDAK HADIR", className: "absent" };
+  }
+
+  return { label: "STATUS TIDAK DIKETAHUI", className: "unknown" };
+}
+
+function formatDate(timestamp) {
+  if (!timestamp) return "Waktu tidak tersedia";
+
+  try {
+    const date =
+      typeof timestamp.toDate === "function"
+        ? timestamp.toDate()
+        : new Date(timestamp);
+
+    if (Number.isNaN(date.getTime())) return "Waktu tidak tersedia";
+
+    return new Intl.DateTimeFormat("id-ID", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(date);
+  } catch {
+    return "Waktu tidak tersedia";
+  }
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function readableFirebaseError(error) {
+  const code = error?.code || "";
+  const raw = error?.message || String(error);
+
+  const map = {
+    "auth/invalid-credential":
+      "Email atau password admin salah.",
+    "auth/invalid-email":
+      "Format email tidak valid.",
+    "auth/user-not-found":
+      "Akun admin tidak ditemukan.",
+    "auth/wrong-password":
+      "Password admin salah.",
+    "auth/api-key-not-valid":
+      "Firebase menolak API Key. Ini masalah konfigurasi Firebase, bukan password.",
+    "auth/unauthorized-domain":
+      "Domain halaman admin belum diizinkan di Firebase Authentication.",
+    "permission-denied":
+      "Akses Firestore ditolak oleh Security Rules.",
+    "failed-precondition":
+      "Query Firestore membutuhkan index atau konfigurasi tambahan.",
+    "unavailable":
+      "Firebase sedang tidak dapat dihubungi. Coba lagi."
+  };
+
+  return map[code] || `${code ? code + ": " : ""}${raw}`;
+}
+
+let toastTimer;
+function showToast(message) {
+  clearTimeout(toastTimer);
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
+</script>
 
 </body>
 </html>
