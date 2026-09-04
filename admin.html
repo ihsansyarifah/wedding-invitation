@@ -287,67 +287,6 @@
                 min-width: calc(50% - 6px);
             }
         }
-    
-        /* =========================
-           FORM EDIT UNDANGAN
-        ========================== */
-
-        .edit-form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .edit-group {
-            border: 1px solid #eee;
-            border-radius: 14px;
-            padding: 17px;
-            background: #fff;
-        }
-
-        .edit-group-full {
-            grid-column: 1 / -1;
-        }
-
-        .edit-group h3 {
-            margin: 0 0 15px;
-            font-size: 16px;
-        }
-
-        .edit-group label {
-            display: block;
-            margin: 12px 0 6px;
-            color: #666;
-            font-size: 13px;
-        }
-
-        .edit-group input,
-        .edit-group textarea {
-            margin-bottom: 4px;
-        }
-
-        .edit-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 700px) {
-            .edit-form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .edit-group-full {
-                grid-column: auto;
-            }
-
-            .edit-actions button {
-                width: 100% !important;
-            }
-        }
-
     </style>
 </head>
 
@@ -538,7 +477,7 @@
                 </div>
 
 
-                                <!-- =========================
+                <!-- =========================
                      TAB EDIT UNDANGAN
                 ========================== -->
 
@@ -546,149 +485,64 @@
 
                     <div class="card">
 
-                        <h2>Edit Isi Undangan</h2>
+                        <h2>Edit index.html</h2>
 
                         <p class="subtitle">
-                            Tinggal ubah isi yang kamu mau di bawah ini.
-                            Kamu tidak perlu membuka atau mengedit kode index.html.
+                            Edit langsung file <b>index.html</b> dari dashboard.
+                            Setelah disimpan, perubahan dikirim ke GitHub.
                         </p>
 
                         <div id="editMessage"></div>
 
-                        <div class="edit-form-grid">
-
-                            <div class="edit-group">
-                                <h3>Nama Mempelai</h3>
-
-                                <label>Nama Ihsan</label>
-                                <input id="editGroomName" type="text">
-
-                                <label>Nama Syarifah</label>
-                                <input id="editBrideName" type="text">
-
-                                <label>Gelar / posisi Ihsan</label>
-                                <input id="editGroomPosition" type="text">
-
-                                <label>Orang tua Ihsan</label>
-                                <input id="editGroomFather" type="text">
-                                <input id="editGroomMother" type="text">
-
-                                <label>Gelar / posisi Syarifah</label>
-                                <input id="editBridePosition" type="text">
-
-                                <label>Orang tua Syarifah</label>
-                                <input id="editBrideFather" type="text">
-                                <input id="editBrideMother" type="text">
-                            </div>
-
-
-                            <div class="edit-group">
-                                <h3>Tanggal & Acara</h3>
-
-                                <label>Tanggal pernikahan</label>
-                                <input id="editWeddingDate" type="date">
-
-                                <label>Waktu akad</label>
-                                <input id="editAkadTime" type="text">
-
-                                <label>Waktu resepsi</label>
-                                <input id="editReceptionTime" type="text">
-
-                                <label>Link Google Maps akad</label>
-                                <input id="editAkadMap" type="url">
-
-                                <label>Link Google Maps kirim kado</label>
-                                <input id="editGiftMap" type="url">
-                            </div>
-
-
-                            <div class="edit-group edit-group-full">
-                                <h3>Kisah Kami</h3>
-
-                                <label>2019</label>
-                                <textarea id="editStory2019" rows="4"></textarea>
-
-                                <label>2022</label>
-                                <textarea id="editStory2022" rows="4"></textarea>
-
-                                <label>2025</label>
-                                <textarea id="editStory2025" rows="5"></textarea>
-
-                                <label>2026</label>
-                                <textarea id="editStory2026" rows="4"></textarea>
-
-                                <label>Kalimat penutup kisah</label>
-                                <textarea id="editStoryFinal" rows="4"></textarea>
-                            </div>
-
-
-                            <div class="edit-group">
-                                <h3>Love Gift — Transfer</h3>
-
-                                <label>Nama penerima</label>
-                                <input id="editBankHolder" type="text">
-
-                                <label>Nama bank</label>
-                                <input id="editBankName" type="text">
-
-                                <label>Nomor rekening</label>
-                                <input id="editBankNumber" type="text">
-                            </div>
-
-
-                            <div class="edit-group">
-                                <h3>Love Gift — E-Wallet</h3>
-
-                                <label>GoPay</label>
-                                <input id="editGopay" type="text">
-
-                                <label>DANA</label>
-                                <input id="editDana" type="text">
-                            </div>
-
-
-                            <div class="edit-group edit-group-full">
-                                <h3>Love Gift — Kirim Kado</h3>
-
-                                <label>Alamat kirim kado</label>
-                                <textarea id="editGiftAddress" rows="3"></textarea>
-                            </div>
-
-                        </div>
-
-
-                        <div class="edit-actions">
-
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;">
                             <button
-                                id="loadInvitationButton"
+                                id="loadIndexButton"
                                 type="button"
                                 class="btn-login"
                                 style="width:auto;"
                             >
-                                Muat Data
+                                Muat index.html
                             </button>
 
                             <button
-                                id="saveInvitationButton"
+                                id="saveIndexButton"
                                 type="button"
                                 class="btn-delete"
                                 style="width:auto;"
                             >
-                                Simpan Perubahan
+                                Simpan ke GitHub
                             </button>
-
                         </div>
 
+                        <textarea
+                            id="indexEditor"
+                            spellcheck="false"
+                            placeholder="Klik “Muat index.html” untuk mengambil file dari GitHub..."
+                            style="
+                                width:100%;
+                                min-height:60vh;
+                                padding:15px;
+                                border:1px solid #ddd;
+                                border-radius:12px;
+                                background:#fbfaf8;
+                                color:#333;
+                                font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+                                font-size:12px;
+                                line-height:1.55;
+                                resize:vertical;
+                                tab-size:2;
+                            "
+                        ></textarea>
 
-                        <p class="subtitle" style="margin-top:15px;">
-                            Saat halaman Edit Undangan dibuka, data terbaru akan
-                            diambil dari GitHub secara otomatis. File HTML tetap
-                            berada di GitHub dan tidak ditampilkan di dashboard.
+                        <p class="subtitle" style="margin-top:10px;">
+                            Sebaiknya klik <b>Muat index.html</b> sebelum mengedit agar
+                            versi yang kamu edit adalah versi terbaru di GitHub.
                         </p>
 
                     </div>
 
                 </div>
+
             </div>
 
         </main>
@@ -767,53 +621,27 @@
 
 
 
-        
         // =========================
-        // EDITOR ISI UNDANGAN
+        // GITHUB EDITOR
         // =========================
 
+        // Setelah Cloudflare Worker dibuat, isi URL worker di bawah ini.
         const GITHUB_WORKER_URL =
             "https://ihsan-syarifah-editor.ihsansyarifah111.workers.dev";
 
         let loadedIndexSha = null;
-        let loadedIndexHtml = "";
+
+        const indexEditor =
+            document.getElementById("indexEditor");
+
+        const loadIndexButton =
+            document.getElementById("loadIndexButton");
+
+        const saveIndexButton =
+            document.getElementById("saveIndexButton");
 
         const editMessage =
             document.getElementById("editMessage");
-
-        const loadInvitationButton =
-            document.getElementById("loadInvitationButton");
-
-        const saveInvitationButton =
-            document.getElementById("saveInvitationButton");
-
-
-        const editFields = {
-            groomName: document.getElementById("editGroomName"),
-            brideName: document.getElementById("editBrideName"),
-            groomPosition: document.getElementById("editGroomPosition"),
-            groomFather: document.getElementById("editGroomFather"),
-            groomMother: document.getElementById("editGroomMother"),
-            bridePosition: document.getElementById("editBridePosition"),
-            brideFather: document.getElementById("editBrideFather"),
-            brideMother: document.getElementById("editBrideMother"),
-            weddingDate: document.getElementById("editWeddingDate"),
-            akadTime: document.getElementById("editAkadTime"),
-            receptionTime: document.getElementById("editReceptionTime"),
-            akadMap: document.getElementById("editAkadMap"),
-            giftMap: document.getElementById("editGiftMap"),
-            story2019: document.getElementById("editStory2019"),
-            story2022: document.getElementById("editStory2022"),
-            story2025: document.getElementById("editStory2025"),
-            story2026: document.getElementById("editStory2026"),
-            storyFinal: document.getElementById("editStoryFinal"),
-            bankHolder: document.getElementById("editBankHolder"),
-            bankName: document.getElementById("editBankName"),
-            bankNumber: document.getElementById("editBankNumber"),
-            gopay: document.getElementById("editGopay"),
-            dana: document.getElementById("editDana"),
-            giftAddress: document.getElementById("editGiftAddress")
-        };
 
 
         function showEditMessage(message, type = "success") {
@@ -829,9 +657,7 @@
             const user = auth.currentUser;
 
             if (!user) {
-                throw new Error(
-                    "Sesi admin sudah tidak aktif. Silakan login lagi."
-                );
+                throw new Error("Sesi admin sudah tidak aktif. Silakan login lagi.");
             }
 
             return await user.getIdToken(true);
@@ -839,1224 +665,27 @@
         }
 
 
-        function cleanText(value) {
+        async function loadIndexHtml() {
 
-            return String(value || "")
-                .replace(/\r\n/g, "\n")
-                .trim();
-
-        }
-
-
-        function htmlToPlainText(html) {
-
-            const temp =
-                document.createElement("div");
-
-            temp.innerHTML = html;
-
-            return cleanText(
-                temp.textContent || ""
-            );
-
-        }
-
-
-        function htmlToTextarea(html) {
-
-            return cleanText(
-                String(html || "")
-                    .replace(/<br\s*\/?>/gi, "\n")
-                    .replace(/<[^>]+>/g, "")
-                    .replace(/&amp;/g, "&")
-                    .replace(/&lt;/g, "<")
-                    .replace(/&gt;/g, ">")
-                    .replace(/&quot;/g, '"')
-                    .replace(/&#039;/g, "'")
-            );
-
-        }
-
-
-        function textToHtml(text) {
-
-            const escaped =
-                String(text || "")
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/"/g, "&quot;")
-                    .replace(/'/g, "&#039;");
-
-            return escaped
-                .replace(/\n/g, "<br>\n");
-
-        }
-
-
-        function setValue(element, value) {
-
-            if (element) {
-                element.value =
-                    value || "";
-            }
-
-        }
-
-
-        function getPersonBlocks(doc) {
-
-            return Array.from(
-                doc.querySelectorAll(".person-name")
-            );
-
-        }
-
-
-        function getPersonData(nameElement) {
-
-            const wrapper =
-                nameElement?.closest(
-                    '[data-aos]'
-                ) ||
-                nameElement?.parentElement;
-
-            if (!wrapper) {
-                return null;
-            }
-
-            const paragraphs =
-                Array.from(
-                    wrapper.querySelectorAll("p")
+            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
+                showEditMessage(
+                    "Worker GitHub belum dipasang. Setelah Worker selesai dibuat, ganti URL Worker di bagian konfigurasi.",
+                    "error"
                 );
-
-            return {
-                wrapper,
-                name:
-                    cleanText(
-                        nameElement.textContent
-                    ),
-                position:
-                    cleanText(
-                        paragraphs[0]?.textContent
-                    ),
-                father:
-                    cleanText(
-                        paragraphs[1]?.textContent
-                    ),
-                mother:
-                    cleanText(
-                        paragraphs[3]?.textContent
-                    )
-            };
-
-        }
-
-
-        function findSectionCard(
-            doc,
-            title
-        ) {
-
-            return Array.from(
-                doc.querySelectorAll(
-                    ".section-card"
-                )
-            ).find(
-                card =>
-                    cleanText(
-                        card.querySelector("h2")?.textContent
-                    ) === title
-            );
-
-        }
-
-
-        function getStoryBlock(
-            doc,
-            year
-        ) {
-
-            return Array.from(
-                doc.querySelectorAll(
-                    ".story-block"
-                )
-            ).find(
-                block =>
-                    cleanText(
-                        block.querySelector(
-                            ".story-year"
-                        )?.textContent
-                    ) === year
-            );
-
-        }
-
-
-        function storyBlockToText(block) {
-
-            if (!block) {
-                return "";
-            }
-
-            const paragraphs =
-                Array.from(
-                    block.querySelectorAll("p")
-                );
-
-            return paragraphs
-                .map(
-                    paragraph =>
-                        htmlToTextarea(
-                            paragraph.innerHTML
-                        )
-                )
-                .filter(Boolean)
-                .join("\n\n");
-
-        }
-
-
-        function fillFormFromHtml(html) {
-
-            const parser =
-                new DOMParser();
-
-            const doc =
-                parser.parseFromString(
-                    html,
-                    "text/html"
-                );
-
-
-            /* =========================
-               MEMPELAI
-            ========================== */
-
-            const persons =
-                getPersonBlocks(doc);
-
-
-            const groom =
-                getPersonData(persons[0]);
-
-            const bride =
-                getPersonData(persons[1]);
-
-
-            if (groom) {
-
-                setValue(
-                    editFields.groomName,
-                    groom.name
-                );
-
-                setValue(
-                    editFields.groomPosition,
-                    groom.position
-                );
-
-                setValue(
-                    editFields.groomFather,
-                    groom.father
-                );
-
-                setValue(
-                    editFields.groomMother,
-                    groom.mother
-                );
-
-            }
-
-
-            if (bride) {
-
-                setValue(
-                    editFields.brideName,
-                    bride.name
-                );
-
-                setValue(
-                    editFields.bridePosition,
-                    bride.position
-                );
-
-                setValue(
-                    editFields.brideFather,
-                    bride.father
-                );
-
-                setValue(
-                    editFields.brideMother,
-                    bride.mother
-                );
-
-            }
-
-
-            /* =========================
-               TANGGAL
-            ========================== */
-
-            const akad =
-                findSectionCard(
-                    doc,
-                    "Akad Nikah"
-                );
-
-            const reception =
-                findSectionCard(
-                    doc,
-                    "Resepsi"
-                );
-
-
-            if (akad) {
-
-                const p =
-                    akad.querySelectorAll("p");
-
-                setValue(
-                    editFields.weddingDate,
-                    parseIndonesianDate(
-                        cleanText(
-                            p[0]?.textContent
-                        )
-                    )
-                );
-
-                setValue(
-                    editFields.akadTime,
-                    cleanText(
-                        p[1]?.textContent
-                    )
-                );
-
-            }
-
-
-            if (reception) {
-
-                const p =
-                    reception.querySelectorAll("p");
-
-                setValue(
-                    editFields.receptionTime,
-                    cleanText(
-                        p[1]?.textContent
-                    )
-                );
-
-            }
-
-
-            const mapLinks =
-                Array.from(
-                    doc.querySelectorAll(
-                        'a[href*="maps.app.goo.gl"]'
-                    )
-                );
-
-
-            if (mapLinks[0]) {
-
-                setValue(
-                    editFields.akadMap,
-                    mapLinks[0].href
-                );
-
-            }
-
-
-            if (mapLinks.length > 1) {
-
-                setValue(
-                    editFields.giftMap,
-                    mapLinks[mapLinks.length - 1].href
-                );
-
-            }
-
-
-            /* =========================
-               KISAH
-            ========================== */
-
-            setValue(
-                editFields.story2019,
-                storyBlockToText(
-                    getStoryBlock(doc, "2019")
-                )
-            );
-
-            setValue(
-                editFields.story2022,
-                storyBlockToText(
-                    getStoryBlock(doc, "2022")
-                )
-            );
-
-            setValue(
-                editFields.story2025,
-                storyBlockToText(
-                    getStoryBlock(doc, "2025")
-                )
-            );
-
-            setValue(
-                editFields.story2026,
-                storyBlockToText(
-                    getStoryBlock(doc, "2026")
-                )
-            );
-
-
-            const finalStory =
-                doc.querySelector(
-                    ".story-final"
-                );
-
-            setValue(
-                editFields.storyFinal,
-                finalStory
-                    ? htmlToTextarea(
-                        finalStory.innerHTML
-                    )
-                    : ""
-            );
-
-
-            /* =========================
-               LOVE GIFT
-            ========================== */
-
-            const giftCards =
-                Array.from(
-                    doc.querySelectorAll(
-                        ".gift-card"
-                    )
-                );
-
-
-            const transferCard =
-                giftCards.find(
-                    card =>
-                        cleanText(
-                            card.textContent
-                        ).includes("Bank Mandiri") ||
-                        cleanText(
-                            card.textContent
-                        ).includes("Bank")
-                );
-
-
-            if (transferCard) {
-
-                const ps =
-                    transferCard.querySelectorAll("p");
-
-
-                setValue(
-                    editFields.bankHolder,
-                    cleanText(
-                        ps[1]?.textContent ||
-                        ps[0]?.textContent
-                    )
-                );
-
-
-                const bankText =
-                    Array.from(ps)
-                        .map(
-                            p =>
-                                cleanText(
-                                    p.textContent
-                                )
-                        )
-                        .find(
-                            value =>
-                                value
-                                    .toLowerCase()
-                                    .startsWith("bank ")
-                        );
-
-
-                setValue(
-                    editFields.bankName,
-                    bankText
-                );
-
-
-                const account =
-                    Array.from(
-                        transferCard.querySelectorAll(
-                            "[data-copy]"
-                        )
-                    )[0];
-
-
-                setValue(
-                    editFields.bankNumber,
-                    account?.getAttribute(
-                        "data-copy"
-                    )
-                );
-
-            }
-
-
-            const walletCard =
-                giftCards.find(
-                    card =>
-                        cleanText(
-                            card.textContent
-                        ).includes("GoPay:")
-                );
-
-
-            if (walletCard) {
-
-                const text =
-                    cleanText(
-                        walletCard.textContent
-                    );
-
-
-                const gopay =
-                    text.match(
-                        /GoPay:\s*([0-9 +()-]+)/i
-                    );
-
-
-                const dana =
-                    text.match(
-                        /DANA:\s*([0-9 +()-]+)/i
-                    );
-
-
-                setValue(
-                    editFields.gopay,
-                    gopay?.[1]
-                );
-
-                setValue(
-                    editFields.dana,
-                    dana?.[1]
-                );
-
-            }
-
-
-            const giftCard =
-                giftCards.find(
-                    card =>
-                        cleanText(
-                            card.textContent
-                        ).includes("Kirim Kado")
-                );
-
-
-            if (giftCard) {
-
-                const paragraphs =
-                    giftCard.querySelectorAll("p");
-
-                setValue(
-                    editFields.giftAddress,
-                    cleanText(
-                        paragraphs[0]?.textContent
-                    )
-                );
-
-            }
-
-        }
-
-
-        function parseIndonesianDate(value) {
-
-            const match =
-                cleanText(value).match(
-                    /(?:Senin|Selasa|Rabu|Kamis|Jumat|Sabtu|Minggu),?\s*(\d{1,2})\s+(Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s+(\d{4})/i
-                );
-
-
-            if (!match) {
-                return "";
-            }
-
-
-            const months = {
-                januari: "01",
-                februari: "02",
-                maret: "03",
-                april: "04",
-                mei: "05",
-                juni: "06",
-                juli: "07",
-                agustus: "08",
-                september: "09",
-                oktober: "10",
-                november: "11",
-                desember: "12"
-            };
-
-
-            return (
-                match[3] +
-                "-" +
-                months[
-                    match[2].toLowerCase()
-                ] +
-                "-" +
-                String(
-                    match[1]
-                ).padStart(2, "0")
-            );
-
-        }
-
-
-        function formatIndonesianDate(
-            dateValue
-        ) {
-
-            if (!dateValue) {
-                return "";
-            }
-
-
-            const date =
-                new Date(
-                    dateValue +
-                    "T12:00:00"
-                );
-
-
-            const days = [
-                "Minggu",
-                "Senin",
-                "Selasa",
-                "Rabu",
-                "Kamis",
-                "Jumat",
-                "Sabtu"
-            ];
-
-
-            const months = [
-                "Januari",
-                "Februari",
-                "Maret",
-                "April",
-                "Mei",
-                "Juni",
-                "Juli",
-                "Agustus",
-                "September",
-                "Oktober",
-                "November",
-                "Desember"
-            ];
-
-
-            return (
-                days[date.getDay()] +
-                ", " +
-                date.getDate() +
-                " " +
-                months[date.getMonth()] +
-                " " +
-                date.getFullYear()
-            );
-
-        }
-
-
-        function updateText(
-            root,
-            selector,
-            value
-        ) {
-
-            const element =
-                root.querySelector(selector);
-
-            if (element) {
-
-                element.textContent =
-                    value;
-
-            }
-
-        }
-
-
-        function updatePerson(
-            root,
-            personIndex,
-            data
-        ) {
-
-            const persons =
-                root.querySelectorAll(
-                    ".person-name"
-                );
-
-            const name =
-                persons[personIndex];
-
-            if (!name) {
                 return;
             }
 
-
-            name.textContent =
-                cleanText(data.name);
-
-
-            const wrapper =
-                name.closest(
-                    '[data-aos]'
-                ) ||
-                name.parentElement;
-
-
-            if (!wrapper) {
-                return;
-            }
-
-
-            const paragraphs =
-                wrapper.querySelectorAll("p");
-
-
-            if (paragraphs[0]) {
-                paragraphs[0].textContent =
-                    cleanText(data.position);
-            }
-
-            if (paragraphs[1]) {
-                paragraphs[1].textContent =
-                    cleanText(data.father);
-            }
-
-            if (paragraphs[3]) {
-                paragraphs[3].textContent =
-                    cleanText(data.mother);
-            }
-
-
-            const image =
-                wrapper.querySelector("img");
-
-
-            if (image) {
-
-                image.alt =
-                    cleanText(data.name);
-
-            }
-
-        }
-
-
-        function updateStoryBlock(
-            root,
-            year,
-            text
-        ) {
-
-            const block =
-                Array.from(
-                    root.querySelectorAll(
-                        ".story-block"
-                    )
-                ).find(
-                    item =>
-                        cleanText(
-                            item.querySelector(
-                                ".story-year"
-                            )?.textContent
-                        ) === year
-                );
-
-
-            if (!block) {
-                return;
-            }
-
-
-            const paragraphs =
-                cleanText(text)
-                    .split(/\n\s*\n/)
-                    .map(
-                        item =>
-                            item.trim()
-                    )
-                    .filter(Boolean);
-
-
-            const existing =
-                block.querySelectorAll("p");
-
-
-            paragraphs.forEach(
-                (paragraph, index) => {
-
-                    if (existing[index]) {
-
-                        existing[index].innerHTML =
-                            textToHtml(
-                                paragraph
-                            );
-
-                    }
-
-                }
-            );
-
-
-            for (
-                let index = paragraphs.length;
-                index < existing.length;
-                index++
-            ) {
-
-                existing[index].remove();
-
-            }
-
-        }
-
-
-        function applyFormToHtml(
-            html
-        ) {
-
-            const parser =
-                new DOMParser();
-
-            const doc =
-                parser.parseFromString(
-                    html,
-                    "text/html"
-                );
-
-
-            /* =========================
-               MEMPELAI
-            ========================== */
-
-            updatePerson(
-                doc,
-                0,
-                {
-                    name:
-                        editFields.groomName.value,
-                    position:
-                        editFields.groomPosition.value,
-                    father:
-                        editFields.groomFather.value,
-                    mother:
-                        editFields.groomMother.value
-                }
-            );
-
-
-            updatePerson(
-                doc,
-                1,
-                {
-                    name:
-                        editFields.brideName.value,
-                    position:
-                        editFields.bridePosition.value,
-                    father:
-                        editFields.brideFather.value,
-                    mother:
-                        editFields.brideMother.value
-                }
-            );
-
-
-            /* =========================
-               TANGGAL
-            ========================== */
-
-            const dateText =
-                formatIndonesianDate(
-                    editFields.weddingDate.value
-                );
-
-
-            const akad =
-                findSectionCard(
-                    doc,
-                    "Akad Nikah"
-                );
-
-
-            const reception =
-                findSectionCard(
-                    doc,
-                    "Resepsi"
-                );
-
-
-            if (akad) {
-
-                const p =
-                    akad.querySelectorAll("p");
-
-                if (p[0]) {
-                    p[0].textContent =
-                        dateText;
-                }
-
-                if (p[1]) {
-                    p[1].textContent =
-                        cleanText(
-                            editFields.akadTime.value
-                        );
-                }
-
-            }
-
-
-            if (reception) {
-
-                const p =
-                    reception.querySelectorAll("p");
-
-                if (p[0]) {
-                    p[0].textContent =
-                        dateText;
-                }
-
-                if (p[1]) {
-                    p[1].textContent =
-                        cleanText(
-                            editFields.receptionTime.value
-                        );
-                }
-
-            }
-
-
-            const coverDate =
-                doc.querySelector(
-                    ".desktop-cover-content .m-0"
-                );
-
-
-            if (coverDate) {
-
-                coverDate.textContent =
-                    dateText;
-
-            }
-
-
-            const body =
-                doc.body;
-
-
-            if (
-                body &&
-                editFields.weddingDate.value
-            ) {
-
-                const date =
-                    editFields.weddingDate.value;
-
-
-                const [year, month, day] =
-                    date.split("-");
-
-
-                body.dataset.time =
-                    `${year}-${month}-${day} 08:00:00`;
-
-            }
-
-
-            /* =========================
-               MAP
-            ========================== */
-
-            const mapLinks =
-                Array.from(
-                    doc.querySelectorAll(
-                        'a[href*="maps.app.goo.gl"]'
-                    )
-                );
-
-
-            if (
-                mapLinks[0] &&
-                editFields.akadMap.value
-            ) {
-
-                mapLinks[0].href =
-                    editFields.akadMap.value;
-
-            }
-
-
-            if (
-                mapLinks.length > 1 &&
-                editFields.giftMap.value
-            ) {
-
-                mapLinks[mapLinks.length - 1].href =
-                    editFields.giftMap.value;
-
-            }
-
-
-            /* =========================
-               KISAH
-            ========================== */
-
-            updateStoryBlock(
-                doc,
-                "2019",
-                editFields.story2019.value
-            );
-
-            updateStoryBlock(
-                doc,
-                "2022",
-                editFields.story2022.value
-            );
-
-            updateStoryBlock(
-                doc,
-                "2025",
-                editFields.story2025.value
-            );
-
-            updateStoryBlock(
-                doc,
-                "2026",
-                editFields.story2026.value
-            );
-
-
-            const finalStory =
-                doc.querySelector(
-                    ".story-final"
-                );
-
-
-            if (finalStory) {
-
-                finalStory.innerHTML =
-                    textToHtml(
-                        editFields.storyFinal.value
-                    );
-
-            }
-
-
-            /* =========================
-               LOVE GIFT
-            ========================== */
-
-            const giftCards =
-                Array.from(
-                    doc.querySelectorAll(
-                        ".gift-card"
-                    )
-                );
-
-
-            const transferCard =
-                giftCards.find(
-                    card =>
-                        cleanText(
-                            card.textContent
-                        ).includes("Bank")
-                );
-
-
-            if (transferCard) {
-
-                const ps =
-                    transferCard.querySelectorAll("p");
-
-
-                if (ps[0]) {
-                    ps[0].textContent =
-                        cleanText(
-                            editFields.bankHolder.value
-                        );
-                }
-
-
-                const bank =
-                    Array.from(ps).find(
-                        p =>
-                            cleanText(
-                                p.textContent
-                            )
-                            .toLowerCase()
-                            .startsWith("bank ")
-                    );
-
-
-                if (bank) {
-
-                    bank.textContent =
-                        cleanText(
-                            editFields.bankName.value
-                        );
-
-                }
-
-
-                const copy =
-                    transferCard.querySelector(
-                        "[data-copy]"
-                    );
-
-
-                if (copy) {
-
-                    const account =
-                        cleanText(
-                            editFields.bankNumber.value
-                        );
-
-
-                    copy.setAttribute(
-                        "data-copy",
-                        account
-                    );
-
-
-                    const parent =
-                        copy.parentElement;
-
-
-                    if (parent) {
-
-                        const number =
-                            parent.querySelector(
-                                "p"
-                            );
-
-
-                        if (number) {
-
-                            number.textContent =
-                                account;
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-
-            const walletCard =
-                giftCards.find(
-                    card =>
-                        cleanText(
-                            card.textContent
-                        ).includes("GoPay:")
-                );
-
-
-            if (walletCard) {
-
-                const ps =
-                    walletCard.querySelectorAll(
-                        "#collapseWallet p"
-                    );
-
-
-                if (ps[0]) {
-
-                    ps[0].textContent =
-                        "GoPay: " +
-                        cleanText(
-                            editFields.gopay.value
-                        );
-
-                }
-
-
-                if (ps[1]) {
-
-                    ps[1].textContent =
-                        "DANA: " +
-                        cleanText(
-                            editFields.dana.value
-                        );
-
-                }
-
-            }
-
-
-            const giftCard =
-                giftCards.find(
-                    card =>
-                        cleanText(
-                            card.textContent
-                        ).includes("Kirim Kado")
-                );
-
-
-            if (giftCard) {
-
-                const address =
-                    giftCard.querySelector("p");
-
-
-                if (address) {
-
-                    address.textContent =
-                        cleanText(
-                            editFields.giftAddress.value
-                        );
-
-                }
-
-            }
-
-
-            return (
-                "<!DOCTYPE html>\n" +
-                doc.documentElement.outerHTML
-            );
-
-        }
-
-
-        async async function loadInvitationData() {
-
-            loadInvitationButton.disabled =
-                true;
-
-            loadInvitationButton.textContent =
-                "Memuat...";
-
+            loadIndexButton.disabled = true;
+            loadIndexButton.textContent = "Memuat...";
 
             try {
 
                 const token =
                     await getFirebaseIdToken();
 
-
                 const response =
                     await fetch(
-                        GITHUB_WORKER_URL +
-                        "/index",
+                        GITHUB_WORKER_URL + "/index",
                         {
                             method: "GET",
                             headers: {
@@ -2066,248 +695,161 @@
                         }
                     );
 
-
                 const result =
                     await response.json();
 
-
                 if (!response.ok) {
-
                     throw new Error(
                         result.error ||
-                        "Gagal mengambil data undangan."
+                        "Gagal mengambil index.html."
                     );
-
                 }
 
-
-                loadedIndexHtml =
+                indexEditor.value =
                     result.content || "";
 
                 loadedIndexSha =
                     result.sha || null;
 
-
-                fillFormFromHtml(
-                    loadedIndexHtml
-                );
-
-
                 showEditMessage(
-                    "Data undangan berhasil dimuat. Sekarang tinggal edit bagian yang kamu mau."
+                    "index.html berhasil dimuat dari GitHub."
                 );
-
 
             } catch (error) {
 
                 console.error(error);
 
-
                 showEditMessage(
                     escapeHtml(
                         error.message ||
-                        "Gagal memuat data undangan."
+                        "Gagal memuat index.html."
                     ),
                     "error"
                 );
 
             } finally {
 
-                loadInvitationButton.disabled =
-                    false;
-
-                loadInvitationButton.textContent =
-                    "Muat Data";
+                loadIndexButton.disabled = false;
+                loadIndexButton.textContent = "Muat index.html";
 
             }
 
         }
 
 
-        async function saveInvitationData() {
+        async function saveIndexHtml() {
 
-            if (!loadedIndexHtml) {
-
+            if (!indexEditor.value.trim()) {
                 showEditMessage(
-                    "Data undangan belum dimuat.",
+                    "Isi index.html tidak boleh kosong.",
                     "error"
                 );
-
                 return;
-
             }
-
 
             if (!loadedIndexSha) {
-
                 showEditMessage(
-                    "Versi file belum diketahui. Klik Muat Data terlebih dahulu.",
+                    "Muat index.html terlebih dahulu sebelum menyimpan.",
                     "error"
                 );
-
                 return;
-
             }
 
+            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
+                showEditMessage(
+                    "Worker GitHub belum dipasang.",
+                    "error"
+                );
+                return;
+            }
 
             const confirmed =
                 confirm(
-                    "Simpan perubahan isi undangan ke GitHub?\n\n" +
-                    "Tampilan undangan tetap dipertahankan."
+                    "Simpan perubahan index.html ke GitHub?\n\n" +
+                    "GitHub Pages akan melakukan deploy setelah perubahan masuk."
                 );
 
+            if (!confirmed) return;
 
-            if (!confirmed) {
-                return;
-            }
-
-
-            saveInvitationButton.disabled =
-                true;
-
-            loadInvitationButton.disabled =
-                true;
-
-            saveInvitationButton.textContent =
-                "Menyimpan...";
-
+            saveIndexButton.disabled = true;
+            saveIndexButton.textContent = "Menyimpan...";
 
             try {
-
-                const updatedHtml =
-                    applyFormToHtml(
-                        loadedIndexHtml
-                    );
-
 
                 const token =
                     await getFirebaseIdToken();
 
-
                 const response =
                     await fetch(
-                        GITHUB_WORKER_URL +
-                        "/index",
+                        GITHUB_WORKER_URL + "/index",
                         {
                             method: "PUT",
                             headers: {
                                 "Authorization":
                                     "Bearer " + token,
-
                                 "Content-Type":
                                     "application/json"
                             },
-                            body:
-                                JSON.stringify(
-                                    {
-                                        content:
-                                            updatedHtml,
-
-                                        sha:
-                                            loadedIndexSha
-                                    }
-                                )
+                            body: JSON.stringify({
+                                content:
+                                    indexEditor.value,
+                                sha:
+                                    loadedIndexSha
+                            })
                         }
                     );
-
 
                 const result =
                     await response.json();
 
-
                 if (!response.ok) {
-
                     throw new Error(
                         result.error ||
-                        "Gagal menyimpan perubahan."
+                        "Gagal menyimpan index.html."
                     );
-
                 }
 
-
-                loadedIndexHtml =
-                    updatedHtml;
-
                 loadedIndexSha =
-                    result.sha ||
-                    loadedIndexSha;
-
+                    result.sha || loadedIndexSha;
 
                 showEditMessage(
-                    "Berhasil! Isi undangan sudah disimpan ke GitHub. Tunggu beberapa saat sampai GitHub Pages selesai deploy."
+                    "Berhasil disimpan ke GitHub. Tunggu beberapa saat sampai GitHub Pages selesai deploy."
                 );
-
 
             } catch (error) {
 
                 console.error(error);
 
-
                 showEditMessage(
                     escapeHtml(
                         error.message ||
-                        "Gagal menyimpan perubahan."
+                        "Gagal menyimpan index.html."
                     ),
                     "error"
                 );
 
             } finally {
 
-                saveInvitationButton.disabled =
-                    false;
-
-                loadInvitationButton.disabled =
-                    false;
-
-                saveInvitationButton.textContent =
-                    "Simpan Perubahan";
+                saveIndexButton.disabled = false;
+                saveIndexButton.textContent = "Simpan ke GitHub";
 
             }
 
         }
 
 
-        loadInvitationButton.addEventListener(
+        loadIndexButton.addEventListener(
             "click",
-            loadInvitationData
+            loadIndexHtml
+        );
+
+        saveIndexButton.addEventListener(
+            "click",
+            saveIndexHtml
         );
 
 
-        saveInvitationButton.addEventListener(
-            "click",
-            saveInvitationData
-        );
-
-
-        /*
-         * Ketika tab Edit Undangan dibuka,
-         * data diambil otomatis di belakang layar.
-         */
-
-        document
-            .querySelectorAll(".admin-tab")
-            .forEach((tab) => {
-
-                tab.addEventListener(
-                    "click",
-                    () => {
-
-                        if (
-                            tab.dataset.tab === "editTab" &&
-                            !loadedIndexHtml
-                        ) {
-
-                            loadInvitationData();
-
-                        }
-
-                    }
-                );
-
-            });
-
-
-// =========================
+        // =========================
         // FIREBASE CONFIG
         // =========================
 
