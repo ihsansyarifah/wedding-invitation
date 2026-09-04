@@ -635,7 +635,13 @@
                 }
 
                 if (target === "editTab" && auth.currentUser) {
-                    loadInvitationData();
+                    loadInvitationData().catch(error => {
+                        console.error(error);
+                        showEditMessage(
+                            error.message || "Gagal memuat data undangan.",
+                            "error"
+                        );
+                    });
                 }
 
             });
@@ -671,7 +677,49 @@
             if (!user) {
                 throw new Error("Sesi admin tidak aktif. Silakan login lagi.");
             }
-            return await user.getIdToken();
+
+            // Ambil token yang sudah ada di sesi login.
+            // Ini mencegah Firebase mencoba refresh token secara otomatis
+            // ketika sesi lama bermasalah dan menghasilkan error JSON mentah.
+            const cachedToken =
+                user.stsTokenManager &&
+                user.stsTokenManager.accessToken;
+
+            if (cachedToken) {
+                return cachedToken;
+            }
+
+            // Hanya jika token tidak tersedia, minta token dari Firebase.
+            try {
+                return await user.getIdToken(false);
+            } catch (error) {
+                console.error("Firebase token error:", error);
+                throw new Error(
+                    "Sesi login Firebase sudah kedaluwarsa. Klik Logout lalu Login lagi."
+                );
+            }
+        }
+
+        async function readWorkerResponse(response) {
+            const raw = await response.text();
+            let result = {};
+
+            if (raw) {
+                try {
+                    result = JSON.parse(raw);
+                } catch (e) {
+                    result = { error: raw.slice(0, 500) };
+                }
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    result.error ||
+                    ("Worker mengembalikan HTTP " + response.status)
+                );
+            }
+
+            return result;
         }
 
         function textOf(el) {
@@ -864,8 +912,7 @@
                     method: "GET",
                     headers: { "Authorization": "Bearer " + token }
                 });
-                const result = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(result.error || ("Worker mengembalikan HTTP " + response.status));
+                const result = await readWorkerResponse(response);
                 if (!result.content) throw new Error("Worker berhasil dihubungi, tetapi index.html kosong.");
                 loadedIndexHtml = result.content;
                 loadedIndexSha = result.sha || null;
@@ -900,8 +947,7 @@
                     },
                     body: JSON.stringify({ content: updatedHtml, sha: loadedIndexSha })
                 });
-                const result = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(result.error || ("Worker mengembalikan HTTP " + response.status));
+                const result = await readWorkerResponse(response);
                 loadedIndexHtml = updatedHtml;
                 loadedIndexSha = result.sha || loadedIndexSha;
                 showEditMessage("Berhasil disimpan ke GitHub. Tunggu sebentar sampai GitHub Pages selesai deploy.", "success");
