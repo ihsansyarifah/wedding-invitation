@@ -258,6 +258,18 @@
             line-height: 1.6;
         }
 
+
+        #editMessage {
+            margin-top: 15px;
+        }
+
+        .edit-status {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
         @media (max-width: 600px) {
             header .container {
                 align-items: flex-start;
@@ -464,6 +476,7 @@
 
                 </div>
 
+
                 <!-- =========================
                      TAB EDIT UNDANGAN
                 ========================== -->
@@ -472,15 +485,59 @@
 
                     <div class="card">
 
-                        <h2>Edit Undangan</h2>
+                        <h2>Edit index.html</h2>
 
-                        <div class="edit-placeholder">
-                            Menu ini disiapkan sebagai tab terpisah.
-                            <br><br>
-                            Isi undangan tetap berasal dari <b>index.html</b>.
-                            Nanti fitur edit bisa ditambahkan di sini tanpa
-                            mengubah tampilan menu <b>Ucapan & Doa</b>.
+                        <p class="subtitle">
+                            Edit langsung file <b>index.html</b> dari dashboard.
+                            Setelah disimpan, perubahan dikirim ke GitHub.
+                        </p>
+
+                        <div id="editMessage"></div>
+
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;">
+                            <button
+                                id="loadIndexButton"
+                                type="button"
+                                class="btn-login"
+                                style="width:auto;"
+                            >
+                                Muat index.html
+                            </button>
+
+                            <button
+                                id="saveIndexButton"
+                                type="button"
+                                class="btn-delete"
+                                style="width:auto;"
+                            >
+                                Simpan ke GitHub
+                            </button>
                         </div>
+
+                        <textarea
+                            id="indexEditor"
+                            spellcheck="false"
+                            placeholder="Klik “Muat index.html” untuk mengambil file dari GitHub..."
+                            style="
+                                width:100%;
+                                min-height:60vh;
+                                padding:15px;
+                                border:1px solid #ddd;
+                                border-radius:12px;
+                                background:#fbfaf8;
+                                color:#333;
+                                font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+                                font-size:12px;
+                                line-height:1.55;
+                                resize:vertical;
+                                tab-size:2;
+                            "
+                        ></textarea>
+
+                        <p class="subtitle" style="margin-top:10px;">
+                            Sebaiknya klik <b>Muat index.html</b> sebelum mengedit agar
+                            versi yang kamu edit adalah versi terbaru di GitHub.
+                        </p>
 
                     </div>
 
@@ -561,6 +618,235 @@
             });
 
         });
+
+
+
+        // =========================
+        // GITHUB EDITOR
+        // =========================
+
+        // Setelah Cloudflare Worker dibuat, isi URL worker di bawah ini.
+        const GITHUB_WORKER_URL =
+            "https://GANTI-DENGAN-WORKER-URL.workers.dev";
+
+        let loadedIndexSha = null;
+
+        const indexEditor =
+            document.getElementById("indexEditor");
+
+        const loadIndexButton =
+            document.getElementById("loadIndexButton");
+
+        const saveIndexButton =
+            document.getElementById("saveIndexButton");
+
+        const editMessage =
+            document.getElementById("editMessage");
+
+
+        function showEditMessage(message, type = "success") {
+
+            editMessage.innerHTML =
+                `<div class="edit-status ${type}">${message}</div>`;
+
+        }
+
+
+        async function getFirebaseIdToken() {
+
+            const user = auth.currentUser;
+
+            if (!user) {
+                throw new Error("Sesi admin sudah tidak aktif. Silakan login lagi.");
+            }
+
+            return await user.getIdToken(true);
+
+        }
+
+
+        async function loadIndexHtml() {
+
+            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
+                showEditMessage(
+                    "Worker GitHub belum dipasang. Setelah Worker selesai dibuat, ganti URL Worker di bagian konfigurasi.",
+                    "error"
+                );
+                return;
+            }
+
+            loadIndexButton.disabled = true;
+            loadIndexButton.textContent = "Memuat...";
+
+            try {
+
+                const token =
+                    await getFirebaseIdToken();
+
+                const response =
+                    await fetch(
+                        GITHUB_WORKER_URL + "/index",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.error ||
+                        "Gagal mengambil index.html."
+                    );
+                }
+
+                indexEditor.value =
+                    result.content || "";
+
+                loadedIndexSha =
+                    result.sha || null;
+
+                showEditMessage(
+                    "index.html berhasil dimuat dari GitHub."
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                showEditMessage(
+                    escapeHtml(
+                        error.message ||
+                        "Gagal memuat index.html."
+                    ),
+                    "error"
+                );
+
+            } finally {
+
+                loadIndexButton.disabled = false;
+                loadIndexButton.textContent = "Muat index.html";
+
+            }
+
+        }
+
+
+        async function saveIndexHtml() {
+
+            if (!indexEditor.value.trim()) {
+                showEditMessage(
+                    "Isi index.html tidak boleh kosong.",
+                    "error"
+                );
+                return;
+            }
+
+            if (!loadedIndexSha) {
+                showEditMessage(
+                    "Muat index.html terlebih dahulu sebelum menyimpan.",
+                    "error"
+                );
+                return;
+            }
+
+            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
+                showEditMessage(
+                    "Worker GitHub belum dipasang.",
+                    "error"
+                );
+                return;
+            }
+
+            const confirmed =
+                confirm(
+                    "Simpan perubahan index.html ke GitHub?\n\n" +
+                    "GitHub Pages akan melakukan deploy setelah perubahan masuk."
+                );
+
+            if (!confirmed) return;
+
+            saveIndexButton.disabled = true;
+            saveIndexButton.textContent = "Menyimpan...";
+
+            try {
+
+                const token =
+                    await getFirebaseIdToken();
+
+                const response =
+                    await fetch(
+                        GITHUB_WORKER_URL + "/index",
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token,
+                                "Content-Type":
+                                    "application/json"
+                            },
+                            body: JSON.stringify({
+                                content:
+                                    indexEditor.value,
+                                sha:
+                                    loadedIndexSha
+                            })
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.error ||
+                        "Gagal menyimpan index.html."
+                    );
+                }
+
+                loadedIndexSha =
+                    result.sha || loadedIndexSha;
+
+                showEditMessage(
+                    "Berhasil disimpan ke GitHub. Tunggu beberapa saat sampai GitHub Pages selesai deploy."
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                showEditMessage(
+                    escapeHtml(
+                        error.message ||
+                        "Gagal menyimpan index.html."
+                    ),
+                    "error"
+                );
+
+            } finally {
+
+                saveIndexButton.disabled = false;
+                saveIndexButton.textContent = "Simpan ke GitHub";
+
+            }
+
+        }
+
+
+        loadIndexButton.addEventListener(
+            "click",
+            loadIndexHtml
+        );
+
+        saveIndexButton.addEventListener(
+            "click",
+            saveIndexHtml
+        );
 
 
         // =========================
