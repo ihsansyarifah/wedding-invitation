@@ -1,26 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Admin Ucapan - Ihsan & Syarifah</title>
 
-
     <style>
-
         * {
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
@@ -31,14 +19,9 @@
         }
 
         .container {
-            width: min(100% - 30px, 1000px);
+            width: min(100% - 30px, 900px);
             margin: 0 auto;
         }
-
-
-        /* =========================
-           HEADER
-        ========================== */
 
         header {
             background: white;
@@ -46,7 +29,7 @@
             padding: 18px 0;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 10;
         }
 
         header .container {
@@ -67,13 +50,8 @@
             font-size: 13px;
         }
 
-
-        /* =========================
-           MAIN
-        ========================== */
-
         main {
-            padding: 30px 0 60px;
+            padding: 30px 0 50px;
         }
 
         .card {
@@ -94,40 +72,14 @@
             font-size: 20px;
         }
 
-
-        /* =========================
-           INPUT
-        ========================== */
-
-        input,
-        textarea {
+        input {
             width: 100%;
             padding: 13px 14px;
             margin-bottom: 12px;
             border: 1px solid #ddd;
             border-radius: 10px;
             font-size: 15px;
-            font-family: inherit;
-            background: white;
-            color: #333;
         }
-
-        textarea {
-            resize: vertical;
-            line-height: 1.6;
-        }
-
-        input:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #777;
-            box-shadow: 0 0 0 3px rgba(0,0,0,.05);
-        }
-
-
-        /* =========================
-           BUTTON
-        ========================== */
 
         button {
             border: 0;
@@ -135,12 +87,6 @@
             padding: 11px 16px;
             cursor: pointer;
             font-size: 14px;
-            font-family: inherit;
-        }
-
-        button:disabled {
-            opacity: .55;
-            cursor: not-allowed;
         }
 
         .btn-login {
@@ -159,34 +105,9 @@
             color: white;
         }
 
-        .btn-load {
-            background: #333;
-            color: white;
-        }
-
-        .btn-save {
-            background: #e5534b;
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #eee;
-            color: #333;
-        }
-
-
-        /* =========================
-           HIDDEN
-        ========================== */
-
         .hidden {
             display: none !important;
         }
-
-
-        /* =========================
-           MESSAGE
-        ========================== */
 
         .error {
             background: #fff0f0;
@@ -205,48 +126,6 @@
             margin-bottom: 15px;
             font-size: 14px;
         }
-
-        .info {
-            background: #f2f6ff;
-            color: #345;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-
-        /* =========================
-           TABS
-        ========================== */
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab-button {
-            background: #eee;
-            color: #333;
-            border: 1px solid #ddd;
-        }
-
-        .tab-button.active {
-            background: #333;
-            color: white;
-            border-color: #333;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
 
         /* =========================
            STATISTIK
@@ -276,7 +155,6 @@
             font-size: 13px;
             margin-top: 4px;
         }
-
 
         /* =========================
            KOMENTAR
@@ -341,76 +219,60 @@
 
 
         /* =========================
-           EDITOR
+           MENU TAB ADMIN
         ========================== */
 
-        .editor-toolbar {
+        .admin-tabs {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            margin-bottom: 15px;
         }
 
-        .editor-status {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #888;
-        }
-
-        #indexEditor {
-            width: 100%;
-            min-height: 700px;
-            resize: vertical;
-            padding: 16px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            background: #fbfbfb;
-            color: #222;
-            font-family:
-                Consolas,
-                Monaco,
-                "Courier New",
-                monospace;
-            font-size: 13px;
-            line-height: 1.55;
-            tab-size: 4;
-            white-space: pre;
-            overflow: auto;
-        }
-
-        .editor-warning {
-            background: #fff8e8;
-            color: #765500;
-            border: 1px solid #f0dfaa;
+        .admin-tab {
+            background: #eee;
+            color: #333;
+            border: 1px solid #e5e5e5;
+            padding: 11px 16px;
             border-radius: 10px;
-            padding: 13px;
-            margin-bottom: 15px;
-            line-height: 1.5;
-            font-size: 13px;
         }
 
-        .editor-info {
-            background: #f4f4f4;
+        .admin-tab.active {
+            background: #333;
+            color: white;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .edit-placeholder {
+            background: #f7f3ef;
+            border-radius: 14px;
+            padding: 25px;
+            color: #777;
+            line-height: 1.6;
+        }
+
+
+        #editMessage {
+            margin-top: 15px;
+        }
+
+        .edit-status {
+            padding: 12px;
             border-radius: 10px;
-            padding: 13px;
             margin-bottom: 15px;
-            line-height: 1.5;
-            font-size: 13px;
+            font-size: 14px;
         }
-
-
-        /* =========================
-           RESPONSIVE
-        ========================== */
 
         @media (max-width: 600px) {
-
             header .container {
                 align-items: flex-start;
-            }
-
-            header .btn-logout {
-                flex-shrink: 0;
             }
 
             .comment-head {
@@ -424,35 +286,21 @@
             .stat {
                 min-width: calc(50% - 6px);
             }
-
-            #indexEditor {
-                min-height: 550px;
-                font-size: 12px;
-            }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- =====================================================
+    <!-- =========================
          LOGIN
-    ====================================================== -->
+    ========================== -->
 
     <section id="loginSection">
-
         <div class="container">
-
             <div class="card login-card">
 
-                <h2>
-                    Login Admin
-                </h2>
+                <h2>Login Admin</h2>
 
                 <p class="subtitle">
                     Dashboard Ucapan & Doa
@@ -460,11 +308,7 @@
 
                 <br>
 
-                <div
-                    id="loginError"
-                    class="error hidden"
-                ></div>
-
+                <div id="loginError" class="error hidden"></div>
 
                 <input
                     type="email"
@@ -473,14 +317,12 @@
                     autocomplete="email"
                 >
 
-
                 <input
                     type="password"
                     id="password"
                     placeholder="Password"
                     autocomplete="current-password"
                 >
-
 
                 <button
                     id="loginButton"
@@ -490,41 +332,26 @@
                 </button>
 
             </div>
-
         </div>
-
     </section>
 
 
-
-    <!-- =====================================================
+    <!-- =========================
          DASHBOARD
-    ====================================================== -->
+    ========================== -->
 
-    <section
-        id="dashboardSection"
-        class="hidden"
-    >
-
-
-        <!-- HEADER -->
+    <section id="dashboardSection" class="hidden">
 
         <header>
-
             <div class="container">
 
                 <div>
-
-                    <h1>
-                        Dashboard Ucapan
-                    </h1>
+                    <h1>Dashboard Ucapan</h1>
 
                     <div class="subtitle">
                         Ihsan & Syarifah
                     </div>
-
                 </div>
-
 
                 <button
                     id="logoutButton"
@@ -534,290 +361,204 @@
                 </button>
 
             </div>
-
         </header>
-
 
 
         <main>
 
             <div class="container">
 
+                <!-- =========================
+                     MENU TAB
+                ========================== -->
 
-                <!-- GLOBAL MESSAGE -->
-
-                <div
-                    id="dashboardMessage"
-                    class="hidden"
-                ></div>
-
-
-
-                <!-- =================================================
-                     TABS
-                ================================================== -->
-
-                <div class="tabs">
+                <div class="admin-tabs">
 
                     <button
-                        class="tab-button active"
+                        type="button"
+                        class="admin-tab active"
                         data-tab="commentsTab"
                     >
                         Ucapan & Doa
                     </button>
 
-
                     <button
-                        class="tab-button"
-                        data-tab="editorTab"
+                        type="button"
+                        class="admin-tab"
+                        data-tab="editTab"
                     >
                         Edit Undangan
                     </button>
 
                 </div>
 
+                <div id="dashboardMessage"></div>
+
+                <!-- =========================
+                     TAB UCAPAN & DOA
+                ========================== -->
+
+                <div id="commentsTab" class="tab-panel active">
 
 
-                <!-- =================================================
-                     TAB UCAPAN
-                ================================================== -->
+                <!-- =========================
+                     RINGKASAN
+                ========================== -->
 
-                <div
-                    id="commentsTab"
-                    class="tab-content active"
-                >
+                <div class="card">
 
+                    <h2>Ringkasan</h2>
 
-                    <!-- RINGKASAN -->
+                    <div class="stats">
 
-                    <div class="card">
-
-                        <h2>
-                            Ringkasan
-                        </h2>
-
-
-                        <div class="stats">
-
-
-                            <div class="stat">
-
-                                <div
-                                    id="totalComments"
-                                    class="stat-number"
-                                >
-                                    0
-                                </div>
-
-                                <div class="stat-label">
-                                    Total Ucapan
-                                </div>
-
+                        <div class="stat">
+                            <div
+                                id="totalComments"
+                                class="stat-number"
+                            >
+                                0
                             </div>
 
+                            <div class="stat-label">
+                                Total Ucapan
+                            </div>
+                        </div>
 
-                            <div class="stat">
 
-                                <div
-                                    id="totalPresent"
-                                    class="stat-number"
-                                >
-                                    0
-                                </div>
-
-                                <div class="stat-label">
-                                    Hadir
-                                </div>
-
+                        <div class="stat">
+                            <div
+                                id="totalPresent"
+                                class="stat-number"
+                            >
+                                0
                             </div>
 
+                            <div class="stat-label">
+                                Hadir
+                            </div>
+                        </div>
 
-                            <div class="stat">
 
-                                <div
-                                    id="totalAbsent"
-                                    class="stat-number"
-                                >
-                                    0
-                                </div>
-
-                                <div class="stat-label">
-                                    Tidak Hadir
-                                </div>
-
+                        <div class="stat">
+                            <div
+                                id="totalAbsent"
+                                class="stat-number"
+                            >
+                                0
                             </div>
 
-
+                            <div class="stat-label">
+                                Tidak Hadir
+                            </div>
                         </div>
 
                     </div>
-
-
-
-                    <!-- UCAPAN -->
-
-                    <div class="card">
-
-                        <h2>
-                            Ucapan & Doa
-                        </h2>
-
-
-                        <div
-                            id="commentsList"
-                            class="loading"
-                        >
-                            Memuat ucapan...
-                        </div>
-
-                    </div>
-
 
                 </div>
 
 
+                <!-- =========================
+                     UCAPAN
+                ========================== -->
 
-                <!-- =================================================
+                <div class="card">
+
+                    <h2>Ucapan & Doa</h2>
+
+                    <div
+                        id="commentsList"
+                        class="loading"
+                    >
+                        Memuat ucapan...
+                    </div>
+
+                </div>
+
+                </div>
+
+
+                <!-- =========================
                      TAB EDIT UNDANGAN
-                ================================================== -->
+                ========================== -->
 
-                <div
-                    id="editorTab"
-                    class="tab-content"
-                >
-
+                <div id="editTab" class="tab-panel">
 
                     <div class="card">
 
-                        <h2>
-                            Edit index.html
-                        </h2>
-
+                        <h2>Edit index.html</h2>
 
                         <p class="subtitle">
-                            Edit langsung file index.html dari dashboard.
+                            Edit langsung file <b>index.html</b> dari dashboard.
                             Setelah disimpan, perubahan dikirim ke GitHub.
                         </p>
 
+                        <div id="editMessage"></div>
 
-                        <br>
-
-
-                        <div class="editor-warning">
-
-                            <strong>Perhatian:</strong>
-
-                            Jangan menghapus bagian HTML/CSS/JavaScript
-                            yang tidak ingin diubah.
-
-                            Setelah klik
-                            <strong>Simpan ke GitHub</strong>,
-                            file akan langsung dibuat commit baru di
-                            repository.
-
-                        </div>
-
-
-                        <div class="editor-info">
-
-                            Alur penyimpanan:
-
-                            <strong>
-                                Admin → Firebase → Cloudflare Worker → GitHub → GitHub Pages
-                            </strong>
-
-                            <br><br>
-
-                            Kamu tidak perlu memasukkan GitHub Token di sini.
-                            Token disimpan aman sebagai Secret di Cloudflare.
-
-                        </div>
-
-
-                        <div
-                            id="editorMessage"
-                            class="hidden"
-                        ></div>
-
-
-                        <div class="editor-toolbar">
-
-
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;">
                             <button
                                 id="loadIndexButton"
-                                class="btn-load"
                                 type="button"
+                                class="btn-login"
+                                style="width:auto;"
                             >
                                 Muat index.html
                             </button>
 
-
                             <button
                                 id="saveIndexButton"
-                                class="btn-save"
                                 type="button"
+                                class="btn-delete"
+                                style="width:auto;"
                             >
                                 Simpan ke GitHub
                             </button>
-
-
-                            <button
-                                id="clearEditorButton"
-                                class="btn-secondary"
-                                type="button"
-                            >
-                                Kosongkan
-                            </button>
-
-
                         </div>
-
-
-                        <div
-                            id="editorStatus"
-                            class="editor-status"
-                        >
-                            Belum memuat index.html.
-                        </div>
-
-
-                        <br>
-
 
                         <textarea
                             id="indexEditor"
                             spellcheck="false"
-                            placeholder="Klik &quot;Muat index.html&quot; untuk mengambil file dari GitHub..."
+                            placeholder="Klik “Muat index.html” untuk mengambil file dari GitHub..."
+                            style="
+                                width:100%;
+                                min-height:60vh;
+                                padding:15px;
+                                border:1px solid #ddd;
+                                border-radius:12px;
+                                background:#fbfaf8;
+                                color:#333;
+                                font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+                                font-size:12px;
+                                line-height:1.55;
+                                resize:vertical;
+                                tab-size:2;
+                            "
                         ></textarea>
 
+                        <p class="subtitle" style="margin-top:10px;">
+                            Sebaiknya klik <b>Muat index.html</b> sebelum mengedit agar
+                            versi yang kamu edit adalah versi terbaru di GitHub.
+                        </p>
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
         </main>
 
-
     </section>
 
 
-
-    <!-- =====================================================
+    <!-- =========================
          FIREBASE
-    ====================================================== -->
+    ========================== -->
 
     <script type="module">
 
-
         import {
             initializeApp
-        }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
         import {
@@ -825,9 +566,7 @@
             signInWithEmailAndPassword,
             onAuthStateChanged,
             signOut
-        }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
         import {
@@ -838,256 +577,355 @@
             getDocs,
             deleteDoc,
             doc
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        // =========================
+        // MENU TAB
+        // =========================
+
+        const adminTabs =
+            document.querySelectorAll(".admin-tab");
+
+        const tabPanels =
+            document.querySelectorAll(".tab-panel");
+
+
+        adminTabs.forEach((tab) => {
+
+            tab.addEventListener("click", () => {
+
+                const target =
+                    tab.dataset.tab;
+
+                adminTabs.forEach((item) => {
+                    item.classList.remove("active");
+                });
+
+                tabPanels.forEach((panel) => {
+                    panel.classList.remove("active");
+                });
+
+                tab.classList.add("active");
+
+                const targetPanel =
+                    document.getElementById(target);
+
+                if (targetPanel) {
+                    targetPanel.classList.add("active");
+                }
+
+            });
+
+        });
+
+
+
+        // =========================
+        // GITHUB EDITOR
+        // =========================
+
+        // Setelah Cloudflare Worker dibuat, isi URL worker di bawah ini.
+        const GITHUB_WORKER_URL =
+            "https://ihsan-syarifah-editor.ihsansyarifah111.workers.dev";
+
+        let loadedIndexSha = null;
+
+        const indexEditor =
+            document.getElementById("indexEditor");
+
+        const loadIndexButton =
+            document.getElementById("loadIndexButton");
+
+        const saveIndexButton =
+            document.getElementById("saveIndexButton");
+
+        const editMessage =
+            document.getElementById("editMessage");
+
+
+        function showEditMessage(message, type = "success") {
+
+            editMessage.innerHTML =
+                `<div class="edit-status ${type}">${message}</div>`;
+
         }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+        async function getFirebaseIdToken() {
 
-        /* =====================================================
-           FIREBASE CONFIG
-        ====================================================== */
+            const user = auth.currentUser;
+
+            if (!user) {
+                throw new Error("Sesi admin sudah tidak aktif. Silakan login lagi.");
+            }
+
+            return await user.getIdToken(true);
+
+        }
+
+
+        async function loadIndexHtml() {
+
+            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
+                showEditMessage(
+                    "Worker GitHub belum dipasang. Setelah Worker selesai dibuat, ganti URL Worker di bagian konfigurasi.",
+                    "error"
+                );
+                return;
+            }
+
+            loadIndexButton.disabled = true;
+            loadIndexButton.textContent = "Memuat...";
+
+            try {
+
+                const token =
+                    await getFirebaseIdToken();
+
+                const response =
+                    await fetch(
+                        GITHUB_WORKER_URL + "/index",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.error ||
+                        "Gagal mengambil index.html."
+                    );
+                }
+
+                indexEditor.value =
+                    result.content || "";
+
+                loadedIndexSha =
+                    result.sha || null;
+
+                showEditMessage(
+                    "index.html berhasil dimuat dari GitHub."
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                showEditMessage(
+                    escapeHtml(
+                        error.message ||
+                        "Gagal memuat index.html."
+                    ),
+                    "error"
+                );
+
+            } finally {
+
+                loadIndexButton.disabled = false;
+                loadIndexButton.textContent = "Muat index.html";
+
+            }
+
+        }
+
+
+        async function saveIndexHtml() {
+
+            if (!indexEditor.value.trim()) {
+                showEditMessage(
+                    "Isi index.html tidak boleh kosong.",
+                    "error"
+                );
+                return;
+            }
+
+            if (!loadedIndexSha) {
+                showEditMessage(
+                    "Muat index.html terlebih dahulu sebelum menyimpan.",
+                    "error"
+                );
+                return;
+            }
+
+            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
+                showEditMessage(
+                    "Worker GitHub belum dipasang.",
+                    "error"
+                );
+                return;
+            }
+
+            const confirmed =
+                confirm(
+                    "Simpan perubahan index.html ke GitHub?\n\n" +
+                    "GitHub Pages akan melakukan deploy setelah perubahan masuk."
+                );
+
+            if (!confirmed) return;
+
+            saveIndexButton.disabled = true;
+            saveIndexButton.textContent = "Menyimpan...";
+
+            try {
+
+                const token =
+                    await getFirebaseIdToken();
+
+                const response =
+                    await fetch(
+                        GITHUB_WORKER_URL + "/index",
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token,
+                                "Content-Type":
+                                    "application/json"
+                            },
+                            body: JSON.stringify({
+                                content:
+                                    indexEditor.value,
+                                sha:
+                                    loadedIndexSha
+                            })
+                        }
+                    );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.error ||
+                        "Gagal menyimpan index.html."
+                    );
+                }
+
+                loadedIndexSha =
+                    result.sha || loadedIndexSha;
+
+                showEditMessage(
+                    "Berhasil disimpan ke GitHub. Tunggu beberapa saat sampai GitHub Pages selesai deploy."
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                showEditMessage(
+                    escapeHtml(
+                        error.message ||
+                        "Gagal menyimpan index.html."
+                    ),
+                    "error"
+                );
+
+            } finally {
+
+                saveIndexButton.disabled = false;
+                saveIndexButton.textContent = "Simpan ke GitHub";
+
+            }
+
+        }
+
+
+        loadIndexButton.addEventListener(
+            "click",
+            loadIndexHtml
+        );
+
+        saveIndexButton.addEventListener(
+            "click",
+            saveIndexHtml
+        );
+
+
+        // =========================
+        // FIREBASE CONFIG
+        // =========================
 
         const firebaseConfig = {
-
-            apiKey:
-                "AIzaSyCxTII7lrTrqq-HBaOEHBz7uqg5Zl9T8",
-
-            authDomain:
-                "undangan-ihsan-syarifah.firebaseapp.com",
-
-            projectId:
-                "undangan-ihsan-syarifah",
-
-            storageBucket:
-                "undangan-ihsan-syarifah.firebasestorage.app",
-
-            messagingSenderId:
-                "877091672086",
-
-            appId:
-                "1:877091672086:web:9758a37f0c575cc1b3a537"
-
+            apiKey: "AIzaSyCxTII7lrjTrcqq-HBaOEHBz7uqg5Zl9T8",
+            authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
+            projectId: "undangan-ihsan-syarifah",
+            storageBucket: "undangan-ihsan-syarifah.firebasestorage.app",
+            messagingSenderId: "877091672086",
+            appId: "1:877091672086:web:9758a37f0c575cc1b3a537"
         };
 
 
+        // =========================
+        // INIT FIREBASE
+        // =========================
 
-        /* =====================================================
-           FIREBASE INIT
-        ====================================================== */
+        const app = initializeApp(firebaseConfig);
 
-        const app =
-            initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-
-        const auth =
-            getAuth(app);
+        const db = getFirestore(app);
 
 
-        const db =
-            getFirestore(app);
-
-
-
-        /* =====================================================
-           ADMIN UID
-        ====================================================== */
+        // =========================
+        // ADMIN UID
+        // =========================
 
         const ADMIN_UID =
             "DwMXUyfyChMp85zsb9L5rFy6Tg53";
 
 
-
-        /* =====================================================
-           CLOUDFLARE WORKER
-        ====================================================== */
-
-        const WORKER_URL =
-            "https://ihsan-syarifah-editor.ihsansyarifah111.workers.dev";
-
-
-
-        /* =====================================================
-           ELEMENTS
-        ====================================================== */
+        // =========================
+        // ELEMENTS
+        // =========================
 
         const loginSection =
-            document.getElementById(
-                "loginSection"
-            );
-
+            document.getElementById("loginSection");
 
         const dashboardSection =
-            document.getElementById(
-                "dashboardSection"
-            );
-
+            document.getElementById("dashboardSection");
 
         const emailInput =
-            document.getElementById(
-                "email"
-            );
-
+            document.getElementById("email");
 
         const passwordInput =
-            document.getElementById(
-                "password"
-            );
-
+            document.getElementById("password");
 
         const loginButton =
-            document.getElementById(
-                "loginButton"
-            );
-
+            document.getElementById("loginButton");
 
         const logoutButton =
-            document.getElementById(
-                "logoutButton"
-            );
-
+            document.getElementById("logoutButton");
 
         const loginError =
-            document.getElementById(
-                "loginError"
-            );
-
+            document.getElementById("loginError");
 
         const dashboardMessage =
-            document.getElementById(
-                "dashboardMessage"
-            );
-
+            document.getElementById("dashboardMessage");
 
         const commentsList =
-            document.getElementById(
-                "commentsList"
-            );
-
+            document.getElementById("commentsList");
 
         const totalComments =
-            document.getElementById(
-                "totalComments"
-            );
-
+            document.getElementById("totalComments");
 
         const totalPresent =
-            document.getElementById(
-                "totalPresent"
-            );
-
+            document.getElementById("totalPresent");
 
         const totalAbsent =
-            document.getElementById(
-                "totalAbsent"
-            );
+            document.getElementById("totalAbsent");
 
 
-        const indexEditor =
-            document.getElementById(
-                "indexEditor"
-            );
-
-
-        const loadIndexButton =
-            document.getElementById(
-                "loadIndexButton"
-            );
-
-
-        const saveIndexButton =
-            document.getElementById(
-                "saveIndexButton"
-            );
-
-
-        const clearEditorButton =
-            document.getElementById(
-                "clearEditorButton"
-            );
-
-
-        const editorStatus =
-            document.getElementById(
-                "editorStatus"
-            );
-
-
-        const editorMessage =
-            document.getElementById(
-                "editorMessage"
-            );
-
-
-
-        /* =====================================================
-           LOCAL STATE
-        ====================================================== */
-
-        let currentUser = null;
-
-        let currentIndexSha = null;
-
-
-
-        /* =====================================================
-           MESSAGE HELPERS
-        ====================================================== */
-
-        function showDashboardMessage(
-            message,
-            type = "success"
-        ) {
-
-            dashboardMessage.textContent =
-                message;
-
-            dashboardMessage.className =
-                type;
-
-        }
-
-
-        function hideDashboardMessage() {
-
-            dashboardMessage.textContent =
-                "";
-
-            dashboardMessage.className =
-                "hidden";
-
-        }
-
-
-        function showEditorMessage(
-            message,
-            type = "success"
-        ) {
-
-            editorMessage.textContent =
-                message;
-
-            editorMessage.className =
-                type;
-
-        }
-
-
-        function hideEditorMessage() {
-
-            editorMessage.textContent =
-                "";
-
-            editorMessage.className =
-                "hidden";
-
-        }
-
-
-
-        /* =====================================================
-           LOGIN
-        ====================================================== */
+        // =========================
+        // LOGIN
+        // =========================
 
         loginButton.addEventListener(
             "click",
@@ -1099,9 +937,6 @@
                 const password =
                     passwordInput.value;
 
-
-                loginError.textContent =
-                    "";
 
                 loginError.classList.add(
                     "hidden"
@@ -1121,8 +956,7 @@
                 }
 
 
-                loginButton.disabled =
-                    true;
+                loginButton.disabled = true;
 
                 loginButton.textContent =
                     "Login...";
@@ -1138,49 +972,10 @@
 
                 } catch (error) {
 
-                    console.error(
-                        "Firebase Login Error:",
-                        error
-                    );
-
-
-                    const code =
-                        error?.code || "";
-
-
-                    const messages = {
-
-                        "auth/invalid-credential":
-                            "Email atau password tidak cocok.",
-
-                        "auth/invalid-login-credentials":
-                            "Email atau password tidak cocok.",
-
-                        "auth/wrong-password":
-                            "Password salah.",
-
-                        "auth/user-not-found":
-                            "Akun admin tidak ditemukan.",
-
-                        "auth/invalid-email":
-                            "Format email tidak valid.",
-
-                        "auth/user-disabled":
-                            "Akun admin sedang dinonaktifkan.",
-
-                        "auth/too-many-requests":
-                            "Terlalu banyak percobaan. Tunggu beberapa saat.",
-
-                        "auth/network-request-failed":
-                            "Koneksi ke Firebase gagal."
-
-                    };
-
+                    console.error(error);
 
                     loginError.textContent =
-                        messages[code] ||
-                        "Login gagal. Silakan coba lagi.";
-
+                        "Email atau password salah.";
 
                     loginError.classList.remove(
                         "hidden"
@@ -1188,56 +983,37 @@
 
                 } finally {
 
-                    loginButton.disabled =
-                        false;
+                    loginButton.disabled = false;
 
                     loginButton.textContent =
                         "Login";
-
                 }
 
             }
         );
 
 
-
-        /* =====================================================
-           LOGOUT
-        ====================================================== */
+        // =========================
+        // LOGOUT
+        // =========================
 
         logoutButton.addEventListener(
             "click",
             async () => {
 
-                try {
-
-                    await signOut(auth);
-
-                } catch (error) {
-
-                    console.error(
-                        "Logout Error:",
-                        error
-                    );
-
-                }
+                await signOut(auth);
 
             }
         );
 
 
-
-        /* =====================================================
-           AUTH STATE
-        ====================================================== */
+        // =========================
+        // AUTH STATE
+        // =========================
 
         onAuthStateChanged(
             auth,
             async (user) => {
-
-                currentUser =
-                    user || null;
-
 
                 if (!user) {
 
@@ -1253,19 +1029,12 @@
                 }
 
 
-                /* =========================
-                   CEK ADMIN UID
-                ========================== */
-
-                if (
-                    user.uid !== ADMIN_UID
-                ) {
+                if (user.uid !== ADMIN_UID) {
 
                     await signOut(auth);
 
-
                     loginError.textContent =
-                        "Akun ini bukan akun admin yang diizinkan.";
+                        "Akun ini bukan akun admin.";
 
                     loginError.classList.remove(
                         "hidden"
@@ -1284,41 +1053,27 @@
                 );
 
 
-                hideDashboardMessage();
-
-
-                await loadComments();
+                loadComments();
 
             }
         );
 
 
-
-        /* =====================================================
-           LOAD COMMENTS
-        ====================================================== */
+        // =========================
+        // LOAD COMMENTS
+        // =========================
 
         async function loadComments() {
 
-            commentsList.className =
-                "loading";
-
-            commentsList.textContent =
-                "Memuat ucapan...";
+            commentsList.innerHTML =
+                '<div class="loading">Memuat ucapan...</div>';
 
 
             try {
 
-                const commentsRef =
-                    collection(
-                        db,
-                        "comments"
-                    );
-
-
                 const commentsQuery =
                     query(
-                        commentsRef,
+                        collection(db, "comments"),
                         orderBy(
                             "createdAt",
                             "desc"
@@ -1332,249 +1087,235 @@
                     );
 
 
-                let present = 0;
+                // =========================
+                // HITUNG STATISTIK
+                // =========================
 
-                let absent = 0;
+                let hadir = 0;
+                let tidakHadir = 0;
+
+
+                snapshot.forEach(
+                    (commentSnapshot) => {
+
+                        const data =
+                            commentSnapshot.data();
+
+                        if (data.presence === true) {
+
+                            hadir++;
+
+                        } else {
+
+                            tidakHadir++;
+
+                        }
+
+                    }
+                );
 
 
                 totalComments.textContent =
                     snapshot.size;
 
+                totalPresent.textContent =
+                    hadir;
+
+                totalAbsent.textContent =
+                    tidakHadir;
+
+
+                // =========================
+                // JIKA KOSONG
+                // =========================
 
                 if (snapshot.empty) {
 
-                    totalPresent.textContent =
-                        "0";
-
-                    totalAbsent.textContent =
-                        "0";
-
-
-                    commentsList.className =
-                        "empty";
-
-                    commentsList.textContent =
-                        "Belum ada ucapan.";
+                    commentsList.innerHTML =
+                        '<div class="empty">Belum ada ucapan.</div>';
 
                     return;
                 }
 
 
-                const fragment =
-                    document.createDocumentFragment();
+                commentsList.innerHTML = "";
 
+
+                // =========================
+                // TAMPILKAN UCAPAN
+                // =========================
 
                 snapshot.forEach(
-                    (item) => {
+                    (commentSnapshot) => {
 
                         const data =
-                            item.data();
+                            commentSnapshot.data();
+
+                        const id =
+                            commentSnapshot.id;
 
 
-                        const wrapper =
-                            document.createElement(
-                                "div"
+                        const commentElement =
+                            createCommentElement(
+                                id,
+                                data
                             );
 
 
-                        wrapper.className =
-                            "comment";
-
-
-                        const name =
-                            typeof data.name === "string"
-                                ? data.name
-                                : "Tanpa nama";
-
-
-                        const comment =
-                            typeof data.comment === "string"
-                                ? data.comment
-                                : "";
-
-
-                        const presence =
-                            data.presence === true
-                                ? "Hadir"
-                                : "Tidak Hadir";
-
-
-                        if (
-                            data.presence === true
-                        ) {
-
-                            present++;
-
-                        } else {
-
-                            absent++;
-
-                        }
-
-
-                        let timeText =
-                            "";
-
-
-                        if (
-                            data.createdAt &&
-                            typeof data.createdAt.toDate === "function"
-                        ) {
-
-                            try {
-
-                                timeText =
-                                    data.createdAt
-                                        .toDate()
-                                        .toLocaleString(
-                                            "id-ID",
-                                            {
-                                                dateStyle:
-                                                    "medium",
-                                                timeStyle:
-                                                    "short"
-                                            }
-                                        );
-
-                            } catch (e) {
-
-                                timeText =
-                                    "";
-
-                            }
-
-                        }
-
-
-                        wrapper.innerHTML = `
-
-                            <div class="comment-head">
-
-                                <div>
-
-                                    <div class="comment-name">
-                                        ${escapeHtml(name)}
-                                    </div>
-
-                                    <div class="comment-time">
-                                        ${escapeHtml(timeText)}
-                                    </div>
-
-                                </div>
-
-                                <button
-                                    type="button"
-                                    class="btn-delete"
-                                >
-                                    Hapus
-                                </button>
-
-                            </div>
-
-
-                            <div class="comment-text">
-                                ${escapeHtml(comment)}
-                            </div>
-
-
-                            <span class="presence">
-                                ${escapeHtml(presence)}
-                            </span>
-
-                        `;
-
-
-                        const deleteButton =
-                            wrapper.querySelector(
-                                ".btn-delete"
-                            );
-
-
-                        deleteButton.addEventListener(
-                            "click",
-                            () => deleteComment(
-                                item.id,
-                                deleteButton
-                            )
-                        );
-
-
-                        fragment.appendChild(
-                            wrapper
+                        commentsList.appendChild(
+                            commentElement
                         );
 
                     }
                 );
 
 
-                totalPresent.textContent =
-                    present;
-
-
-                totalAbsent.textContent =
-                    absent;
-
-
-                commentsList.className =
-                    "";
-
-
-                commentsList.textContent =
-                    "";
-
-
-                commentsList.appendChild(
-                    fragment
-                );
-
-
             } catch (error) {
 
-                console.error(
-                    "Load Comments Error:",
-                    error
-                );
+                console.error(error);
 
-
-                commentsList.className =
-                    "error";
-
-
-                commentsList.textContent =
-                    "Gagal memuat ucapan: " +
-                    error.message;
+                commentsList.innerHTML =
+                    '<div class="error">Gagal memuat ucapan.</div>';
 
             }
 
         }
 
 
+        // =========================
+        // CREATE COMMENT ELEMENT
+        // =========================
 
-        /* =====================================================
-           DELETE COMMENT
-        ====================================================== */
-
-        async function deleteComment(
-            commentId,
-            button
+        function createCommentElement(
+            id,
+            data
         ) {
 
-            const yakin =
-                confirm(
-                    "Hapus ucapan ini?"
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "comment";
+
+
+            const head =
+                document.createElement("div");
+
+            head.className =
+                "comment-head";
+
+
+            const info =
+                document.createElement("div");
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "comment-name";
+
+            name.textContent =
+                data.name || "Tamu";
+
+
+            const time =
+                document.createElement("div");
+
+            time.className =
+                "comment-time";
+
+            time.textContent =
+                formatDate(
+                    data.createdAt
                 );
 
 
-            if (!yakin) {
+            info.appendChild(name);
+
+            info.appendChild(time);
+
+
+            const deleteButton =
+                document.createElement("button");
+
+            deleteButton.className =
+                "btn-delete";
+
+            deleteButton.textContent =
+                "Hapus";
+
+
+            deleteButton.addEventListener(
+                "click",
+                () => deleteComment(
+                    id,
+                    wrapper,
+                    data.presence === true
+                )
+            );
+
+
+            head.appendChild(info);
+
+            head.appendChild(
+                deleteButton
+            );
+
+
+            const text =
+                document.createElement("div");
+
+            text.className =
+                "comment-text";
+
+            text.textContent =
+                data.comment || "";
+
+
+            const presence =
+                document.createElement("span");
+
+            presence.className =
+                "presence";
+
+            presence.textContent =
+                data.presence === true
+                    ? "Hadir"
+                    : "Tidak hadir";
+
+
+            wrapper.appendChild(head);
+
+            wrapper.appendChild(text);
+
+            wrapper.appendChild(presence);
+
+
+            return wrapper;
+
+        }
+
+
+        // =========================
+        // DELETE COMMENT
+        // =========================
+
+        async function deleteComment(
+            id,
+            element,
+            wasPresent
+        ) {
+
+            const confirmed =
+                confirm(
+                    "Yakin ingin menghapus ucapan ini?"
+                );
+
+
+            if (!confirmed) {
                 return;
             }
-
-
-            button.disabled =
-                true;
-
-            button.textContent =
-                "Menghapus...";
 
 
             try {
@@ -1583,598 +1324,141 @@
                     doc(
                         db,
                         "comments",
-                        commentId
+                        id
                     )
                 );
 
 
-                showDashboardMessage(
+                element.remove();
+
+
+                // Update Total
+                const currentTotal =
+                    Number(
+                        totalComments.textContent
+                    );
+
+                totalComments.textContent =
+                    Math.max(
+                        0,
+                        currentTotal - 1
+                    );
+
+
+                // Update Hadir / Tidak Hadir
+                if (wasPresent) {
+
+                    const currentPresent =
+                        Number(
+                            totalPresent.textContent
+                        );
+
+                    totalPresent.textContent =
+                        Math.max(
+                            0,
+                            currentPresent - 1
+                        );
+
+                } else {
+
+                    const currentAbsent =
+                        Number(
+                            totalAbsent.textContent
+                        );
+
+                    totalAbsent.textContent =
+                        Math.max(
+                            0,
+                            currentAbsent - 1
+                        );
+
+                }
+
+
+                showMessage(
                     "Ucapan berhasil dihapus.",
                     "success"
                 );
 
 
-                await loadComments();
-
-
             } catch (error) {
 
-                console.error(
-                    "Delete Comment Error:",
-                    error
-                );
+                console.error(error);
 
-
-                showDashboardMessage(
-                    "Gagal menghapus ucapan: " +
-                    error.message,
+                showMessage(
+                    "Gagal menghapus ucapan.",
                     "error"
                 );
 
-
-                button.disabled =
-                    false;
-
-                button.textContent =
-                    "Hapus";
-
             }
 
         }
 
 
+        // =========================
+        // MESSAGE
+        // =========================
 
-        /* =====================================================
-           ESCAPE HTML
-        ====================================================== */
+        function showMessage(
+            message,
+            type
+        ) {
 
-        function escapeHtml(value) {
-
-            return String(value)
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                )
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
-                .replaceAll(
-                    "'",
-                    "&#039;"
-                );
-
-        }
+            dashboardMessage.innerHTML =
+                `<div class="${type}">
+                    ${message}
+                </div>`;
 
 
+            setTimeout(
+                () => {
 
-        /* =====================================================
-           TAB SYSTEM
-        ====================================================== */
+                    dashboardMessage.innerHTML =
+                        "";
 
-        document
-            .querySelectorAll(
-                ".tab-button"
-            )
-            .forEach(
-                (button) => {
-
-                    button.addEventListener(
-                        "click",
-                        () => {
-
-                            document
-                                .querySelectorAll(
-                                    ".tab-button"
-                                )
-                                .forEach(
-                                    (item) => {
-
-                                        item.classList.remove(
-                                            "active"
-                                        );
-
-                                    }
-                                );
-
-
-                            document
-                                .querySelectorAll(
-                                    ".tab-content"
-                                )
-                                .forEach(
-                                    (item) => {
-
-                                        item.classList.remove(
-                                            "active"
-                                        );
-
-                                    }
-                                );
-
-
-                            button.classList.add(
-                                "active"
-                            );
-
-
-                            const target =
-                                document.getElementById(
-                                    button.dataset.tab
-                                );
-
-
-                            if (target) {
-
-                                target.classList.add(
-                                    "active"
-                                );
-
-                            }
-
-                        }
-                    );
-
-                }
-            );
-
-
-
-        /* =====================================================
-           GET FIREBASE ID TOKEN
-        ====================================================== */
-
-        async function getFirebaseIdToken() {
-
-            if (!currentUser) {
-
-                throw new Error(
-                    "Sesi admin tidak ditemukan."
-                );
-
-            }
-
-
-            return currentUser.getIdToken(
-                true
+                },
+                3000
             );
 
         }
 
 
+        // =========================
+        // DATE FORMAT
+        // =========================
 
-        /* =====================================================
-           LOAD INDEX FROM WORKER
-        ====================================================== */
+        function formatDate(
+            timestamp
+        ) {
 
-        loadIndexButton.addEventListener(
-            "click",
-            async () => {
+            if (
+                !timestamp ||
+                !timestamp.toDate
+            ) {
 
-                hideEditorMessage();
-
-
-                if (!currentUser) {
-
-                    showEditorMessage(
-                        "Sesi admin tidak ditemukan. Silakan login ulang.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                loadIndexButton.disabled =
-                    true;
-
-                saveIndexButton.disabled =
-                    true;
-
-
-                loadIndexButton.textContent =
-                    "Memuat...";
-
-
-                editorStatus.textContent =
-                    "Mengambil index.html dari GitHub...";
-
-
-                try {
-
-                    const token =
-                        await getFirebaseIdToken();
-
-
-                    const response =
-                        await fetch(
-                            WORKER_URL +
-                            "/index",
-                            {
-                                method:
-                                    "GET",
-
-                                headers:
-                                    {
-                                        "Authorization":
-                                            "Bearer " +
-                                            token
-                                    }
-                            }
-                        );
-
-
-                    const data =
-                        await response.json();
-
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            data.error ||
-                            "Worker gagal mengambil index.html."
-                        );
-
-                    }
-
-
-                    if (
-                        typeof data.content !==
-                        "string"
-                    ) {
-
-                        throw new Error(
-                            "Isi index.html tidak ditemukan."
-                        );
-
-                    }
-
-
-                    indexEditor.value =
-                        data.content;
-
-
-                    currentIndexSha =
-                        data.sha;
-
-
-                    editorStatus.textContent =
-                        "index.html berhasil dimuat dari GitHub.";
-
-
-                    showEditorMessage(
-                        "index.html berhasil dimuat. Silakan edit lalu klik Simpan ke GitHub.",
-                        "success"
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Load index Error:",
-                        error
-                    );
-
-
-                    editorStatus.textContent =
-                        "Gagal memuat index.html.";
-
-
-                    showEditorMessage(
-                        "Gagal memuat: " +
-                        error.message,
-                        "error"
-                    );
-
-                } finally {
-
-                    loadIndexButton.disabled =
-                        false;
-
-                    saveIndexButton.disabled =
-                        false;
-
-                    loadIndexButton.textContent =
-                        "Muat index.html";
-
-                }
+                return "Baru saja";
 
             }
-        );
 
 
-
-        /* =====================================================
-           SAVE INDEX TO GITHUB
-        ====================================================== */
-
-        saveIndexButton.addEventListener(
-            "click",
-            async () => {
-
-                hideEditorMessage();
+            const date =
+                timestamp.toDate();
 
 
-                if (!currentUser) {
-
-                    showEditorMessage(
-                        "Sesi admin tidak ditemukan. Silakan login ulang.",
-                        "error"
-                    );
-
-                    return;
+            return date.toLocaleString(
+                "id-ID",
+                {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
                 }
+            );
 
-
-                if (
-                    !currentIndexSha
-                ) {
-
-                    showEditorMessage(
-                        "Muat index.html terlebih dahulu sebelum menyimpan.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                if (
-                    !indexEditor.value.trim()
-                ) {
-
-                    showEditorMessage(
-                        "Editor masih kosong. Demi keamanan, file tidak disimpan.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                const yakin =
-                    confirm(
-                        "Simpan perubahan index.html ke GitHub?"
-                    );
-
-
-                if (!yakin) {
-                    return;
-                }
-
-
-                saveIndexButton.disabled =
-                    true;
-
-                loadIndexButton.disabled =
-                    true;
-
-
-                saveIndexButton.textContent =
-                    "Menyimpan...";
-
-
-                editorStatus.textContent =
-                    "Mengirim perubahan ke GitHub...";
-
-
-                try {
-
-                    const token =
-                        await getFirebaseIdToken();
-
-
-                    const response =
-                        await fetch(
-                            WORKER_URL +
-                            "/index",
-                            {
-                                method:
-                                    "PUT",
-
-                                headers:
-                                    {
-                                        "Authorization":
-                                            "Bearer " +
-                                            token,
-
-                                        "Content-Type":
-                                            "application/json"
-                                    },
-
-                                body:
-                                    JSON.stringify(
-                                        {
-                                            content:
-                                                indexEditor.value,
-
-                                            sha:
-                                                currentIndexSha
-                                        }
-                                    )
-                            }
-                        );
-
-
-                    const data =
-                        await response.json();
-
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            data.error ||
-                            "Worker gagal menyimpan index.html."
-                        );
-
-                    }
-
-
-                    if (data.sha) {
-
-                        currentIndexSha =
-                            data.sha;
-
-                    }
-
-
-                    editorStatus.textContent =
-                        "Perubahan berhasil disimpan ke GitHub.";
-
-
-                    let message =
-                        "Berhasil! index.html sudah disimpan ke GitHub.";
-
-
-                    if (data.commitUrl) {
-
-                        message +=
-                            " Commit berhasil dibuat.";
-
-                    }
-
-
-                    showEditorMessage(
-                        message,
-                        "success"
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Save index Error:",
-                        error
-                    );
-
-
-                    editorStatus.textContent =
-                        "Gagal menyimpan index.html.";
-
-
-                    showEditorMessage(
-                        "Gagal menyimpan: " +
-                        error.message,
-                        "error"
-                    );
-
-                } finally {
-
-                    saveIndexButton.disabled =
-                        false;
-
-                    loadIndexButton.disabled =
-                        false;
-
-                    saveIndexButton.textContent =
-                        "Simpan ke GitHub";
-
-                }
-
-            }
-        );
-
-
-
-        /* =====================================================
-           CLEAR EDITOR
-        ====================================================== */
-
-        clearEditorButton.addEventListener(
-            "click",
-            () => {
-
-                const yakin =
-                    confirm(
-                        "Kosongkan editor? Perubahan yang belum disimpan akan hilang."
-                    );
-
-
-                if (!yakin) {
-                    return;
-                }
-
-
-                indexEditor.value =
-                    "";
-
-                currentIndexSha =
-                    null;
-
-
-                editorStatus.textContent =
-                    "Editor dikosongkan. Muat ulang index.html jika diperlukan.";
-
-
-                hideEditorMessage();
-
-            }
-        );
-
-
-
-        /* =====================================================
-           KEYBOARD SHORTCUT
-        ====================================================== */
-
-        indexEditor.addEventListener(
-            "keydown",
-            (event) => {
-
-                /*
-                 * TAB di textarea menjadi
-                 * 4 spasi, bukan pindah elemen.
-                 */
-
-                if (
-                    event.key === "Tab"
-                ) {
-
-                    event.preventDefault();
-
-
-                    const start =
-                        indexEditor.selectionStart;
-
-
-                    const end =
-                        indexEditor.selectionEnd;
-
-
-                    indexEditor.value =
-                        indexEditor.value.substring(
-                            0,
-                            start
-                        ) +
-                        "    " +
-                        indexEditor.value.substring(
-                            end
-                        );
-
-
-                    indexEditor.selectionStart =
-                        start + 4;
-
-                    indexEditor.selectionEnd =
-                        start + 4;
-
-                }
-
-            }
-        );
-
+        }
 
     </script>
 
-
 </body>
-
 </html>
