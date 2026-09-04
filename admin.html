@@ -217,6 +217,47 @@
             padding: 30px;
         }
 
+
+        /* =========================
+           MENU TAB ADMIN
+        ========================== */
+
+        .admin-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            background: #eee;
+            color: #333;
+            border: 1px solid #e5e5e5;
+            padding: 11px 16px;
+            border-radius: 10px;
+        }
+
+        .admin-tab.active {
+            background: #333;
+            color: white;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .edit-placeholder {
+            background: #f7f3ef;
+            border-radius: 14px;
+            padding: 25px;
+            color: #777;
+            line-height: 1.6;
+        }
+
         @media (max-width: 600px) {
             header .container {
                 align-items: flex-start;
@@ -315,7 +356,37 @@
 
             <div class="container">
 
+                <!-- =========================
+                     MENU TAB
+                ========================== -->
+
+                <div class="admin-tabs">
+
+                    <button
+                        type="button"
+                        class="admin-tab active"
+                        data-tab="commentsTab"
+                    >
+                        Ucapan & Doa
+                    </button>
+
+                    <button
+                        type="button"
+                        class="admin-tab"
+                        data-tab="editTab"
+                    >
+                        Edit Undangan
+                    </button>
+
+                </div>
+
                 <div id="dashboardMessage"></div>
+
+                <!-- =========================
+                     TAB UCAPAN & DOA
+                ========================== -->
+
+                <div id="commentsTab" class="tab-panel active">
 
 
                 <!-- =========================
@@ -391,6 +462,30 @@
 
                 </div>
 
+                </div>
+
+                <!-- =========================
+                     TAB EDIT UNDANGAN
+                ========================== -->
+
+                <div id="editTab" class="tab-panel">
+
+                    <div class="card">
+
+                        <h2>Edit Undangan</h2>
+
+                        <div class="edit-placeholder">
+                            Menu ini disiapkan sebagai tab terpisah.
+                            <br><br>
+                            Isi undangan tetap berasal dari <b>index.html</b>.
+                            Nanti fitur edit bisa ditambahkan di sini tanpa
+                            mengubah tampilan menu <b>Ucapan & Doa</b>.
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </main>
@@ -426,6 +521,46 @@
             deleteDoc,
             doc
         } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        // =========================
+        // MENU TAB
+        // =========================
+
+        const adminTabs =
+            document.querySelectorAll(".admin-tab");
+
+        const tabPanels =
+            document.querySelectorAll(".tab-panel");
+
+
+        adminTabs.forEach((tab) => {
+
+            tab.addEventListener("click", () => {
+
+                const target =
+                    tab.dataset.tab;
+
+                adminTabs.forEach((item) => {
+                    item.classList.remove("active");
+                });
+
+                tabPanels.forEach((panel) => {
+                    panel.classList.remove("active");
+                });
+
+                tab.classList.add("active");
+
+                const targetPanel =
+                    document.getElementById(target);
+
+                if (targetPanel) {
+                    targetPanel.classList.add("active");
+                }
+
+            });
+
+        });
 
 
         // =========================
