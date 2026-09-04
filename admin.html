@@ -287,7 +287,17 @@
                 min-width: calc(50% - 6px);
             }
         }
-    </style>
+    
+        .edit-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:10px; }
+        .edit-form-grid label { display:flex; flex-direction:column; gap:7px; font-weight:600; font-size:14px; }
+        .edit-form-grid input, .edit-form-grid textarea { width:100%; padding:11px 12px; border:1px solid #ddd; border-radius:10px; background:#fbfaf8; font:inherit; font-weight:400; color:#333; }
+        .edit-form-grid textarea { resize:vertical; line-height:1.5; }
+        .edit-group { grid-column:1/-1; margin-top:8px; padding-bottom:4px; border-bottom:1px solid #eee; }
+        .edit-group h3 { margin:0 0 4px; font-size:18px; }
+        .edit-group p { margin:0; color:#777; font-size:13px; font-weight:400; }
+        .edit-full { grid-column:1/-1; }
+        @media (max-width:700px){ .edit-form-grid { grid-template-columns:1fr; } .edit-full { grid-column:auto; } }
+</style>
 </head>
 
 <body>
@@ -484,61 +494,70 @@
                 <div id="editTab" class="tab-panel">
 
                     <div class="card">
-
-                        <h2>Edit index.html</h2>
-
+                        <h2>Edit Isi Undangan</h2>
                         <p class="subtitle">
-                            Edit langsung file <b>index.html</b> dari dashboard.
-                            Setelah disimpan, perubahan dikirim ke GitHub.
+                            Di sini kamu cukup mengubah <b>isi undangan</b>. Tampilan dan desain tidak diubah.
                         </p>
 
                         <div id="editMessage"></div>
 
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin:18px 0;">
-                            <button
-                                id="loadIndexButton"
-                                type="button"
-                                class="btn-login"
-                                style="width:auto;"
-                            >
-                                Muat index.html
+                            <button id="loadIndexButton" type="button" class="btn-login" style="width:auto;">
+                                Muat Data Undangan
                             </button>
-
-                            <button
-                                id="saveIndexButton"
-                                type="button"
-                                class="btn-delete"
-                                style="width:auto;"
-                            >
-                                Simpan ke GitHub
+                            <button id="saveIndexButton" type="button" class="btn-delete" style="width:auto;">
+                                Simpan Perubahan
                             </button>
                         </div>
 
-                        <textarea
-                            id="indexEditor"
-                            spellcheck="false"
-                            placeholder="Klik “Muat index.html” untuk mengambil file dari GitHub..."
-                            style="
-                                width:100%;
-                                min-height:60vh;
-                                padding:15px;
-                                border:1px solid #ddd;
-                                border-radius:12px;
-                                background:#fbfaf8;
-                                color:#333;
-                                font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
-                                font-size:12px;
-                                line-height:1.55;
-                                resize:vertical;
-                                tab-size:2;
-                            "
-                        ></textarea>
+                        <div class="edit-form-grid">
+                            <div class="edit-group edit-full">
+                                <h3>Nama Mempelai</h3>
+                            </div>
+                            <label>Nama lengkap Ihsan<input id="fIhsan" type="text"></label>
+                            <label>Nama lengkap Syarifah<input id="fSyarifah" type="text"></label>
+                            <label>Nama orang tua Ihsan<input id="fOrtuIhsan" type="text" placeholder="Bapak ... dan Ibu ..."></label>
+                            <label>Nama orang tua Syarifah<input id="fOrtuSyarifah" type="text" placeholder="Bapak ... dan Ibu ..."></label>
 
-                        <p class="subtitle" style="margin-top:10px;">
-                            Sebaiknya klik <b>Muat index.html</b> sebelum mengedit agar
-                            versi yang kamu edit adalah versi terbaru di GitHub.
+                            <div class="edit-group edit-full">
+                                <h3>Jadwal & Lokasi</h3>
+                            </div>
+                            <label>Tanggal acara<input id="fTanggal" type="text" placeholder="Minggu, 20 Desember 2026"></label>
+                            <label>Waktu akad<input id="fAkad" type="text" placeholder="Pukul 08.00 WIB"></label>
+                            <label>Waktu resepsi<input id="fResepsi" type="text" placeholder="Pukul 11.00 - 14.00 WIB"></label>
+                            <label>Alamat akad<input id="fAlamatAkad" type="text"></label>
+                            <label>Link Google Maps akad<input id="fMapsAkad" type="url"></label>
+                            <label>Link Google Maps kirim kado<input id="fMapsKado" type="url"></label>
+                            <label class="edit-full">Alamat kirim kado<textarea id="fAlamatKado" rows="3"></textarea></label>
+
+                            <div class="edit-group edit-full">
+                                <h3>Love Gift</h3>
+                            </div>
+                            <label>Nama penerima transfer<input id="fTransferName" type="text"></label>
+                            <label>Bank<input id="fBank" type="text"></label>
+                            <label>Nomor rekening<input id="fRekening" type="text"></label>
+                            <label>Nama penerima e-wallet<input id="fWalletName" type="text"></label>
+                            <label>GoPay<input id="fGopay" type="text"></label>
+                            <label>DANA<input id="fDana" type="text"></label>
+
+                            <div class="edit-group edit-full">
+                                <h3>Kisah Kami</h3>
+                                <p>Isi setiap bagian dengan teks biasa. Enter akan menjadi baris baru di undangan.</p>
+                            </div>
+                            <label>Tahun 2019<input id="fStoryYear1" type="text"></label>
+                            <label>Tahun 2022<input id="fStoryYear2" type="text"></label>
+                            <label>Tahun 2025<input id="fStoryYear3" type="text"></label>
+                            <label>Tahun 2026<input id="fStoryYear4" type="text"></label>
+                            <label class="edit-full">Kisah 2019<textarea id="fStory1" rows="7"></textarea></label>
+                            <label class="edit-full">Kisah 2022<textarea id="fStory2" rows="7"></textarea></label>
+                            <label class="edit-full">Kisah 2025<textarea id="fStory3" rows="9"></textarea></label>
+                            <label class="edit-full">Kisah 2026<textarea id="fStory4" rows="7"></textarea></label>
+                            <label class="edit-full">Penutup kisah<textarea id="fStoryFinal" rows="6"></textarea></label>
+                        </div>
+
+                        <p class="subtitle" style="margin-top:14px;">
+                            Setelah disimpan, GitHub Pages akan memperbarui undangan. Tunggu sebentar lalu refresh halaman undangan.
                         </p>
-
                     </div>
 
                 </div>
@@ -615,6 +634,10 @@
                     targetPanel.classList.add("active");
                 }
 
+                if (target === "editTab" && auth.currentUser) {
+                    loadInvitationData();
+                }
+
             });
 
         });
@@ -622,232 +645,277 @@
 
 
         // =========================
-        // GITHUB EDITOR
+        // EDIT ISI UNDANGAN
         // =========================
 
-        // Setelah Cloudflare Worker dibuat, isi URL worker di bawah ini.
         const GITHUB_WORKER_URL =
             "https://ihsan-syarifah-editor.ihsansyarifah111.workers.dev";
 
         let loadedIndexSha = null;
+        let loadedIndexHtml = "";
 
-        const indexEditor =
-            document.getElementById("indexEditor");
-
-        const loadIndexButton =
-            document.getElementById("loadIndexButton");
-
-        const saveIndexButton =
-            document.getElementById("saveIndexButton");
-
-        const editMessage =
-            document.getElementById("editMessage");
-
+        const loadIndexButton = document.getElementById("loadIndexButton");
+        const saveIndexButton = document.getElementById("saveIndexButton");
+        const editMessage = document.getElementById("editMessage");
 
         function showEditMessage(message, type = "success") {
-
-            editMessage.innerHTML =
-                `<div class="edit-status ${type}">${message}</div>`;
-
+            editMessage.innerHTML = "";
+            const box = document.createElement("div");
+            box.className = "edit-status " + type;
+            box.textContent = message;
+            editMessage.appendChild(box);
         }
-
 
         async function getFirebaseIdToken() {
-
             const user = auth.currentUser;
-
             if (!user) {
-                throw new Error("Sesi admin sudah tidak aktif. Silakan login lagi.");
+                throw new Error("Sesi admin tidak aktif. Silakan login lagi.");
             }
-
             return await user.getIdToken(true);
-
         }
 
+        function textOf(el) {
+            return el ? el.textContent.trim() : "";
+        }
 
-        async function loadIndexHtml() {
+        function setText(el, value) {
+            if (el) el.textContent = value == null ? "" : value;
+        }
 
-            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
-                showEditMessage(
-                    "Worker GitHub belum dipasang. Setelah Worker selesai dibuat, ganti URL Worker di bagian konfigurasi.",
-                    "error"
-                );
-                return;
+        function setMultiline(el, value) {
+            if (!el) return;
+            el.innerHTML = "";
+            const parts = String(value || "").split(/\r?\n/);
+            parts.forEach((part, index) => {
+                if (index) el.appendChild(document.createElement("br"));
+                el.appendChild(document.createTextNode(part));
+            });
+        }
+
+        function getStoryBlock(doc, index) {
+            return doc.querySelectorAll(".story-page-content .story-block")[index] || null;
+        }
+
+        function storyToText(block) {
+            if (!block) return "";
+            const paragraphs = Array.from(block.querySelectorAll(":scope > p"));
+            return paragraphs.map(p => p.innerText.trim()).filter(Boolean).join("\n\n");
+        }
+
+        function setStory(block, value) {
+            if (!block) return;
+            const paragraphs = Array.from(block.querySelectorAll(":scope > p"));
+            const chunks = String(value || "").split(/\n\s*\n/);
+            paragraphs.forEach(p => p.remove());
+            chunks.filter(c => c.trim() !== "").forEach(chunk => {
+                const p = document.createElement("p");
+                setMultiline(p, chunk.trim());
+                block.insertBefore(p, block.querySelector(".story-actions") || null);
+            });
+        }
+
+        function fillForm(html) {
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const names = doc.querySelectorAll(".person-name");
+            const personBlocks = doc.querySelectorAll("section .person-name");
+
+            setValue("fIhsan", textOf(names[0]));
+            setValue("fSyarifah", textOf(names[1]));
+
+            const pBlocks = [];
+            personBlocks.forEach((nameEl) => {
+                const parent = nameEl.closest("div");
+                if (parent && !pBlocks.includes(parent)) pBlocks.push(parent);
+            });
+            setValue("fOrtuIhsan", pBlocks[0] ? Array.from(pBlocks[0].querySelectorAll("p")).slice(-3).filter(p => textOf(p) !== "dan").map(p => textOf(p)).join(" dan ") : "");
+            setValue("fOrtuSyarifah", pBlocks[1] ? Array.from(pBlocks[1].querySelectorAll("p")).slice(-3).filter(p => textOf(p) !== "dan").map(p => textOf(p)).join(" dan ") : "");
+
+            const dateCards = doc.querySelectorAll("#wedding-date .section-card");
+            setValue("fTanggal", dateCards[0] ? textOf(dateCards[0].querySelector("p")) : "");
+            setValue("fAkad", dateCards[0] ? textOf(dateCards[0].querySelectorAll("p")[1]) : "");
+            setValue("fResepsi", dateCards[1] ? textOf(dateCards[1].querySelectorAll("p")[1]) : "");
+
+            const weddingDateSection = document.getElementById("wedding-date") ? doc.getElementById("wedding-date") : null;
+            if (weddingDateSection) {
+                const smalls = weddingDateSection.querySelectorAll("small");
+                setValue("fAlamatAkad", smalls[0] ? textOf(smalls[0]) : "");
+                const map = weddingDateSection.querySelector('a[href*="maps.app.goo.gl"]');
+                setValue("fMapsAkad", map ? map.getAttribute("href") : "");
             }
 
+            const gifts = doc.querySelectorAll(".gift-card");
+            if (gifts[0]) {
+                const ps = gifts[0].querySelectorAll("p");
+                setValue("fTransferName", ps[0] ? textOf(ps[0]) : "");
+                setValue("fBank", ps[1] ? textOf(ps[1]) : "");
+                setValue("fRekening", ps[2] ? textOf(ps[2]) : "");
+            }
+            if (gifts[1]) {
+                const ps = gifts[1].querySelectorAll("p");
+                setValue("fWalletName", ps[0] ? textOf(ps[0]) : "");
+                setValue("fGopay", ps[1] ? textOf(ps[1]).replace(/^GoPay:\s*/i, "") : "");
+                setValue("fDana", ps[2] ? textOf(ps[2]).replace(/^DANA:\s*/i, "") : "");
+            }
+            if (gifts[2]) {
+                const p = gifts[2].querySelector("p");
+                setValue("fAlamatKado", p ? textOf(p) : "");
+                const map = gifts[2].querySelector('a[href*="maps.app.goo.gl"]');
+                setValue("fMapsKado", map ? map.getAttribute("href") : "");
+            }
+
+            const blocks = doc.querySelectorAll(".story-page-content .story-block");
+            for (let i = 0; i < 4; i++) {
+                const block = blocks[i];
+                if (!block) continue;
+                setValue("fStoryYear" + (i + 1), textOf(block.querySelector(".story-year")));
+                setValue("fStory" + (i + 1), storyToText(block));
+            }
+            setValue("fStoryFinal", blocks[4] ? textOf(blocks[4].querySelector(".story-final")) : "");
+        }
+
+        function setValue(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.value = value || "";
+        }
+
+        function valueOf(id) {
+            const el = document.getElementById(id);
+            return el ? el.value.trim() : "";
+        }
+
+        function updateInvitationHtml(html) {
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const names = doc.querySelectorAll(".person-name");
+            setText(names[0], valueOf("fIhsan"));
+            setText(names[1], valueOf("fSyarifah"));
+
+            const personBlocks = [];
+            names.forEach(nameEl => {
+                const parent = nameEl.closest("div");
+                if (parent && !personBlocks.includes(parent)) personBlocks.push(parent);
+            });
+            [valueOf("fOrtuIhsan"), valueOf("fOrtuSyarifah")].forEach((value, idx) => {
+                const parent = personBlocks[idx];
+                if (!parent || !value) return;
+                const ps = Array.from(parent.querySelectorAll("p")).slice(-3).filter(p => textOf(p) !== "dan");
+                const vals = value.split(/\s+dan\s+/i).map(x => x.trim()).filter(Boolean);
+                if (ps[0]) setText(ps[0], vals[0] || value);
+                if (ps[1]) setText(ps[1], "dan");
+                if (ps[2]) setText(ps[2], vals[1] || "");
+            });
+
+            const dateCards = doc.querySelectorAll("#wedding-date .section-card");
+            if (dateCards[0]) {
+                setText(dateCards[0].querySelector("p"), valueOf("fTanggal"));
+                setText(dateCards[0].querySelectorAll("p")[1], valueOf("fAkad"));
+            }
+            if (dateCards[1]) {
+                setText(dateCards[1].querySelector("p"), valueOf("fTanggal"));
+                setText(dateCards[1].querySelectorAll("p")[1], valueOf("fResepsi"));
+            }
+
+            const weddingDateSection = doc.getElementById("wedding-date");
+            if (weddingDateSection) {
+                const smalls = weddingDateSection.querySelectorAll("small");
+                if (smalls[0]) setText(smalls[0], valueOf("fAlamatAkad"));
+                const map = weddingDateSection.querySelector('a[href*="maps.app.goo.gl"]');
+                if (map && valueOf("fMapsAkad")) map.setAttribute("href", valueOf("fMapsAkad"));
+            }
+
+            const gifts = doc.querySelectorAll(".gift-card");
+            if (gifts[0]) {
+                const ps = gifts[0].querySelectorAll("p");
+                setText(ps[0], valueOf("fTransferName"));
+                if (ps[1]) setText(ps[1], valueOf("fBank"));
+                if (ps[2]) setText(ps[2], valueOf("fRekening"));
+                const copy = gifts[0].querySelector("[data-copy]");
+                if (copy) copy.setAttribute("data-copy", valueOf("fRekening"));
+            }
+            if (gifts[1]) {
+                const ps = gifts[1].querySelectorAll("p");
+                setText(ps[0], valueOf("fWalletName"));
+                setText(ps[1], "GoPay: " + valueOf("fGopay"));
+                setText(ps[2], "DANA: " + valueOf("fDana"));
+            }
+            if (gifts[2]) {
+                setText(gifts[2].querySelector("p"), valueOf("fAlamatKado"));
+                const map = gifts[2].querySelector('a[href*="maps.app.goo.gl"]');
+                if (map && valueOf("fMapsKado")) map.setAttribute("href", valueOf("fMapsKado"));
+            }
+
+            const blocks = doc.querySelectorAll(".story-page-content .story-block");
+            for (let i = 0; i < 4; i++) {
+                if (!blocks[i]) continue;
+                setText(blocks[i].querySelector(".story-year"), valueOf("fStoryYear" + (i + 1)));
+                setStory(blocks[i], valueOf("fStory" + (i + 1)));
+            }
+            if (blocks[4]) setMultiline(blocks[4].querySelector(".story-final"), valueOf("fStoryFinal"));
+
+            return "<!doctype html>\n" + doc.documentElement.outerHTML;
+        }
+
+        async function loadInvitationData() {
             loadIndexButton.disabled = true;
             loadIndexButton.textContent = "Memuat...";
-
+            showEditMessage("Mengambil data undangan dari GitHub...", "success");
             try {
-
-                const token =
-                    await getFirebaseIdToken();
-
-                const response =
-                    await fetch(
-                        GITHUB_WORKER_URL + "/index",
-                        {
-                            method: "GET",
-                            headers: {
-                                "Authorization":
-                                    "Bearer " + token
-                            }
-                        }
-                    );
-
-                const result =
-                    await response.json();
-
-                if (!response.ok) {
-                    throw new Error(
-                        result.error ||
-                        "Gagal mengambil index.html."
-                    );
-                }
-
-                indexEditor.value =
-                    result.content || "";
-
-                loadedIndexSha =
-                    result.sha || null;
-
-                showEditMessage(
-                    "index.html berhasil dimuat dari GitHub."
-                );
-
+                const token = await getFirebaseIdToken();
+                const response = await fetch(GITHUB_WORKER_URL + "/index", {
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(result.error || ("Worker mengembalikan HTTP " + response.status));
+                if (!result.content) throw new Error("Worker berhasil dihubungi, tetapi index.html kosong.");
+                loadedIndexHtml = result.content;
+                loadedIndexSha = result.sha || null;
+                if (!loadedIndexSha) throw new Error("SHA index.html tidak diterima dari Worker.");
+                fillForm(loadedIndexHtml);
+                showEditMessage("Data undangan berhasil dimuat. Sekarang tinggal edit isinya.", "success");
             } catch (error) {
-
                 console.error(error);
-
-                showEditMessage(
-                    escapeHtml(
-                        error.message ||
-                        "Gagal memuat index.html."
-                    ),
-                    "error"
-                );
-
+                showEditMessage(error.message || "Gagal memuat data undangan.", "error");
             } finally {
-
                 loadIndexButton.disabled = false;
-                loadIndexButton.textContent = "Muat index.html";
-
+                loadIndexButton.textContent = "Muat Data Undangan";
             }
-
         }
 
-
-        async function saveIndexHtml() {
-
-            if (!indexEditor.value.trim()) {
-                showEditMessage(
-                    "Isi index.html tidak boleh kosong.",
-                    "error"
-                );
+        async function saveInvitationData() {
+            if (!loadedIndexHtml || !loadedIndexSha) {
+                showEditMessage("Klik “Muat Data Undangan” terlebih dahulu.", "error");
                 return;
             }
-
-            if (!loadedIndexSha) {
-                showEditMessage(
-                    "Muat index.html terlebih dahulu sebelum menyimpan.",
-                    "error"
-                );
-                return;
-            }
-
-            if (GITHUB_WORKER_URL.includes("GANTI-DENGAN")) {
-                showEditMessage(
-                    "Worker GitHub belum dipasang.",
-                    "error"
-                );
-                return;
-            }
-
-            const confirmed =
-                confirm(
-                    "Simpan perubahan index.html ke GitHub?\n\n" +
-                    "GitHub Pages akan melakukan deploy setelah perubahan masuk."
-                );
-
-            if (!confirmed) return;
-
+            if (!confirm("Simpan perubahan isi undangan ke GitHub?")) return;
             saveIndexButton.disabled = true;
             saveIndexButton.textContent = "Menyimpan...";
-
             try {
-
-                const token =
-                    await getFirebaseIdToken();
-
-                const response =
-                    await fetch(
-                        GITHUB_WORKER_URL + "/index",
-                        {
-                            method: "PUT",
-                            headers: {
-                                "Authorization":
-                                    "Bearer " + token,
-                                "Content-Type":
-                                    "application/json"
-                            },
-                            body: JSON.stringify({
-                                content:
-                                    indexEditor.value,
-                                sha:
-                                    loadedIndexSha
-                            })
-                        }
-                    );
-
-                const result =
-                    await response.json();
-
-                if (!response.ok) {
-                    throw new Error(
-                        result.error ||
-                        "Gagal menyimpan index.html."
-                    );
-                }
-
-                loadedIndexSha =
-                    result.sha || loadedIndexSha;
-
-                showEditMessage(
-                    "Berhasil disimpan ke GitHub. Tunggu beberapa saat sampai GitHub Pages selesai deploy."
-                );
-
+                const updatedHtml = updateInvitationHtml(loadedIndexHtml);
+                const token = await getFirebaseIdToken();
+                const response = await fetch(GITHUB_WORKER_URL + "/index", {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ content: updatedHtml, sha: loadedIndexSha })
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(result.error || ("Worker mengembalikan HTTP " + response.status));
+                loadedIndexHtml = updatedHtml;
+                loadedIndexSha = result.sha || loadedIndexSha;
+                showEditMessage("Berhasil disimpan ke GitHub. Tunggu sebentar sampai GitHub Pages selesai deploy.", "success");
             } catch (error) {
-
                 console.error(error);
-
-                showEditMessage(
-                    escapeHtml(
-                        error.message ||
-                        "Gagal menyimpan index.html."
-                    ),
-                    "error"
-                );
-
+                showEditMessage(error.message || "Gagal menyimpan perubahan.", "error");
             } finally {
-
                 saveIndexButton.disabled = false;
-                saveIndexButton.textContent = "Simpan ke GitHub";
-
+                saveIndexButton.textContent = "Simpan Perubahan";
             }
-
         }
 
-
-        loadIndexButton.addEventListener(
-            "click",
-            loadIndexHtml
-        );
-
-        saveIndexButton.addEventListener(
-            "click",
-            saveIndexHtml
-        );
-
+        loadIndexButton.addEventListener("click", loadInvitationData);
+        saveIndexButton.addEventListener("click", saveInvitationData);
 
         // =========================
         // FIREBASE CONFIG
