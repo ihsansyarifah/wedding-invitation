@@ -1,50 +1,275 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin — Undangan Ihsan & Syarifah</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#8a6a4f">
+<title>Admin Undangan — Ihsan & Syarifah</title>
 <style>
-:root{--bg:#f5efe6;--paper:#fffdf8;--ink:#3f3026;--muted:#88776a;--line:#e2d6c8;--accent:#87684d}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,serif}
-.wrap{max-width:1000px;margin:auto;padding:18px 14px 60px}
-header,.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 7px 24px #00000008}
-header{padding:22px;margin-bottom:16px}h1{margin:0 0 6px;font-size:27px}.sub{font:14px Arial,sans-serif;color:var(--muted)}
-.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
-button{border:0;border-radius:11px;padding:11px 15px;font-weight:bold;cursor:pointer}
-.primary{background:var(--accent);color:#fff}.secondary{background:#eee4d8;color:var(--ink)}.danger{background:#f0d9d5;color:#8d3d35}
-.status{font:13px Arial,sans-serif;color:var(--muted);margin-top:11px;min-height:17px}
-.card{padding:18px;margin:15px 0}h2{margin:0 0 16px;font-size:21px}
-.field{margin-bottom:17px}label{display:block;font-weight:bold;margin-bottom:4px}small{display:block;font:11px Arial,sans-serif;color:var(--muted);margin-bottom:6px}
-input,textarea{width:100%;border:1px solid #d8ccbe;border-radius:10px;padding:11px;background:#fff;color:var(--ink);font:15px Arial,sans-serif}
-textarea{min-height:95px;resize:vertical}input:focus,textarea:focus{outline:none;border-color:#a88b6d;box-shadow:0 0 0 3px #a88b6d22}
-.note{margin-top:13px;padding:12px;border-radius:11px;background:#f8f0e6;font:13px Arial,sans-serif;color:#6d5a4b}
+:root{--bg:#f5efe7;--paper:#fffdf9;--ink:#3f3027;--muted:#89786b;--line:#e5d9cb;--brown:#8a6a4f;--gold:#b89462;--red:#a34d44}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 10% 10%,rgba(219,168,161,.10),transparent 30%),radial-gradient(circle at 90% 70%,rgba(124,135,100,.10),transparent 30%),var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+button,input,textarea{font:inherit}.hidden{display:none!important}.wrap{width:min(960px,calc(100% - 28px));margin:auto}
+#loginSection{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{width:min(430px,100%);background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 10px 30px rgba(70,50,35,.08)}
+.brand-mark{width:74px;height:74px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(184,148,98,.35);background:#f8efe6;color:var(--brown);font-size:27px}
+.login-card h1{text-align:center;margin:0;font-size:28px}.login-subtitle{text-align:center;color:var(--muted);margin:8px 0 24px;font:14px Arial,sans-serif}
+.login-field{margin-bottom:14px}.login-field label{display:block;margin-bottom:7px;font-weight:bold}
+.login-field input{width:100%;border:1px solid var(--line);border-radius:13px;padding:12px 14px;background:white;outline:none}
+.login-button{width:100%;border:0;border-radius:13px;padding:13px;background:var(--brown);color:white;font-weight:bold}
+.message{border-radius:12px;padding:11px 13px;margin-bottom:14px;font:13px Arial,sans-serif}.error{background:#fff0ed;color:#95453d}.success{background:#edf5ec;color:#4f704d}
+.admin-header{position:sticky;top:0;z-index:20;background:rgba(255,253,249,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.admin-header-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:14px}.admin-title{margin:0;font-size:22px}.admin-subtitle{margin:3px 0 0;color:var(--muted);font:12px Arial,sans-serif}
+.logout,.refresh{border:1px solid var(--line);border-radius:11px;padding:9px 13px;background:#f5eee6;color:var(--ink);font-weight:bold}
+main{padding:20px 0 50px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.tab{border:1px solid var(--line);border-radius:14px;padding:13px;background:rgba(255,253,249,.85);color:var(--muted);font-weight:bold}.tab.active{background:var(--brown);border-color:var(--brown);color:white}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(70,50,35,.08);margin-bottom:16px}
+.card h2{margin:0 0 7px;font-size:22px}.card-description{margin:0 0 18px;color:var(--muted);font:13px/1.55 Arial,sans-serif}
+.notice{background:#f8f0e7;border:1px solid #eadccf;border-radius:13px;padding:12px 13px;color:#705d4e;font:13px/1.55 Arial,sans-serif;margin-bottom:18px}
+.section-label{margin:24px 0 12px;color:var(--brown);font-weight:bold;font-size:15px}.edit-field{margin-bottom:18px}
+.edit-field label{display:block;font-weight:bold;margin-bottom:4px}.field-hint{color:var(--muted);font:12px/1.4 Arial,sans-serif;margin-bottom:7px}
+.edit-field input,.edit-field textarea{width:100%;border:1px solid #d9cdbf;border-radius:12px;padding:11px 12px;background:white;color:var(--ink);outline:none}
+.edit-field textarea{min-height:94px;resize:vertical;line-height:1.5}.edit-field input:focus,.edit-field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,148,98,.13)}
+.editor-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}.btn{border:0;border-radius:12px;padding:11px 15px;font-weight:bold}.btn-primary{background:var(--brown);color:white}.btn-secondary{background:#eee4d8;color:var(--ink)}.btn-danger{background:#f2dcd8;color:var(--red)}
+.save-note{margin-top:11px;color:var(--muted);font:12px/1.5 Arial,sans-serif}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f8f3ee;border:1px solid #eadfd4;border-radius:14px;padding:15px;text-align:center}.stat-number{font-size:26px;font-weight:bold}.stat-label{color:var(--muted);font:12px Arial,sans-serif;margin-top:4px}
+.comment-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}.comments-list{max-height:650px;overflow:auto}
+.comment{border:1px solid #e8ded4;border-radius:14px;padding:15px;margin-bottom:12px;background:#fffdfa}.comment-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.comment-name{font-weight:bold;font-size:16px}.comment-time{color:#999;font:12px Arial,sans-serif;margin-top:4px}.comment-text{margin:12px 0;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.comment-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px}.presence{display:inline-block;padding:5px 9px;border-radius:99px;background:#f0ece8;color:#6c5c51;font:12px Arial,sans-serif}.presence.present{background:#eaf3e8;color:#4f704d}
+.btn-delete{border:0;border-radius:9px;padding:7px 10px;background:#f3d9d5;color:#98443c;font-weight:bold}.empty,.loading{text-align:center;padding:35px 15px;color:#999;font:14px Arial,sans-serif}
+.footer-note{text-align:center;color:#9a897c;font:12px/1.5 Arial,sans-serif;padding:8px}
+@media(max-width:700px){.wrap{width:calc(100% - 20px)}.admin-header-inner{min-height:68px}.admin-title{font-size:19px}.admin-subtitle{font-size:11px}.card{padding:16px;border-radius:17px}.stats{grid-template-columns:1fr}.tabs{position:sticky;top:68px;z-index:10;padding:7px 0;background:rgba(245,239,231,.95);backdrop-filter:blur(10px)}.comment-head{flex-direction:column}.comment-bottom{align-items:flex-start;flex-direction:column}.btn-delete{width:100%}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-<h1>Admin — Edit Isi Undangan</h1>
-<div class="sub">Editor dibuat dari file <b>index.html</b> yang kamu kirim.</div>
-<div class="toolbar">
-<button class="primary" onclick="saveDraft()">💾 Simpan Draft</button>
-<button class="secondary" onclick="loadDraft()">↩ Muat Draft</button>
-<button class="danger" onclick="resetDraft()">Reset Draft</button>
+
+<section id="loginSection">
+<div class="login-card">
+<div class="brand-mark">I&S</div>
+<h1>Login Admin</h1>
+<p class="login-subtitle">Dashboard Undangan Ihsan & Syarifah</p>
+<div id="loginError" class="message error hidden"></div>
+<div class="login-field"><label for="email">Email Admin</label><input id="email" type="email" placeholder="Email admin" autocomplete="email"></div>
+<div class="login-field"><label for="password">Password</label><input id="password" type="password" placeholder="Password" autocomplete="current-password"></div>
+<button id="loginButton" class="login-button">Login</button>
 </div>
-<div id="status" class="status"></div>
-<div class="note">Tahap ini adalah editor lokal dulu. Setelah field-nya sudah cocok, kita sambungkan tombol Simpan ke Cloudflare lalu GitHub. Desain website tidak disentuh.</div>
+</section>
+
+<section id="dashboardSection" class="hidden">
+<header class="admin-header">
+<div class="wrap admin-header-inner">
+<div><h1 class="admin-title">Dashboard Undangan</h1><p class="admin-subtitle">Ihsan & Syarifah</p></div>
+<button id="logoutButton" class="logout">Logout</button>
+</div>
 </header>
-<section class="card"><h2>Pembuka &amp; Cover</h2><div class="field"><label>Welcome Date</label><small>auto_welcome-date_2</small><input data-key="auto_welcome-date_2" value="MINGGU, 20 DESEMBER 2026"></div></section><section class="card"><h2>Love Gift</h2><div class="field"><label>Gift Card</label><small>auto_gift-card_34</small><input data-key="auto_gift-card_34" value="E-Wallet"></div><div class="field"><label>Collapsewallet</label><small>auto_collapseWallet_36</small><input data-key="auto_collapseWallet_36" value="GoPay: 0896 2041 1169 DANA: 0896 2041 1169"></div><div class="field"><label>Gift Card</label><small>auto_gift-card_37</small><input data-key="auto_gift-card_37" value="Kirim Kado"></div></section><section class="card"><h2>Lainnya</h2><div class="field"><label>Mb 2</label><small>auto_mb-2_0</small><input data-key="auto_mb-2_0" value="The Wedding of"></div><div class="field"><label>Font Esthetic</label><small>auto_font-esthetic_1</small><input data-key="auto_font-esthetic_1" value="Ihsan &amp; Syarifah"></div><div class="field"><label>Btn</label><small>auto_btn_3</small><input data-key="auto_btn_3" value="Buka Undangan"></div><div class="field"><label>Small</label><small>auto_small_4</small><input data-key="auto_small_4" value="Mohon maaf apabila ada kesalahan dalam penulisan nama dan gelar."></div><div class="field"><label>Root</label><small>auto_root_5</small><input data-key="auto_root_5" value="The Wedding of Ihsan &amp; Syarifah"></div><div class="field"><label>M 0</label><small>auto_m-0_6</small><input data-key="auto_m-0_6" value="Minggu, 20 Desember 2026"></div><div class="field"><label>Col Sm 7</label><small>auto_col-sm-7_7</small><input data-key="auto_col-sm-7_7" value="♡ ♡ ♡ ♡ ♡ ✿ ❀ ✿ ❀ ✿"></div><div class="field"><label>Position Relative</label><small>auto_position-relative_8</small><input data-key="auto_position-relative_8" value="The Wedding of Ihsan &amp; Syarifah"></div><div class="field"><label>Mb 1</label><small>auto_mb-1_9</small><input data-key="auto_mb-1_9" value="Minggu"></div><div class="field"><label>Mb 4</label><small>auto_mb-4_10</small><input data-key="auto_mb-4_10" value="20 Desember 2026"></div><div class="field"><label>Calendar Button</label><small>auto_calendar-button_11</small><input data-key="auto_calendar-button_11" value="Save Google Calendar"></div><div class="field"><label>Pb 2</label><small>auto_pb-2_12</small><input data-key="auto_pb-2_12" value="Scroll Down"></div><div class="field"><label>Font Arabic</label><small>auto_font-arabic_13</small><textarea data-key="auto_font-arabic_13">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</textarea></div><div class="field"><label>Greeting Title</label><small>auto_greeting-title_14</small><input data-key="auto_greeting-title_14" value="Assalamualaikum Warahmatullahi Wabarakatuh"></div><div class="field"><label>Pb 4</label><small>auto_pb-4_15</small><input data-key="auto_pb-4_15" value="Tanpa mengurangi rasa hormat, kami mengundang Anda untuk berkenan menghadiri acara pernikahan kami."></div><div class="field"><label>Overflow X Hidden</label><small>auto_overflow-x-hidden_16</small><input data-key="auto_overflow-x-hidden_16" value="Ihsan Fauzi Noor, S.T. Putra kedua Bapak Budiono dan Ibu Komsiah"></div><div class="field"><label>Pb 2</label><small>auto_pb-2_17</small><input data-key="auto_pb-2_17" value="Syarifah Umaimah, S.T. Putri pertama Bapak Mohamad Rusmin dan Ibu Yunisar Harahap"></div><div class="field"><label>Container</label><small>auto_container_18</small><textarea data-key="auto_container_18">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</textarea></div><div class="field"><label>Mb 2</label><small>auto_mb-2_19</small><input data-key="auto_mb-2_19" value="Terjemahan"></div><div class="field"><label>P 1</label><small>auto_p-1_20</small><textarea data-key="auto_p-1_20">Dan diantara tanda-tanda kekuasaan-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati dan dijadikan-Nya kasih sayang diantara kamu.Sesungguhnya yang demikian menjadi tanda-tanda Kebesaran-Nya bagi orang-orang yang berfikir.</textarea></div><div class="field"><label>M 0</label><small>auto_m-0_21</small><input data-key="auto_m-0_21" value="QS. Ar-Rum: 21"></div><div class="field"><label>Container</label><small>auto_container_22</small><input data-key="auto_container_22" value="Kisah Kami Perjalanan yang membawa kami sampai pada hari ini. Baca Kisah Kami"></div><div class="field"><label>Container</label><small>auto_container_23</small><input data-key="auto_container_23" value="Moment Bahagia 00 Hari"></div><div class="field"><label>Col 3</label><small>auto_col-3_24</small><input data-key="auto_col-3_24" value="00 Jam"></div><div class="field"><label>Col 3</label><small>auto_col-3_25</small><input data-key="auto_col-3_25" value="00 Menit"></div><div class="field"><label>Col 3</label><small>auto_col-3_26</small><input data-key="auto_col-3_26" value="00 Detik"></div><div class="field"><label>Py 2</label><small>auto_py-2_27</small><textarea data-key="auto_py-2_27">Dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta&#x27;ala, insyaAllah kami akan menyelenggarakan acara:</textarea></div><div class="field"><label>Section Card</label><small>auto_section-card_28</small><input data-key="auto_section-card_28" value="Akad Nikah Minggu, 20 Desember 2026 Pukul 08.00 WIB"></div><div class="field"><label>Section Card</label><small>auto_section-card_29</small><input data-key="auto_section-card_29" value="Resepsi Minggu, 20 Desember 2026 Pukul 11.00 - 14.00 WIB"></div><div class="field"><label>Mt 4</label><small>auto_mt-4_30</small><textarea data-key="auto_mt-4_30">Lihat Google Maps Masjid Cibadak Daarul Matiin, Kecamatan Cibadak, Kabupaten Sukabumi. Scan untuk membuka lokasi akad.</textarea></div><div class="field"><label>Container</label><small>auto_container_31</small><input data-key="auto_container_31" value="Love Gift Bagi Anda yang ingin memberikan tanda kasih kepada kami, dapat melalui: Transfer"></div><div class="field"><label>D Flex</label><small>auto_d-flex_32</small><input data-key="auto_d-flex_32" value="Ihsan Fauzi Noor"></div><div class="field"><label>Collapsetf</label><small>auto_collapseTf_33</small><input data-key="auto_collapseTf_33" value="Bank Mandiri 1760002827994"></div><div class="field"><label>D Flex</label><small>auto_d-flex_35</small><input data-key="auto_d-flex_35" value="Ihsan Fauzi Noor"></div><div class="field"><label>M 0</label><small>auto_m-0_38</small><input data-key="auto_m-0_38" value="4Q7G+HHQ, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43351"></div><div class="field"><label>Text Center</label><small>auto_text-center_39</small><textarea data-key="auto_text-center_39">Lokasi Kirim Kado</textarea></div><div class="field"><label>Container</label><small>auto_container_40</small><input data-key="auto_container_40" value="Ucapan &amp; Doa Nama"></div><div class="field"><label>Mb 3</label><small>auto_mb-3_41</small><input data-key="auto_mb-3_41" value="Presensi Konfirmasi Presensi ✅ Datang ❌ Berhalangan"></div><div class="field"><label>Mb 3</label><small>auto_mb-3_42</small><input data-key="auto_mb-3_42" value="Ucapan &amp; Doa"></div><div class="field"><label>D Grid</label><small>auto_d-grid_43</small><input data-key="auto_d-grid_43" value="Kirim Ucapan"></div><div class="field"><label>Container</label><small>auto_container_44</small><textarea data-key="auto_container_44">Terima kasih atas perhatian dan doa restu Anda, yang menjadi kebahagiaan serta kehormatan besar bagi kami. Wassalamualaikum Warahmatullahi Wabarakatuh اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ Build with Dewanakl</textarea></div><div class="field"><label>Nav Item</label><small>auto_nav-item_45</small><input data-key="auto_nav-item_45" value="Home"></div><div class="field"><label>Nav Item</label><small>auto_nav-item_46</small><input data-key="auto_nav-item_46" value="Mempelai"></div><div class="field"><label>Nav Item</label><small>auto_nav-item_47</small><input data-key="auto_nav-item_47" value="Tanggal"></div><div class="field"><label>Nav Item</label><small>auto_nav-item_48</small><input data-key="auto_nav-item_48" value="Ucapan"></div><div class="field"><label>Modal Image</label><small>auto_modal-image_49</small><input data-key="auto_modal-image_49" value="Buka Simpan"></div></section>
+
+<main class="wrap">
+<div id="dashboardMessage"></div>
+
+<div class="tabs">
+<button class="tab active" data-tab="edit" type="button">✏️ Edit Undangan</button>
+<button class="tab" data-tab="comments" type="button">💬 Ucapan & Doa</button>
 </div>
-<script>
-const KEY="ihsan_syarifah_admin_draft_v2";
-function els(){return [...document.querySelectorAll("[data-key]")]}
-function collect(){const d={};els().forEach(e=>d[e.dataset.key]=e.value);return d}
-function apply(d){els().forEach(e=>{if(d[e.dataset.key]!==undefined)e.value=d[e.dataset.key]})}
-function saveDraft(){localStorage.setItem(KEY,JSON.stringify(collect()));document.getElementById("status").textContent="✓ Draft tersimpan di perangkat ini."}
-function loadDraft(){const x=localStorage.getItem(KEY);if(!x){document.getElementById("status").textContent="Belum ada draft.";return}try{apply(JSON.parse(x));document.getElementById("status").textContent="✓ Draft dimuat."}catch(e){document.getElementById("status").textContent="Draft tidak valid."}}
-function resetDraft(){if(confirm("Hapus draft di perangkat ini?")){localStorage.removeItem(KEY);location.reload()}}
-loadDraft();
+
+<section id="editTab" class="tab-panel active">
+<div class="card">
+<h2>✏️ Edit Isi Undangan</h2>
+<p class="card-description">Editor isi undangan. Desain, foto, musik, layout, dan sistem komentar tidak disentuh.</p>
+<div class="notice"><strong>Tahap sekarang:</strong> tombol simpan masih menyimpan draft di browser. Setelah tampilan editor ini sudah cocok, kita sambungkan ke Cloudflare → GitHub.</div>
+
+<div class="section-label">💌 Pembuka & Cover</div>
+<div class="edit-field"><label for="edit_cover_date">Tanggal di Cover</label><div class="field-hint">Tanggal yang tampil di cover undangan</div><input id="edit_cover_date" data-edit-key="cover_date" value="MINGGU, 20 DESEMBER 2026"></div>
+
+
+<div class="section-label">💍 Mempelai</div>
+<div class="edit-field"><label for="edit_groom_name">Nama Mempelai Pria</label><div class="field-hint">Nama yang tampil pada bagian mempelai</div><input id="edit_groom_name" data-edit-key="groom_name" value="Ihsan"></div>
+<div class="edit-field"><label for="edit_bride_name">Nama Mempelai Wanita</label><div class="field-hint">Nama yang tampil pada bagian mempelai</div><input id="edit_bride_name" data-edit-key="bride_name" value="Syarifah"></div>
+
+
+<div class="section-label">📖 Kisah Kami</div>
+<div class="edit-field"><label for="edit_story_title">Judul Kisah Kami</label><div class="field-hint">Judul bagian kisah</div><input id="edit_story_title" data-edit-key="story_title" value="Kisah Kami"></div>
+<div class="edit-field"><label for="edit_story_subtitle">Subjudul Kisah Kami</label><div class="field-hint">Kalimat pendek di bawah judul kisah</div><textarea id="edit_story_subtitle" data-edit-key="story_subtitle" rows="4">Perjalanan yang membawa kami sampai pada hari ini.</textarea></div>
+
+
+<div class="section-label">💐 Moment Bahagia & Acara</div>
+<div class="edit-field"><label for="edit_moment_title">Judul Moment Bahagia</label><div class="field-hint">Judul bagian tanggal/acara</div><input id="edit_moment_title" data-edit-key="moment_title" value="Moment Bahagia"></div>
+<div class="edit-field"><label for="edit_event_intro">Pengantar Acara</label><div class="field-hint">Kalimat pengantar sebelum detail acara</div><textarea id="edit_event_intro" data-edit-key="event_intro" rows="4">Dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta&#x27;ala, insyaAllah kami akan menyelenggarakan acara:</textarea></div>
+<div class="edit-field"><label for="edit_akad_title">Judul Akad</label><div class="field-hint">Judul kartu akad</div><input id="edit_akad_title" data-edit-key="akad_title" value="Akad Nikah"></div>
+<div class="edit-field"><label for="edit_akad_date">Tanggal Akad</label><div class="field-hint">Tanggal yang tampil pada kartu akad</div><input id="edit_akad_date" data-edit-key="akad_date" value="Minggu, 20 Desember 2026"></div>
+
+
+<div class="section-label">🎁 Love Gift</div>
+<div class="edit-field"><label for="edit_gift_title">Judul Love Gift</label><div class="field-hint">Judul bagian hadiah</div><input id="edit_gift_title" data-edit-key="gift_title" value="Love Gift"></div>
+
+
+<div class="section-label">🤍 Penutup</div>
+<div class="edit-field"><label for="edit_closing_text">Teks Penutup</label><div class="field-hint">Kalimat penutup undangan</div><textarea id="edit_closing_text" data-edit-key="closing_text" rows="4">Terima kasih atas perhatian dan doa restu Anda, yang menjadi kebahagiaan serta kehormatan besar bagi kami.</textarea></div>
+<div class="edit-field"><label for="edit_closing_greeting">Salam Penutup</label><div class="field-hint">Salam terakhir</div><input id="edit_closing_greeting" data-edit-key="closing_greeting" value="Wassalamualaikum Warahmatullahi Wabarakatuh"></div>
+
+
+<div class="editor-actions">
+<button id="saveDraftButton" type="button" class="btn btn-primary">💾 Simpan Draft</button>
+<button id="loadDraftButton" type="button" class="btn btn-secondary">↩ Muat Draft</button>
+<button id="resetDraftButton" type="button" class="btn btn-danger">Reset Draft</button>
+</div>
+<div id="editorStatus" class="save-note"></div>
+</div>
+</section>
+
+<section id="commentsTab" class="tab-panel">
+<div class="card">
+<h2>💬 Ringkasan Ucapan</h2>
+<p class="card-description">Data diambil langsung dari Firestore, seperti dashboard ucapan sebelumnya.</p>
+<div class="stats">
+<div class="stat"><div id="totalComments" class="stat-number">0</div><div class="stat-label">Total Ucapan</div></div>
+<div class="stat"><div id="totalPresent" class="stat-number">0</div><div class="stat-label">Hadir</div></div>
+<div class="stat"><div id="totalAbsent" class="stat-number">0</div><div class="stat-label">Tidak Hadir</div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="comment-toolbar"><h2>Ucapan & Doa</h2><button id="refreshComments" class="refresh" type="button">🔄 Refresh</button></div>
+<div id="commentsList" class="comments-list"><div class="loading">Memuat ucapan...</div></div>
+</div>
+</section>
+
+<div class="footer-note">Admin Ihsan & Syarifah</div>
+</main>
+</section>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {getFirestore,collection,query,orderBy,getDocs,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyCxTII7lrTrqq-HBaOEHBz7uqg5Zl9T8",
+authDomain:"undangan-ihsan-syarifah.firebaseapp.com",
+projectId:"undangan-ihsan-syarifah",
+storageBucket:"undangan-ihsan-syarifah.firebasestorage.app",
+messagingSenderId:"877091672086",
+appId:"1:877091672086:web:9758a37f0c575cc1b3a537"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const ADMIN_UID="DwMXUyfyChMp85zsb9L5rFy6Tg53";
+
+const loginSection=document.getElementById("loginSection");
+const dashboardSection=document.getElementById("dashboardSection");
+const emailInput=document.getElementById("email");
+const passwordInput=document.getElementById("password");
+const loginButton=document.getElementById("loginButton");
+const logoutButton=document.getElementById("logoutButton");
+const loginError=document.getElementById("loginError");
+const dashboardMessage=document.getElementById("dashboardMessage");
+const commentsList=document.getElementById("commentsList");
+const totalComments=document.getElementById("totalComments");
+const totalPresent=document.getElementById("totalPresent");
+const totalAbsent=document.getElementById("totalAbsent");
+const editorStatus=document.getElementById("editorStatus");
+
+document.querySelectorAll(".tab").forEach(tab=>{
+tab.addEventListener("click",()=>{
+document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t===tab));
+document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
+document.getElementById(tab.dataset.tab+"Tab").classList.add("active");
+});
+});
+
+loginButton.addEventListener("click",async()=>{
+const email=emailInput.value.trim();
+const password=passwordInput.value;
+loginError.classList.add("hidden");
+if(!email||!password){loginError.textContent="Email dan password wajib diisi.";loginError.classList.remove("hidden");return;}
+loginButton.disabled=true;loginButton.textContent="Login...";
+try{await signInWithEmailAndPassword(auth,email,password);}
+catch(error){console.error(error);loginError.textContent="Email atau password salah.";loginError.classList.remove("hidden");}
+finally{loginButton.disabled=false;loginButton.textContent="Login";}
+});
+
+logoutButton.addEventListener("click",async()=>{await signOut(auth);});
+
+onAuthStateChanged(auth,async user=>{
+if(!user){loginSection.classList.remove("hidden");dashboardSection.classList.add("hidden");return;}
+if(user.uid!==ADMIN_UID){await signOut(auth);loginError.textContent="Akun ini bukan akun admin.";loginError.classList.remove("hidden");return;}
+loginSection.classList.add("hidden");dashboardSection.classList.remove("hidden");loadComments();
+});
+
+async function loadComments(){
+commentsList.innerHTML='<div class="loading">Memuat ucapan...</div>';
+try{
+const snapshot=await getDocs(query(collection(db,"comments"),orderBy("createdAt","desc")));
+let hadir=0,tidakHadir=0;
+snapshot.forEach(s=>{if(s.data().presence===true)hadir++;else tidakHadir++;});
+totalComments.textContent=snapshot.size;
+totalPresent.textContent=hadir;
+totalAbsent.textContent=tidakHadir;
+if(snapshot.empty){commentsList.innerHTML='<div class="empty">Belum ada ucapan.</div>';return;}
+commentsList.innerHTML="";
+snapshot.forEach(s=>commentsList.appendChild(createCommentElement(s.id,s.data())));
+}catch(error){console.error(error);commentsList.innerHTML='<div class="message error">Gagal memuat ucapan.</div>';}
+}
+
+function createCommentElement(id,data){
+const wrapper=document.createElement("article");wrapper.className="comment";
+const head=document.createElement("div");head.className="comment-head";
+const info=document.createElement("div");
+const name=document.createElement("div");name.className="comment-name";name.textContent=data.name||"Tamu";
+const time=document.createElement("div");time.className="comment-time";time.textContent=formatDate(data.createdAt);
+info.append(name,time);
+const del=document.createElement("button");del.type="button";del.className="btn-delete";del.textContent="Hapus";
+del.addEventListener("click",()=>deleteComment(id,wrapper,data.presence===true));
+head.append(info,del);
+const text=document.createElement("div");text.className="comment-text";text.textContent=data.comment||"";
+const bottom=document.createElement("div");bottom.className="comment-bottom";
+const presence=document.createElement("span");presence.className="presence "+(data.presence===true?"present":"");presence.textContent=data.presence===true?"Hadir":"Tidak hadir";
+bottom.appendChild(presence);wrapper.append(head,text,bottom);return wrapper;
+}
+
+async function deleteComment(id,element,wasPresent){
+if(!confirm("Yakin ingin menghapus ucapan ini?"))return;
+try{
+await deleteDoc(doc(db,"comments",id));element.remove();
+totalComments.textContent=Math.max(0,Number(totalComments.textContent)-1);
+if(wasPresent)totalPresent.textContent=Math.max(0,Number(totalPresent.textContent)-1);
+else totalAbsent.textContent=Math.max(0,Number(totalAbsent.textContent)-1);
+showMessage("Ucapan berhasil dihapus.","success");
+}catch(error){console.error(error);showMessage("Gagal menghapus ucapan.","error");}
+}
+
+function showMessage(message,type){
+dashboardMessage.innerHTML="";
+const box=document.createElement("div");box.className="message "+type;box.textContent=message;dashboardMessage.appendChild(box);
+setTimeout(()=>dashboardMessage.innerHTML="",3000);
+}
+
+function formatDate(timestamp){
+if(!timestamp||!timestamp.toDate)return"Baru saja";
+return timestamp.toDate().toLocaleString("id-ID",{day:"2-digit",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"});
+}
+
+const DRAFT_KEY="ihsan_syarifah_admin_editor_v4";
+function editorData(){const d={};document.querySelectorAll("[data-edit-key]").forEach(e=>d[e.dataset.editKey]=e.value);return d;}
+function applyEditorData(d){document.querySelectorAll("[data-edit-key]").forEach(e=>{if(Object.prototype.hasOwnProperty.call(d,e.dataset.editKey))e.value=d[e.dataset.editKey];});}
+
+document.getElementById("saveDraftButton").addEventListener("click",()=>{
+localStorage.setItem(DRAFT_KEY,JSON.stringify(editorData()));
+editorStatus.textContent="✓ Draft tersimpan di perangkat ini.";
+});
+document.getElementById("loadDraftButton").addEventListener("click",()=>{
+const raw=localStorage.getItem(DRAFT_KEY);
+if(!raw){editorStatus.textContent="Belum ada draft.";return;}
+try{applyEditorData(JSON.parse(raw));editorStatus.textContent="✓ Draft dimuat.";}catch{editorStatus.textContent="Draft tidak dapat dibaca.";}
+});
+document.getElementById("resetDraftButton").addEventListener("click",()=>{
+if(!confirm("Hapus draft yang tersimpan di perangkat ini?"))return;
+localStorage.removeItem(DRAFT_KEY);location.reload();
+});
+document.getElementById("refreshComments").addEventListener("click",loadComments);
 </script>
 </body>
 </html>
