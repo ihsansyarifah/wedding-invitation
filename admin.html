@@ -671,7 +671,7 @@
             if (!user) {
                 throw new Error("Sesi admin tidak aktif. Silakan login lagi.");
             }
-            return await user.getIdToken(true);
+            return await user.getIdToken();
         }
 
         function textOf(el) {
