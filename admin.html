@@ -54,6 +54,7 @@ main{padding:20px 0 50px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10
 <div class="login-field"><label for="email">Email Admin</label><input id="email" type="email" placeholder="Email admin" autocomplete="email"></div>
 <div class="login-field"><label for="password">Password</label><input id="password" type="password" placeholder="Password" autocomplete="current-password"></div>
 <button id="loginButton" class="login-button">Login</button>
+<button id="resetPasswordButton" type="button" style="width:100%;margin-top:10px;border:0;border-radius:13px;padding:11px;background:#eee4d8;color:#3f3027;font-weight:bold">Lupa Password? Kirim Link Reset</button>
 </div>
 </section>
 
@@ -141,7 +142,7 @@ main{padding:20px 0 50px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import {getFirestore,collection,query,orderBy,getDocs,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig={
@@ -187,8 +188,48 @@ loginError.classList.add("hidden");
 if(!email||!password){loginError.textContent="Email dan password wajib diisi.";loginError.classList.remove("hidden");return;}
 loginButton.disabled=true;loginButton.textContent="Login...";
 try{await signInWithEmailAndPassword(auth,email,password);}
-catch(error){console.error(error);loginError.textContent="Email atau password salah.";loginError.classList.remove("hidden");}
+catch(error){
+console.error("Firebase Login Error:",error);
+const code=error?.code||"unknown";
+if(code==="auth/invalid-credential" || code==="auth/wrong-password" || code==="auth/user-not-found"){
+loginError.textContent="Login gagal: email atau password tidak cocok.";
+}else if(code==="auth/api-key-not-valid"){
+loginError.textContent="Firebase menolak API key. Ini masalah konfigurasi Firebase, bukan password.";
+}else if(code==="auth/too-many-requests"){
+loginError.textContent="Terlalu banyak percobaan login. Tunggu beberapa menit lalu coba lagi.";
+}else if(code==="auth/network-request-failed"){
+loginError.textContent="Koneksi ke Firebase gagal. Cek internet lalu coba lagi.";
+}else{
+loginError.textContent="Login gagal ("+code+"). Cek Console browser jika perlu.";
+}
+loginError.classList.remove("hidden");
+}
 finally{loginButton.disabled=false;loginButton.textContent="Login";}
+});
+
+document.getElementById("resetPasswordButton").addEventListener("click",async()=>{
+const email=emailInput.value.trim();
+loginError.classList.add("hidden");
+if(!email){
+loginError.textContent="Masukkan email admin dulu, lalu tekan tombol reset password.";
+loginError.classList.remove("hidden");
+return;
+}
+const btn=document.getElementById("resetPasswordButton");
+btn.disabled=true;btn.textContent="Mengirim...";
+try{
+await sendPasswordResetEmail(auth,email);
+loginError.textContent="Link reset password sudah dikirim. Cek inbox/spam email admin.";
+loginError.className="message success";
+loginError.classList.remove("hidden");
+}catch(error){
+console.error("Firebase Reset Error:",error);
+loginError.className="message error";
+loginError.textContent="Gagal mengirim reset password ("+(error?.code||"unknown")+").";
+loginError.classList.remove("hidden");
+}finally{
+btn.disabled=false;btn.textContent="Lupa Password? Kirim Link Reset";
+}
 });
 
 logoutButton.addEventListener("click",async()=>{await signOut(auth);});
