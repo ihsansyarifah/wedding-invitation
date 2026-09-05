@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin Undangan — Ihsan & Syarifah</title>
+<title>Admin Komentar — Ihsan & Syarifah</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 
@@ -12,14 +12,16 @@
   --cream:#fffaf6;
   --paper:#f8eee7;
   --brown:#6b4a3c;
-  --gold:#b99462;
 }
+
 body{
   margin:0;
+  min-height:100vh;
   background:linear-gradient(180deg,#fffaf6,#f8eee7);
   color:#49362e;
   font-family:Arial,sans-serif;
 }
+
 .header{
   background:rgba(255,250,246,.96);
   border-bottom:1px solid #ead8cb;
@@ -27,7 +29,34 @@ body{
   top:0;
   z-index:20;
 }
-.wrap{max-width:1100px;margin:auto;padding:22px 18px}
+
+.wrap{
+  max-width:900px;
+  margin:auto;
+  padding:22px 18px;
+}
+
+.login-box{
+  width:min(420px,100%);
+  background:#fff;
+  border:1px solid #ead8cb;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 15px 50px rgba(91,62,49,.1);
+}
+
+#login{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+#app{
+  display:none;
+}
+
 .card-edit{
   background:rgba(255,255,255,.82);
   border:1px solid #ead8cb;
@@ -36,15 +65,26 @@ body{
   margin-bottom:18px;
   box-shadow:0 10px 35px rgba(91,62,49,.07);
 }
-h2{font-size:1.25rem;color:var(--brown);margin-bottom:18px}
-label{font-weight:600;font-size:.9rem;margin-bottom:7px}
-.form-control,.form-select{
+
+h2{
+  font-size:1.25rem;
+  color:var(--brown);
+  margin-bottom:18px;
+}
+
+label{
+  font-weight:600;
+  font-size:.9rem;
+  margin-bottom:7px;
+}
+
+.form-control{
   border-radius:13px;
   border-color:#dfcfc5;
   min-height:46px;
 }
-textarea.form-control{min-height:110px}
-.btn-save{
+
+.btn-admin{
   background:var(--brown);
   color:#fff;
   border:0;
@@ -52,193 +92,182 @@ textarea.form-control{min-height:110px}
   padding:12px 22px;
   font-weight:700;
 }
-.btn-save:hover{background:#56392d;color:#fff}
+
+.btn-admin:hover{
+  background:#56392d;
+  color:#fff;
+}
+
 .status{
   display:none;
   border-radius:14px;
   padding:12px 15px;
   margin-bottom:18px;
 }
-.status.ok{display:block;background:#e8f6ea;color:#23652d}
-.status.err{display:block;background:#fde8e8;color:#a51f1f}
-.status.info{display:block;background:#e9f1fb;color:#1d4f80}
-#app{display:none}
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login-box{width:min(420px,100%);background:#fff;border:1px solid #ead8cb;border-radius:24px;padding:28px;box-shadow:0 15px 50px rgba(91,62,49,.1)}
-.tab-btn{
-  border:1px solid #dfcfc5;
-  background:#fff;
-  border-radius:999px;
-  padding:10px 18px;
-  margin-right:8px;
+
+.status.ok{
+  display:block;
+  background:#e8f6ea;
+  color:#23652d;
 }
-.tab-btn.active{background:var(--brown);color:#fff}
-.tab{display:none}.tab.active{display:block}
-.small-note{font-size:.83rem;color:#7a6b63}
-.comment-card{background:#fff;border:1px solid #ead8cb;border-radius:16px;padding:15px;margin-bottom:10px}
-.sticky-save{
-  position:sticky;
-  bottom:12px;
-  z-index:10;
-  background:rgba(255,250,246,.94);
+
+.status.err{
+  display:block;
+  background:#fde8e8;
+  color:#a51f1f;
+}
+
+.status.info{
+  display:block;
+  background:#e9f1fb;
+  color:#1d4f80;
+}
+
+.small-note{
+  font-size:.83rem;
+  color:#7a6b63;
+}
+
+.comment-card{
+  background:#fff;
   border:1px solid #ead8cb;
-  border-radius:18px;
-  padding:10px;
-  backdrop-filter:blur(8px);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.comment-name{
+  color:#6b4a3c;
+  font-weight:700;
+}
+
+.comment-text{
+  margin-top:10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+
+.comment-meta{
+  font-size:.82rem;
+  color:#8a7b73;
+  margin-top:8px;
+}
+
+.empty{
+  text-align:center;
+  padding:35px 15px;
+  color:#8a7b73;
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
 <div id="login">
+
   <div class="login-box">
+
     <h1 class="h4 mb-2">💍 Admin Undangan</h1>
-    <p class="small-note mb-4">Masuk menggunakan akun admin Firebase.</p>
+
+    <p class="small-note mb-4">
+      Masuk untuk melihat dan mengelola ucapan tamu.
+    </p>
 
     <div id="loginStatus" class="status"></div>
 
     <div class="mb-3">
       <label>Email</label>
-      <input id="loginEmail" type="email" class="form-control" autocomplete="username">
+      <input
+        id="loginEmail"
+        type="email"
+        class="form-control"
+        autocomplete="username"
+      >
     </div>
 
     <div class="mb-3">
       <label>Password</label>
-      <input id="loginPassword" type="password" class="form-control" autocomplete="current-password">
+      <input
+        id="loginPassword"
+        type="password"
+        class="form-control"
+        autocomplete="current-password"
+      >
     </div>
 
-    <button id="loginBtn" class="btn-save w-100" type="button">Masuk</button>
+    <button
+      id="loginBtn"
+      class="btn-admin w-100"
+      type="button"
+    >
+      Masuk
+    </button>
+
   </div>
+
 </div>
 
+
+<!-- APP -->
 <div id="app">
 
   <div class="header">
+
     <div class="wrap d-flex justify-content-between align-items-center">
+
       <div>
         <strong>💍 Admin Undangan</strong>
-        <div id="userEmail" class="small-note"></div>
+
+        <div
+          id="userEmail"
+          class="small-note"
+        ></div>
       </div>
-      <button id="logoutBtn" class="btn btn-outline-secondary rounded-pill px-4">Keluar</button>
+
+      <button
+        id="logoutBtn"
+        class="btn btn-outline-secondary rounded-pill px-4"
+      >
+        Keluar
+      </button>
+
     </div>
+
   </div>
+
 
   <main class="wrap">
 
     <div id="globalStatus" class="status"></div>
 
-    <div class="mb-3">
-      <button class="tab-btn active" data-tab="edit" type="button">✏️ Edit Undangan</button>
-      <button class="tab-btn" data-tab="comments" type="button">💌 Komentar</button>
-    </div>
 
-    <section id="tab-edit" class="tab active">
+    <section class="card-edit">
 
-      <div class="card-edit">
-        <h2>👩🏻‍❤️‍👨🏻 Nama Mempelai</h2>
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label>Nama lengkap pria</label>
-            <input id="groomFull" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label>Nama lengkap wanita</label>
-            <input id="brideFull" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label>Nama pendek pria</label>
-            <input id="groomShort" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label>Nama pendek wanita</label>
-            <input id="brideShort" class="form-control">
-          </div>
-        </div>
-      </div>
+      <h2>💌 Ucapan & Doa</h2>
 
-      <div class="card-edit">
-        <h2>👨‍👩‍👧 Nama Orang Tua</h2>
-        <div class="row g-3">
-          <div class="col-md-6"><label>Ayah Ihsan</label><input id="groomFather" class="form-control"></div>
-          <div class="col-md-6"><label>Ibu Ihsan</label><input id="groomMother" class="form-control"></div>
-          <div class="col-md-6"><label>Ayah Syarifah</label><input id="brideFather" class="form-control"></div>
-          <div class="col-md-6"><label>Ibu Syarifah</label><input id="brideMother" class="form-control"></div>
-          <div class="col-md-6"><label>Status pria, contoh: Putra kedua</label><input id="groomChild" class="form-control"></div>
-          <div class="col-md-6"><label>Status wanita, contoh: Putri pertama</label><input id="brideChild" class="form-control"></div>
-        </div>
-      </div>
+      <p class="small-note mb-4">
+        Semua ucapan dari tamu akan muncul di sini.
+      </p>
 
-      <div class="card-edit">
-        <h2>📅 Tanggal & Waktu</h2>
-        <div class="row g-3">
-          <div class="col-md-4"><label>Hari</label><input id="weddingDay" class="form-control"></div>
-          <div class="col-md-4"><label>Tanggal tampil</label><input id="weddingDateText" class="form-control"></div>
-          <div class="col-md-4"><label>Countdown (YYYY-MM-DD HH:MM:SS)</label><input id="weddingTime" class="form-control"></div>
-          <div class="col-md-6"><label>Waktu akad</label><input id="akadTime" class="form-control"></div>
-          <div class="col-md-6"><label>Waktu resepsi</label><input id="receptionTime" class="form-control"></div>
-        </div>
-      </div>
+      <div id="commentsStatus" class="status"></div>
 
-      <div class="card-edit">
-        <h2>📍 Lokasi Akad</h2>
-        <div class="mb-3"><label>Nama/lokasi</label><input id="location" class="form-control"></div>
-        <div class="mb-3"><label>Alamat singkat</label><textarea id="address" class="form-control"></textarea></div>
-        <div><label>Link Google Maps</label><input id="maps" class="form-control"></div>
-      </div>
+      <div id="commentsList"></div>
 
-      <div class="card-edit">
-        <h2>📖 Kisah Kami</h2>
-        <div class="row g-3">
-          <div class="col-12"><label>2019</label><textarea id="story2019" class="form-control"></textarea></div>
-          <div class="col-12"><label>2022</label><textarea id="story2022" class="form-control"></textarea></div>
-          <div class="col-12"><label>2025</label><textarea id="story2025" class="form-control"></textarea></div>
-          <div class="col-12"><label>2026</label><textarea id="story2026" class="form-control"></textarea></div>
-          <div class="col-12"><label>Penutup kisah</label><textarea id="storyFinal" class="form-control"></textarea></div>
-        </div>
-      </div>
-
-      <div class="card-edit">
-        <h2>🎁 Love Gift</h2>
-        <div class="row g-3">
-          <div class="col-md-6"><label>Nama penerima transfer</label><input id="bankName" class="form-control"></div>
-          <div class="col-md-6"><label>Nama bank</label><input id="bank" class="form-control"></div>
-          <div class="col-md-6"><label>Nomor rekening</label><input id="account" class="form-control"></div>
-          <div class="col-md-6"><label>Nama E-Wallet</label><input id="walletName" class="form-control"></div>
-          <div class="col-md-6"><label>Nomor GoPay</label><input id="gopay" class="form-control"></div>
-          <div class="col-md-6"><label>Nomor DANA</label><input id="dana" class="form-control"></div>
-          <div class="col-12"><label>Alamat kirim kado</label><textarea id="giftAddress" class="form-control"></textarea></div>
-          <div class="col-12"><label>Google Maps kirim kado</label><input id="giftMaps" class="form-control"></div>
-        </div>
-      </div>
-
-      <div class="card-edit">
-        <h2>💌 Teks Undangan</h2>
-        <div class="mb-3"><label>Teks pembuka</label><textarea id="opening" class="form-control"></textarea></div>
-        <div><label>Teks penutup</label><textarea id="closing" class="form-control"></textarea></div>
-      </div>
-
-      <div class="sticky-save">
-        <button id="saveBtn" class="btn-save w-100" type="button">💾 Simpan Perubahan ke GitHub</button>
-      </div>
-
-    </section>
-
-    <section id="tab-comments" class="tab">
-      <div class="card-edit">
-        <h2>💌 Ucapan & Doa</h2>
-        <div id="commentsStatus" class="status"></div>
-        <div id="commentsList"></div>
-      </div>
     </section>
 
   </main>
+
 </div>
 
+
 <script type="module">
+
 import {
   initializeApp
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+
 
 import {
   getAuth,
@@ -246,6 +275,7 @@ import {
   signInWithEmailAndPassword,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
 
 import {
   getFirestore,
@@ -257,530 +287,586 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
+
+
+/* =========================
+   FIREBASE
+========================= */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCcLt3DT1DYdmThAJK91TcEYvVDVZyonzI",
-  authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
-  projectId: "undangan-ihsan-syarifah",
-  storageBucket: "undangan-ihsan-syarifah.firebasestorage.app",
-  messagingSenderId: "877091672086",
-  appId: "1:877091672086:web:9758a37f0c575cc1b3a537"
+
+  apiKey:
+    "AIzaSyCcLt3DT1DYdmThAJK91TcEYvVDVZyonzI",
+
+  authDomain:
+    "undangan-ihsan-syarifah.firebaseapp.com",
+
+  projectId:
+    "undangan-ihsan-syarifah",
+
+  storageBucket:
+    "undangan-ihsan-syarifah.firebasestorage.app",
+
+  messagingSenderId:
+    "877091672086",
+
+  appId:
+    "1:877091672086:web:9758a37f0c575cc1b3a537"
+
 };
 
-const ADMIN_UID = "DwMXUyfyChMp85zsb9L5rFy6Tg53";
-const WORKER_URL = "https://ihsan-syarifah-editor.ihsansyarifah111.workers.dev/index";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const ADMIN_UID =
+  "DwMXUyfyChMp85zsb9L5rFy6Tg53";
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+
+const auth =
+  getAuth(app);
+
+
+const db =
+  getFirestore(app);
+
 
 let currentUser = null;
-let currentIndex = "";
-let currentSha = "";
-let loadedData = {};
 
-const $ = id => document.getElementById(id);
 
-function setStatus(id, message, type="info"){
+
+/* =========================
+   HELPER
+========================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function setStatus(
+  id,
+  message,
+  type = "info"
+){
+
   const el = $(id);
+
   if(!el) return;
-  el.textContent = message || "";
-  el.className = "status " + type;
+
+  el.textContent =
+    message || "";
+
+  el.className =
+    "status " + type;
 }
 
+
 function escHtml(text){
+
   return String(text ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;");
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
 }
 
-function textToHtml(text){
-  return escHtml(text).replace(/\r?\n/g,"<br>");
-}
 
-function getText(doc, selector){
-  const el = doc.querySelector(selector);
-  return el ? el.textContent.trim() : "";
-}
 
-function setText(doc, selector, value){
-  const el = doc.querySelector(selector);
-  if(el) el.textContent = value ?? "";
-}
+/* =========================
+   LOAD COMMENTS
+========================= */
 
-function setHtml(doc, selector, value){
-  const el = doc.querySelector(selector);
-  if(el) el.innerHTML = textToHtml(value);
-}
+async function loadComments(){
 
-function findGiftCard(doc, title){
-  return [...doc.querySelectorAll(".gift-card")].find(card =>
-    card.querySelector("strong")?.textContent.trim().toLowerCase() === title.toLowerCase()
+  setStatus(
+    "commentsStatus",
+    "Memuat komentar…",
+    "info"
   );
-}
 
-function extractData(html){
-  const doc = new DOMParser().parseFromString(html,"text/html");
-  const bride = doc.querySelector("#bride");
-  const people = bride ? [...bride.querySelectorAll(".person-name")] : [];
-  const groomBox = people[0]?.closest(".pb-2");
-  const brideBox = people[1]?.closest(".pb-2");
 
-  const groomPs = groomBox ? groomBox.querySelectorAll("p") : [];
-  const bridePs = brideBox ? brideBox.querySelectorAll("p") : [];
+  const list =
+    $("commentsList");
 
-  const dateSection = doc.querySelector("#wedding-date");
-  const dateCards = dateSection ? dateSection.querySelectorAll(".section-card") : [];
-  const mapsLink = dateSection?.querySelector('a[href*="maps.app.goo.gl"]');
 
-  const transfer = findGiftCard(doc,"Transfer");
-  const wallet = findGiftCard(doc,"E-Wallet");
-  const gift = findGiftCard(doc,"Kirim Kado");
+  list.innerHTML = "";
 
-  const bodyTime = doc.body?.getAttribute("data-time") || "";
 
-  let day = getText(doc,"#home p.mb-1");
-  let dateText = getText(doc,"#home p.mb-4");
-  if(!day) day = getText(doc,".desktop-cover-content p.m-0")?.split(",")[0] || "";
+  try{
 
-  let storyBlocks = [...doc.querySelectorAll("#love-story-page .story-block")];
-  const stories = storyBlocks.slice(0,4).map(x => x.innerText.trim());
+    const q = query(
 
-  const footerP = getText(doc,"section.no-gap-bottom p");
+      collection(
+        db,
+        "comments"
+      ),
 
-  const transferPs = transfer ? transfer.querySelectorAll("p") : [];
-  const walletPs = wallet ? wallet.querySelectorAll("p") : [];
+      where(
+        "invitationId",
+        "==",
+        "ihsan-syarifah"
+      )
 
-  return {
-    groomFull: getText(doc,"#bride .person-name:nth-of-type(1)") || (people[0]?.textContent.trim() || ""),
-    brideFull: people[1]?.textContent.trim() || "",
-    groomShort: getText(doc,".welcome-name-line"),
-    brideShort: getText(doc,".welcome-name-line:nth-of-type(3)"),
-    groomFather: groomPs[1]?.textContent.trim() || "",
-    groomMother: groomPs[3]?.textContent.trim() || "",
-    brideFather: bridePs[1]?.textContent.trim() || "",
-    brideMother: bridePs[3]?.textContent.trim() || "",
-    groomChild: groomPs[0]?.textContent.trim() || "",
-    brideChild: bridePs[0]?.textContent.trim() || "",
-    weddingDay: day,
-    weddingDateText: dateText,
-    weddingTime: bodyTime,
-    akadTime: dateCards[0]?.querySelectorAll("p")[1]?.textContent.trim().replace(/^Pukul\s*/i,"") || "",
-    receptionTime: dateCards[1]?.querySelectorAll("p")[1]?.textContent.trim().replace(/^Pukul\s*/i,"") || "",
-    location: dateSection?.querySelector("small.d-block.my-2")?.textContent.trim() || "",
-    address: dateSection?.querySelector("small.d-block.my-2")?.textContent.trim() || "",
-    maps: mapsLink?.getAttribute("href") || "",
-    story2019: stories[0] || "",
-    story2022: stories[1] || "",
-    story2025: stories[2] || "",
-    story2026: stories[3] || "",
-    storyFinal: getText(doc,".story-final").replace(/\n+/g,"\n"),
-    bankName: transfer?.querySelector(".d-flex.justify-content-between.align-items-center.mt-3 p")?.textContent.trim() || "",
-    bank: transferPs[0]?.textContent.trim() || "",
-    account: transferPs[1]?.textContent.trim() || "",
-    walletName: wallet?.querySelector(".d-flex.justify-content-between.align-items-center.mt-3 p")?.textContent.trim() || "",
-    gopay: walletPs[0]?.textContent.trim().replace(/^GoPay:\s*/i,"") || "",
-    dana: walletPs[1]?.textContent.trim().replace(/^DANA:\s*/i,"") || "",
-    giftAddress: gift?.querySelector("p.m-0")?.textContent.trim() || "",
-    giftMaps: gift?.querySelector("a[href*='maps.app.goo.gl']")?.getAttribute("href") || "",
-    opening: getText(doc,"#bride > p") || "",
-    closing: footerP || ""
-  };
-}
+    );
 
-function fillForm(data){
-  const map = {
-    groomFull:"groomFull", brideFull:"brideFull", groomShort:"groomShort", brideShort:"brideShort",
-    groomFather:"groomFather", groomMother:"groomMother", brideFather:"brideFather", brideMother:"brideMother",
-    groomChild:"groomChild", brideChild:"brideChild", weddingDay:"weddingDay", weddingDateText:"weddingDateText",
-    weddingTime:"weddingTime", akadTime:"akadTime", receptionTime:"receptionTime", location:"location",
-    address:"address", maps:"maps", story2019:"story2019", story2022:"story2022", story2025:"story2025",
-    story2026:"story2026", storyFinal:"storyFinal", bankName:"bankName", bank:"bank", account:"account",
-    walletName:"walletName", gopay:"gopay", dana:"dana", giftAddress:"giftAddress", giftMaps:"giftMaps",
-    opening:"opening", closing:"closing"
-  };
-  for(const [key,id] of Object.entries(map)){
-    $(id).value = data[key] ?? "";
-  }
-}
 
-function formData(){
-  const ids = [
-    "groomFull","brideFull","groomShort","brideShort","groomFather","groomMother","brideFather","brideMother",
-    "groomChild","brideChild","weddingDay","weddingDateText","weddingTime","akadTime","receptionTime","location",
-    "address","maps","story2019","story2022","story2025","story2026","storyFinal","bankName","bank","account",
-    "walletName","gopay","dana","giftAddress","giftMaps","opening","closing"
-  ];
-  const data = {};
-  for(const id of ids) data[id] = $(id).value.trim();
-  return data;
-}
+    const snap =
+      await getDocs(q);
 
-function applyInvitationData(html, data){
-  const doc = new DOMParser().parseFromString(html,"text/html");
 
-  // Kalau index sudah pernah disimpan oleh admin ini, hapus konfigurasi lama.
-  doc.querySelector("#admin-invitation-data")?.remove();
+    const comments =
+      snap.docs.map(docSnap => ({
 
-  // Nama pendek: Ihsan / & / Syarifah
-  const welcomeLines = doc.querySelectorAll(".welcome-name-line");
-  if(welcomeLines[0]) welcomeLines[0].textContent = data.groomShort;
-  if(welcomeLines[1]) welcomeLines[1].textContent = data.brideShort;
+        id: docSnap.id,
 
-  // Nama lengkap + orang tua
-  const people = doc.querySelectorAll("#bride .person-name");
-  const boxes = [...people].map(x => x.closest(".pb-2"));
-  if(boxes[0]){
-    const ps = boxes[0].querySelectorAll("p");
-    if(ps[0]) ps[0].textContent = data.groomChild;
-    if(ps[1]) ps[1].textContent = data.groomFather;
-    if(ps[3]) ps[3].textContent = data.groomMother;
-    if(people[0]) people[0].textContent = data.groomFull;
-  }
-  if(boxes[1]){
-    const ps = boxes[1].querySelectorAll("p");
-    if(ps[0]) ps[0].textContent = data.brideChild;
-    if(ps[1]) ps[1].textContent = data.brideFather;
-    if(ps[3]) ps[3].textContent = data.brideMother;
-    if(people[1]) people[1].textContent = data.brideFull;
-  }
+        ...docSnap.data()
 
-  // Tanggal
-  if(doc.body) doc.body.setAttribute("data-time",data.weddingTime);
+      }));
 
-  doc.querySelectorAll(".welcome-date").forEach(el => {
-    el.textContent = (data.weddingDay + ", " + data.weddingDateText).trim().toUpperCase();
-  });
 
-  doc.querySelectorAll(".desktop-cover-content .cover-title, #home .cover-title").forEach(el => {
-    el.textContent = data.groomShort + " & " + data.brideShort;
-  });
+    /* Urutkan terbaru di atas */
 
-  const home = doc.querySelector("#home");
-  if(home){
-    const ps = home.querySelectorAll("p");
-    [...ps].forEach(p => {
-      const t = p.textContent.trim();
-      if(t === "Minggu" || t === data.weddingDay) p.textContent = data.weddingDay;
-      if(/^\d{1,2}\s+\w+\s+\d{4}$/i.test(t) || t === data.weddingDateText) p.textContent = data.weddingDateText;
+    comments.sort((a,b) => {
+
+      const ta =
+        a.createdAt?.seconds ?? 0;
+
+      const tb =
+        b.createdAt?.seconds ?? 0;
+
+      return tb - ta;
+
     });
-  }
 
-  const dc = doc.querySelector(".desktop-cover-content");
-  if(dc){
-    const p = dc.querySelector("p.m-0");
-    if(p) p.textContent = (data.weddingDay + ", " + data.weddingDateText).trim();
-  }
 
-  const dateSection = doc.querySelector("#wedding-date");
-  if(dateSection){
-    const cards = dateSection.querySelectorAll(".section-card");
-    if(cards[0]){
-      const ps = cards[0].querySelectorAll("p");
-      if(ps[0]) ps[0].textContent = data.weddingDay + ", " + data.weddingDateText;
-      if(ps[1]) ps[1].textContent = "Pukul " + data.akadTime;
+    if(!comments.length){
+
+      list.innerHTML = `
+        <div class="empty">
+          💌<br>
+          Belum ada ucapan dari tamu.
+        </div>
+      `;
+
+      setStatus(
+        "commentsStatus",
+        "Belum ada komentar.",
+        "ok"
+      );
+
+      return;
+
     }
-    if(cards[1]){
-      const ps = cards[1].querySelectorAll("p");
-      if(ps[0]) ps[0].textContent = data.weddingDay + ", " + data.weddingDateText;
-      if(ps[1]) ps[1].textContent = "Pukul " + data.receptionTime;
-    }
-    const loc = dateSection.querySelector("small.d-block.my-2");
-    if(loc) loc.textContent = data.location || data.address;
 
-    const map = dateSection.querySelector('a[href*="maps.app.goo.gl"]');
-    if(map) map.setAttribute("href",data.maps);
-  }
 
-  // Pembuka
-  const opening = doc.querySelector("#bride > p");
-  if(opening) opening.textContent = data.opening;
+    for(const comment of comments){
 
-  // Kisah: isi 4 blok pertama secara utuh, mempertahankan tahun dari heading.
-  const storyData = [data.story2019,data.story2022,data.story2025,data.story2026];
-  const blocks = [...doc.querySelectorAll("#love-story-page .story-block")];
-  blocks.slice(0,4).forEach((block,i) => {
-    const year = block.querySelector(".story-year");
-    block.querySelectorAll("p").forEach(p => p.remove());
-    const p = doc.createElement("p");
-    p.innerHTML = textToHtml(storyData[i]);
-    block.appendChild(p);
-    if(year) block.prepend(year);
-  });
+      const div =
+        document.createElement("div");
 
-  const finalStory = doc.querySelector(".story-final");
-  if(finalStory) finalStory.innerHTML = textToHtml(data.storyFinal);
 
-  // Love Gift
-  const transfer = findGiftCard(doc,"Transfer");
-  if(transfer){
-    const receiver = transfer.querySelector(".d-flex.justify-content-between.align-items-center.mt-3 p");
-    if(receiver) receiver.textContent = data.bankName;
+      div.className =
+        "comment-card";
 
-    const ps = transfer.querySelectorAll("#collapseTf p");
-    if(ps[0]){
-      ps[0].textContent = "";
-      const icon = doc.createElement("i");
-      icon.className = "fa-solid fa-building-columns me-1";
-      ps[0].appendChild(icon);
-      ps[0].appendChild(doc.createTextNode(data.bank));
-    }
-    if(ps[1]) ps[1].textContent = data.account;
-    const copy = transfer.querySelector("[data-copy]");
-    if(copy) copy.setAttribute("data-copy",data.account);
-  }
 
-  const wallet = findGiftCard(doc,"E-Wallet");
-  if(wallet){
-    const receiver = wallet.querySelector(".d-flex.justify-content-between.align-items-center.mt-3 p");
-    if(receiver) receiver.textContent = data.walletName;
-    const ps = wallet.querySelectorAll("#collapseWallet p");
-    if(ps[0]) ps[0].textContent = "GoPay: " + data.gopay;
-    if(ps[1]) ps[1].textContent = "DANA: " + data.dana;
-  }
+      const name =
+        comment.name ||
+        "Tanpa nama";
 
-  const gift = findGiftCard(doc,"Kirim Kado");
-  if(gift){
-    const p = gift.querySelector("p.m-0");
-    if(p) p.textContent = data.giftAddress;
-    const a = gift.querySelector('a[href*="maps.app.goo.gl"]');
-    if(a) a.setAttribute("href",data.giftMaps);
-  }
 
-  const closing = doc.querySelector("section.no-gap-bottom p");
-  if(closing) closing.textContent = data.closing;
+      const message =
+        comment.comment ||
+        "";
 
-  // Simpan data terakhir sebagai metadata. Ini membuat edit berikutnya tetap stabil
-  // walaupun isi index sudah berubah dari nilai awal.
-  const marker = doc.createElement("script");
-  marker.id = "admin-invitation-data";
-  marker.type = "application/json";
-  marker.textContent = JSON.stringify(data);
-  doc.body.appendChild(marker);
 
-  return "<!doctype html>\n" + doc.documentElement.outerHTML;
-}
+      const presence =
+        comment.presence === true
+          ? "✅ Datang"
+          : "❌ Berhalangan";
 
-async function workerFetch(method="GET", body=null){
-  if(!currentUser) throw new Error("Sesi admin belum tersedia.");
 
-  const token = await currentUser.getIdToken(true);
+      let dateText = "";
 
-  const options = {
-    method,
-    headers:{
-      "Authorization":"Bearer " + token,
-      "Accept":"application/json"
-    }
-  };
 
-  if(body !== null){
-    options.headers["Content-Type"]="application/json";
-    options.body=JSON.stringify(body);
-  }
+      if(comment.createdAt){
 
-  const response = await fetch(WORKER_URL, options);
-  const raw = await response.text();
+        try{
 
-  let result;
-  try{
-    result = JSON.parse(raw);
-  }catch{
-    throw new Error("Worker mengirim respons yang bukan JSON. HTTP " + response.status + ": " + raw.slice(0,180));
-  }
+          let date;
 
-  if(!response.ok || result.error){
-    throw new Error(result.error || ("HTTP " + response.status));
-  }
+          if(
+            typeof comment.createdAt.toDate ===
+            "function"
+          ){
 
-  return result;
-}
+            date =
+              comment.createdAt.toDate();
 
-async function loadIndex(){
-  setStatus("globalStatus","Mengambil index.html dari GitHub…","info");
-  try{
-    const result = await workerFetch("GET");
-    if(typeof result.content !== "string" || !result.sha) throw new Error("Respons Worker tidak lengkap.");
+          }else if(
+            comment.createdAt.seconds
+          ){
 
-    currentIndex = result.content;
-    currentSha = result.sha;
+            date =
+              new Date(
+                comment.createdAt.seconds * 1000
+              );
 
-    const marker = new DOMParser()
-      .parseFromString(currentIndex,"text/html")
-      .querySelector("#admin-invitation-data");
+          }
 
-    if(marker){
-      try{
-        loadedData = JSON.parse(marker.textContent);
-      }catch{
-        loadedData = extractData(currentIndex);
+
+          if(date){
+
+            dateText =
+              date.toLocaleString(
+                "id-ID",
+                {
+                  dateStyle:"medium",
+                  timeStyle:"short"
+                }
+              );
+
+          }
+
+        }catch(error){
+
+          console.warn(
+            "Tanggal komentar tidak bisa dibaca:",
+            error
+          );
+
+        }
+
       }
-    }else{
-      loadedData = extractData(currentIndex);
+
+
+      div.innerHTML = `
+
+        <div class="d-flex justify-content-between align-items-start gap-3">
+
+          <div>
+
+            <div class="comment-name">
+              ${escHtml(name)}
+            </div>
+
+            <div class="comment-meta">
+              ${escHtml(presence)}
+              ${dateText ? " • " + escHtml(dateText) : ""}
+            </div>
+
+          </div>
+
+          <button
+            class="btn btn-sm btn-outline-danger rounded-pill delete-comment"
+            type="button"
+          >
+            🗑️ Hapus
+          </button>
+
+        </div>
+
+
+        <div class="comment-text">
+          ${escHtml(message).replace(/\n/g,"<br>")}
+        </div>
+
+      `;
+
+
+      const deleteButton =
+        div.querySelector(
+          ".delete-comment"
+        );
+
+
+      deleteButton.addEventListener(
+        "click",
+        async () => {
+
+          const confirmed =
+            confirm(
+              `Hapus ucapan dari "${name}"?`
+            );
+
+
+          if(!confirmed) return;
+
+
+          deleteButton.disabled = true;
+
+          deleteButton.textContent =
+            "Menghapus…";
+
+
+          try{
+
+            await deleteDoc(
+              doc(
+                db,
+                "comments",
+                comment.id
+              )
+            );
+
+
+            div.remove();
+
+
+            setStatus(
+              "commentsStatus",
+              "✅ Komentar berhasil dihapus.",
+              "ok"
+            );
+
+
+            if(
+              !$("commentsList").children.length
+            ){
+
+              $("commentsList").innerHTML = `
+                <div class="empty">
+                  💌<br>
+                  Belum ada ucapan dari tamu.
+                </div>
+              `;
+
+            }
+
+
+          }catch(error){
+
+            console.error(error);
+
+
+            deleteButton.disabled =
+              false;
+
+            deleteButton.textContent =
+              "🗑️ Hapus";
+
+
+            setStatus(
+              "commentsStatus",
+              "❌ Gagal menghapus komentar: " +
+              (error.message || "Kesalahan tidak diketahui."),
+              "err"
+            );
+
+          }
+
+        }
+      );
+
+
+      list.appendChild(div);
+
     }
 
-    fillForm(loadedData);
-    setStatus("globalStatus","Data undangan berhasil dimuat. Siap diedit.","ok");
-  }catch(error){
-    console.error(error);
-    setStatus("globalStatus",error.message || "Gagal memuat data.","err");
-  }
-}
-
-async function saveIndex(){
-  const btn = $("saveBtn");
-  btn.disabled = true;
-  btn.textContent = "⏳ Menyimpan…";
-  setStatus("globalStatus","Mengirim perubahan ke GitHub…","info");
-
-  try{
-    if(!currentIndex || !currentSha) await loadIndex();
-    if(!currentIndex || !currentSha) throw new Error("index.html belum berhasil dimuat.");
-
-    const data = formData();
-    const newContent = applyInvitationData(currentIndex,data);
-
-    const result = await workerFetch("PUT",{
-      content:newContent,
-      sha:currentSha
-    });
-
-    if(!result.success) throw new Error("GitHub tidak mengonfirmasi penyimpanan.");
-
-    currentIndex = newContent;
-
-    // Ambil ulang SHA terbaru dari GitHub supaya penyimpanan berikutnya tidak memakai SHA lama.
-    const fresh = await workerFetch("GET");
-    currentIndex = fresh.content;
-    currentSha = fresh.sha;
 
     setStatus(
-      "globalStatus",
-      "✅ Berhasil! index.html sudah dikirim ke GitHub. GitHub Actions akan membuild/deploy otomatis.",
+      "commentsStatus",
+      comments.length +
+      " komentar berhasil dimuat.",
       "ok"
     );
 
-    window.scrollTo({top:0,behavior:"smooth"});
+
   }catch(error){
+
     console.error(error);
-    setStatus("globalStatus","❌ Gagal menyimpan: " + (error.message || "Kesalahan tidak diketahui"),"err");
-  }finally{
-    btn.disabled = false;
-    btn.textContent = "💾 Simpan Perubahan ke GitHub";
-  }
-}
 
-async function loadComments(){
-  setStatus("commentsStatus","Memuat komentar…","info");
-  const list = $("commentsList");
-  list.innerHTML = "";
 
-  try{
-    const q = query(
-      collection(db,"comments"),
-      where("invitationId","==","ihsan-syarifah")
+    setStatus(
+      "commentsStatus",
+      "❌ Gagal memuat komentar: " +
+      (error.message || "Kesalahan tidak diketahui."),
+      "err"
     );
-    const snap = await getDocs(q);
-    const comments = snap.docs.map(d => ({id:d.id,...d.data()}));
 
-    comments.sort((a,b) => {
-      const ta = a.createdAt?.seconds ?? 0;
-      const tb = b.createdAt?.seconds ?? 0;
-      return tb-ta;
-    });
-
-    if(!comments.length){
-      list.innerHTML = '<div class="small-note">Belum ada komentar.</div>';
-      setStatus("commentsStatus","Tidak ada komentar.","ok");
-      return;
-    }
-
-    for(const c of comments){
-      const div = document.createElement("div");
-      div.className="comment-card";
-      const presence = c.presence === true ? "✅ Datang" : "❌ Berhalangan";
-      div.innerHTML = `
-        <div class="d-flex justify-content-between gap-2">
-          <strong>${escHtml(c.name || "Tanpa nama")}</strong>
-          <span class="small-note">${presence}</span>
-        </div>
-        <div class="mt-2">${escHtml(c.comment || "").replace(/\n/g,"<br>")}</div>
-        <button class="btn btn-sm btn-outline-danger rounded-pill mt-3 delete-comment" data-id="${escHtml(c.id)}">
-          Hapus
-        </button>
-      `;
-      div.querySelector(".delete-comment").addEventListener("click",async()=>{
-        if(!confirm("Hapus komentar ini?")) return;
-        try{
-          await deleteDoc(doc(db,"comments",c.id));
-          div.remove();
-        }catch(e){
-          alert("Gagal menghapus. Rules Firestore saat ini mungkin belum mengizinkan admin menghapus komentar tamu.");
-          console.error(e);
-        }
-      });
-      list.appendChild(div);
-    }
-
-    setStatus("commentsStatus",comments.length + " komentar dimuat.","ok");
-  }catch(error){
-    console.error(error);
-    setStatus("commentsStatus","Gagal memuat komentar: " + error.message,"err");
   }
+
 }
 
-$("loginBtn").addEventListener("click",async()=>{
-  const email=$("loginEmail").value.trim();
-  const password=$("loginPassword").value;
 
-  setStatus("loginStatus","Memeriksa akun…","info");
 
-  try{
-    await signInWithEmailAndPassword(auth,email,password);
-  }catch(error){
-    console.error(error);
-    setStatus("loginStatus",error.message || "Login gagal.","err");
+/* =========================
+   LOGIN
+========================= */
+
+$("loginBtn").addEventListener(
+  "click",
+  async () => {
+
+    const email =
+      $("loginEmail")
+        .value
+        .trim();
+
+
+    const password =
+      $("loginPassword")
+        .value;
+
+
+    if(!email || !password){
+
+      setStatus(
+        "loginStatus",
+        "Email dan password wajib diisi.",
+        "err"
+      );
+
+      return;
+
+    }
+
+
+    setStatus(
+      "loginStatus",
+      "Memeriksa akun…",
+      "info"
+    );
+
+
+    try{
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+
+      setStatus(
+        "loginStatus",
+        "Login gagal. Periksa email dan password.",
+        "err"
+      );
+
+    }
+
   }
-});
+);
 
-$("loginPassword").addEventListener("keydown",e=>{
-  if(e.key==="Enter") $("loginBtn").click();
-});
 
-$("logoutBtn").addEventListener("click",()=>signOut(auth));
-$("saveBtn").addEventListener("click",saveIndex);
 
-document.querySelectorAll(".tab-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll(".tab-btn").forEach(x=>x.classList.remove("active"));
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-    $("tab-"+btn.dataset.tab).classList.add("active");
-    if(btn.dataset.tab==="comments") loadComments();
-  });
-});
+/* ENTER = LOGIN */
 
-onAuthStateChanged(auth,async(user)=>{
-  currentUser=user;
+$("loginPassword").addEventListener(
+  "keydown",
+  event => {
 
-  if(!user){
-    $("app").style.display="none";
-    $("login").style.display="flex";
-    return;
+    if(event.key === "Enter"){
+
+      $("loginBtn").click();
+
+    }
+
+  }
+);
+
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+$("logoutBtn").addEventListener(
+  "click",
+  async () => {
+
+    try{
+
+      await signOut(auth);
+
+    }catch(error){
+
+      console.error(error);
+
+    }
+
+  }
+);
+
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    currentUser =
+      user;
+
+
+    /* Belum login */
+
+    if(!user){
+
+      $("app").style.display =
+        "none";
+
+      $("login").style.display =
+        "flex";
+
+      $("userEmail").textContent =
+        "";
+
+      return;
+
+    }
+
+
+    /* Pastikan akun adalah admin */
+
+    if(
+      user.uid !== ADMIN_UID
+    ){
+
+      await signOut(auth);
+
+
+      setStatus(
+        "loginStatus",
+        "Akun ini bukan akun admin yang diizinkan.",
+        "err"
+      );
+
+
+      return;
+
+    }
+
+
+    /* Berhasil login */
+
+    $("login").style.display =
+      "none";
+
+    $("app").style.display =
+      "block";
+
+
+    $("userEmail").textContent =
+      user.email || "";
+
+
+    await loadComments();
+
   }
 
-  if(user.uid!==ADMIN_UID){
-    await signOut(auth);
-    setStatus("loginStatus","Akun ini bukan akun admin yang diizinkan.","err");
-    return;
-  }
+);
 
-  $("login").style.display="none";
-  $("app").style.display="block";
-  $("userEmail").textContent=user.email || "";
-  await loadIndex();
-});
 </script>
 
 </body>
