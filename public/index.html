@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Undangan Pernikahan Ihsan &amp; Syarifah</title>
+<title>Undangan Pernikahan {{GROOM_SHORT_NAME}} &amp; {{BRIDE_SHORT_NAME}}</title>
 <meta name="description" content="Undangan pernikahan Ihsan dan Syarifah.">
 <meta name="theme-color" content="#fffaf7">
 <link rel="icon" type="image/png" sizes="192x192" href="./assets/images/icon-is-192x192.png?v=20260831">
@@ -762,12 +762,12 @@ if(document.readyState==='loading'){
         <div class="accent-line"></div>
         <p class="mb-2 text-secondary">The Wedding of</p>
         <h1 class="font-esthetic welcome-name mb-2">
-            <span class="welcome-name-line">Ihsan</span>
+            <span class="welcome-name-line">{{GROOM_SHORT_NAME}}</span>
             <span class="welcome-name-amp">&amp;</span>
-            <span class="welcome-name-line">Syarifah</span>
+            <span class="welcome-name-line">{{BRIDE_SHORT_NAME}}</span>
         </h1>
         <p class="welcome-date text-secondary mb-4">
-            MINGGU, 20 DESEMBER 2026
+            {{WEDDING_DATE_UPPER}}
         </p>
         <div id="guest-name" data-message="Kepada Yth."></div>
         <button
@@ -801,7 +801,7 @@ if(document.readyState==='loading'){
                     The Wedding of
                 </p>
                 <h2 class="font-esthetic cover-title mb-3">
-                    Ihsan &amp; Syarifah
+                    {{GROOM_SHORT_NAME}} &amp; {{BRIDE_SHORT_NAME}}
                 </h2>
                 <div class="accent-line"></div>
                 <p class="m-0">
@@ -848,12 +848,12 @@ if(document.readyState==='loading'){
                         The Wedding of
                     </p>
                     <h1 class="font-esthetic cover-title mb-2">
-                        Ihsan &amp; Syarifah
+                        {{GROOM_SHORT_NAME}} &amp; {{BRIDE_SHORT_NAME}}
                     </h1>
                     <div class="accent-line"></div>
-                    <p class="mb-1">Minggu</p>
+                    <p class="mb-1">{{WEDDING_DAY}}</p>
                     <p class="mb-4" style="font-size:1.15rem">
-                        20 Desember 2026
+                        {{WEDDING_DATE_TEXT}}
                     </p>
                     <img
                         src="./assets/images/placeholder.webp?v=20260831"
@@ -925,6 +925,7 @@ if(document.readyState==='loading'){
                         >
                         <h2
                             class="font-esthetic person-name mt-4 mb-1"
+                            data-admin-groom-full="1"
                         >
                             {{GROOM_NAME}}
                         </h2>
@@ -954,6 +955,7 @@ if(document.readyState==='loading'){
                         >
                         <h2
                             class="font-esthetic person-name mt-4 mb-1"
+                            data-admin-bride-full="1"
                         >
                             {{BRIDE_NAME}}
                         </h2>
