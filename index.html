@@ -743,7 +743,7 @@ if(document.readyState==='loading'){
     data-url="https://api.ulems.my.id/"
     data-audio="./assets/music/musik-ihsan-syarifah.mpeg"
     data-confetti="false"
-    data-time="2026-12-20 08:00:00"
+    data-time="{{WEDDING_DATETIME}}"
 >
 <div id="loading" class="loading-page d-flex flex-column justify-content-center align-items-center text-center">
     <img src="./assets/images/logo-is.png?v=20260831" alt="Logo Ihsan &amp; Syarifah" class="loading-logo">
@@ -805,7 +805,7 @@ if(document.readyState==='loading'){
                 </h2>
                 <div class="accent-line"></div>
                 <p class="m-0">
-                    Minggu, 20 Desember 2026
+                    {{WEDDING_DATE_TEXT}}
                 </p>
             </div>
         </div>
@@ -926,14 +926,14 @@ if(document.readyState==='loading'){
                         <h2
                             class="font-esthetic person-name mt-4 mb-1"
                         >
-                            Ihsan Fauzi Noor, S.T.
+                            {{GROOM_NAME}}
                         </h2>
                         <p class="mt-3 mb-1" style="font-size:1.1rem">
                             Putra kedua
                         </p>
-                        <p class="mb-0">Bapak Budiono</p>
+                        <p class="mb-0">Bapak {{GROOM_FATHER}}</p>
                         <p class="mb-0">dan</p>
-                        <p class="mb-0">Ibu Komsiah</p>
+                        <p class="mb-0">Ibu {{GROOM_MOTHER}}</p>
                     </div>
                     <h2
                         class="font-esthetic mt-4 mb-3"
@@ -955,14 +955,14 @@ if(document.readyState==='loading'){
                         <h2
                             class="font-esthetic person-name mt-4 mb-1"
                         >
-                            Syarifah Umaimah, S.T.
+                            {{BRIDE_NAME}}
                         </h2>
                         <p class="mt-3 mb-1" style="font-size:1.1rem">
                             Putri pertama
                         </p>
-                        <p class="mb-0">Bapak Mohamad Rusmin</p>
+                        <p class="mb-0">Bapak {{BRIDE_FATHER}}</p>
                         <p class="mb-0">dan</p>
-                        <p class="mb-0">Ibu Yunisar Harahap</p>
+                        <p class="mb-0">Ibu {{BRIDE_MOTHER}}</p>
                     </div>
                 </div>
             </section>
@@ -1031,7 +1031,7 @@ if(document.readyState==='loading'){
                         </div>
                     </div>
                     <p class="py-2 m-0">
-                        Dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta'ala, insyaAllah kami akan menyelenggarakan acara:
+                        {{OPENING_TEXT}}
                     </p>
                     <div class="section-card p-4 mt-4">
                         <h2
@@ -1041,10 +1041,10 @@ if(document.readyState==='loading'){
                             Akad Nikah
                         </h2>
                         <p class="mb-1">
-                            Minggu, 20 Desember 2026
+                            {{WEDDING_DATE_TEXT}}
                         </p>
                         <p class="mb-0">
-                            Pukul 08.00 WIB
+                            Pukul {{AKAD_TIME_TEXT}} WIB
                         </p>
                     </div>
                     <div class="section-card p-4 mt-3">
@@ -1055,15 +1055,15 @@ if(document.readyState==='loading'){
                             Resepsi
                         </h2>
                         <p class="mb-1">
-                            Minggu, 20 Desember 2026
+                            {{WEDDING_DATE_TEXT}}
                         </p>
                         <p class="mb-0">
-                            Pukul 11.00 - 14.00 WIB
+                            Pukul {{RECEPTION_TIME_TEXT}} WIB
                         </p>
                     </div>
                     <div class="mt-4">
                         <a
-                            href="https://maps.app.goo.gl/ZE22JnR6oJbwiCnZA"
+                            href="{{MAPS_URL}}"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="btn btn-outline-auto btn-sm rounded-pill shadow px-3"
@@ -1072,7 +1072,7 @@ if(document.readyState==='loading'){
                             Lihat Google Maps
                         </a>
                         <small class="d-block my-2">
-                            Masjid Cibadak Daarul Matiin, Kecamatan Cibadak, Kabupaten Sukabumi.
+                            {{LOCATION_ADDRESS}}
                         </small>
                         <img
                             src="./assets/images/lokasi-akad-qrcode.png?v=20260831"
@@ -1508,66 +1508,24 @@ if(document.readyState==='loading'){
     </button>
     <div class="story-page-content">
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2019
-            </h3>
-            <p>
-                Kami bertemu di Politeknik AKA Bogor.<br>
-                Tiga tahun menjalani masa kuliah di tempat yang sama.
-            </p>
-            <p>
-                Saat itu, salah satu dari kami mencoba mendekat,<br>
-                sementara yang lain memilih untuk fokus pada kuliahnya.
-            </p>
+            <h3 class="story-year font-esthetic">2019</h3>
+            <div data-admin-story="story2019">{{STORY_2019}}</div>
         </section>
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2022
-            </h3>
-            <p>
-                Kami lulus dan menjalani kehidupan masing-masing.<br>
-                Setelah itu, kami tidak lagi berkomunikasi.
-            </p>
-            <p class="story-emphasis">
-                Tiga tahun berlalu.
-            </p>
+            <h3 class="story-year font-esthetic">2022</h3>
+            <div data-admin-story="story2022">{{STORY_2022}}</div>
         </section>
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2025
-            </h3>
-            <p>
-                Sebuah gitar mempertemukan kami kembali.
-            </p>
-            <p>
-                Sejak saat itu, kami kembali dekat.<br>
-                Kami berbagi cerita, menghabiskan waktu bersama,<br>
-                menikmati perjalanan ke air terjun dan bukit,<br>
-                dan perlahan mengenal satu sama lain lebih dekat.
-            </p>
-            <p>
-                Kami mulai menyadari bahwa<br>
-                pertemuan kali ini mungkin bukan sekadar kebetulan.
-            </p>
+            <h3 class="story-year font-esthetic">2025</h3>
+            <div data-admin-story="story2025">{{STORY_2025}}</div>
         </section>
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2026
-            </h3>
-            <p>
-                Kami memantapkan hati untuk melangkah lebih serius.
-            </p>
-            <p>
-                Dengan restu keluarga,<br>
-                kami memilih untuk melanjutkan perjalanan ini bersama.
-            </p>
+            <h3 class="story-year font-esthetic">2026</h3>
+            <div data-admin-story="story2026">{{STORY_2026}}</div>
         </section>
         <section class="story-block">
             <p class="story-final">
-                Dari sebuah pertemuan,<br>
-                menjadi sebuah perjalanan,<br>
-                dan insyaAllah menjadi<br>
-                perjalanan seumur hidup.
+                {{CLOSING_TEXT}}
             </p>
             <div class="story-actions">
                 <button
