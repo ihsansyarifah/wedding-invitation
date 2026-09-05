@@ -2,14 +2,58 @@ name: Admin Update Invitation
 
 on:
   workflow_dispatch:
+    inputs:
+      invitation_data:
+        description: "Data undangan dalam format JSON"
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
-  test:
+  update:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Test GitHub write access
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Update invitation data
+        env:
+          INVITATION_DATA: ${{ inputs.invitation_data }}
         run: |
-          echo "GitHub Actions write access OK"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          data = json.loads(os.environ["INVITATION_DATA"])
+
+          output = Path("invitation-data.json")
+          output.write_text(
+              json.dumps(data, ensure_ascii=False, indent=2),
+              encoding="utf-8"
+          )
+
+          print("Data undangan berhasil disimpan.")
+          PY
+
+      - name: Commit invitation data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add invitation-data.json
+
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan."
+          else
+            git commit -m "admin: update invitation data"
+            git push
+          fi
