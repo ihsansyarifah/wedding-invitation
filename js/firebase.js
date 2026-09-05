@@ -26,7 +26,7 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCxTII7lrjTrcqq-HBaOEHBz7uqg5Zl9T8",
+    apiKey: "AIzaSyCcLt3DT1DYdmThAJK91TcEYvVDVZyonzI",
     authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
     projectId: "undangan-ihsan-syarifah",
     storageBucket: "undangan-ihsan-syarifah.firebasestorage.app",
