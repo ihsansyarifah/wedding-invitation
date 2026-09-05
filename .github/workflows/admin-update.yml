@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       invitation_data:
-        description: "Data undangan dalam format JSON"
+        description: "Data undangan JSON"
         required: true
         type: string
 
@@ -19,12 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: Update invitation data
+      - name: Update index.html
         env:
           INVITATION_DATA: ${{ inputs.invitation_data }}
         run: |
@@ -35,25 +30,47 @@ jobs:
 
           data = json.loads(os.environ["INVITATION_DATA"])
 
-          output = Path("invitation-data.json")
-          output.write_text(
-              json.dumps(data, ensure_ascii=False, indent=2),
-              encoding="utf-8"
-          )
+          path = Path("index.html")
+          html = path.read_text(encoding="utf-8")
 
-          print("Data undangan berhasil disimpan.")
+          replacements = {
+              "{{GROOM_NAME}}": data.get("groomName", ""),
+              "{{BRIDE_NAME}}": data.get("brideName", ""),
+              "{{GROOM_FATHER}}": data.get("groomFather", ""),
+              "{{GROOM_MOTHER}}": data.get("groomMother", ""),
+              "{{BRIDE_FATHER}}": data.get("brideFather", ""),
+              "{{BRIDE_MOTHER}}": data.get("brideMother", ""),
+              "{{WEDDING_DATE}}": data.get("weddingDate", ""),
+              "{{AKAD_TIME}}": data.get("akadTime", ""),
+              "{{RECEPTION_TIME}}": data.get("receptionTime", ""),
+              "{{LOCATION}}": data.get("location", ""),
+              "{{ADDRESS}}": data.get("address", ""),
+              "{{MAPS}}": data.get("maps", ""),
+              "{{STORY_2019}}": data.get("story2019", ""),
+              "{{STORY_2022}}": data.get("story2022", ""),
+              "{{STORY_2025}}": data.get("story2025", ""),
+              "{{STORY_2026}}": data.get("story2026", ""),
+              "{{OPENING}}": data.get("opening", ""),
+              "{{CLOSING}}": data.get("closing", "")
+          }
+
+          for old, new in replacements.items():
+              html = html.replace(old, new)
+
+          path.write_text(html, encoding="utf-8")
+          print("index.html berhasil diperbarui.")
           PY
 
-      - name: Commit invitation data
+      - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add invitation-data.json
+          git add index.html
 
           if git diff --cached --quiet; then
             echo "Tidak ada perubahan."
           else
-            git commit -m "admin: update invitation data"
+            git commit -m "admin: update invitation"
             git push
           fi
