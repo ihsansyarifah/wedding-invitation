@@ -1,0 +1,15 @@
+name: Admin Update Invitation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test GitHub write access
+        run: |
+          echo "GitHub Actions write access OK"
