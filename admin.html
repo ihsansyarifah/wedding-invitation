@@ -1,297 +1,230 @@
 <!doctype html>
 <html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <title>Admin Undangan - Ihsan & Syarifah</title>
+<title>Admin Undangan</title>
 
-    <style>
-        *{
-            box-sizing:border-box;
-        }
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
 
-        body{
-            margin:0;
-            font-family:Arial,sans-serif;
-            background:#fff8f4;
-            color:#4d3529;
-        }
+<style>
+:root{
+    --cream:#fff8f3;
+    --paper:#fffdfb;
+    --brown:#6b4939;
+    --gold:#b99462;
+    --pink:#dba8a1;
+}
 
-        button,input,textarea{
-            font:inherit;
-        }
+body{
+    margin:0;
+    background:var(--cream);
+    color:#49362e;
+    font-family:Arial,sans-serif;
+}
 
-        .hidden{
-            display:none!important;
-        }
+.header{
+    background:white;
+    border-bottom:1px solid #eadbd1;
+    padding:18px 24px;
+}
 
-        .login-page{
-            min-height:100vh;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:20px;
-        }
+.header-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
 
-        .login-card{
-            width:100%;
-            max-width:420px;
-            background:#fff;
-            border:1px solid #eadbd2;
-            border-radius:24px;
-            padding:30px;
-            box-shadow:0 15px 45px rgba(80,50,35,.10);
-            text-align:center;
-        }
+.header-title{
+    font-size:20px;
+    font-weight:700;
+}
 
-        .login-card h1{
-            margin:0 0 8px;
-            font-size:25px;
-        }
+.header-email{
+    font-size:14px;
+    color:#806d62;
+    margin-top:3px;
+}
 
-        .login-card p{
-            color:#806d63;
-            font-size:14px;
-        }
+.container-admin{
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px 60px;
+}
 
-        .login-card input{
-            width:100%;
-            padding:13px 15px;
-            margin-top:10px;
-            border:1px solid #ddd0c8;
-            border-radius:14px;
-            outline:none;
-        }
+.tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
 
-        .login-card button{
-            width:100%;
-            margin-top:15px;
-            padding:13px;
-            border:0;
-            border-radius:14px;
-            background:#704b37;
-            color:#fff;
-            cursor:pointer;
-        }
+.tab-btn{
+    border:1px solid #ddcbbf;
+    background:white;
+    color:#49362e;
+    border-radius:30px;
+    padding:11px 20px;
+    cursor:pointer;
+}
 
-        .error{
-            margin-top:15px;
-            padding:12px 14px;
-            border-radius:12px;
-            background:#f8dddd;
-            color:#9b3030;
-            font-size:14px;
-            text-align:left;
-            word-break:break-word;
-        }
+.tab-btn.active{
+    background:var(--brown);
+    color:white;
+    border-color:var(--brown);
+}
 
-        .success{
-            margin-top:15px;
-            padding:12px 14px;
-            border-radius:12px;
-            background:#dff3e5;
-            color:#27663a;
-            font-size:14px;
-        }
+.card-admin{
+    background:white;
+    border:1px solid #eadbd1;
+    border-radius:22px;
+    padding:22px;
+    margin-bottom:20px;
+}
 
-        .admin-page{
-            min-height:100vh;
-        }
+.card-admin h2{
+    font-size:20px;
+    margin:0 0 20px;
+    color:#51382d;
+}
 
-        header{
-            padding:18px 24px;
-            background:#fff;
-            border-bottom:1px solid #eadbd2;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-        }
+label{
+    font-weight:600;
+    font-size:14px;
+    margin-bottom:7px;
+}
 
-        .header-title{
-            font-weight:700;
-            font-size:18px;
-        }
+.form-control,
+.form-select{
+    border-radius:14px;
+    min-height:46px;
+    border-color:#ddcec4;
+}
 
-        .header-email{
-            margin-top:4px;
-            color:#806d63;
-            font-size:13px;
-        }
+textarea.form-control{
+    min-height:130px;
+}
 
-        .logout{
-            border:1px solid #d8c7bc;
-            background:#fff;
-            padding:10px 18px;
-            border-radius:999px;
-            cursor:pointer;
-        }
+.form-control:focus,
+.form-select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 .2rem rgba(185,148,98,.12);
+}
 
-        .container{
-            width:min(1100px,calc(100% - 30px));
-            margin:25px auto 60px;
-        }
+.save-area{
+    position:sticky;
+    bottom:15px;
+    z-index:20;
+    background:rgba(255,248,243,.94);
+    backdrop-filter:blur(10px);
+    border:1px solid #eadbd1;
+    border-radius:20px;
+    padding:14px;
+    box-shadow:0 10px 35px rgba(80,50,35,.12);
+}
 
-        .tabs{
-            display:flex;
-            gap:8px;
-            margin-bottom:20px;
-        }
+.btn-save{
+    background:var(--brown);
+    border:0;
+    color:white;
+    border-radius:30px;
+    padding:12px 25px;
+    font-weight:600;
+}
 
-        .tab{
-            border:1px solid #dfcec4;
-            background:#fff;
-            padding:11px 18px;
-            border-radius:999px;
-            cursor:pointer;
-        }
+.btn-save:hover{
+    background:#51382d;
+    color:white;
+}
 
-        .tab.active{
-            background:#704b37;
-            color:#fff;
-            border-color:#704b37;
-        }
+.alert-box{
+    display:none;
+    border-radius:15px;
+    padding:14px 16px;
+    margin-bottom:18px;
+}
 
-        .card{
-            background:#fff;
-            border:1px solid #eadbd2;
-            border-radius:22px;
-            padding:22px;
-            margin-bottom:20px;
-        }
+.alert-success-custom{
+    background:#e8f6eb;
+    color:#236332;
+}
 
-        .card h2{
-            margin:0 0 20px;
-            font-size:19px;
-        }
+.alert-error-custom{
+    background:#fde4e4;
+    color:#9a2222;
+}
 
-        .grid{
-            display:grid;
-            grid-template-columns:repeat(2,minmax(0,1fr));
-            gap:15px;
-        }
+.comment-card{
+    background:#fff;
+    border:1px solid #eadbd1;
+    border-radius:18px;
+    padding:17px;
+    margin-bottom:12px;
+}
 
-        .field{
-            display:flex;
-            flex-direction:column;
-            gap:7px;
-        }
+.comment-name{
+    font-weight:700;
+}
 
-        .field.full{
-            grid-column:1/-1;
-        }
+.comment-date{
+    font-size:12px;
+    color:#927e73;
+}
 
-        label{
-            font-size:14px;
-            font-weight:600;
-        }
+.comment-text{
+    margin-top:10px;
+    white-space:pre-wrap;
+}
 
-        input,textarea{
-            width:100%;
-            border:1px solid #ddd0c8;
-            border-radius:13px;
-            padding:12px 14px;
-            outline:none;
-            background:#fff;
-        }
+.loading{
+    text-align:center;
+    padding:40px;
+    color:#806d62;
+}
 
-        textarea{
-            min-height:110px;
-            resize:vertical;
-        }
+.hidden{
+    display:none!important;
+}
 
-        .save-button{
-            width:100%;
-            border:0;
-            border-radius:15px;
-            padding:14px;
-            background:#704b37;
-            color:#fff;
-            cursor:pointer;
-            font-weight:600;
-        }
+@media(max-width:700px){
+    .header{
+        padding:15px;
+    }
 
-        .save-button:disabled{
-            opacity:.6;
-            cursor:not-allowed;
-        }
+    .header-inner{
+        align-items:flex-start;
+    }
 
-        .comment{
-            padding:15px;
-            border:1px solid #eadbd2;
-            border-radius:15px;
-            margin-bottom:10px;
-        }
+    .header-title{
+        font-size:17px;
+    }
 
-        .comment strong{
-            display:block;
-            margin-bottom:5px;
-        }
+    .tabs{
+        overflow-x:auto;
+    }
 
-        .comment small{
-            color:#806d63;
-        }
+    .tab-btn{
+        white-space:nowrap;
+    }
 
-        @media(max-width:700px){
-            .grid{
-                grid-template-columns:1fr;
-            }
-
-            .field.full{
-                grid-column:auto;
-            }
-
-            header{
-                padding:15px;
-            }
-
-            .container{
-                width:min(100% - 20px,1100px);
-            }
-        }
-    </style>
+    .card-admin{
+        padding:17px;
+        border-radius:18px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="login-page" class="login-page">
-    <div class="login-card">
-
-        <h1>💍 Admin Undangan</h1>
-
-        <p>
-            Masuk untuk mengedit undangan Ihsan & Syarifah.
-        </p>
-
-        <input
-            id="login-email"
-            type="email"
-            placeholder="Email"
-            autocomplete="email"
-        >
-
-        <input
-            id="login-password"
-            type="password"
-            placeholder="Password"
-            autocomplete="current-password"
-        >
-
-        <button id="login-button">
-            Masuk
-        </button>
-
-        <div id="login-error" class="error hidden"></div>
-
-    </div>
-</div>
-
-
-<!-- ADMIN -->
-<div id="admin-page" class="admin-page hidden">
-
-    <header>
+<header class="header">
+    <div class="header-inner">
 
         <div>
             <div class="header-title">
@@ -301,35 +234,94 @@
             <div
                 id="admin-email"
                 class="header-email"
-            ></div>
+            >
+                Memuat...
+            </div>
         </div>
 
         <button
-            id="logout-button"
-            class="logout"
+            id="logout-btn"
+            class="btn btn-outline-secondary rounded-pill px-4"
         >
             Keluar
         </button>
 
-    </header>
+    </div>
+</header>
 
 
-    <div class="container">
+<div class="container-admin">
 
-        <div id="message"></div>
+    <div
+        id="alert-success"
+        class="alert-box alert-success-custom"
+    ></div>
+
+    <div
+        id="alert-error"
+        class="alert-box alert-error-custom"
+    ></div>
+
+
+    <!-- LOGIN -->
+    <section id="login-section">
+
+        <div class="card-admin">
+
+            <h2>🔐 Login Admin</h2>
+
+            <div class="mb-3">
+                <label>Email</label>
+
+                <input
+                    id="login-email"
+                    type="email"
+                    class="form-control"
+                    placeholder="Email admin"
+                >
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+
+                <input
+                    id="login-password"
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                >
+            </div>
+
+            <button
+                id="login-btn"
+                class="btn-save"
+            >
+                Login
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ADMIN -->
+    <section
+        id="admin-section"
+        class="hidden"
+    >
 
         <div class="tabs">
 
             <button
-                class="tab active"
                 id="tab-edit"
+                class="tab-btn active"
             >
                 ✏️ Edit Undangan
             </button>
 
             <button
-                class="tab"
                 id="tab-comments"
+                class="tab-btn"
             >
                 💌 Komentar
             </button>
@@ -337,33 +329,50 @@
         </div>
 
 
-        <!-- EDIT -->
-        <div id="edit-section">
+        <!-- ================= EDIT ================= -->
 
-            <div class="card">
+        <div id="edit-panel">
 
-                <h2>👩‍❤️‍👨 Nama Mempelai</h2>
+            <div class="card-admin">
 
-                <div class="grid">
+                <h2>💑 Nama Mempelai</h2>
 
-                    <div class="field">
+                <div class="row g-3">
+
+                    <div class="col-md-6">
                         <label>Nama lengkap pria</label>
-                        <input id="groomName">
+
+                        <input
+                            id="groom-name"
+                            class="form-control"
+                        >
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-6">
                         <label>Nama lengkap wanita</label>
-                        <input id="brideName">
+
+                        <input
+                            id="bride-name"
+                            class="form-control"
+                        >
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-6">
                         <label>Nama pendek pria</label>
-                        <input id="groomShortName">
+
+                        <input
+                            id="groom-short"
+                            class="form-control"
+                        >
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-6">
                         <label>Nama pendek wanita</label>
-                        <input id="brideShortName">
+
+                        <input
+                            id="bride-short"
+                            class="form-control"
+                        >
                     </div>
 
                 </div>
@@ -371,30 +380,46 @@
             </div>
 
 
-            <div class="card">
+            <div class="card-admin">
 
-                <h2>👪 Nama Orang Tua</h2>
+                <h2>👨‍👩‍👧 Nama Orang Tua</h2>
 
-                <div class="grid">
+                <div class="row g-3">
 
-                    <div class="field">
+                    <div class="col-md-6">
                         <label>Ayah Ihsan</label>
-                        <input id="groomFather">
+
+                        <input
+                            id="groom-father"
+                            class="form-control"
+                        >
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-6">
                         <label>Ibu Ihsan</label>
-                        <input id="groomMother">
+
+                        <input
+                            id="groom-mother"
+                            class="form-control"
+                        >
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-6">
                         <label>Ayah Syarifah</label>
-                        <input id="brideFather">
+
+                        <input
+                            id="bride-father"
+                            class="form-control"
+                        >
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-6">
                         <label>Ibu Syarifah</label>
-                        <input id="brideMother">
+
+                        <input
+                            id="bride-mother"
+                            class="form-control"
+                        >
                     </div>
 
                 </div>
@@ -402,40 +427,46 @@
             </div>
 
 
-            <div class="card">
+            <div class="card-admin">
 
-                <h2>📅 Pernikahan</h2>
+                <h2>📅 Tanggal & Waktu</h2>
 
-                <div class="grid">
+                <div class="row g-3">
 
-                    <div class="field">
+                    <div class="col-md-4">
+
                         <label>Tanggal pernikahan</label>
-                        <input id="weddingDate">
+
+                        <input
+                            id="wedding-date"
+                            type="date"
+                            class="form-control"
+                        >
+
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-4">
+
                         <label>Waktu akad</label>
-                        <input id="akadTime">
+
+                        <input
+                            id="akad-time"
+                            type="time"
+                            class="form-control"
+                        >
+
                     </div>
 
-                    <div class="field">
+                    <div class="col-md-4">
+
                         <label>Waktu resepsi</label>
-                        <input id="receptionTime">
-                    </div>
 
-                    <div class="field">
-                        <label>Nama lokasi</label>
-                        <input id="location">
-                    </div>
+                        <input
+                            id="reception-time"
+                            class="form-control"
+                            placeholder="11.00 - 14.00"
+                        >
 
-                    <div class="field full">
-                        <label>Alamat</label>
-                        <textarea id="address"></textarea>
-                    </div>
-
-                    <div class="field full">
-                        <label>Link Google Maps</label>
-                        <input id="maps">
                     </div>
 
                 </div>
@@ -443,30 +474,135 @@
             </div>
 
 
-            <div class="card">
+            <div class="card-admin">
+
+                <h2>📍 Lokasi Akad</h2>
+
+                <div class="mb-3">
+
+                    <label>Nama / alamat lokasi</label>
+
+                    <textarea
+                        id="location"
+                        class="form-control"
+                    ></textarea>
+
+                </div>
+
+                <div>
+
+                    <label>Link Google Maps</label>
+
+                    <input
+                        id="maps"
+                        class="form-control"
+                        placeholder="https://maps.app.goo.gl/..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="card-admin">
 
                 <h2>📖 Kisah Kami</h2>
 
-                <div class="grid">
+                <div class="mb-4">
 
-                    <div class="field full">
-                        <label>Kisah 2019</label>
-                        <textarea id="story2019"></textarea>
+                    <label>2019</label>
+
+                    <textarea
+                        id="story-2019"
+                        class="form-control"
+                    ></textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label>2022</label>
+
+                    <textarea
+                        id="story-2022"
+                        class="form-control"
+                    ></textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label>2025</label>
+
+                    <textarea
+                        id="story-2025"
+                        class="form-control"
+                    ></textarea>
+
+                </div>
+
+                <div>
+
+                    <label>2026</label>
+
+                    <textarea
+                        id="story-2026"
+                        class="form-control"
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-admin">
+
+                <h2>💝 Love Gift</h2>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label>GoPay</label>
+
+                        <input
+                            id="gopay"
+                            class="form-control"
+                        >
+
                     </div>
 
-                    <div class="field full">
-                        <label>Kisah 2022</label>
-                        <textarea id="story2022"></textarea>
+                    <div class="col-md-6">
+
+                        <label>DANA</label>
+
+                        <input
+                            id="dana"
+                            class="form-control"
+                        >
+
                     </div>
 
-                    <div class="field full">
-                        <label>Kisah 2025</label>
-                        <textarea id="story2025"></textarea>
+                    <div class="col-12">
+
+                        <label>Alamat kirim kado</label>
+
+                        <textarea
+                            id="gift-address"
+                            class="form-control"
+                        ></textarea>
+
                     </div>
 
-                    <div class="field full">
-                        <label>Kisah 2026</label>
-                        <textarea id="story2026"></textarea>
+                    <div class="col-12">
+
+                        <label>Google Maps kirim kado</label>
+
+                        <input
+                            id="gift-maps"
+                            class="form-control"
+                        >
+
                     </div>
 
                 </div>
@@ -474,60 +610,59 @@
             </div>
 
 
-            <div class="card">
+            <div class="save-area">
 
-                <h2>💌 Kalimat Undangan</h2>
+                <div class="d-flex align-items-center justify-content-between gap-3">
 
-                <div class="grid">
-
-                    <div class="field full">
-                        <label>Pembukaan</label>
-                        <textarea id="opening"></textarea>
+                    <div id="save-status">
+                        Data siap diedit.
                     </div>
 
-                    <div class="field full">
-                        <label>Penutup</label>
-                        <textarea id="closing"></textarea>
-                    </div>
+                    <button
+                        id="save-btn"
+                        class="btn-save"
+                    >
+                        💾 Simpan Perubahan
+                    </button>
 
                 </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <button
-                    id="save-button"
-                    class="save-button"
-                >
-                    💾 Simpan Perubahan
-                </button>
 
             </div>
 
         </div>
 
 
-        <!-- COMMENTS -->
+        <!-- ================= COMMENTS ================= -->
+
         <div
-            id="comments-section"
+            id="comments-panel"
             class="hidden"
         >
 
-            <div class="card">
+            <div class="card-admin">
 
-                <h2>💌 Komentar & Ucapan</h2>
+                <h2>💌 Ucapan & Doa</h2>
 
-                <div id="comments-list">
+                <div
+                    id="comment-stats"
+                    class="mb-3"
+                >
                     Memuat komentar...
+                </div>
+
+                <div
+                    id="comments-list"
+                >
+                    <div class="loading">
+                        Memuat komentar...
+                    </div>
                 </div>
 
             </div>
 
         </div>
 
-    </div>
+    </section>
 
 </div>
 
@@ -536,14 +671,14 @@
 
 import {
     initializeApp
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
     getAuth,
     signInWithEmailAndPassword,
     onAuthStateChanged,
     signOut
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 import {
     getFirestore,
@@ -551,14 +686,13 @@ import {
     query,
     where,
     getDocs,
-    orderBy,
     deleteDoc,
     doc
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
 /* =========================================================
-   FIREBASE
+   CONFIG
    ========================================================= */
 
 const firebaseConfig = {
@@ -584,59 +718,62 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-
-/* =========================================================
-   ADMIN
-   ========================================================= */
-
 const ADMIN_UID =
     "DwMXUyfyChMp85zsb9L5rFy6Tg53";
 
 
-/* =========================================================
-   CLOUDFLARE WORKER
-   ========================================================= */
-
 const WORKER_URL =
     "https://ihsan-syarifah-editor.ihsansyarifah111.workers.dev";
+
+
+const WORKER_INDEX_URL =
+    WORKER_URL + "/index";
+
+
+/* =========================================================
+   FIREBASE
+   ========================================================= */
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
 
 
 /* =========================================================
    ELEMENT
    ========================================================= */
 
-const loginPage =
-    document.getElementById("login-page");
+const loginSection =
+    document.getElementById("login-section");
 
-const adminPage =
-    document.getElementById("admin-page");
-
-const loginButton =
-    document.getElementById("login-button");
-
-const logoutButton =
-    document.getElementById("logout-button");
-
-const loginError =
-    document.getElementById("login-error");
+const adminSection =
+    document.getElementById("admin-section");
 
 const adminEmail =
     document.getElementById("admin-email");
 
-const message =
-    document.getElementById("message");
+const loginEmail =
+    document.getElementById("login-email");
 
-const editSection =
-    document.getElementById("edit-section");
+const loginPassword =
+    document.getElementById("login-password");
 
-const commentsSection =
-    document.getElementById("comments-section");
+const loginBtn =
+    document.getElementById("login-btn");
+
+const logoutBtn =
+    document.getElementById("logout-btn");
+
+const editPanel =
+    document.getElementById("edit-panel");
+
+const commentsPanel =
+    document.getElementById("comments-panel");
 
 const tabEdit =
     document.getElementById("tab-edit");
@@ -644,121 +781,133 @@ const tabEdit =
 const tabComments =
     document.getElementById("tab-comments");
 
-const saveButton =
-    document.getElementById("save-button");
+const saveBtn =
+    document.getElementById("save-btn");
+
+const saveStatus =
+    document.getElementById("save-status");
+
+
+let currentIndexHTML = "";
+
+let currentSHA = "";
 
 
 /* =========================================================
-   FIELD
+   ALERT
    ========================================================= */
 
-const fields = {
+function showSuccess(message){
 
-    groomName:
-        document.getElementById("groomName"),
+    const el =
+        document.getElementById("alert-success");
 
-    brideName:
-        document.getElementById("brideName"),
+    const error =
+        document.getElementById("alert-error");
 
-    groomShortName:
-        document.getElementById("groomShortName"),
+    error.style.display = "none";
 
-    brideShortName:
-        document.getElementById("brideShortName"),
+    el.textContent = message;
 
-    groomFather:
-        document.getElementById("groomFather"),
+    el.style.display = "block";
 
-    groomMother:
-        document.getElementById("groomMother"),
+    setTimeout(() => {
 
-    brideFather:
-        document.getElementById("brideFather"),
+        el.style.display = "none";
 
-    brideMother:
-        document.getElementById("brideMother"),
+    },5000);
 
-    weddingDate:
-        document.getElementById("weddingDate"),
-
-    akadTime:
-        document.getElementById("akadTime"),
-
-    receptionTime:
-        document.getElementById("receptionTime"),
-
-    location:
-        document.getElementById("location"),
-
-    address:
-        document.getElementById("address"),
-
-    maps:
-        document.getElementById("maps"),
-
-    story2019:
-        document.getElementById("story2019"),
-
-    story2022:
-        document.getElementById("story2022"),
-
-    story2025:
-        document.getElementById("story2025"),
-
-    story2026:
-        document.getElementById("story2026"),
-
-    opening:
-        document.getElementById("opening"),
-
-    closing:
-        document.getElementById("closing")
-
-};
+}
 
 
-/* =========================================================
-   MESSAGE
-   ========================================================= */
+function showError(message){
 
-function showMessage(text, type = "success") {
+    const el =
+        document.getElementById("alert-error");
 
-    message.innerHTML = "";
+    const success =
+        document.getElementById("alert-success");
 
-    const div =
-        document.createElement("div");
+    success.style.display = "none";
 
-    div.className =
-        type === "error"
-            ? "error"
-            : "success";
+    el.textContent = message;
 
-    div.textContent = text;
-
-    message.appendChild(div);
+    el.style.display = "block";
 
 }
 
 
 /* =========================================================
-   WORKER REQUEST
+   RESPONSE HELPER
+   ========================================================= */
+
+async function readResponse(response){
+
+    const text =
+        await response.text();
+
+    let data = null;
+
+    try{
+
+        data =
+            text ? JSON.parse(text) : null;
+
+    }catch(error){
+
+        throw new Error(
+            "Worker mengembalikan response yang bukan JSON: " +
+            text.slice(0,300)
+        );
+
+    }
+
+    if(!response.ok){
+
+        throw new Error(
+            data?.error ||
+            data?.message ||
+            "Request gagal."
+        );
+
+    }
+
+    return data;
+
+}
+
+
+/* =========================================================
+   WORKER
    ========================================================= */
 
 async function workerRequest(
     method = "GET",
     body = null
-) {
+){
 
-    const user = auth.currentUser;
+    const user =
+        auth.currentUser;
 
-    if (!user) {
+    if(!user){
+
         throw new Error(
-            "Sesi admin belum tersedia."
+            "Sesi admin belum aktif."
         );
+
+    }
+
+    if(user.uid !== ADMIN_UID){
+
+        throw new Error(
+            "Akun ini bukan admin yang diizinkan."
+        );
+
     }
 
     const token =
         await user.getIdToken(true);
+
 
     const options = {
 
@@ -777,9 +926,11 @@ async function workerRequest(
     };
 
 
-    if (body !== null) {
+    if(body !== null){
 
-        options.headers["Content-Type"] =
+        options.headers[
+            "Content-Type"
+        ] =
             "application/json";
 
         options.body =
@@ -790,52 +941,1396 @@ async function workerRequest(
 
     const response =
         await fetch(
-            WORKER_URL + "/index",
+            WORKER_INDEX_URL,
             options
         );
 
 
-    /*
-       PENTING:
-       Jangan langsung response.json().
-       Kita baca text dulu supaya kalau Worker
-       mengembalikan teks biasa, kita bisa melihat
-       error sebenarnya.
-    */
+    return readResponse(response);
 
-    const raw =
-        await response.text();
+}
 
 
-    let data;
+/* =========================================================
+   TEXT HELPERS
+   ========================================================= */
 
-    try {
+function cleanText(text){
 
-        data =
-            JSON.parse(raw);
+    return String(text || "")
+        .replace(/\s+/g," ")
+        .trim();
 
-    } catch (error) {
+}
 
-        throw new Error(
-            "Worker mengembalikan jawaban yang bukan JSON: " +
-            raw.slice(0, 300)
+
+function escapeRegExp(text){
+
+    return text.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+    );
+
+}
+
+
+/* =========================================================
+   PARSE INDEX
+   ========================================================= */
+
+function parseInvitationHTML(html){
+
+    const parser =
+        new DOMParser();
+
+    const doc =
+        parser.parseFromString(
+            html,
+            "text/html"
         );
+
+
+    /* nama pendek */
+
+    const shortNames =
+        [...doc.querySelectorAll(
+            ".welcome-name-line"
+        )];
+
+    const groomShort =
+        cleanText(
+            shortNames[0]?.textContent
+        );
+
+    const brideShort =
+        cleanText(
+            shortNames[1]?.textContent
+        );
+
+
+    /* nama lengkap */
+
+    const fullNames =
+        [...doc.querySelectorAll(
+            "#bride .person-name"
+        )];
+
+    const groomName =
+        cleanText(
+            fullNames[0]?.textContent
+        );
+
+    const brideName =
+        cleanText(
+            fullNames[1]?.textContent
+        );
+
+
+    /* orang tua */
+
+    const groomBlock =
+        fullNames[0]
+        ?.closest(".pb-2");
+
+    const brideBlock =
+        fullNames[1]
+        ?.closest(".pb-2");
+
+
+    const groomParents =
+        groomBlock
+        ? [...groomBlock.querySelectorAll(
+            "p.mb-0"
+        )]
+        : [];
+
+
+    const brideParents =
+        brideBlock
+        ? [...brideBlock.querySelectorAll(
+            "p.mb-0"
+        )]
+        : [];
+
+
+    const groomFather =
+        cleanText(
+            groomParents[0]?.textContent
+        );
+
+    const groomMother =
+        cleanText(
+            groomParents[2]?.textContent
+        );
+
+    const brideFather =
+        cleanText(
+            brideParents[0]?.textContent
+        );
+
+    const brideMother =
+        cleanText(
+            brideParents[2]?.textContent
+        );
+
+
+    /* tanggal */
+
+    const rawTime =
+        doc.body.dataset.time || "";
+
+    let weddingDate =
+        "";
+
+    let akadTime =
+        "";
+
+
+    if(rawTime){
+
+        const match =
+            rawTime.match(
+                /^(\d{4}-\d{2}-\d{2})\s+(\d{2}):(\d{2})/
+            );
+
+        if(match){
+
+            weddingDate =
+                match[1];
+
+            akadTime =
+                match[2] +
+                ":" +
+                match[3];
+
+        }
 
     }
 
 
-    if (!response.ok) {
+    if(!weddingDate){
 
-        throw new Error(
-            data.error ||
-            data.message ||
-            "Worker gagal memproses permintaan."
-        );
+        const dateText =
+            cleanText(
+                doc.querySelector(
+                    "#home p[style*='1.15rem']"
+                )?.textContent
+            );
+
+        const parsed =
+            parseIndonesianDate(
+                dateText
+            );
+
+        weddingDate =
+            parsed || "";
 
     }
 
 
-    return data;
+    /* waktu resepsi */
+
+    const weddingCards =
+        [...doc.querySelectorAll(
+            "#wedding-date .section-card"
+        )];
+
+
+    let receptionTime =
+        "";
+
+
+    if(weddingCards[1]){
+
+        const ps =
+            [...weddingCards[1].querySelectorAll(
+                "p"
+            )];
+
+        const timeText =
+            cleanText(
+                ps[1]?.textContent
+            );
+
+        receptionTime =
+            timeText
+            .replace(/^Pukul\s*/i,"")
+            .replace(/\s*WIB$/i,"");
+
+    }
+
+
+    /* lokasi */
+
+    const locationArea =
+        doc.querySelector(
+            "#wedding-date .mt-4"
+        );
+
+
+    const location =
+        cleanText(
+            locationArea?.querySelector(
+                "small"
+            )?.textContent
+        );
+
+
+    const maps =
+        locationArea?.querySelector(
+            "a"
+        )?.getAttribute("href") || "";
+
+
+    /* kisah */
+
+    const storyBlocks =
+        [...doc.querySelectorAll(
+            "#love-story-page .story-block"
+        )];
+
+
+    function getStory(index){
+
+        const block =
+            storyBlocks[index];
+
+        if(!block){
+            return "";
+        }
+
+        const paragraphs =
+            [...block.querySelectorAll("p")];
+
+        return paragraphs
+            .map(p =>
+                cleanText(
+                    p.innerHTML
+                        .replace(/<br\s*\/?>/gi,"\n")
+                        .replace(/<[^>]+>/g,"")
+                )
+            )
+            .filter(Boolean)
+            .join("\n\n");
+
+    }
+
+
+    /* gift */
+
+    const giftCards =
+        [...doc.querySelectorAll(
+            "#wedding-date ~ section .gift-card"
+        )];
+
+
+    let gopay = "";
+    let dana = "";
+    let giftAddress = "";
+    let giftMaps = "";
+
+
+    const allGiftCards =
+        [...doc.querySelectorAll(
+            ".gift-card"
+        )];
+
+
+    for(const card of allGiftCards){
+
+        const text =
+            cleanText(
+                card.textContent
+            );
+
+
+        if(
+            text.includes("GoPay") &&
+            text.includes("DANA")
+        ){
+
+            const ps =
+                [...card.querySelectorAll("p")];
+
+            for(const p of ps){
+
+                const t =
+                    cleanText(
+                        p.textContent
+                    );
+
+                if(t.startsWith("GoPay:")){
+
+                    gopay =
+                        t
+                            .replace(
+                                /^GoPay:\s*/i,
+                                ""
+                            );
+
+                }
+
+                if(t.startsWith("DANA:")){
+
+                    dana =
+                        t
+                            .replace(
+                                /^DANA:\s*/i,
+                                ""
+                            );
+
+                }
+
+            }
+
+        }
+
+
+        if(
+            text.includes("Kirim Kado")
+        ){
+
+            giftAddress =
+                cleanText(
+                    card.querySelector(
+                        "p.m-0"
+                    )?.textContent
+                );
+
+            giftMaps =
+                card.querySelector(
+                    "a"
+                )?.getAttribute("href") || "";
+
+        }
+
+    }
+
+
+    return {
+
+        groomName,
+        brideName,
+        groomShort,
+        brideShort,
+
+        groomFather,
+        groomMother,
+        brideFather,
+        brideMother,
+
+        weddingDate,
+        akadTime,
+        receptionTime,
+
+        location,
+        maps,
+
+        story2019:
+            getStory(0),
+
+        story2022:
+            getStory(1),
+
+        story2025:
+            getStory(2),
+
+        story2026:
+            getStory(3),
+
+        gopay,
+        dana,
+        giftAddress,
+        giftMaps
+
+    };
+
+}
+
+
+/* =========================================================
+   DATE PARSER
+   ========================================================= */
+
+function parseIndonesianDate(text){
+
+    const months = {
+
+        januari:"01",
+        februari:"02",
+        maret:"03",
+        april:"04",
+        mei:"05",
+        juni:"06",
+        juli:"07",
+        agustus:"08",
+        september:"09",
+        oktober:"10",
+        november:"11",
+        desember:"12"
+
+    };
+
+
+    const match =
+        text.match(
+            /(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/
+        );
+
+
+    if(!match){
+        return "";
+    }
+
+
+    const day =
+        String(match[1])
+            .padStart(2,"0");
+
+    const month =
+        months[
+            match[2].toLowerCase()
+        ];
+
+
+    if(!month){
+        return "";
+    }
+
+
+    return (
+        match[3] +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+/* =========================================================
+   FILL FORM
+   ========================================================= */
+
+function setValue(id,value){
+
+    const el =
+        document.getElementById(id);
+
+    if(el){
+
+        el.value =
+            value || "";
+
+    }
+
+}
+
+
+function fillForm(data){
+
+    setValue(
+        "groom-name",
+        data.groomName
+    );
+
+    setValue(
+        "bride-name",
+        data.brideName
+    );
+
+    setValue(
+        "groom-short",
+        data.groomShort
+    );
+
+    setValue(
+        "bride-short",
+        data.brideShort
+    );
+
+
+    setValue(
+        "groom-father",
+        data.groomFather
+    );
+
+    setValue(
+        "groom-mother",
+        data.groomMother
+    );
+
+    setValue(
+        "bride-father",
+        data.brideFather
+    );
+
+    setValue(
+        "bride-mother",
+        data.brideMother
+    );
+
+
+    setValue(
+        "wedding-date",
+        data.weddingDate
+    );
+
+    setValue(
+        "akad-time",
+        data.akadTime
+    );
+
+    setValue(
+        "reception-time",
+        data.receptionTime
+    );
+
+
+    setValue(
+        "location",
+        data.location
+    );
+
+    setValue(
+        "maps",
+        data.maps
+    );
+
+
+    setValue(
+        "story-2019",
+        data.story2019
+    );
+
+    setValue(
+        "story-2022",
+        data.story2022
+    );
+
+    setValue(
+        "story-2025",
+        data.story2025
+    );
+
+    setValue(
+        "story-2026",
+        data.story2026
+    );
+
+
+    setValue(
+        "gopay",
+        data.gopay
+    );
+
+    setValue(
+        "dana",
+        data.dana
+    );
+
+    setValue(
+        "gift-address",
+        data.giftAddress
+    );
+
+    setValue(
+        "gift-maps",
+        data.giftMaps
+    );
+
+}
+
+
+/* =========================================================
+   HTML HELPERS
+   ========================================================= */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text || "";
+
+    return div.innerHTML;
+
+}
+
+
+function textToHTML(text){
+
+    return escapeHTML(text)
+        .replace(/\r?\n/g,"<br>");
+
+}
+
+
+function replaceElementText(
+    html,
+    selector,
+    value,
+    occurrence = 0
+){
+
+    const parser =
+        new DOMParser();
+
+    const doc =
+        parser.parseFromString(
+            html,
+            "text/html"
+        );
+
+
+    const elements =
+        doc.querySelectorAll(
+            selector
+        );
+
+
+    if(elements[occurrence]){
+
+        elements[occurrence].textContent =
+            value || "";
+
+    }
+
+
+    return (
+        "<!doctype html>\n" +
+        doc.documentElement.outerHTML
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE HTML
+   ========================================================= */
+
+function updateHTML(html){
+
+    const parser =
+        new DOMParser();
+
+    const doc =
+        parser.parseFromString(
+            html,
+            "text/html"
+        );
+
+
+    const value = id =>
+        document.getElementById(id)?.value.trim() || "";
+
+
+    const groomName =
+        value("groom-name");
+
+    const brideName =
+        value("bride-name");
+
+    const groomShort =
+        value("groom-short");
+
+    const brideShort =
+        value("bride-short");
+
+    const groomFather =
+        value("groom-father");
+
+    const groomMother =
+        value("groom-mother");
+
+    const brideFather =
+        value("bride-father");
+
+    const brideMother =
+        value("bride-mother");
+
+    const weddingDate =
+        value("wedding-date");
+
+    const akadTime =
+        value("akad-time");
+
+    const receptionTime =
+        value("reception-time");
+
+    const location =
+        value("location");
+
+    const maps =
+        value("maps");
+
+    const story2019 =
+        value("story-2019");
+
+    const story2022 =
+        value("story-2022");
+
+    const story2025 =
+        value("story-2025");
+
+    const story2026 =
+        value("story-2026");
+
+    const gopay =
+        value("gopay");
+
+    const dana =
+        value("dana");
+
+    const giftAddress =
+        value("gift-address");
+
+    const giftMaps =
+        value("gift-maps");
+
+
+    /* =====================================================
+       NAMA PENDEK
+       ===================================================== */
+
+    const shortElements =
+        doc.querySelectorAll(
+            ".welcome-name-line"
+        );
+
+
+    if(shortElements[0])
+        shortElements[0].textContent =
+            groomShort;
+
+
+    if(shortElements[1])
+        shortElements[1].textContent =
+            brideShort;
+
+
+    /* =====================================================
+       NAMA LENGKAP
+       ===================================================== */
+
+    const fullNames =
+        doc.querySelectorAll(
+            "#bride .person-name"
+        );
+
+
+    if(fullNames[0])
+        fullNames[0].textContent =
+            groomName;
+
+
+    if(fullNames[1])
+        fullNames[1].textContent =
+            brideName;
+
+
+    /* =====================================================
+       ALT FOTO
+       ===================================================== */
+
+    const groomPhoto =
+        doc.querySelector(
+            "#bride img.person-photo"
+        );
+
+    const bridePhoto =
+        doc.querySelectorAll(
+            "#bride img.person-photo"
+        )[1];
+
+
+    if(groomPhoto)
+        groomPhoto.alt =
+            groomName;
+
+
+    if(bridePhoto)
+        bridePhoto.alt =
+            brideName;
+
+
+    /* =====================================================
+       NAMA COVER
+       ===================================================== */
+
+    const coverTitles =
+        doc.querySelectorAll(
+            ".cover-title"
+        );
+
+
+    coverTitles.forEach(el => {
+
+        el.textContent =
+            groomShort +
+            " & " +
+            brideShort;
+
+    });
+
+
+    /* =====================================================
+       ORANG TUA
+       ===================================================== */
+
+    const brideBlocks =
+        doc.querySelectorAll(
+            "#bride .pb-2"
+        );
+
+
+    if(brideBlocks[0]){
+
+        const ps =
+            brideBlocks[0]
+                .querySelectorAll(
+                    "p.mb-0"
+                );
+
+        if(ps[0])
+            ps[0].textContent =
+                groomFather;
+
+        if(ps[2])
+            ps[2].textContent =
+                groomMother;
+
+    }
+
+
+    if(brideBlocks[1]){
+
+        const ps =
+            brideBlocks[1]
+                .querySelectorAll(
+                    "p.mb-0"
+                );
+
+        if(ps[0])
+            ps[0].textContent =
+                brideFather;
+
+        if(ps[2])
+            ps[2].textContent =
+                brideMother;
+
+    }
+
+
+    /* =====================================================
+       TANGGAL
+       ===================================================== */
+
+    const dateObj =
+        new Date(
+            weddingDate +
+            "T00:00:00"
+        );
+
+
+    const weekdayNames = [
+
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu"
+
+    ];
+
+
+    const monthNames = [
+
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
+
+    ];
+
+
+    let displayDate =
+        "";
+
+
+    if(!isNaN(dateObj.getTime())){
+
+        displayDate =
+            weekdayNames[
+                dateObj.getDay()
+            ] +
+            ", " +
+            dateObj.getDate() +
+            " " +
+            monthNames[
+                dateObj.getMonth()
+            ] +
+            " " +
+            dateObj.getFullYear();
+
+    }
+
+
+    const displayDateUpper =
+        displayDate.toUpperCase();
+
+
+    /* welcome */
+
+    const welcomeDate =
+        doc.querySelector(
+            ".welcome-date"
+        );
+
+
+    if(welcomeDate)
+        welcomeDate.textContent =
+            displayDateUpper;
+
+
+    /* home */
+
+    const home =
+        doc.querySelector(
+            "#home"
+        );
+
+
+    if(home){
+
+        const ps =
+            home.querySelectorAll(
+                "p"
+            );
+
+
+        ps.forEach(p => {
+
+            const t =
+                p.textContent.trim();
+
+
+            if(
+                t === "Minggu" ||
+                t === "Senin" ||
+                t === "Selasa" ||
+                t === "Rabu" ||
+                t === "Kamis" ||
+                t === "Jumat" ||
+                t === "Sabtu"
+            ){
+
+                p.textContent =
+                    weekdayNames[
+                        dateObj.getDay()
+                    ];
+
+            }
+
+
+            if(
+                /^\d{1,2}\s+\w+\s+\d{4}$/.test(t)
+            ){
+
+                p.textContent =
+                    displayDate
+                        .replace(
+                            /^[^,]+,\s*/,
+                            ""
+                        );
+
+            }
+
+        });
+
+    }
+
+
+    /* desktop */
+
+    const desktop =
+        doc.querySelector(
+            ".desktop-cover-content"
+        );
+
+
+    if(desktop){
+
+        const p =
+            desktop.querySelector(
+                "p.m-0"
+            );
+
+        if(p)
+            p.textContent =
+                displayDate;
+
+    }
+
+
+    /* =====================================================
+       BODY COUNTDOWN
+       ===================================================== */
+
+    if(weddingDate){
+
+        const cleanAkad =
+            akadTime || "08:00";
+
+
+        doc.body.dataset.time =
+            weddingDate +
+            " " +
+            cleanAkad +
+            ":00";
+
+    }
+
+
+    /* =====================================================
+       WEDDING CARDS
+       ===================================================== */
+
+    const weddingCards =
+        doc.querySelectorAll(
+            "#wedding-date .section-card"
+        );
+
+
+    if(weddingCards[0]){
+
+        const ps =
+            weddingCards[0]
+                .querySelectorAll("p");
+
+        if(ps[0])
+            ps[0].textContent =
+                displayDate;
+
+        if(ps[1])
+            ps[1].textContent =
+                "Pukul " +
+                akadTime +
+                " WIB";
+
+    }
+
+
+    if(weddingCards[1]){
+
+        const ps =
+            weddingCards[1]
+                .querySelectorAll("p");
+
+        if(ps[0])
+            ps[0].textContent =
+                displayDate;
+
+        if(ps[1])
+            ps[1].textContent =
+                "Pukul " +
+                receptionTime +
+                " WIB";
+
+    }
+
+
+    /* =====================================================
+       LOKASI
+       ===================================================== */
+
+    const locationArea =
+        doc.querySelector(
+            "#wedding-date .mt-4"
+        );
+
+
+    if(locationArea){
+
+        const link =
+            locationArea.querySelector(
+                "a"
+            );
+
+        const small =
+            locationArea.querySelector(
+                "small"
+            );
+
+
+        if(link)
+            link.href =
+                maps;
+
+
+        if(small)
+            small.textContent =
+                location;
+
+    }
+
+
+    /* =====================================================
+       KISAH
+       ===================================================== */
+
+    const storyBlocks =
+        doc.querySelectorAll(
+            "#love-story-page .story-block"
+        );
+
+
+    const stories = [
+
+        story2019,
+        story2022,
+        story2025,
+        story2026
+
+    ];
+
+
+    stories.forEach(
+        (story,index) => {
+
+            const block =
+                storyBlocks[index];
+
+
+            if(!block)
+                return;
+
+
+            const paragraphs =
+                [...block.querySelectorAll(
+                    "p"
+                )];
+
+
+            if(!story){
+
+                paragraphs.forEach(
+                    p => p.remove()
+                );
+
+                return;
+
+            }
+
+
+            const lines =
+                story
+                    .split(/\n\s*\n/)
+                    .filter(Boolean);
+
+
+            paragraphs.forEach(
+                p => p.remove()
+            );
+
+
+            lines.forEach(
+                (part,partIndex) => {
+
+                    const p =
+                        doc.createElement(
+                            "p"
+                        );
+
+
+                    if(
+                        index === 1 &&
+                        partIndex ===
+                        lines.length - 1
+                    ){
+
+                        p.className =
+                            "story-emphasis";
+
+                    }
+
+
+                    p.innerHTML =
+                        textToHTML(
+                            part
+                        );
+
+
+                    block.insertBefore(
+                        p,
+                        block.querySelector(
+                            ".story-actions"
+                        ) || null
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       GOPAY + DANA
+       ===================================================== */
+
+    const giftCards =
+        doc.querySelectorAll(
+            ".gift-card"
+        );
+
+
+    giftCards.forEach(card => {
+
+        const text =
+            card.textContent;
+
+
+        if(
+            text.includes("GoPay") &&
+            text.includes("DANA")
+        ){
+
+            const ps =
+                card.querySelectorAll(
+                    "p"
+                );
+
+
+            ps.forEach(p => {
+
+                const t =
+                    p.textContent.trim();
+
+
+                if(
+                    t.startsWith("GoPay:")
+                ){
+
+                    p.textContent =
+                        "GoPay: " +
+                        gopay;
+
+                }
+
+
+                if(
+                    t.startsWith("DANA:")
+                ){
+
+                    p.textContent =
+                        "DANA: " +
+                        dana;
+
+                }
+
+            });
+
+        }
+
+
+        if(
+            text.includes("Kirim Kado")
+        ){
+
+            const p =
+                card.querySelector(
+                    "p.m-0"
+                );
+
+
+            const a =
+                card.querySelector(
+                    "a"
+                );
+
+
+            if(p)
+                p.textContent =
+                    giftAddress;
+
+
+            if(a)
+                a.href =
+                    giftMaps;
+
+        }
+
+    });
+
+
+    /* =====================================================
+       CALENDAR
+       ===================================================== */
+
+    const calendar =
+        doc.getElementById(
+            "calendar-button"
+        );
+
+
+    if(calendar && weddingDate){
+
+        const compact =
+            weddingDate.replace(
+                /-/g,
+                ""
+            );
+
+
+        const title =
+            encodeURIComponent(
+                "The Wedding of " +
+                groomShort +
+                " & " +
+                brideShort
+            );
+
+
+        const locationEncoded =
+            encodeURIComponent(
+                location
+            );
+
+
+        calendar.href =
+            "https://calendar.google.com/calendar/render" +
+            "?action=TEMPLATE" +
+            "&text=" +
+            title +
+            "&dates=" +
+            compact +
+            "T010000Z/" +
+            compact +
+            "T070000Z" +
+            "&location=" +
+            locationEncoded +
+            "&ctz=Asia%2FJakarta";
+
+    }
+
+
+    return (
+        "<!doctype html>\n" +
+        doc.documentElement.outerHTML
+    );
 
 }
 
@@ -844,308 +2339,180 @@ async function workerRequest(
    LOAD INDEX
    ========================================================= */
 
-let currentSha = null;
+async function loadInvitation(){
 
-let currentContent = null;
+    saveStatus.textContent =
+        "Mengambil data undangan...";
 
 
-async function loadIndex() {
+    try{
 
-    showMessage(
-        "Mengambil index.html dari GitHub..."
-    );
-
-    const data =
-        await workerRequest("GET");
-
-
-    if (!data.success) {
-
-        throw new Error(
-            data.error ||
-            "Gagal mengambil index.html."
-        );
-
-    }
-
-
-    currentSha =
-        data.sha;
-
-    currentContent =
-        data.content;
-
-
-    /*
-       Untuk tahap ini kita membaca data
-       yang memang sudah ada di index.html.
-       Nilai form diisi dari teks yang ada.
-    */
-
-    fillFieldsFromIndex(
-        currentContent
-    );
-
-
-    showMessage(
-        "Undangan berhasil dimuat."
-    );
-
-}
-
-
-/* =========================================================
-   ISI FORM DARI INDEX
-   ========================================================= */
-
-function fillFieldsFromIndex(html) {
-
-    fields.groomName.value =
-        extractFirst(
-            html,
-            "Ihsan Fauzi Noor, S.T."
-        );
-
-    fields.brideName.value =
-        extractFirst(
-            html,
-            "Syarifah Umaimah, S.T."
-        );
-
-    fields.groomShortName.value =
-        "Ihsan";
-
-    fields.brideShortName.value =
-        "Syarifah";
-
-    fields.groomFather.value =
-        "Bapak Budiono";
-
-    fields.groomMother.value =
-        "Ibu Komsiah";
-
-    fields.brideFather.value =
-        "Bapak Mohamad Rusmin";
-
-    fields.brideMother.value =
-        "Ibu Yunisar Harahap";
-
-    fields.weddingDate.value =
-        "Minggu, 20 Desember 2026";
-
-    fields.akadTime.value =
-        "08.00 WIB";
-
-    fields.receptionTime.value =
-        "11.00 - 14.00 WIB";
-
-    fields.location.value =
-        "Masjid Cibadak Daarul Matiin";
-
-    fields.address.value =
-        "Kecamatan Cibadak, Kabupaten Sukabumi.";
-
-    fields.maps.value =
-        "https://maps.app.goo.gl/ZE22JnR6oJbwiCnZA";
-
-    fields.story2019.value =
-        "Kami bertemu di Politeknik AKA Bogor. Tiga tahun menjalani masa kuliah di tempat yang sama.";
-
-    fields.story2022.value =
-        "Kami lulus dan menjalani kehidupan masing-masing. Setelah itu, kami tidak lagi berkomunikasi.";
-
-    fields.story2025.value =
-        "Sebuah gitar mempertemukan kami kembali. Sejak saat itu, kami kembali dekat.";
-
-    fields.story2026.value =
-        "Kami memantapkan hati untuk melangkah lebih serius.";
-
-    fields.opening.value =
-        "Dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta'ala, insyaAllah kami akan menyelenggarakan acara.";
-
-    fields.closing.value =
-        "Terima kasih atas perhatian dan doa restu Anda, yang menjadi kebahagiaan serta kehormatan besar bagi kami.";
-
-}
-
-
-function extractFirst(html, text) {
-
-    return html.includes(text)
-        ? text
-        : "";
-
-}
-
-
-/* =========================================================
-   BUAT DATA
-   ========================================================= */
-
-function getFormData() {
-
-    return {
-
-        groomName:
-            fields.groomName.value.trim(),
-
-        brideName:
-            fields.brideName.value.trim(),
-
-        groomShortName:
-            fields.groomShortName.value.trim(),
-
-        brideShortName:
-            fields.brideShortName.value.trim(),
-
-        groomFather:
-            fields.groomFather.value.trim(),
-
-        groomMother:
-            fields.groomMother.value.trim(),
-
-        brideFather:
-            fields.brideFather.value.trim(),
-
-        brideMother:
-            fields.brideMother.value.trim(),
-
-        weddingDate:
-            fields.weddingDate.value.trim(),
-
-        akadTime:
-            fields.akadTime.value.trim(),
-
-        receptionTime:
-            fields.receptionTime.value.trim(),
-
-        location:
-            fields.location.value.trim(),
-
-        address:
-            fields.address.value.trim(),
-
-        maps:
-            fields.maps.value.trim(),
-
-        story2019:
-            fields.story2019.value.trim(),
-
-        story2022:
-            fields.story2022.value.trim(),
-
-        story2025:
-            fields.story2025.value.trim(),
-
-        story2026:
-            fields.story2026.value.trim(),
-
-        opening:
-            fields.opening.value.trim(),
-
-        closing:
-            fields.closing.value.trim()
-
-    };
-
-}
-
-
-/* =========================================================
-   SIMPAN
-   ========================================================= */
-
-saveButton.addEventListener(
-    "click",
-    async function() {
-
-        if (!currentContent || !currentSha) {
-
-            showMessage(
-                "Data index.html belum dimuat.",
-                "error"
+        const data =
+            await workerRequest(
+                "GET"
             );
 
-            return;
+
+        currentIndexHTML =
+            data.content || "";
+
+        currentSHA =
+            data.sha || "";
+
+
+        if(!currentIndexHTML){
+
+            throw new Error(
+                "index.html kosong dari Worker."
+            );
 
         }
 
 
-        saveButton.disabled = true;
-
-        saveButton.textContent =
-            "⏳ Menyimpan...";
-
-
-        try {
-
-            const data =
-                getFormData();
-
-
-            /*
-               UNTUK SEKARANG KITA BELUM MENIMPA
-               INDEX SECARA SEMBARANGAN.
-
-               Worker sudah berhasil membaca index.
-               Setelah koneksi ini dipastikan aman,
-               bagian penggantian isi akan kita pasang.
-            */
-
-            showMessage(
-                "Koneksi Admin → Worker → GitHub sudah berhasil. Tahap berikutnya kita aktifkan penggantian isi index.html."
+        const invitation =
+            parseInvitationHTML(
+                currentIndexHTML
             );
 
-        } catch (error) {
 
-            showMessage(
-                error.message,
-                "error"
-            );
+        fillForm(
+            invitation
+        );
 
-        } finally {
 
-            saveButton.disabled = false;
+        saveStatus.textContent =
+            "Data undangan berhasil dimuat.";
 
-            saveButton.textContent =
-                "💾 Simpan Perubahan";
+    }catch(error){
 
-        }
+        console.error(error);
+
+        saveStatus.textContent =
+            "Gagal memuat data.";
+
+        showError(
+            error.message
+        );
 
     }
-);
+
+}
+
+
+/* =========================================================
+   SAVE
+   ========================================================= */
+
+async function saveInvitation(){
+
+    if(
+        !currentIndexHTML ||
+        !currentSHA
+    ){
+
+        showError(
+            "Data index.html belum berhasil dimuat."
+        );
+
+        return;
+
+    }
+
+
+    saveBtn.disabled =
+        true;
+
+    saveBtn.textContent =
+        "⏳ Menyimpan...";
+
+    saveStatus.textContent =
+        "Mengirim perubahan ke GitHub...";
+
+
+    try{
+
+        const updatedHTML =
+            updateHTML(
+                currentIndexHTML
+            );
+
+
+        const result =
+            await workerRequest(
+                "PUT",
+                {
+
+                    content:
+                        updatedHTML,
+
+                    sha:
+                        currentSHA
+
+                }
+            );
+
+
+        currentIndexHTML =
+            updatedHTML;
+
+
+        if(result.sha)
+            currentSHA =
+                result.sha;
+
+
+        saveStatus.textContent =
+            "✅ Berhasil disimpan ke GitHub.";
+
+
+        showSuccess(
+            "Perubahan berhasil dikirim ke GitHub. GitHub Actions akan membangun ulang undangan."
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        saveStatus.textContent =
+            "❌ Gagal menyimpan.";
+
+        showError(
+            error.message
+        );
+
+    }finally{
+
+        saveBtn.disabled =
+            false;
+
+        saveBtn.textContent =
+            "💾 Simpan Perubahan";
+
+    }
+
+}
 
 
 /* =========================================================
    LOGIN
    ========================================================= */
 
-loginButton.addEventListener(
+loginBtn.addEventListener(
     "click",
-    async function() {
-
-        loginError.classList.add(
-            "hidden"
-        );
+    async () => {
 
         const email =
-            document.getElementById(
-                "login-email"
-            ).value.trim();
+            loginEmail.value.trim();
 
         const password =
-            document.getElementById(
-                "login-password"
-            ).value;
+            loginPassword.value;
 
 
-        if (!email || !password) {
+        if(!email || !password){
 
-            loginError.textContent =
-                "Email dan password wajib diisi.";
-
-            loginError.classList.remove(
-                "hidden"
+            showError(
+                "Email dan password wajib diisi."
             );
 
             return;
@@ -1153,13 +2520,14 @@ loginButton.addEventListener(
         }
 
 
-        loginButton.disabled = true;
+        loginBtn.disabled =
+            true;
 
-        loginButton.textContent =
-            "Memproses...";
+        loginBtn.textContent =
+            "Login...";
 
 
-        try {
+        try{
 
             await signInWithEmailAndPassword(
                 auth,
@@ -1167,21 +2535,22 @@ loginButton.addEventListener(
                 password
             );
 
-        } catch (error) {
 
-            loginError.textContent =
-                error.message;
+        }catch(error){
 
-            loginError.classList.remove(
-                "hidden"
+            console.error(error);
+
+            showError(
+                error.message
             );
 
-        } finally {
+        }finally{
 
-            loginButton.disabled = false;
+            loginBtn.disabled =
+                false;
 
-            loginButton.textContent =
-                "Masuk";
+            loginBtn.textContent =
+                "Login";
 
         }
 
@@ -1190,66 +2559,16 @@ loginButton.addEventListener(
 
 
 /* =========================================================
-   AUTH STATE
+   ENTER LOGIN
    ========================================================= */
 
-onAuthStateChanged(
-    auth,
-    async function(user) {
+loginPassword.addEventListener(
+    "keydown",
+    e => {
 
-        if (!user) {
+        if(e.key === "Enter"){
 
-            loginPage.classList.remove(
-                "hidden"
-            );
-
-            adminPage.classList.add(
-                "hidden"
-            );
-
-            return;
-
-        }
-
-
-        if (user.uid !== ADMIN_UID) {
-
-            await signOut(auth);
-
-            loginError.textContent =
-                "Akun ini bukan akun admin.";
-
-            loginError.classList.remove(
-                "hidden"
-            );
-
-            return;
-
-        }
-
-
-        loginPage.classList.add(
-            "hidden"
-        );
-
-        adminPage.classList.remove(
-            "hidden"
-        );
-
-        adminEmail.textContent =
-            user.email || "";
-
-
-        try {
-
-            await loadIndex();
-
-        } catch (error) {
-
-            showMessage(
-                error.message,
-                "error"
-            );
+            loginBtn.click();
 
         }
 
@@ -1261,9 +2580,9 @@ onAuthStateChanged(
    LOGOUT
    ========================================================= */
 
-logoutButton.addEventListener(
+logoutBtn.addEventListener(
     "click",
-    async function() {
+    async () => {
 
         await signOut(auth);
 
@@ -1272,24 +2591,99 @@ logoutButton.addEventListener(
 
 
 /* =========================================================
-   TAB
+   AUTH STATE
+   ========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        if(!user){
+
+            loginSection.classList.remove(
+                "hidden"
+            );
+
+            adminSection.classList.add(
+                "hidden"
+            );
+
+            adminEmail.textContent =
+                "";
+
+            return;
+
+        }
+
+
+        if(user.uid !== ADMIN_UID){
+
+            await signOut(auth);
+
+            showError(
+                "Akun ini bukan akun admin yang diizinkan."
+            );
+
+            return;
+
+        }
+
+
+        loginSection.classList.add(
+            "hidden"
+        );
+
+        adminSection.classList.remove(
+            "hidden"
+        );
+
+        adminEmail.textContent =
+            user.email || "Admin";
+
+
+        /*
+         * PENTING:
+         * load baru dilakukan SETELAH login.
+         * Jadi tidak ada lagi request /index tanpa token.
+         */
+
+        await loadInvitation();
+
+    }
+);
+
+
+/* =========================================================
+   SAVE BUTTON
+   ========================================================= */
+
+saveBtn.addEventListener(
+    "click",
+    saveInvitation
+);
+
+
+/* =========================================================
+   TABS
    ========================================================= */
 
 tabEdit.addEventListener(
     "click",
-    function() {
+    () => {
 
-        tabEdit.classList.add("active");
+        tabEdit.classList.add(
+            "active"
+        );
 
         tabComments.classList.remove(
             "active"
         );
 
-        editSection.classList.remove(
+        editPanel.classList.remove(
             "hidden"
         );
 
-        commentsSection.classList.add(
+        commentsPanel.classList.add(
             "hidden"
         );
 
@@ -1299,7 +2693,7 @@ tabEdit.addEventListener(
 
 tabComments.addEventListener(
     "click",
-    async function() {
+    async () => {
 
         tabComments.classList.add(
             "active"
@@ -1309,13 +2703,14 @@ tabComments.addEventListener(
             "active"
         );
 
-        editSection.classList.add(
+        commentsPanel.classList.remove(
             "hidden"
         );
 
-        commentsSection.classList.remove(
+        editPanel.classList.add(
             "hidden"
         );
+
 
         await loadComments();
 
@@ -1324,21 +2719,29 @@ tabComments.addEventListener(
 
 
 /* =========================================================
-   KOMENTAR
+   COMMENTS
    ========================================================= */
 
-async function loadComments() {
+async function loadComments(){
 
     const list =
         document.getElementById(
             "comments-list"
         );
 
-    list.textContent =
-        "Memuat komentar...";
+    const stats =
+        document.getElementById(
+            "comment-stats"
+        );
 
 
-    try {
+    list.innerHTML =
+        `<div class="loading">
+            Memuat komentar...
+        </div>`;
+
+
+    try{
 
         const q =
             query(
@@ -1358,149 +2761,85 @@ async function loadComments() {
             await getDocs(q);
 
 
-        if (snapshot.empty) {
+        const comments =
+            snapshot.docs
+                .map(d => ({
+                    id:d.id,
+                    ...d.data()
+                }))
+                .sort(
+                    (a,b) =>
+                        getMillis(b.createdAt) -
+                        getMillis(a.createdAt)
+                );
 
-            list.textContent =
-                "Belum ada komentar.";
+
+        stats.textContent =
+            comments.length +
+            " komentar";
+
+
+        if(!comments.length){
+
+            list.innerHTML =
+                `<div class="loading">
+                    Belum ada komentar.
+                </div>`;
 
             return;
 
         }
 
 
-        const comments =
-            snapshot.docs.map(
-                function(item) {
-
-                    return {
-
-                        id: item.id,
-
-                        ...item.data()
-
-                    };
-
-                }
-            );
+        list.innerHTML =
+            comments
+                .map(renderComment)
+                .join("");
 
 
-        comments.sort(
-            function(a,b) {
-
-                const aTime =
-                    a.createdAt?.seconds || 0;
-
-                const bTime =
-                    b.createdAt?.seconds || 0;
-
-                return bTime - aTime;
-
-            }
-        );
-
-
-        list.innerHTML = "";
-
-
-        comments.forEach(
-            function(comment) {
-
-                const div =
-                    document.createElement(
-                        "div"
-                    );
-
-                div.className =
-                    "comment";
-
-
-                const name =
-                    document.createElement(
-                        "strong"
-                    );
-
-                name.textContent =
-                    comment.name || "Tanpa nama";
-
-
-                const text =
-                    document.createElement(
-                        "div"
-                    );
-
-                text.textContent =
-                    comment.comment || "";
-
-
-                const small =
-                    document.createElement(
-                        "small"
-                    );
-
-                small.textContent =
-                    comment.presence
-                        ? "Hadir"
-                        : "Tidak hadir";
-
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-                button.textContent =
-                    "Hapus";
-
-                button.style.marginTop =
-                    "10px";
-
-                button.style.border =
-                    "1px solid #d8c7bc";
-
-                button.style.background =
-                    "#fff";
-
-                button.style.borderRadius =
-                    "999px";
-
-                button.style.padding =
-                    "7px 13px";
-
-                button.style.cursor =
-                    "pointer";
-
+        list.querySelectorAll(
+            "[data-delete]"
+        ).forEach(
+            button => {
 
                 button.addEventListener(
                     "click",
-                    async function() {
+                    async () => {
 
-                        if (
+                        const id =
+                            button.dataset.delete;
+
+
+                        if(
                             !confirm(
                                 "Hapus komentar ini?"
                             )
-                        ) {
+                        ){
+
                             return;
+
                         }
 
 
-                        try {
+                        try{
 
                             await deleteDoc(
                                 doc(
                                     db,
                                     "comments",
-                                    comment.id
+                                    id
                                 )
                             );
 
 
                             await loadComments();
 
-                        } catch (error) {
 
-                            showMessage(
-                                error.message,
-                                "error"
+                        }catch(error){
+
+                            showError(
+                                "Komentar tidak bisa dihapus: " +
+                                error.message
                             );
 
                         }
@@ -1508,37 +2847,122 @@ async function loadComments() {
                     }
                 );
 
-
-                div.appendChild(name);
-
-                div.appendChild(text);
-
-                div.appendChild(
-                    document.createElement("br")
-                );
-
-                div.appendChild(small);
-
-                div.appendChild(
-                    document.createElement("br")
-                );
-
-                div.appendChild(button);
-
-                list.appendChild(div);
-
             }
         );
 
 
-    } catch (error) {
+    }catch(error){
 
-        list.textContent =
-            error.message;
+        console.error(error);
+
+        list.innerHTML =
+            `<div class="loading">
+                Gagal memuat komentar.
+            </div>`;
+
+        showError(
+            error.message
+        );
 
     }
 
 }
+
+
+function getMillis(value){
+
+    if(!value)
+        return 0;
+
+
+    if(
+        typeof value.toMillis ===
+        "function"
+    ){
+
+        return value.toMillis();
+
+    }
+
+
+    if(
+        value.seconds
+    ){
+
+        return value.seconds * 1000;
+
+    }
+
+
+    return 0;
+
+}
+
+
+function renderComment(comment){
+
+    const name =
+        escapeHTML(
+            comment.name ||
+            "Tanpa nama"
+        );
+
+
+    const text =
+        escapeHTML(
+            comment.comment ||
+            ""
+        );
+
+
+    const presence =
+        comment.presence === true
+            ? "✅ Datang"
+            : comment.presence === false
+                ? "❌ Berhalangan"
+                : "";
+
+
+    return `
+        <div class="comment-card">
+
+            <div class="d-flex justify-content-between gap-3">
+
+                <div>
+
+                    <div class="comment-name">
+                        ${name}
+                    </div>
+
+                    ${
+                        presence
+                            ? `<div class="small text-secondary">
+                                ${presence}
+                               </div>`
+                            : ""
+                    }
+
+                </div>
+
+                <button
+                    type="button"
+                    class="btn btn-sm btn-outline-danger rounded-pill"
+                    data-delete="${escapeHTML(comment.id)}"
+                >
+                    Hapus
+                </button>
+
+            </div>
+
+            <div class="comment-text">
+                ${text}
+            </div>
+
+        </div>
+    `;
+
+}
+
 
 </script>
 
