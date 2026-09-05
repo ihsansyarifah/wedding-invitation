@@ -1,1043 +1,241 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Admin Ucapan - Ihsan & Syarifah</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f7f3ef;
-            color: #333;
-        }
-
-        .container {
-            width: min(100% - 30px, 900px);
-            margin: 0 auto;
-        }
-
-        header {
-            background: white;
-            border-bottom: 1px solid #eee;
-            padding: 18px 0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        header .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 22px;
-        }
-
-        .subtitle {
-            margin-top: 5px;
-            color: #888;
-            font-size: 13px;
-        }
-
-        main {
-            padding: 30px 0 50px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.05);
-        }
-
-        .login-card {
-            max-width: 450px;
-            margin: 50px auto;
-        }
-
-        h2 {
-            margin-top: 0;
-            font-size: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 13px 14px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 15px;
-        }
-
-        button {
-            border: 0;
-            border-radius: 10px;
-            padding: 11px 16px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-login {
-            width: 100%;
-            background: #333;
-            color: white;
-        }
-
-        .btn-logout {
-            background: #eee;
-            color: #333;
-        }
-
-        .btn-delete {
-            background: #d9534f;
-            color: white;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .error {
-            background: #fff0f0;
-            color: #c62828;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .success {
-            background: #effaf1;
-            color: #287d36;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        /* =========================
-           STATISTIK
-        ========================== */
-
-        .stats {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            flex: 1;
-            min-width: 150px;
-            background: #f7f3ef;
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .stat-number {
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        .stat-label {
-            color: #888;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        /* =========================
-           KOMENTAR
-        ========================== */
-
-        .comment {
-            border: 1px solid #eee;
-            border-radius: 14px;
-            padding: 17px;
-            margin-bottom: 13px;
-        }
-
-        .comment:last-child {
-            margin-bottom: 0;
-        }
-
-        .comment-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-        }
-
-        .comment-name {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .comment-time {
-            color: #999;
-            font-size: 12px;
-            margin-top: 4px;
-        }
-
-        .comment-text {
-            margin: 14px 0;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        .presence {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 20px;
-            background: #f3f3f3;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .empty {
-            text-align: center;
-            padding: 40px 15px;
-            color: #999;
-        }
-
-        .loading {
-            text-align: center;
-            color: #999;
-            padding: 30px;
-        }
-
-        @media (max-width: 600px) {
-            header .container {
-                align-items: flex-start;
-            }
-
-            .comment-head {
-                flex-direction: column;
-            }
-
-            .btn-delete {
-                width: 100%;
-            }
-
-            .stat {
-                min-width: calc(50% - 6px);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Undangan - Ihsan & Syarifah</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f7f3ef;color:#333}
+.container{width:min(100% - 30px,900px);margin:auto}
+header{background:#fff;border-bottom:1px solid #eee;padding:18px 0;position:sticky;top:0;z-index:10}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:15px}
+h1{margin:0;font-size:22px}.subtitle{margin-top:5px;color:#888;font-size:13px}
+main{padding:25px 0 50px}.card{background:#fff;border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:0 5px 20px rgba(0,0,0,.05)}
+.login-card{max-width:450px;margin:50px auto}
+h2{margin-top:0;font-size:20px}
+input,textarea{width:100%;padding:13px 14px;margin-bottom:12px;border:1px solid #ddd;border-radius:10px;font-size:15px;font-family:inherit}
+textarea{min-height:110px;resize:vertical}
+button{border:0;border-radius:10px;padding:11px 16px;cursor:pointer;font-size:14px}
+.btn-login{width:100%;background:#333;color:#fff}.btn-logout{background:#eee;color:#333}
+.btn-save{background:#333;color:#fff}.btn-delete{background:#d9534f;color:#fff}
+.hidden{display:none!important}.error{background:#fff0f0;color:#c62828;padding:12px;border-radius:10px;margin-bottom:15px;font-size:14px}
+.success{background:#effaf1;color:#287d36;padding:12px;border-radius:10px;margin-bottom:15px;font-size:14px}
+.tabs{display:flex;gap:8px;margin-bottom:20px;overflow:auto}
+.tab{background:#eee;color:#555;white-space:nowrap}.tab.active{background:#333;color:#fff}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.field{margin-bottom:16px}.field label{display:block;font-weight:bold;font-size:14px;margin-bottom:7px}
+.section-title{font-size:17px;font-weight:bold;margin:5px 0 16px;padding-bottom:9px;border-bottom:1px solid #eee}
+.actions{display:flex;justify-content:flex-end;margin-top:10px}
+.stats{display:flex;gap:12px;flex-wrap:wrap}.stat{flex:1;min-width:150px;background:#f7f3ef;border-radius:12px;padding:16px}
+.stat-number{font-size:25px;font-weight:bold}.stat-label{color:#888;font-size:13px;margin-top:4px}
+.comment{border:1px solid #eee;border-radius:14px;padding:17px;margin-bottom:13px}
+.comment-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
+.comment-name{font-weight:bold;font-size:16px}.comment-time{color:#999;font-size:12px;margin-top:4px}
+.comment-text{margin:14px 0;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.presence{display:inline-block;padding:5px 9px;border-radius:20px;background:#f3f3f3;font-size:12px;color:#666}
+.empty,.loading{text-align:center;padding:30px;color:#999}
+@media(max-width:600px){.header-inner{align-items:flex-start}.comment-head{flex-direction:column}.btn-delete{width:100%}.stat{min-width:calc(50% - 6px)}}
+</style>
 </head>
-
 <body>
 
-    <!-- =========================
-         LOGIN
-    ========================== -->
-
-    <section id="loginSection">
-        <div class="container">
-            <div class="card login-card">
-
-                <h2>Login Admin</h2>
-
-                <p class="subtitle">
-                    Dashboard Ucapan & Doa
-                </p>
-
-                <br>
-
-                <div id="loginError" class="error hidden"></div>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Email admin"
-                    autocomplete="email"
-                >
-
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    autocomplete="current-password"
-                >
-
-                <button
-                    id="loginButton"
-                    class="btn-login"
-                >
-                    Login
-                </button>
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- =========================
-         DASHBOARD
-    ========================== -->
-
-    <section id="dashboardSection" class="hidden">
-
-        <header>
-            <div class="container">
-
-                <div>
-                    <h1>Dashboard Ucapan</h1>
-
-                    <div class="subtitle">
-                        Ihsan & Syarifah
-                    </div>
-                </div>
-
-                <button
-                    id="logoutButton"
-                    class="btn-logout"
-                >
-                    Logout
-                </button>
-
-            </div>
-        </header>
-
-
-        <main>
-
-            <div class="container">
-
-                <div id="dashboardMessage"></div>
-
-
-                <!-- =========================
-                     RINGKASAN
-                ========================== -->
-
-                <div class="card">
-
-                    <h2>Ringkasan</h2>
-
-                    <div class="stats">
-
-                        <div class="stat">
-                            <div
-                                id="totalComments"
-                                class="stat-number"
-                            >
-                                0
-                            </div>
-
-                            <div class="stat-label">
-                                Total Ucapan
-                            </div>
-                        </div>
-
-
-                        <div class="stat">
-                            <div
-                                id="totalPresent"
-                                class="stat-number"
-                            >
-                                0
-                            </div>
-
-                            <div class="stat-label">
-                                Hadir
-                            </div>
-                        </div>
-
-
-                        <div class="stat">
-                            <div
-                                id="totalAbsent"
-                                class="stat-number"
-                            >
-                                0
-                            </div>
-
-                            <div class="stat-label">
-                                Tidak Hadir
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =========================
-                     UCAPAN
-                ========================== -->
-
-                <div class="card">
-
-                    <h2>Ucapan & Doa</h2>
-
-                    <div
-                        id="commentsList"
-                        class="loading"
-                    >
-                        Memuat ucapan...
-                    </div>
-
-                </div>
-
-            </div>
-
-        </main>
-
-    </section>
-
-
-    <!-- =========================
-         FIREBASE
-    ========================== -->
-
-    <script type="module">
-
-        import {
-            initializeApp
-        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-        import {
-            getAuth,
-            signInWithEmailAndPassword,
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-        import {
-            getFirestore,
-            collection,
-            query,
-            orderBy,
-            getDocs,
-            deleteDoc,
-            doc
-        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-        // =========================
-        // FIREBASE CONFIG
-        // =========================
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCcLt3DT1DYdmThAJK91TcEYvVDVZyonzI",
-            authDomain: "undangan-ihsan-syarifah.firebaseapp.com",
-            projectId: "undangan-ihsan-syarifah",
-            storageBucket: "undangan-ihsan-syarifah.firebasestorage.app",
-            messagingSenderId: "877091672086",
-            appId: "1:877091672086:web:9758a37f0c575cc1b3a537"
-        };
-
-
-        // =========================
-        // INIT FIREBASE
-        // =========================
-
-        const app = initializeApp(firebaseConfig);
-
-        const auth = getAuth(app);
-
-        const db = getFirestore(app);
-
-
-        // =========================
-        // ADMIN UID
-        // =========================
-
-        const ADMIN_UID =
-            "DwMXUyfyChMp85zsb9L5rFy6Tg53";
-
-
-        // =========================
-        // ELEMENTS
-        // =========================
-
-        const loginSection =
-            document.getElementById("loginSection");
-
-        const dashboardSection =
-            document.getElementById("dashboardSection");
-
-        const emailInput =
-            document.getElementById("email");
-
-        const passwordInput =
-            document.getElementById("password");
-
-        const loginButton =
-            document.getElementById("loginButton");
-
-        const logoutButton =
-            document.getElementById("logoutButton");
-
-        const loginError =
-            document.getElementById("loginError");
-
-        const dashboardMessage =
-            document.getElementById("dashboardMessage");
-
-        const commentsList =
-            document.getElementById("commentsList");
-
-        const totalComments =
-            document.getElementById("totalComments");
-
-        const totalPresent =
-            document.getElementById("totalPresent");
-
-        const totalAbsent =
-            document.getElementById("totalAbsent");
-
-
-        // =========================
-        // LOGIN
-        // =========================
-
-        loginButton.addEventListener(
-            "click",
-            async () => {
-
-                const email =
-                    emailInput.value.trim();
-
-                const password =
-                    passwordInput.value;
-
-
-                loginError.classList.add(
-                    "hidden"
-                );
-
-
-                if (!email || !password) {
-
-                    loginError.textContent =
-                        "Email dan password wajib diisi.";
-
-                    loginError.classList.remove(
-                        "hidden"
-                    );
-
-                    return;
-                }
-
-
-                loginButton.disabled = true;
-
-                loginButton.textContent =
-                    "Login...";
-
-
-                try {
-
-                    await signInWithEmailAndPassword(
-                        auth,
-                        email,
-                        password
-                    );
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    loginError.textContent =
-                        "Email atau password salah.";
-
-                    loginError.classList.remove(
-                        "hidden"
-                    );
-
-                } finally {
-
-                    loginButton.disabled = false;
-
-                    loginButton.textContent =
-                        "Login";
-                }
-
-            }
-        );
-
-
-        // =========================
-        // LOGOUT
-        // =========================
-
-        logoutButton.addEventListener(
-            "click",
-            async () => {
-
-                await signOut(auth);
-
-            }
-        );
-
-
-        // =========================
-        // AUTH STATE
-        // =========================
-
-        onAuthStateChanged(
-            auth,
-            async (user) => {
-
-                if (!user) {
-
-                    loginSection.classList.remove(
-                        "hidden"
-                    );
-
-                    dashboardSection.classList.add(
-                        "hidden"
-                    );
-
-                    return;
-                }
-
-
-                if (user.uid !== ADMIN_UID) {
-
-                    await signOut(auth);
-
-                    loginError.textContent =
-                        "Akun ini bukan akun admin.";
-
-                    loginError.classList.remove(
-                        "hidden"
-                    );
-
-                    return;
-                }
-
-
-                loginSection.classList.add(
-                    "hidden"
-                );
-
-                dashboardSection.classList.remove(
-                    "hidden"
-                );
-
-
-                loadComments();
-
-            }
-        );
-
-
-        // =========================
-        // LOAD COMMENTS
-        // =========================
-
-        async function loadComments() {
-
-            commentsList.innerHTML =
-                '<div class="loading">Memuat ucapan...</div>';
-
-
-            try {
-
-                const commentsQuery =
-                    query(
-                        collection(db, "comments"),
-                        orderBy(
-                            "createdAt",
-                            "desc"
-                        )
-                    );
-
-
-                const snapshot =
-                    await getDocs(
-                        commentsQuery
-                    );
-
-
-                // =========================
-                // HITUNG STATISTIK
-                // =========================
-
-                let hadir = 0;
-                let tidakHadir = 0;
-
-
-                snapshot.forEach(
-                    (commentSnapshot) => {
-
-                        const data =
-                            commentSnapshot.data();
-
-                        if (data.presence === true) {
-
-                            hadir++;
-
-                        } else {
-
-                            tidakHadir++;
-
-                        }
-
-                    }
-                );
-
-
-                totalComments.textContent =
-                    snapshot.size;
-
-                totalPresent.textContent =
-                    hadir;
-
-                totalAbsent.textContent =
-                    tidakHadir;
-
-
-                // =========================
-                // JIKA KOSONG
-                // =========================
-
-                if (snapshot.empty) {
-
-                    commentsList.innerHTML =
-                        '<div class="empty">Belum ada ucapan.</div>';
-
-                    return;
-                }
-
-
-                commentsList.innerHTML = "";
-
-
-                // =========================
-                // TAMPILKAN UCAPAN
-                // =========================
-
-                snapshot.forEach(
-                    (commentSnapshot) => {
-
-                        const data =
-                            commentSnapshot.data();
-
-                        const id =
-                            commentSnapshot.id;
-
-
-                        const commentElement =
-                            createCommentElement(
-                                id,
-                                data
-                            );
-
-
-                        commentsList.appendChild(
-                            commentElement
-                        );
-
-                    }
-                );
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                commentsList.innerHTML =
-                    '<div class="error">Gagal memuat ucapan.</div>';
-
-            }
-
-        }
-
-
-        // =========================
-        // CREATE COMMENT ELEMENT
-        // =========================
-
-        function createCommentElement(
-            id,
-            data
-        ) {
-
-            const wrapper =
-                document.createElement("div");
-
-            wrapper.className =
-                "comment";
-
-
-            const head =
-                document.createElement("div");
-
-            head.className =
-                "comment-head";
-
-
-            const info =
-                document.createElement("div");
-
-
-            const name =
-                document.createElement("div");
-
-            name.className =
-                "comment-name";
-
-            name.textContent =
-                data.name || "Tamu";
-
-
-            const time =
-                document.createElement("div");
-
-            time.className =
-                "comment-time";
-
-            time.textContent =
-                formatDate(
-                    data.createdAt
-                );
-
-
-            info.appendChild(name);
-
-            info.appendChild(time);
-
-
-            const deleteButton =
-                document.createElement("button");
-
-            deleteButton.className =
-                "btn-delete";
-
-            deleteButton.textContent =
-                "Hapus";
-
-
-            deleteButton.addEventListener(
-                "click",
-                () => deleteComment(
-                    id,
-                    wrapper,
-                    data.presence === true
-                )
-            );
-
-
-            head.appendChild(info);
-
-            head.appendChild(
-                deleteButton
-            );
-
-
-            const text =
-                document.createElement("div");
-
-            text.className =
-                "comment-text";
-
-            text.textContent =
-                data.comment || "";
-
-
-            const presence =
-                document.createElement("span");
-
-            presence.className =
-                "presence";
-
-            presence.textContent =
-                data.presence === true
-                    ? "Hadir"
-                    : "Tidak hadir";
-
-
-            wrapper.appendChild(head);
-
-            wrapper.appendChild(text);
-
-            wrapper.appendChild(presence);
-
-
-            return wrapper;
-
-        }
-
-
-        // =========================
-        // DELETE COMMENT
-        // =========================
-
-        async function deleteComment(
-            id,
-            element,
-            wasPresent
-        ) {
-
-            const confirmed =
-                confirm(
-                    "Yakin ingin menghapus ucapan ini?"
-                );
-
-
-            if (!confirmed) {
-                return;
-            }
-
-
-            try {
-
-                await deleteDoc(
-                    doc(
-                        db,
-                        "comments",
-                        id
-                    )
-                );
-
-
-                element.remove();
-
-
-                // Update Total
-                const currentTotal =
-                    Number(
-                        totalComments.textContent
-                    );
-
-                totalComments.textContent =
-                    Math.max(
-                        0,
-                        currentTotal - 1
-                    );
-
-
-                // Update Hadir / Tidak Hadir
-                if (wasPresent) {
-
-                    const currentPresent =
-                        Number(
-                            totalPresent.textContent
-                        );
-
-                    totalPresent.textContent =
-                        Math.max(
-                            0,
-                            currentPresent - 1
-                        );
-
-                } else {
-
-                    const currentAbsent =
-                        Number(
-                            totalAbsent.textContent
-                        );
-
-                    totalAbsent.textContent =
-                        Math.max(
-                            0,
-                            currentAbsent - 1
-                        );
-
-                }
-
-
-                showMessage(
-                    "Ucapan berhasil dihapus.",
-                    "success"
-                );
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "Gagal menghapus ucapan.",
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        // =========================
-        // MESSAGE
-        // =========================
-
-        function showMessage(
-            message,
-            type
-        ) {
-
-            dashboardMessage.innerHTML =
-                `<div class="${type}">
-                    ${message}
-                </div>`;
-
-
-            setTimeout(
-                () => {
-
-                    dashboardMessage.innerHTML =
-                        "";
-
-                },
-                3000
-            );
-
-        }
-
-
-        // =========================
-        // DATE FORMAT
-        // =========================
-
-        function formatDate(
-            timestamp
-        ) {
-
-            if (
-                !timestamp ||
-                !timestamp.toDate
-            ) {
-
-                return "Baru saja";
-
-            }
-
-
-            const date =
-                timestamp.toDate();
-
-
-            return date.toLocaleString(
-                "id-ID",
-                {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
-
-        }
-
-    </script>
-
+<section id="loginSection">
+<div class="container">
+<div class="card login-card">
+<h2>Login Admin</h2>
+<p class="subtitle">Dashboard Undangan Ihsan & Syarifah</p><br>
+<div id="loginError" class="error hidden"></div>
+<input type="email" id="email" placeholder="Email admin" autocomplete="email">
+<input type="password" id="password" placeholder="Password" autocomplete="current-password">
+<button id="loginButton" class="btn-login">Login</button>
+</div>
+</div>
+</section>
+
+<section id="dashboardSection" class="hidden">
+<header>
+<div class="container header-inner">
+<div><h1>Dashboard Undangan</h1><div class="subtitle">Ihsan & Syarifah</div></div>
+<button id="logoutButton" class="btn-logout">Logout</button>
+</div>
+</header>
+
+<main><div class="container">
+<div id="dashboardMessage"></div>
+
+<div class="tabs">
+<button class="tab active" data-tab="editor">✏️ Edit Undangan</button>
+<button class="tab" data-tab="comments">💌 Komentar</button>
+</div>
+
+<section id="editor" class="tab-panel active">
+<div class="card">
+<h2>Edit Isi Undangan</h2>
+<p class="subtitle">Untuk sekarang ini adalah tampilan form-nya dulu. Data belum disimpan ke Firebase.</p>
+
+<div class="section-title">Nama Mempelai</div>
+<div class="field"><label>Nama Pria</label><input id="edit-groom" value="Ihsan"></div>
+<div class="field"><label>Nama Wanita</label><input id="edit-bride" value="Syarifah"></div>
+
+<div class="section-title">Orang Tua</div>
+<div class="field"><label>Ayah Pria</label><input id="edit-groom-father"></div>
+<div class="field"><label>Ibu Pria</label><input id="edit-groom-mother"></div>
+<div class="field"><label>Ayah Wanita</label><input id="edit-bride-father"></div>
+<div class="field"><label>Ibu Wanita</label><input id="edit-bride-mother"></div>
+
+<div class="section-title">Pernikahan</div>
+<div class="field"><label>Tanggal</label><input id="edit-date" type="date"></div>
+<div class="field"><label>Waktu Akad</label><input id="edit-akad-time" type="time"></div>
+<div class="field"><label>Waktu Resepsi</label><input id="edit-reception-time" type="time"></div>
+<div class="field"><label>Lokasi</label><input id="edit-location"></div>
+<div class="field"><label>Alamat</label><textarea id="edit-address"></textarea></div>
+<div class="field"><label>Link Google Maps</label><input id="edit-maps" type="url"></div>
+
+<div class="section-title">Kisah Kami</div>
+<div class="field"><label>2019</label><textarea id="story-2019"></textarea></div>
+<div class="field"><label>2022</label><textarea id="story-2022"></textarea></div>
+<div class="field"><label>2025</label><textarea id="story-2025"></textarea></div>
+<div class="field"><label>2026</label><textarea id="story-2026"></textarea></div>
+
+<div class="section-title">Teks Undangan</div>
+<div class="field"><label>Teks Pembuka</label><textarea id="edit-opening"></textarea></div>
+<div class="field"><label>Teks Penutup</label><textarea id="edit-closing"></textarea></div>
+
+<div class="actions"><button class="btn-save" id="saveButton">💾 Simpan Perubahan</button></div>
+</div>
+</section>
+
+<section id="comments" class="tab-panel">
+<div class="card">
+<h2>Ringkasan Ucapan</h2>
+<div class="stats">
+<div class="stat"><div id="totalComments" class="stat-number">0</div><div class="stat-label">Total Ucapan</div></div>
+<div class="stat"><div id="totalPresent" class="stat-number">0</div><div class="stat-label">Hadir</div></div>
+<div class="stat"><div id="totalAbsent" class="stat-number">0</div><div class="stat-label">Tidak Hadir</div></div>
+</div>
+</div>
+<div class="card">
+<h2>Ucapan & Doa</h2>
+<div id="commentsList" class="loading">Memuat ucapan...</div>
+</div>
+</section>
+
+</div></main>
+</section>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {getFirestore,collection,query,where,orderBy,getDocs,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyCcLt3DT1DYdmThAJK91TcEYvVDVZyonzI",
+authDomain:"undangan-ihsan-syarifah.firebaseapp.com",
+projectId:"undangan-ihsan-syarifah",
+storageBucket:"undangan-ihsan-syarifah.firebasestorage.app",
+messagingSenderId:"877091672086",
+appId:"1:877091672086:web:9758a37f0c575cc1b3a537"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const ADMIN_UID="DwMXUyfyChMp85zsb9L5rFy6Tg53";
+
+const $=id=>document.getElementById(id);
+const loginSection=$("loginSection"),dashboardSection=$("dashboardSection");
+const emailInput=$("email"),passwordInput=$("password"),loginButton=$("loginButton");
+const logoutButton=$("logoutButton"),loginError=$("loginError"),dashboardMessage=$("dashboardMessage");
+const commentsList=$("commentsList"),totalComments=$("totalComments"),totalPresent=$("totalPresent"),totalAbsent=$("totalAbsent");
+
+document.querySelectorAll(".tab").forEach(button=>{
+button.addEventListener("click",()=>{
+document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
+button.classList.add("active");
+$(button.dataset.tab).classList.add("active");
+if(button.dataset.tab==="comments") loadComments();
+});
+});
+
+loginButton.addEventListener("click",async()=>{
+const email=emailInput.value.trim(),password=passwordInput.value;
+loginError.classList.add("hidden");
+if(!email||!password){loginError.textContent="Email dan password wajib diisi.";loginError.classList.remove("hidden");return;}
+loginButton.disabled=true;loginButton.textContent="Login...";
+try{await signInWithEmailAndPassword(auth,email,password)}
+catch(error){console.error(error);loginError.textContent="Email atau password salah.";loginError.classList.remove("hidden")}
+finally{loginButton.disabled=false;loginButton.textContent="Login"}
+});
+
+logoutButton.addEventListener("click",()=>signOut(auth));
+
+onAuthStateChanged(auth,async user=>{
+if(!user){loginSection.classList.remove("hidden");dashboardSection.classList.add("hidden");return}
+if(user.uid!==ADMIN_UID){
+await signOut(auth);
+loginError.textContent="Akun ini bukan akun admin.";
+loginError.classList.remove("hidden");
+return;
+}
+loginSection.classList.add("hidden");dashboardSection.classList.remove("hidden");
+loadComments();
+});
+
+$("saveButton").addEventListener("click",()=>{
+showMessage("Form editor sudah siap. Penyimpanan ke Firebase kita sambungkan di langkah berikutnya.","success");
+});
+
+async function loadComments(){
+commentsList.innerHTML='<div class="loading">Memuat ucapan...</div>';
+try{
+const commentsQuery=query(collection(db,"comments"),where("invitationId","==","ihsan-syarifah"),orderBy("createdAt","desc"));
+const snapshot=await getDocs(commentsQuery);
+let hadir=0,tidakHadir=0;
+snapshot.forEach(s=>{if(s.data().presence===true)hadir++;else tidakHadir++});
+totalComments.textContent=snapshot.size;totalPresent.textContent=hadir;totalAbsent.textContent=tidakHadir;
+if(snapshot.empty){commentsList.innerHTML='<div class="empty">Belum ada ucapan.</div>';return}
+commentsList.innerHTML="";
+snapshot.forEach(s=>commentsList.appendChild(createCommentElement(s.id,s.data())));
+}catch(error){console.error(error);commentsList.innerHTML='<div class="error">Gagal memuat ucapan.</div>'}
+}
+
+function createCommentElement(id,data){
+const wrapper=document.createElement("div");wrapper.className="comment";
+const head=document.createElement("div");head.className="comment-head";
+const info=document.createElement("div");
+const name=document.createElement("div");name.className="comment-name";name.textContent=data.name||"Tamu";
+const time=document.createElement("div");time.className="comment-time";time.textContent=formatDate(data.createdAt);
+info.append(name,time);
+const del=document.createElement("button");del.className="btn-delete";del.textContent="Hapus";
+del.addEventListener("click",()=>deleteComment(id,wrapper,data.presence===true));
+head.append(info,del);
+const text=document.createElement("div");text.className="comment-text";text.textContent=data.comment||"";
+const presence=document.createElement("span");presence.className="presence";presence.textContent=data.presence===true?"Hadir":"Tidak hadir";
+wrapper.append(head,text,presence);return wrapper;
+}
+
+async function deleteComment(id,element,wasPresent){
+if(!confirm("Yakin ingin menghapus ucapan ini?"))return;
+try{
+await deleteDoc(doc(db,"comments",id));element.remove();
+totalComments.textContent=Math.max(0,Number(totalComments.textContent)-1);
+if(wasPresent)totalPresent.textContent=Math.max(0,Number(totalPresent.textContent)-1);
+else totalAbsent.textContent=Math.max(0,Number(totalAbsent.textContent)-1);
+showMessage("Ucapan berhasil dihapus.","success");
+}catch(error){console.error(error);showMessage("Gagal menghapus ucapan.","error")}
+}
+
+function showMessage(message,type){
+dashboardMessage.innerHTML='<div class="'+type+'">'+message+"</div>";
+setTimeout(()=>dashboardMessage.innerHTML="",3000);
+}
+
+function formatDate(timestamp){
+if(!timestamp||!timestamp.toDate)return"Baru saja";
+return timestamp.toDate().toLocaleString("id-ID",{day:"2-digit",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"});
+}
+</script>
 </body>
 </html>
