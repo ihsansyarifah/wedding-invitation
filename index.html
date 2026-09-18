@@ -375,25 +375,23 @@ html[data-bs-theme="dark"] .gift-card{
     z-index:1055;
     overflow:hidden;
     opacity:1;
+    padding:0;
     background:url('./assets/images/placeholder.webp?v=20260919') center center/cover no-repeat;
 }
 
 #welcome::before{
-    display:none;
-}
-
-#welcome::after{
     content:"";
     position:absolute;
     inset:0;
     z-index:0;
-    pointer-events:none;
     background:linear-gradient(
         to bottom,
-        rgba(255,250,246,.02) 0%,
-        rgba(255,250,246,0) 55%,
-        rgba(255,250,246,.08) 100%
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 68%,
+        rgba(255,250,246,.12) 82%,
+        rgba(255,250,246,.38) 100%
     );
+    pointer-events:none;
 }
 
 #welcome > *{
@@ -405,23 +403,43 @@ html[data-bs-theme="dark"] .gift-card{
     position:absolute;
     inset:0;
     width:100%;
-    max-width:none;
     height:100%;
-    padding:0;
+    max-width:none;
     margin:0;
-    border-radius:0;
-    text-align:center;
-    background:transparent;
+    padding:0;
     border:0;
+    border-radius:0;
+    background:transparent;
     box-shadow:none;
     backdrop-filter:none;
-    color:#4e382f;
-    text-shadow:0 2px 8px rgba(255,250,246,.35);
+    text-align:center;
+    color:#302823;
+    text-shadow:0 1px 4px rgba(255,250,246,.30);
 }
 
 html[data-bs-theme="dark"] .welcome-card{
     background:transparent;
-    color:#f8eee7;
+    color:#302823;
+}
+
+/* Cahaya putih lembut di belakang area nama tamu + tombol.
+   Bukan kotak, hanya radial glow agar teks tetap terbaca. */
+.welcome-card::after{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    left:50%;
+    bottom:-7%;
+    transform:translateX(-50%);
+    width:115%;
+    height:34%;
+    background:radial-gradient(
+        ellipse at center,
+        rgba(255,250,246,.82) 0%,
+        rgba(255,250,246,.58) 42%,
+        rgba(255,250,246,0) 76%
+    );
+    pointer-events:none;
 }
 
 .welcome-logo{
@@ -430,38 +448,41 @@ html[data-bs-theme="dark"] .welcome-card{
 
 .welcome-card .accent-line{
     position:absolute;
-    top:31.3vh;
+    top:30.7vh;
     left:50%;
     transform:translateX(-50%);
-    width:72px;
+    width:62px;
     height:1px;
     margin:0;
-    background:#9d7653;
+    background:#6d5142;
+    opacity:.8;
 }
 
 .welcome-card > p:first-of-type{
     position:absolute;
-    top:12.5vh;
+    top:12.2vh;
     left:0;
     width:100%;
     margin:0 !important;
-    color:#4e382f !important;
-    font-family:var(--font-esthetic, Georgia, serif);
-    font-size:clamp(.95rem,2.8vw,1.25rem);
-    letter-spacing:.16em;
+    color:#302823 !important;
+    font-family:var(--font-esthetic,Georgia,serif);
+    font-size:clamp(.78rem,3.2vw,1rem);
+    line-height:1.2;
+    letter-spacing:.15em;
     font-weight:500;
 }
 
 .welcome-name{
     position:absolute;
-    top:16.5vh;
+    top:16.0vh;
     left:0;
     width:100%;
     margin:0 !important;
-    font-size:clamp(2.7rem,10vw,5rem) !important;
-    line-height:.9;
-    letter-spacing:.035em;
-    color:#4e382f;
+    font-size:clamp(2.25rem,10.5vw,4.1rem) !important;
+    line-height:.88;
+    letter-spacing:.015em;
+    color:#302823 !important;
+    font-weight:400;
 }
 
 .welcome-name-line{
@@ -470,87 +491,93 @@ html[data-bs-theme="dark"] .welcome-card{
 
 .welcome-name-amp{
     display:block;
-    margin:.04em 0 .02em;
-    font-size:.72em;
-    line-height:.82;
+    margin:.045em 0 .015em;
+    font-size:.66em;
+    line-height:.8;
 }
 
 .welcome-date{
     position:absolute;
-    top:33.3vh;
+    top:32.3vh;
     left:0;
     width:100%;
     margin:0 !important;
-    color:#4e382f !important;
-    font-family:var(--font-esthetic, Georgia, serif);
-    font-size:clamp(.72rem,2.5vw,1rem) !important;
-    letter-spacing:.14em;
+    color:#302823 !important;
+    font-family:var(--font-esthetic,Georgia,serif);
+    font-size:clamp(.62rem,2.65vw,.9rem) !important;
+    line-height:1.2;
+    letter-spacing:.12em;
     font-weight:500;
 }
 
 #welcome #guest-name{
     position:absolute;
-    top:86.2vh;
+    top:auto;
+    bottom:12.2vh;
     left:0;
     width:100%;
     margin:0;
-    color:#4e382f;
-    font-family:var(--font-esthetic, Georgia, serif);
-    font-size:clamp(1rem,3.8vw,1.35rem);
-    line-height:1.35;
+    padding:0;
+    color:#302823 !important;
+    font-family:var(--font-esthetic,Georgia,serif);
+    font-size:clamp(.88rem,3.8vw,1.18rem);
+    line-height:1.28;
     font-weight:500;
-    text-shadow:0 2px 7px rgba(255,250,246,.5);
+    text-shadow:0 1px 5px rgba(255,250,246,.65);
 }
 
 #welcome .btn{
     position:absolute;
-    top:92.3vh;
+    top:auto;
+    bottom:5.1vh;
     left:50%;
     transform:translateX(-50%);
     margin:0 !important;
-    min-width:min(76vw,330px);
-    padding:.72rem 1.45rem !important;
+    min-width:min(72vw,315px);
+    padding:.66rem 1.35rem !important;
     border:0;
     border-radius:999px;
-    background:rgba(91,61,45,.9);
+    background:rgba(91,61,45,.92);
     color:#fffaf6;
-    box-shadow:0 8px 20px rgba(64,44,35,.18);
+    box-shadow:0 7px 18px rgba(64,44,35,.18);
     text-shadow:none;
     white-space:nowrap;
 }
 
 #welcome .btn i{
-    margin-right:.55rem !important;
+    margin-right:.5rem !important;
 }
 
 #welcome .small{
     position:absolute;
-    top:98.1vh;
     left:50%;
+    bottom:-1.2vh;
     transform:translateX(-50%);
     width:min(90vw,390px);
     margin:0 !important;
-    color:#4e382f !important;
-    font-family:var(--font-esthetic, Georgia, serif);
-    font-size:clamp(.72rem,2.7vw,.9rem);
-    line-height:1.45;
+    color:#302823 !important;
+    font-family:var(--font-esthetic,Georgia,serif);
+    font-size:clamp(.62rem,2.55vw,.8rem);
+    line-height:1.35;
     font-weight:500;
+    text-shadow:0 1px 5px rgba(255,250,246,.65);
 }
 
 html[data-bs-theme="dark"] #welcome{
     background:url('./assets/images/placeholder.webp?v=20260919') center center/cover no-repeat;
 }
 
-html[data-bs-theme="dark"] #welcome::after{
-    background:rgba(33,27,25,.08);
+html[data-bs-theme="dark"] #welcome::before{
+    background:linear-gradient(
+        to bottom,
+        rgba(33,27,25,.05) 0%,
+        rgba(33,27,25,.04) 68%,
+        rgba(255,250,246,.10) 100%
+    );
 }
 
-html[data-bs-theme="dark"] .welcome-card > p:first-of-type,
-html[data-bs-theme="dark"] .welcome-name,
-html[data-bs-theme="dark"] .welcome-date,
-html[data-bs-theme="dark"] #welcome #guest-name,
-html[data-bs-theme="dark"] #welcome .small{
-    color:#f8eee7 !important;
+html[data-bs-theme="dark"] .welcome-card{
+    color:#302823;
 }
 
 @media(max-width:575.98px){
@@ -563,45 +590,66 @@ html[data-bs-theme="dark"] #welcome .small{
     }
 
     .welcome-card > p:first-of-type{
-        top:12.2vh;
-        font-size:clamp(.86rem,3.9vw,1.05rem);
-        letter-spacing:.12em;
+        top:12.1vh;
+        font-size:clamp(.76rem,3.65vw,.95rem);
+        letter-spacing:.115em;
     }
 
     .welcome-name{
-        top:16.2vh;
-        font-size:clamp(2.55rem,11.8vw,3.45rem) !important;
+        top:16.0vh;
+        font-size:clamp(2.25rem,10.8vw,3.35rem) !important;
+        line-height:.87;
+    }
+
+    .welcome-name-amp{
+        margin:.045em 0 .01em;
+        font-size:.64em;
     }
 
     .welcome-date{
-        top:33.1vh;
-        font-size:clamp(.68rem,2.95vw,.82rem) !important;
-        letter-spacing:.105em;
+        top:32.5vh;
+        font-size:clamp(.60rem,2.7vw,.78rem) !important;
+        letter-spacing:.095em;
     }
 
     .welcome-card .accent-line{
-        top:31.2vh;
-        width:64px;
+        top:30.8vh;
+        width:58px;
     }
 
     #welcome #guest-name{
-        top:86.4vh;
-        font-size:clamp(.95rem,4.3vw,1.15rem);
+        bottom:12.0vh;
+        font-size:clamp(.86rem,3.9vw,1.05rem);
     }
 
     #welcome .btn{
-        top:91.9vh;
-        min-width:76vw;
-        padding:.68rem 1.25rem !important;
+        bottom:5.0vh;
+        min-width:72vw;
+        padding:.64rem 1.15rem !important;
     }
 
     #welcome .small{
-        top:98.1vh;
-        width:86vw;
-        font-size:clamp(.68rem,3.05vw,.8rem);
+        bottom:-1.3vh;
+        width:88vw;
+        font-size:clamp(.60rem,2.7vw,.75rem);
+    }
+
+    .welcome-card::after{
+        bottom:-5%;
+        width:125%;
+        height:35%;
     }
 }
 
+#button-music{
+    width:44px;
+    height:44px;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%
+}
 .floating-controls{
     position:fixed;
     top:.75rem;
