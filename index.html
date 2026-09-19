@@ -1052,6 +1052,22 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
         letter-spacing:.01em;
     }
 
+    /* Pastikan nama mempelai tetap tampil jelas di desktop. */
+    #welcome .welcome-name,
+    #welcome .welcome-name-line,
+    #welcome .welcome-name-amp{
+        position:relative;
+        z-index:3;
+        visibility:visible !important;
+        opacity:1 !important;
+        color:#302823 !important;
+    }
+
+    #welcome .welcome-name-line{
+        display:block !important;
+        width:100%;
+    }
+
     #welcome .welcome-date{
         top:47%;
         font-size:.68rem !important;
