@@ -1078,6 +1078,42 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     }
 }
 
+
+/* =========================================================
+   FIX DESKTOP — GRADASI + FOTO/NAMA MEMPELAI
+   Hanya desktop. HP tetap tidak disentuh.
+   ========================================================= */
+@media (min-width: 992px){
+    /* Gradasi utama halaman isi desktop */
+    #root > div:last-of-type > main{
+        background:linear-gradient(
+            180deg,
+            #F7EFE3 0%,
+            #E9E6D4 50%,
+            #CDD4B9 100%
+        ) !important;
+    }
+
+    /* Biarkan gradasi utama terlihat di seluruh halaman isi. */
+    #root > div:last-of-type > main > section,
+    #root > div:last-of-type > main > div{
+        background:transparent !important;
+    }
+
+    /* AOS kadang menahan elemen bride dalam keadaan tersembunyi
+       karena main desktop memakai area scroll sendiri. */
+    #root #bride [data-aos],
+    #root #bride [data-aos].aos-animate{
+        opacity:1 !important;
+        transform:none !important;
+    }
+
+    #root #bride .person-photo,
+    #root #bride .person-name{
+        visibility:visible !important;
+    }
+}
+
 </style>
 <script>
 (function(){
