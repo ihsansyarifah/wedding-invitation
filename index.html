@@ -460,7 +460,7 @@ html[data-bs-theme="dark"] .welcome-card{
 
 .welcome-card > p:first-of-type{
     position:absolute;
-    top:9.4vh;
+    top:8.2vh;
     left:0;
     width:100%;
     margin:0 !important;
@@ -474,7 +474,7 @@ html[data-bs-theme="dark"] .welcome-card{
 
 .welcome-name{
     position:absolute;
-    top:12.2vh;
+    top:11.0vh;
     left:0;
     width:100%;
     margin:0 !important;
@@ -513,7 +513,7 @@ html[data-bs-theme="dark"] .welcome-card{
 #welcome #guest-name{
     position:absolute;
     top:auto;
-    bottom:13.7vh;
+    bottom:12.2vh;
     left:0;
     width:100%;
     margin:0;
@@ -529,7 +529,7 @@ html[data-bs-theme="dark"] .welcome-card{
 #welcome .btn{
     position:absolute;
     top:auto;
-    bottom:6.6vh;
+    bottom:5.1vh;
     left:50%;
     transform:translateX(-50%);
     margin:0 !important;
@@ -551,13 +551,13 @@ html[data-bs-theme="dark"] .welcome-card{
 #welcome .small{
     position:absolute;
     left:50%;
-    bottom:0.3vh;
+    bottom:-1.2vh;
     transform:translateX(-50%);
     width:min(90vw,390px);
     margin:0 !important;
     color:#302823 !important;
     font-family:var(--font-esthetic,Georgia,serif);
-    font-size:clamp(.64rem,2.55vw,.82rem);
+    font-size:clamp(.62rem,2.55vw,.8rem);
     line-height:1.35;
     font-weight:500;
     text-shadow:0 1px 5px rgba(255,250,246,.65);
@@ -590,13 +590,13 @@ html[data-bs-theme="dark"] .welcome-card{
     }
 
     .welcome-card > p:first-of-type{
-        top:9.2vh;
+        top:8.0vh;
         font-size:clamp(.64rem,3.0vw,.82rem);
         letter-spacing:.115em;
     }
 
     .welcome-name{
-        top:12.0vh;
+        top:10.8vh;
         font-size:clamp(1.85rem,8.8vw,2.75rem) !important;
         line-height:.87;
     }
@@ -618,18 +618,18 @@ html[data-bs-theme="dark"] .welcome-card{
     }
 
     #welcome #guest-name{
-        bottom:13.5vh;
+        bottom:12.0vh;
         font-size:clamp(.86rem,3.9vw,1.05rem);
     }
 
     #welcome .btn{
-        bottom:6.5vh;
+        bottom:5.0vh;
         min-width:72vw;
         padding:.64rem 1.15rem !important;
     }
 
     #welcome .small{
-        bottom:0.2vh;
+        bottom:-1.3vh;
         width:88vw;
         font-size:clamp(.60rem,2.7vw,.75rem);
     }
@@ -866,6 +866,25 @@ html[data-bs-theme="dark"] .comments-box #pagination{
 html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     color:#fff !important;
 }
+
+/* GRADASI UTAMA WEBSITE */
+body{
+    background:linear-gradient(
+        180deg,
+        #F7EFE3 0%,
+        #E9E6D4 50%,
+        #CDD4B9 100%
+    ) !important;
+    background-attachment:fixed;
+}
+
+/* Biarkan gradasi body terlihat di area utama */
+#app main,
+#app .section,
+#app .section-bg{
+    background:transparent !important;
+}
+
 </style>
 <script>
 (function(){
@@ -983,7 +1002,7 @@ if(document.readyState==='loading'){
             Buka Undangan
         </button>
         <p class="small text-secondary mt-3 mb-0">
-            Mohon maaf apabila ada kesalahan dalam<br>penulisan nama dan gelar.
+            Mohon maaf apabila ada kesalahan dalam penulisan nama dan gelar.
         </p>
     </div>
 </div>
