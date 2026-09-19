@@ -1052,22 +1052,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
         letter-spacing:.01em;
     }
 
-    /* Pastikan nama mempelai tetap tampil jelas di desktop. */
-    #welcome .welcome-name,
-    #welcome .welcome-name-line,
-    #welcome .welcome-name-amp{
-        position:relative;
-        z-index:3;
-        visibility:visible !important;
-        opacity:1 !important;
-        color:#302823 !important;
-    }
-
-    #welcome .welcome-name-line{
-        display:block !important;
-        width:100%;
-    }
-
     #welcome .welcome-date{
         top:47%;
         font-size:.68rem !important;
@@ -1174,94 +1158,6 @@ if(document.readyState==='loading'){
 })();
 </script>
 <!-- END AUTO VIDEO CACHE BUSTING -->
-
-
-<style id="desktop-name-final-fix">
-/* FINAL DESKTOP NAME VISIBILITY FIX */
-@media (min-width: 992px){
-    #welcome .welcome-name .welcome-name-text{
-        display:block !important;
-        visibility:visible !important;
-        opacity:1 !important;
-        color:#302823 !important;
-        -webkit-text-fill-color:#302823 !important;
-        font-family:Georgia, "Times New Roman", serif !important;
-        font-size:1em !important;
-        line-height:.86 !important;
-        font-weight:400 !important;
-        position:relative !important;
-        z-index:50 !important;
-    }
-    #welcome .welcome-name .welcome-name-symbol{
-        display:block !important;
-        visibility:visible !important;
-        opacity:1 !important;
-        color:#302823 !important;
-        -webkit-text-fill-color:#302823 !important;
-        font-family:Georgia, "Times New Roman", serif !important;
-        font-size:.62em !important;
-        line-height:.72 !important;
-        position:relative !important;
-        z-index:50 !important;
-    }
-}
-</style>
-
-<style id="desktop-name-final-fix-2">
-@media (min-width: 992px){
-    #welcome .welcome-name{
-        position:absolute !important;
-        top:28% !important;
-        left:0 !important;
-        width:100% !important;
-        height:auto !important;
-        margin:0 !important;
-        padding:0 !important;
-        display:block !important;
-        z-index:20 !important;
-        color:#302823 !important;
-        opacity:1 !important;
-        visibility:visible !important;
-        overflow:visible !important;
-        font-family:var(--font-esthetic, Georgia, "Times New Roman", serif) !important;
-        font-size:clamp(2.25rem,3.05vw,3rem) !important;
-        font-weight:400 !important;
-        line-height:.88 !important;
-        letter-spacing:.01em !important;
-        text-align:center !important;
-        -webkit-text-fill-color:#302823 !important;
-        text-shadow:none !important;
-    }
-
-    #welcome .welcome-name-text,
-    #welcome .welcome-name-symbol{
-        display:inline !important;
-        position:static !important;
-        width:auto !important;
-        height:auto !important;
-        margin:0 !important;
-        padding:0 !important;
-        color:#302823 !important;
-        opacity:1 !important;
-        visibility:visible !important;
-        font-family:var(--font-esthetic, Georgia, "Times New Roman", serif) !important;
-        font-weight:400 !important;
-        -webkit-text-fill-color:#302823 !important;
-    }
-
-    #welcome .welcome-name-symbol{
-        font-size:.68em !important;
-        line-height:1 !important;
-    }
-
-    #welcome .welcome-name br{
-        display:block !important;
-        content:"" !important;
-        line-height:.38 !important;
-    }
-}
-</style>
-
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
@@ -1281,10 +1177,10 @@ if(document.readyState==='loading'){
     <div class="welcome-card">
         <div class="accent-line"></div>
         <p class="mb-2 text-secondary">The Wedding of</p>
-        <h1 class="font-esthetic welcome-name mb-2" aria-label="Ihsan dan Syarifah">
-            <span class="welcome-name-text">Ihsan</span><br>
-            <span class="welcome-name-symbol">&amp;</span><br>
-            <span class="welcome-name-text">Syarifah</span>
+        <h1 class="font-esthetic welcome-name mb-2">
+            <span class="welcome-name-line">Ihsan</span>
+            <span class="welcome-name-amp">&amp;</span>
+            <span class="welcome-name-line">Syarifah</span>
         </h1>
         <p class="welcome-date text-secondary mb-4">
             MINGGU, 20 DESEMBER 2026
