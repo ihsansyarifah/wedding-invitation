@@ -58,18 +58,7 @@ main{
     overflow:hidden
 }
 main::before{
-    content:"";
-    position:absolute;
-    z-index:0;
-    top:-2%;
-    left:-3%;
-    width:106%;
-    height:760px;
-    background:url('./assets/images/placeholder.webp?v=20260831') center top/cover no-repeat;
-    filter:blur(7px);
-    opacity:.22;
-    transform:scale(1.03);
-    pointer-events:none
+    display:none
 }
 main::after{
     content:"";
@@ -77,13 +66,10 @@ main::after{
     z-index:0;
     inset:0;
     background:linear-gradient(
-        to bottom,
-        rgba(244,224,199,.10) 0%,
-        rgba(244,224,199,.34) 20%,
-        rgba(244,224,199,.66) 40%,
-        rgba(217,138,150,.50) 65%,
-        rgba(217,138,150,.68) 82%,
-        rgba(217,138,150,.82) 100%
+        180deg,
+        #F7EFE3 0%,
+        #E9E6D4 50%,
+        #CDD4B9 100%
     );
     pointer-events:none
 }
