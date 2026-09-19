@@ -957,6 +957,103 @@ body{
     }
 }
 
+
+/* =========================================================
+   COVER PEMBUKA DESKTOP — FOTO KIRI + KARTU KANAN
+   Hanya berlaku desktop, HP tetap seperti sebelumnya.
+   ========================================================= */
+@media (min-width: 992px){
+    #welcome{
+        display:flex;
+        align-items:stretch;
+        justify-content:flex-end;
+        background:url('./assets/images/placeholder.webp?v=20260919') center center/cover no-repeat;
+    }
+
+    #welcome::before{
+        background:
+            linear-gradient(
+                90deg,
+                rgba(255,250,246,0) 0%,
+                rgba(255,250,246,0) 58%,
+                rgba(255,250,246,.10) 70%,
+                rgba(255,250,246,.22) 100%
+            );
+    }
+
+    #welcome .welcome-card{
+        position:relative;
+        inset:auto;
+        width:min(420px,34vw);
+        height:calc(100vh - 48px);
+        margin:24px 24px 24px 0;
+        padding:0 34px;
+        border:1px solid rgba(185,148,98,.24);
+        border-radius:30px;
+        background:rgba(255,250,246,.90);
+        box-shadow:0 20px 60px rgba(79,52,42,.20);
+        backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
+        overflow:hidden;
+        text-align:center;
+        color:#302823;
+    }
+
+    #welcome .welcome-card::after{
+        left:50%;
+        bottom:-8%;
+        width:140%;
+        height:34%;
+        background:radial-gradient(
+            ellipse at center,
+            rgba(255,250,246,.55) 0%,
+            rgba(255,250,246,.20) 45%,
+            rgba(255,250,246,0) 76%
+        );
+    }
+
+    #welcome .welcome-card .accent-line{
+        top:38%;
+        width:64px;
+    }
+
+    #welcome .welcome-card > p:first-of-type{
+        top:25%;
+        font-size:.78rem;
+        letter-spacing:.16em;
+    }
+
+    #welcome .welcome-name{
+        top:28%;
+        font-size:clamp(2.35rem,3.4vw,3.35rem) !important;
+        line-height:.88;
+    }
+
+    #welcome .welcome-date{
+        top:40.5%;
+        font-size:.72rem !important;
+        letter-spacing:.12em;
+    }
+
+    #welcome #guest-name{
+        bottom:16%;
+        font-size:1rem;
+    }
+
+    #welcome .btn{
+        bottom:8.5%;
+        min-width:230px;
+        padding:.62rem 1.15rem !important;
+    }
+
+    #welcome .small{
+        bottom:3.2%;
+        width:88%;
+        font-size:.68rem;
+        line-height:1.35;
+    }
+}
+
 </style>
 <script>
 (function(){
