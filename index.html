@@ -48,6 +48,14 @@ body{
 main{
     position:relative;
     isolation:isolate;
+    overflow-x:hidden;
+    overflow-y:auto;
+    background:transparent !important;
+}
+.watercolor-page{
+    position:relative;
+    isolation:isolate;
+    min-height:100%;
     overflow:hidden;
     background:
         radial-gradient(ellipse 34% 20% at -2% 17%,rgba(142,191,228,.72) 0%,rgba(160,205,237,.52) 42%,transparent 78%),
@@ -62,8 +70,7 @@ main{
         radial-gradient(ellipse 30% 19% at 55% 70%,rgba(185,218,239,.34) 0%,rgba(198,225,243,.16) 48%,transparent 82%),
         #b8daf2;
 }
-
-main::before{
+.watercolor-page::before{
     content:"";
     position:absolute;
     z-index:0;
@@ -85,16 +92,15 @@ main::before{
         radial-gradient(ellipse 22% 12% at -2% 54%,rgba(119,178,222,.34) 0%,rgba(155,201,232,.28) 46%,transparent 80%),
         radial-gradient(ellipse 27% 14% at 7% 63%,rgba(203,226,243,.56) 0%,rgba(169,207,235,.32) 46%,transparent 82%),
         radial-gradient(ellipse 21% 11% at 18% 72%,rgba(135,188,226,.30) 0%,rgba(175,212,237,.24) 48%,transparent 82%),
-        radial-gradient(ellipse 25% 13% at 102% 55%,rgba(119,177,222,.36) 0%,rgba(157,202,233,.28) 46%,transparent 82%),
+        radial-gradient(ellipse 25% 13% at 102% 55%,rgba(119,177,222,.36) 0%,rgba(157,202,233,.28) 46%,transparent 80%),
         radial-gradient(ellipse 29% 15% at 94% 68%,rgba(201,225,243,.54) 0%,rgba(166,205,235,.30) 48%,transparent 82%),
         radial-gradient(ellipse 20% 11% at 82% 77%,rgba(131,185,225,.28) 0%,rgba(176,212,237,.22) 50%,transparent 82%),
         radial-gradient(ellipse 28% 15% at 2% 84%,rgba(191,219,240,.52) 0%,rgba(156,201,232,.30) 46%,transparent 82%),
         radial-gradient(ellipse 22% 12% at 15% 91%,rgba(218,235,247,.46) 0%,rgba(177,212,238,.25) 48%,transparent 82%),
         radial-gradient(ellipse 29% 15% at 100% 85%,rgba(190,219,240,.50) 0%,rgba(157,202,233,.28) 48%,transparent 82%),
-        radial-gradient(ellipse 20% 11% at 84% 94%,rgba(218,235,247,.46) 0%,rgba(177,212,238,.24) 48%,transparent 82%);
+        radial-gradient(ellipse 20% 11% at 84% 94%,rgba(218,235,247,.46) 0%,rgba(177,212,238,.24) 50%,transparent 82%);
 }
-
-main::after{
+.watercolor-page::after{
     content:"";
     position:absolute;
     z-index:0;
@@ -114,12 +120,14 @@ main::after{
         radial-gradient(ellipse 18% 10% at 3% 76%,rgba(222,236,247,.42),transparent 82%),
         radial-gradient(ellipse 14% 8% at 27% 84%,rgba(224,238,248,.28),transparent 82%),
         radial-gradient(ellipse 17% 9% at 98% 76%,rgba(222,236,247,.40),transparent 82%),
-        radial-gradient(ellipse 15% 9% at 76% 88%,rgba(224,238,248,.30),transparent 82%);
+        radial-gradient(ellipse 15% 9% at 76% 88%,rgba(224,239,248,.30),transparent 82%);
 }
-
-main > *{
+.watercolor-page > *{
     position:relative;
     z-index:1
+}
+.watercolor-page > .floral-bg{
+    z-index:0
 }
 .floral-bg{
     position:absolute;
@@ -187,22 +195,6 @@ main > *{
     .decor-heart.h4{right:3%;font-size:1.75rem}
     .decor-flower.f1{right:5%;font-size:1.8rem}
     .decor-flower.f3{right:4%;font-size:1.55rem}
-}
-html[data-bs-theme="dark"] main{
-    background:linear-gradient(180deg,#315a78 0%,#4d7591 35%,#728a98 65%,#9a9389 100%)
-}
-html[data-bs-theme="dark"] main::before{
-    opacity:.14
-}
-html[data-bs-theme="dark"] main::after{
-    background:linear-gradient(
-        to bottom,
-        rgba(33,27,25,.18) 0,
-        rgba(33,27,25,.45) 20%,
-        rgba(33,27,25,.78) 42%,
-        rgba(42,33,30,.96) 62%,
-        rgba(42,33,30,1) 100%
-    )
 }
 body > canvas{
     display:none !important;
@@ -294,8 +286,8 @@ html[data-bs-theme="dark"] .section-paper{
 .bg-cover-home{
     display:none !important
 }
-main .section-soft,
-main .section-paper{
+.watercolor-page .section-soft,
+.watercolor-page .section-paper{
     background:transparent !important
 }
 .section-card{
@@ -920,6 +912,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
         overflow-x:hidden;
         flex:1 1 auto;
         scrollbar-width:thin;
+        background:transparent !important;
     }
 
     #root > div:last-of-type > #navbar-menu{
@@ -1046,20 +1039,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
 }
 
 @media (min-width: 992px){
-    #root > div:last-of-type > main{
-        background:linear-gradient(
-            180deg,
-            #F7EFE3 0%,
-            #E9E6D4 50%,
-            #CDD4B9 100%
-        ) !important;
-    }
-
-    #root > div:last-of-type > main > section,
-    #root > div:last-of-type > main > div{
-        background:transparent !important;
-    }
-
     #root #bride [data-aos],
     #root #bride [data-aos].aos-animate{
         opacity:1 !important;
@@ -1149,10 +1128,6 @@ if(document.readyState==='loading'){
 })();
 </script>
 <style>
-
-</style>
-
-<style>
 @media (max-width:575.98px){
     #welcome .welcome-card .accent-line{
         top:19vh !important;
@@ -1162,13 +1137,6 @@ if(document.readyState==='loading'){
         top:19.5vh !important;
         letter-spacing:.145em;
     }
-}
-</style>
-
-<style>
-@media (max-width:575.98px){
-    #welcome .welcome-card .accent-line{top:19vh!important}
-    #welcome .welcome-date{top:19.5vh!important}
 }
 </style>
 </head>
@@ -1254,6 +1222,7 @@ if(document.readyState==='loading'){
             data-bs-smooth-scroll="true"
             tabindex="0"
         >
+            <div class="watercolor-page">
             <div class="floral-bg" aria-hidden="true">
                 <span class="decor-heart h1">♡</span>
                 <span class="decor-heart h2">♡</span>
@@ -1729,7 +1698,9 @@ if(document.readyState==='loading'){
                     </small>
                 </div>
             </section>
-        </main>
+
+            </div>
+                </main>
         <nav
             class="navbar navbar-expand sticky-bottom rounded-top-4 border-top p-0"
             id="navbar-menu"
@@ -2168,45 +2139,3 @@ if(document.readyState==='loading'){
 </script>
 </body>
 </html>
-
-<style>
-@media(max-width:575.98px){
-    .welcome-card > p:first-of-type{
-        top:5.4vh;
-    }
-
-    .welcome-name{
-        top:8.1vh;
-    }
-
-}
-</style>
-
-<style>
-@media(max-width:575.98px){
-    .welcome-card > p:first-of-type{
-        top:5.4vh;
-        letter-spacing:.19em;
-    }
-
-    .welcome-name{
-        top:8.1vh;
-        letter-spacing:.035em;
-    }
-
-    .welcome-name-amp{
-        margin:.045em 0 .012em;
-        letter-spacing:.02em;
-    }
-
-    .welcome-card .accent-line{
-        top:19.5vh;
-        width:64px;
-    }
-
-    .welcome-date{
-        top:19vh;
-        letter-spacing:.145em;
-    }
-}
-</style>
