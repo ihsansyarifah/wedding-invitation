@@ -45,12 +45,6 @@ body{
     color:var(--bs-body-color);
     font-family:'Josefin Sans',sans-serif!important
 }
-/* =========================================================
-   BACKGROUND BERLANJUT
-   Placeholder tetap menjadi foto blur di bagian atas, lalu
-   perlahan memudar menjadi warna cream/paper sampai bawah.
-   Tidak membutuhkan asset gradasi tambahan.
-   ========================================================= */
 main{
     position:relative;
     isolation:isolate;
@@ -63,8 +57,6 @@ main{
     overflow:hidden
 }
 
-/* Foto pasangan menjadi background lembut di bagian pembuka.
-   Foto perlahan larut ke gradasi setelah area Save the Date. */
 main::before{
     content:"";
     position:absolute;
@@ -119,10 +111,6 @@ main > *{
     position:relative;
     z-index:1
 }
-/* =========================================================
-   AKSEN LOVE + BUNGA DI BACKGROUND
-   Ornamen dibuat ringan agar tetap elegan dan tidak menutup teks.
-   ========================================================= */
 .floral-bg{
     position:absolute;
     inset:0;
@@ -158,7 +146,6 @@ main > *{
 .decor-flower.f3{top:57%;right:11%;font-size:1.9rem;transform:rotate(10deg)}
 .decor-flower.f4{top:76%;left:8%;font-size:2rem;transform:rotate(-7deg)}
 .decor-flower.f5{top:94%;right:15%;font-size:1.45rem;transform:rotate(15deg)}
-/* Bunga kecil yang menyatu dengan area kartu */
 .section-card{
     position:relative;
     overflow:hidden;
@@ -207,10 +194,6 @@ html[data-bs-theme="dark"] main::after{
         rgba(42,33,30,1) 100%
     )
 }
-/* =========================================================
-   HILANGKAN EFEK YANG BERTERBANGAN / CONFETTI SAJA
-   Tidak mengubah foto, musik, komentar, atau layout.
-   ========================================================= */
 body > canvas{
     display:none !important;
     visibility:hidden !important;
@@ -301,7 +284,6 @@ html[data-bs-theme="dark"] .section-paper{
 .bg-cover-home{
     display:none !important
 }
-/* Sections stay transparent so the background does not break between them. */
 main .section-soft,
 main .section-paper{
     background:transparent !important
@@ -349,7 +331,6 @@ html[data-bs-theme="dark"] .section-card{
 html[data-bs-theme="dark"] .person-name{
     color:#f8eee7
 }
-/* Nama mempelai: mengecil bersama-sama di HP agar tetap 1 baris. */
 @media (max-width:575.98px){
     .person-name{
         font-size:clamp(1.35rem,6.3vw,1.85rem)!important;
@@ -450,8 +431,6 @@ html[data-bs-theme="dark"] .welcome-card{
     color:#302823;
 }
 
-/* Cahaya putih lembut di belakang area nama tamu + tombol.
-   Bukan kotak, hanya radial glow agar teks tetap terbaca. */
 .welcome-card::after{
     content:"";
     position:absolute;
@@ -781,9 +760,6 @@ html[data-bs-theme="dark"] .story-video-overlay{
     justify-content:center;
     margin-top:4rem
 }
-/* ==========================================
-   KOMENTAR — KOTAK SCROLL INTERNAL
-   ========================================== */
 .comments-box{
     max-height:420px;
     overflow-y:auto;
@@ -834,7 +810,6 @@ html[data-bs-theme="dark"] .comments-box #pagination{
         padding:.65rem .55rem .3rem;
     }
 }
-/* Nama halaman awal dibuat tiga baris: Ihsan / & / Syarifah. */
 .welcome-name-line,
 .welcome-name-amp{
     display:block;
@@ -843,17 +818,11 @@ html[data-bs-theme="dark"] .comments-box #pagination{
     line-height:.9;
     margin:.05rem 0;
 }
-/* ==========================================
-   TYPOGRAPHY REVISI
-   ========================================== */
-/* Bismillah dan Alhamdulillah SAMA BESAR.
-   Keduanya sedikit lebih kecil dari sebelumnya. */
 .font-arabic{
     font-family:'Lateef',serif !important;
     font-size:1.55rem !important;
     line-height:1.7;
 }
-/* Greeting dihapus sesuai desain undangan. */
 .greeting-title{
     font-family:var(--font-esthetic,Georgia,serif);
     font-size:1.65rem !important;
@@ -881,7 +850,6 @@ html[data-bs-theme="dark"] .comments-box #pagination{
         font-size:1.65rem !important;
     }
 }
-/* NAVBAR BAWAH — INDIKATOR BAGIAN AKTIF */
 #navbar-menu .nav-link{
     opacity:.58;
     color:inherit;
@@ -896,10 +864,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     color:#fff !important;
 }
 
-/* =========================================================
-   DESKTOP: FOTO DI KIRI, ISI UNDANGAN HANYA DI KANAN
-   HP tetap menggunakan layout lama.
-   ========================================================= */
 @media (min-width:576px){
     #root{
         display:flex !important;
@@ -960,7 +924,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     }
 }
 
-/* Desktop lebar sedang: tetap proporsional dan tidak membuat panel kanan terlalu sempit. */
 @media (min-width:576px) and (max-width:991.98px){
     #root > .sticky-top{
         flex-basis:60% !important;
@@ -980,11 +943,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     }
 }
 
-
-/* =========================================================
-   COVER PEMBUKA DESKTOP — FOTO KIRI + KARTU KANAN
-   Hanya berlaku desktop, HP tetap seperti sebelumnya.
-   ========================================================= */
 @media (min-width: 992px){
     #welcome{
         display:flex;
@@ -1032,7 +990,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
         );
     }
 
-    /* Susunan teks dibuat renggang supaya tidak saling bertabrakan. */
     #welcome .welcome-card .accent-line{
         top:21.5%;
         width:58px;
@@ -1078,13 +1035,7 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     }
 }
 
-
-/* =========================================================
-   FIX DESKTOP — GRADASI + FOTO/NAMA MEMPELAI
-   Hanya desktop. HP tetap tidak disentuh.
-   ========================================================= */
 @media (min-width: 992px){
-    /* Gradasi utama halaman isi desktop */
     #root > div:last-of-type > main{
         background:linear-gradient(
             180deg,
@@ -1094,14 +1045,11 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
         ) !important;
     }
 
-    /* Biarkan gradasi utama terlihat di seluruh halaman isi. */
     #root > div:last-of-type > main > section,
     #root > div:last-of-type > main > div{
         background:transparent !important;
     }
 
-    /* AOS kadang menahan elemen bride dalam keadaan tersembunyi
-       karena main desktop memakai area scroll sendiri. */
     #root #bride [data-aos],
     #root #bride [data-aos].aos-animate{
         opacity:1 !important;
@@ -1136,7 +1084,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
     });
 })();
 </script>
-<!-- AUTO ASSET CACHE BUSTING -->
 <script>
 (function(){
 'use strict';
@@ -1165,8 +1112,6 @@ if(document.readyState==='loading'){
 }
 })();
 </script>
-<!-- END AUTO ASSET CACHE BUSTING -->
-<!-- AUTO VIDEO CACHE BUSTING -->
 <script>
 (function () {
     'use strict';
@@ -1193,10 +1138,7 @@ if(document.readyState==='loading'){
     }
 })();
 </script>
-<!-- END AUTO VIDEO CACHE BUSTING -->
-
 <style>
-/* REVISI KECIL: tanggal cover HP dinaikkan agar tidak menutupi wajah */
 @media (max-width:575.98px){
     #welcome .welcome-date{
         top:23.5vh;
@@ -1718,7 +1660,6 @@ if(document.readyState==='loading'){
                             </button>
                         </div>
                     </div>
-                    <!-- Hanya daftar komentar + pagination yang scroll di dalam kotak. -->
                     <div class="comments-box" aria-label="Daftar ucapan dan doa">
                         <div
                             class="py-3"
@@ -1743,7 +1684,6 @@ if(document.readyState==='loading'){
                     <p class="pb-2 pt-2 mb-1">
                         Terima kasih atas perhatian dan doa restu Anda, yang menjadi kebahagiaan serta kehormatan besar bagi kami.
                     </p>
-                    <!-- ALHAMDULILLAH: 1.55rem, SAMA DENGAN BISMILLAH -->
                     <h2 class="font-arabic pt-3">
                         اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ
                     </h2>
@@ -1806,7 +1746,6 @@ if(document.readyState==='loading'){
         </nav>
     </div>
 </div>
-<!-- NAVBAR ACTIVE STATE -->
 <script>
 (function(){
     function initNavbarIndicator(){
@@ -2043,7 +1982,6 @@ if(document.readyState==='loading'){
         </section>
     </div>
 </div>
-<!-- KOMENTAR: 5 KOMENTAR UTAMA PER HALAMAN -->
 <script>
 (function(){
     let configured = false;
@@ -2108,13 +2046,6 @@ if(document.readyState==='loading'){
     });
 })();
 </script>
-<!--
-    FIX LOADING 100%
-    ----------------
-    Loading tidak lagi bergantung hanya pada event dari guest.js.
-    Saat progress-bar mencapai 100% atau progress-info berisi [100%],
-    loading akan ditutup dan welcome akan ditampilkan.
--->
 <script>
 (function(){
     let finished = false;
@@ -2205,7 +2136,6 @@ if(document.readyState==='loading'){
 </html>
 
 <style>
-/* REVISI COVER: posisi akhir teks + garis + tanggal */
 @media(max-width:575.98px){
     .welcome-card > p:first-of-type{
         top:5.4vh;
@@ -2215,13 +2145,11 @@ if(document.readyState==='loading'){
         top:8.1vh;
     }
 
-    /* Garis sedikit dinaikkan, tapi tetap memberi jarak dari tanggal */
     .welcome-card .accent-line{
         top:20.2vh;
         width:58px;
     }
 
-    /* MINGGU / tanggal dinaikkan sedikit */
     .welcome-date{
         top:21.3vh;
     }
@@ -2229,7 +2157,6 @@ if(document.readyState==='loading'){
 </style>
 
 <style>
-/* FINAL MOBILE COVER — mengikuti komposisi yang disepakati */
 @media(max-width:575.98px){
     .welcome-card > p:first-of-type{
         top:5.4vh;
@@ -2247,12 +2174,12 @@ if(document.readyState==='loading'){
     }
 
     .welcome-card .accent-line{
-        top:21.0vh;
+        top:18.5vh;
         width:64px;
     }
 
     .welcome-date{
-        top:21.5vh;
+        top:19vh;
         letter-spacing:.145em;
     }
 }
