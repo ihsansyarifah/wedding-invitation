@@ -48,12 +48,12 @@ body{
 main{
     position:relative;
     isolation:isolate;
-    background:linear-gradient(
-        180deg,
-        #F7EFE3 0%,
-        #E9E6D4 58%,
-        #CDD4B9 100%
-    );
+    background:
+        radial-gradient(ellipse at 8% 16%,rgba(255,255,255,.72) 0%,rgba(255,255,255,.28) 15%,transparent 31%),
+        radial-gradient(ellipse at 82% 12%,rgba(255,255,255,.62) 0%,rgba(255,255,255,.22) 16%,transparent 32%),
+        radial-gradient(ellipse at 25% 43%,rgba(255,255,255,.42) 0%,transparent 28%),
+        radial-gradient(ellipse at 91% 51%,rgba(255,255,255,.50) 0%,transparent 30%),
+        linear-gradient(180deg,#9fcaf0 0%,#b9dcf6 28%,#d6eafa 52%,#edf0ed 72%,#fbf6ed 100%);
     overflow:hidden
 }
 
@@ -61,30 +61,17 @@ main::before{
     content:"";
     position:absolute;
     z-index:0;
-    top:-3%;
-    left:-5%;
-    width:110%;
-    height:1050px;
-    background:url('./assets/images/placeholder.webp?v=20260919') center top/cover no-repeat;
-    filter:blur(12px);
-    opacity:.30;
+    inset:-8% -10%;
+    background:
+        radial-gradient(ellipse at 14% 13%,rgba(255,255,255,.82) 0%,rgba(255,255,255,.48) 7%,rgba(255,255,255,0) 20%),
+        radial-gradient(ellipse at 31% 24%,rgba(255,255,255,.48) 0%,rgba(255,255,255,.20) 9%,transparent 23%),
+        radial-gradient(ellipse at 70% 14%,rgba(255,255,255,.78) 0%,rgba(255,255,255,.34) 9%,transparent 22%),
+        radial-gradient(ellipse at 88% 29%,rgba(255,255,255,.54) 0%,rgba(255,255,255,.20) 10%,transparent 25%),
+        radial-gradient(ellipse at 7% 57%,rgba(255,255,255,.66) 0%,rgba(255,255,255,.25) 10%,transparent 25%),
+        radial-gradient(ellipse at 93% 69%,rgba(255,255,255,.68) 0%,rgba(255,255,255,.24) 11%,transparent 26%);
+    filter:blur(18px);
+    opacity:.92;
     transform:scale(1.04);
-    -webkit-mask-image:linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 54%,
-        rgba(0,0,0,.92) 66%,
-        rgba(0,0,0,.55) 79%,
-        transparent 100%
-    );
-    mask-image:linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 54%,
-        rgba(0,0,0,.92) 66%,
-        rgba(0,0,0,.55) 79%,
-        transparent 100%
-    );
     pointer-events:none
 }
 
@@ -94,16 +81,11 @@ main::after{
     z-index:0;
     inset:0;
     background:
-        linear-gradient(
-            to bottom,
-            rgba(247,239,227,.06) 0%,
-            rgba(247,239,227,.10) 42%,
-            rgba(247,239,227,.26) 58%,
-            rgba(247,239,227,.72) 73%,
-            #F7EFE3 82%,
-            #E9E6D4 92%,
-            #CDD4B9 100%
-        );
+        radial-gradient(ellipse at 50% 35%,rgba(255,255,255,.16),transparent 38%),
+        radial-gradient(ellipse at 14% 76%,rgba(255,255,255,.58) 0%,rgba(255,255,255,.24) 13%,transparent 30%),
+        radial-gradient(ellipse at 83% 82%,rgba(255,255,255,.60) 0%,rgba(255,255,255,.22) 14%,transparent 31%),
+        linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,.03) 42%,rgba(255,250,242,.20) 68%,rgba(255,248,238,.72) 86%,rgba(255,247,237,.96) 100%);
+    filter:blur(5px);
     pointer-events:none
 }
 
@@ -179,7 +161,7 @@ main > *{
     .decor-flower.f3{right:4%;font-size:1.55rem}
 }
 html[data-bs-theme="dark"] main{
-    background:#211b19
+    background:linear-gradient(180deg,#315a78 0%,#4d7591 35%,#728a98 65%,#9a9389 100%)
 }
 html[data-bs-theme="dark"] main::before{
     opacity:.14
