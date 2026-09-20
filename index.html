@@ -48,31 +48,41 @@ body{
 main{
     position:relative;
     isolation:isolate;
+    overflow:hidden;
     background:
-        radial-gradient(ellipse at 8% 16%,rgba(255,255,255,.72) 0%,rgba(255,255,255,.28) 15%,transparent 31%),
-        radial-gradient(ellipse at 82% 12%,rgba(255,255,255,.62) 0%,rgba(255,255,255,.22) 16%,transparent 32%),
-        radial-gradient(ellipse at 25% 43%,rgba(255,255,255,.42) 0%,transparent 28%),
-        radial-gradient(ellipse at 91% 51%,rgba(255,255,255,.50) 0%,transparent 30%),
-        linear-gradient(180deg,#9fcaf0 0%,#b9dcf6 28%,#d6eafa 52%,#edf0ed 72%,#fbf6ed 100%);
-    overflow:hidden
+        radial-gradient(ellipse 42% 22% at 7% 13%,rgba(255,255,255,.82) 0%,rgba(255,255,255,.48) 34%,transparent 74%),
+        radial-gradient(ellipse 34% 18% at 91% 10%,rgba(255,255,255,.76) 0%,rgba(255,255,255,.38) 36%,transparent 76%),
+        radial-gradient(ellipse 30% 20% at 22% 33%,rgba(134,187,229,.48) 0%,rgba(134,187,229,.20) 44%,transparent 78%),
+        radial-gradient(ellipse 35% 23% at 78% 30%,rgba(139,194,233,.38) 0%,rgba(139,194,233,.16) 45%,transparent 80%),
+        radial-gradient(ellipse 40% 25% at 11% 58%,rgba(255,255,255,.72) 0%,rgba(255,255,255,.32) 42%,transparent 78%),
+        radial-gradient(ellipse 37% 24% at 91% 57%,rgba(255,255,255,.68) 0%,rgba(255,255,255,.28) 40%,transparent 78%),
+        radial-gradient(ellipse 42% 27% at 29% 83%,rgba(255,250,239,.78) 0%,rgba(255,250,239,.42) 42%,transparent 82%),
+        radial-gradient(ellipse 45% 28% at 76% 88%,rgba(255,248,235,.82) 0%,rgba(255,248,235,.40) 43%,transparent 84%),
+        linear-gradient(174deg,#a8d2f2 0%,#b8dcf7 28%,#cfe7f8 52%,#e6edf0 69%,#f8f2e9 88%,#fcf7ef 100%);
 }
 
 main::before{
     content:"";
     position:absolute;
     z-index:0;
-    inset:-8% -10%;
-    background:
-        radial-gradient(ellipse at 14% 13%,rgba(255,255,255,.82) 0%,rgba(255,255,255,.48) 7%,rgba(255,255,255,0) 20%),
-        radial-gradient(ellipse at 31% 24%,rgba(255,255,255,.48) 0%,rgba(255,255,255,.20) 9%,transparent 23%),
-        radial-gradient(ellipse at 70% 14%,rgba(255,255,255,.78) 0%,rgba(255,255,255,.34) 9%,transparent 22%),
-        radial-gradient(ellipse at 88% 29%,rgba(255,255,255,.54) 0%,rgba(255,255,255,.20) 10%,transparent 25%),
-        radial-gradient(ellipse at 7% 57%,rgba(255,255,255,.66) 0%,rgba(255,255,255,.25) 10%,transparent 25%),
-        radial-gradient(ellipse at 93% 69%,rgba(255,255,255,.68) 0%,rgba(255,255,255,.24) 11%,transparent 26%);
-    filter:blur(18px);
+    inset:-12%;
+    pointer-events:none;
     opacity:.92;
     transform:scale(1.04);
-    pointer-events:none
+    filter:url(#watercolorClouds) blur(1px);
+    background:
+        radial-gradient(ellipse 23% 11% at 4% 18%,rgba(255,255,255,.92) 0%,rgba(255,255,255,.70) 43%,transparent 76%),
+        radial-gradient(ellipse 18% 9% at 17% 12%,rgba(255,255,255,.72) 0%,transparent 76%),
+        radial-gradient(ellipse 20% 12% at 29% 20%,rgba(255,255,255,.58) 0%,transparent 78%),
+        radial-gradient(ellipse 25% 13% at 68% 8%,rgba(255,255,255,.88) 0%,rgba(255,255,255,.48) 42%,transparent 77%),
+        radial-gradient(ellipse 17% 10% at 83% 17%,rgba(255,255,255,.66) 0%,transparent 77%),
+        radial-gradient(ellipse 23% 12% at 99% 28%,rgba(255,255,255,.76) 0%,transparent 78%),
+        radial-gradient(ellipse 20% 11% at 8% 49%,rgba(255,255,255,.74) 0%,transparent 78%),
+        radial-gradient(ellipse 27% 14% at 20% 61%,rgba(255,255,255,.62) 0%,transparent 80%),
+        radial-gradient(ellipse 20% 10% at 77% 50%,rgba(255,255,255,.52) 0%,transparent 78%),
+        radial-gradient(ellipse 25% 13% at 95% 65%,rgba(255,255,255,.70) 0%,transparent 80%),
+        radial-gradient(ellipse 28% 15% at 5% 84%,rgba(255,255,255,.70) 0%,transparent 82%),
+        radial-gradient(ellipse 25% 14% at 55% 91%,rgba(255,250,241,.62) 0%,transparent 82%);
 }
 
 main::after{
@@ -80,13 +90,17 @@ main::after{
     position:absolute;
     z-index:0;
     inset:0;
+    pointer-events:none;
     background:
-        radial-gradient(ellipse at 50% 35%,rgba(255,255,255,.16),transparent 38%),
-        radial-gradient(ellipse at 14% 76%,rgba(255,255,255,.58) 0%,rgba(255,255,255,.24) 13%,transparent 30%),
-        radial-gradient(ellipse at 83% 82%,rgba(255,255,255,.60) 0%,rgba(255,255,255,.22) 14%,transparent 31%),
-        linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,.03) 42%,rgba(255,250,242,.20) 68%,rgba(255,248,238,.72) 86%,rgba(255,247,237,.96) 100%);
-    filter:blur(5px);
-    pointer-events:none
+        radial-gradient(ellipse 24% 15% at 36% 17%,rgba(104,170,222,.20),transparent 78%),
+        radial-gradient(ellipse 26% 16% at 61% 26%,rgba(94,164,219,.16),transparent 80%),
+        radial-gradient(ellipse 23% 14% at 13% 39%,rgba(101,171,222,.18),transparent 80%),
+        radial-gradient(ellipse 28% 17% at 87% 42%,rgba(95,166,220,.16),transparent 82%),
+        radial-gradient(ellipse 31% 18% at 48% 67%,rgba(255,255,255,.20),transparent 82%),
+        radial-gradient(ellipse 34% 19% at 18% 78%,rgba(255,250,241,.60),transparent 82%),
+        radial-gradient(ellipse 35% 20% at 84% 82%,rgba(255,248,235,.62),transparent 84%),
+        linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,.015) 45%,rgba(255,250,242,.16) 67%,rgba(255,248,238,.54) 84%,rgba(255,247,237,.88) 100%);
+    filter:blur(2px);
 }
 
 main > *{
@@ -1136,6 +1150,13 @@ if(document.readyState==='loading'){
     }
 }
 </style>
+
+<style>
+@media (max-width:575.98px){
+    #welcome .welcome-card .accent-line{top:19vh!important}
+    #welcome .welcome-date{top:19.5vh!important}
+}
+</style>
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
@@ -1144,6 +1165,14 @@ if(document.readyState==='loading'){
     data-confetti="false"
     data-time="2026-12-20 08:00:00"
 >
+<svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+    <defs>
+        <filter id="watercolorClouds" x="-12%" y="-12%" width="124%" height="124%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.032" numOctaves="3" seed="17" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+    </defs>
+</svg>
 <div id="loading" class="loading-page d-flex flex-column justify-content-center align-items-center text-center">
     <img src="./assets/images/logo-is.png?v=20260831" alt="Logo Ihsan &amp; Syarifah" class="loading-logo">
     <div class="progress width-loading" role="progressbar" aria-label="Loading">
