@@ -63,38 +63,7 @@ main{
     overflow:hidden
 }
 
-/* Foto pasangan menjadi background lembut di bagian pembuka.
-   Foto perlahan larut ke gradasi setelah area Save the Date. */
-main::before{
-    content:"";
-    position:absolute;
-    z-index:0;
-    top:-3%;
-    left:-5%;
-    width:110%;
-    height:1050px;
-    background:url('./assets/images/placeholder.webp?v=20260919') center top/cover no-repeat;
-    filter:blur(12px);
-    opacity:.30;
-    transform:scale(1.04);
-    -webkit-mask-image:linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 54%,
-        rgba(0,0,0,.92) 66%,
-        rgba(0,0,0,.55) 79%,
-        transparent 100%
-    );
-    mask-image:linear-gradient(
-        to bottom,
-        #000 0%,
-        #000 54%,
-        rgba(0,0,0,.92) 66%,
-        rgba(0,0,0,.55) 79%,
-        transparent 100%
-    );
-    pointer-events:none
-}
+/* Watercolor background is provided by the master sky assets below. */
 
 main::after{
     content:"";
@@ -404,7 +373,7 @@ html[data-bs-theme="dark"] .gift-card{
     overflow:hidden;
     opacity:1;
     padding:0;
-    background:url('./assets/images/placeholder.webp?v=20260919') center center/cover no-repeat;
+    background:url('./assets/images/sky-top.png') center top/cover no-repeat;
 }
 
 #welcome::before{
@@ -592,7 +561,7 @@ html[data-bs-theme="dark"] .welcome-card{
 }
 
 html[data-bs-theme="dark"] #welcome{
-    background:url('./assets/images/placeholder.webp?v=20260919') center center/cover no-repeat;
+    background:url('./assets/images/sky-top.png') center top/cover no-repeat;
 }
 
 html[data-bs-theme="dark"] #welcome::before{
@@ -1271,6 +1240,28 @@ html,body{background:#f7f0e3 !important;}
 }
 </style>
 
+
+<style id="welcome-watercolor-direct">
+/* Opening screen: use the watercolor asset directly — no blurred placeholder. */
+#welcome{
+    background-image:url('./assets/images/sky-top.png') !important;
+    background-position:center top !important;
+    background-size:cover !important;
+    background-repeat:no-repeat !important;
+}
+#welcome::before{
+    background:linear-gradient(
+        to bottom,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 70%,
+        rgba(255,250,246,.08) 84%,
+        rgba(255,250,246,.18) 100%
+    ) !important;
+}
+html[data-bs-theme="dark"] #welcome{
+    background-image:url('./assets/images/sky-top.png') !important;
+}
+</style>
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
