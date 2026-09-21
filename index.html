@@ -1206,20 +1206,24 @@ if(document.readyState==='loading'){
 
 
 <style id="watercolor-assets-background">
-html, body{background:#f7f0e3 !important;}
+html,body{background:#f7f0e3 !important;}
 
+/* ONE continuous watercolor layer across the entire inside invitation */
 #root > div:last-of-type > main{
     position:relative !important;
     isolation:isolate !important;
     overflow-x:hidden !important;
     background-color:#f7f0e3 !important;
-    background-image:url('./assets/images/sky-top.png') !important;
-    background-repeat:repeat-y !important;
-    background-position:center top !important;
-    background-size:100% auto !important;
+    background-image:
+        url('./assets/images/sky-bottom.png'),
+        url('./assets/images/sky-top.png') !important;
+    background-repeat:no-repeat, repeat-y !important;
+    background-position:center bottom, center top !important;
+    background-size:100% auto, 100% auto !important;
     background-attachment:scroll !important;
 }
 
+/* Every normal section lets the master sky show through. */
 #root > div:last-of-type > main > section,
 #root > div:last-of-type > main > div:not(.floral-bg){
     background:transparent !important;
@@ -1229,29 +1233,44 @@ html, body{background:#f7f0e3 !important;}
     background:transparent !important;
 }
 
-#root > div:last-of-type > main > .sky-ending{
-    position:relative !important;
-    z-index:0 !important;
-    width:100% !important;
-    height:min(177.7777778vw, 1536px) !important;
-    min-height:420px !important;
-    margin:0 !important;
-    padding:0 !important;
-    background:url('./assets/images/sky-bottom.png') center top / 100% auto no-repeat !important;
-    pointer-events:none !important;
-}
-
-#root > div:last-of-type > main > .sky-ending + section{
-    background:#f7f0e3 !important;
-}
-
+/* Keep the content above the watercolor background. */
 #root > div:last-of-type > main > *{
     position:relative;
     z-index:1;
 }
 
-#root > div:last-of-type > main > .sky-ending{z-index:0 !important;}
+/* Soft ivory ending, without adding another HTML section. */
+#root > div:last-of-type > main::after{
+    content:"";
+    position:absolute;
+    z-index:0;
+    left:0;
+    right:0;
+    bottom:0;
+    height:760px;
+    pointer-events:none;
+    background:linear-gradient(
+        to bottom,
+        rgba(247,240,227,0) 0%,
+        rgba(247,240,227,.15) 25%,
+        rgba(247,240,227,.52) 55%,
+        rgba(247,240,227,.88) 80%,
+        #f7f0e3 100%
+    );
+}
+
+#root > div:last-of-type > main > *{z-index:1;}
+
+@media(max-width:575.98px){
+    #root > div:last-of-type > main{
+        background-size:100% auto, 100% auto !important;
+    }
+    #root > div:last-of-type > main::after{
+        height:620px;
+    }
+}
 </style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
@@ -1782,7 +1801,6 @@ html, body{background:#f7f0e3 !important;}
                     </div>
                 </div>
             </section>
-<div class="sky-ending" aria-hidden="true"></div>
 <section class="section-paper py-4 no-gap-bottom">
                 <div class="container text-center">
                     <img
@@ -2250,7 +2268,8 @@ html, body{background:#f7f0e3 !important;}
     },200);
     checkProgress();
 })();
-</script></body>
+</script>
+</body>
 </html>
 
 <style>
