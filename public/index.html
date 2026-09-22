@@ -1255,24 +1255,18 @@ html[data-bs-theme="dark"] #welcome{
 </style>
 
 <style id="dark-mode-watercolor-overlay">
-@media (prefers-color-scheme: dark){
-    html[data-bs-theme="dark"] #welcome::after{
-        content:"";
-        position:absolute;
-        inset:0;
-        z-index:0;
-        pointer-events:none;
-        background:rgba(45,52,60,.34);
-    }
-
-    html[data-bs-theme="dark"] #welcome > *{
-        position:relative;
-        z-index:1;
-    }
-
-    html[data-bs-theme="dark"] #welcome .welcome-card::after{
-        z-index:0;
-    }
+/* DARK MODE — hanya lapisan lembut di atas background cover */
+html[data-bs-theme="dark"] #welcome{
+    background-image:
+        linear-gradient(
+            rgba(55,64,74,.34),
+            rgba(55,64,74,.34)
+        ),
+        url('./assets/images/placeholder.webp?v=20260919') !important;
+    background-position:center center, center center !important;
+    background-size:cover, cover !important;
+    background-repeat:no-repeat, no-repeat !important;
+    background-blend-mode:normal !important;
 }
 </style>
 
