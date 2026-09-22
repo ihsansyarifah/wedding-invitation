@@ -1255,18 +1255,19 @@ html[data-bs-theme="dark"] #welcome{
 </style>
 
 <style id="dark-mode-watercolor-overlay">
-/* DARK MODE — hanya lapisan lembut di atas background cover */
-html[data-bs-theme="dark"] #welcome{
-    background-image:
-        linear-gradient(
-            rgba(55,64,74,.34),
-            rgba(55,64,74,.34)
-        ),
-        url('./assets/images/placeholder.webp?v=20260919') !important;
-    background-position:center center, center center !important;
-    background-size:cover, cover !important;
-    background-repeat:no-repeat, no-repeat !important;
-    background-blend-mode:normal !important;
+/* DARK MODE SAJA — mode biasa tidak disentuh */
+html[data-bs-theme="dark"] #welcome::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:rgba(55,64,74,.34);
+}
+
+html[data-bs-theme="dark"] #welcome > *{
+    position:relative;
+    z-index:1;
 }
 </style>
 
