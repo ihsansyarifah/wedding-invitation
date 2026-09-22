@@ -1286,6 +1286,28 @@ html[data-bs-theme="dark"] #root > div:last-of-type > main > *{
 }
 </style>
 
+
+<style id="dark-mode-full-overlay">
+/* DARK MODE — lapisan hanya aktif saat tema dark */
+html[data-bs-theme="dark"] #root > div:last-of-type > main{
+    isolation:isolate !important;
+}
+
+html[data-bs-theme="dark"] #root > div:last-of-type > main::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:rgba(55,64,74,.34) !important;
+}
+
+html[data-bs-theme="dark"] #root > div:last-of-type > main > *{
+    position:relative;
+    z-index:1;
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
