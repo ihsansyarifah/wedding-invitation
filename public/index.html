@@ -1254,9 +1254,9 @@ html[data-bs-theme="dark"] #welcome{
 }
 </style>
 
+<style id="dark-mode-watercolor-final">
+/* DARK MODE — hanya lapisan watercolor; mode biasa tidak disentuh */
 
-<style id="dark-mode-watercolor-overlay">
-/* DARK MODE — lapisan lembut untuk cover DAN seluruh isi undangan */
 html[data-bs-theme="dark"] #welcome::after{
     content:"";
     position:absolute;
@@ -1271,25 +1271,8 @@ html[data-bs-theme="dark"] #welcome > *{
     z-index:1;
 }
 
-html[data-bs-theme="dark"] #root > div:last-of-type > main::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
-    background:rgba(55,64,74,.30);
-}
-
-html[data-bs-theme="dark"] #root > div:last-of-type > main > *{
-    position:relative;
-    z-index:1;
-}
-</style>
-
-
-<style id="dark-mode-full-overlay">
-/* DARK MODE — lapisan hanya aktif saat tema dark */
 html[data-bs-theme="dark"] #root > div:last-of-type > main{
+    position:relative !important;
     isolation:isolate !important;
 }
 
@@ -1299,7 +1282,7 @@ html[data-bs-theme="dark"] #root > div:last-of-type > main::before{
     inset:0;
     z-index:0;
     pointer-events:none;
-    background:rgba(55,64,74,.34) !important;
+    background:rgba(55,64,74,.34);
 }
 
 html[data-bs-theme="dark"] #root > div:last-of-type > main > *{
