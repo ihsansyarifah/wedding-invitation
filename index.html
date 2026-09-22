@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id" data-bs-theme="auto">
+<html lang="id" data-bs-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1254,52 +1254,6 @@ html[data-bs-theme="dark"] #welcome{
 }
 </style>
 
-<style id="dark-mode-final-layer">
-/* MODE TERANG = ASLI | MODE GELAP = WATERCOLOUR + OVERLAY + NAVBAR GELAP */
-
-html[data-bs-theme="dark"] #welcome::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
-    background:rgba(38,55,72,.52) !important;
-}
-html[data-bs-theme="dark"] #welcome > *{
-    position:relative;
-    z-index:1;
-}
-
-html[data-bs-theme="dark"] #root > div:last-of-type > main{
-    position:relative !important;
-    isolation:isolate !important;
-}
-html[data-bs-theme="dark"] #root > div:last-of-type > main::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
-    background:rgba(38,55,72,.52) !important;
-}
-html[data-bs-theme="dark"] #root > div:last-of-type > main > *{
-    position:relative;
-    z-index:1;
-}
-
-html[data-bs-theme="dark"] #root > div:last-of-type > nav,
-html[data-bs-theme="dark"] #root > div:last-of-type .bottom-nav,
-html[data-bs-theme="dark"] #root > div:last-of-type .navbar.fixed-bottom{
-    background:rgba(31,35,40,.88) !important;
-    color:#f5f5f5 !important;
-}
-html[data-bs-theme="dark"] #root > div:last-of-type > nav *,
-html[data-bs-theme="dark"] #root > div:last-of-type .bottom-nav *,
-html[data-bs-theme="dark"] #root > div:last-of-type .navbar.fixed-bottom *{
-    color:#f5f5f5 !important;
-}
-</style>
-
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
@@ -1969,16 +1923,7 @@ html[data-bs-theme="dark"] #root > div:last-of-type .navbar.fixed-bottom *{
 })();
 </script>
 <div class="floating-controls">
-    <button
-        id="button-theme"
-        type="button"
-        class="btn btn-outline-auto btn-transparent rounded-circle d-none"
-        onclick="undangan.theme.change()"
-        aria-label="Ganti tema"
-    >
-        <i class="fa-solid fa-circle-half-stroke"></i>
-    </button>
-    <button
+<button
         id="button-music"
         type="button"
         class="btn btn-outline-auto btn-transparent shadow-sm d-none"
@@ -2298,6 +2243,26 @@ html[data-bs-theme="dark"] #root > div:last-of-type .navbar.fixed-bottom *{
     checkProgress();
 })();
 </script>
+
+<script id="light-mode-lock">
+(function(){
+    function forceLight(){
+        document.documentElement.setAttribute('data-bs-theme','light');
+    }
+
+    forceLight();
+
+    new MutationObserver(function(){
+        if(document.documentElement.getAttribute('data-bs-theme') !== 'light'){
+            forceLight();
+        }
+    }).observe(document.documentElement, {
+        attributes:true,
+        attributeFilter:['data-bs-theme']
+    });
+})();
+</script>
+
 </body>
 </html>
 
