@@ -1253,6 +1253,29 @@ html[data-bs-theme="dark"] #welcome{
     background-image:url('./assets/images/placeholder.webp?v=20260919') !important;
 }
 </style>
+
+<style id="dark-mode-watercolor-overlay">
+@media (prefers-color-scheme: dark){
+    html[data-bs-theme="dark"] #welcome::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        z-index:0;
+        pointer-events:none;
+        background:rgba(45,52,60,.34);
+    }
+
+    html[data-bs-theme="dark"] #welcome > *{
+        position:relative;
+        z-index:1;
+    }
+
+    html[data-bs-theme="dark"] #welcome .welcome-card::after{
+        z-index:0;
+    }
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
