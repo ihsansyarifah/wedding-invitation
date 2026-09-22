@@ -586,32 +586,35 @@ html[data-bs-theme="dark"] .welcome-card{
         padding:0;
     }
 
+    /* FINAL MOBILE COVER — SATU BLOK SAJA */
     .welcome-card > p:first-of-type{
-        top:9.5vh;
+        top:5.4vh;
         font-size:clamp(.64rem,3.0vw,.82rem);
-        letter-spacing:.115em;
+        letter-spacing:.19em;
     }
 
     .welcome-name{
-        top:12.3vh;
+        top:8.1vh;
         font-size:clamp(1.85rem,8.8vw,2.75rem) !important;
         line-height:.87;
+        letter-spacing:.035em;
     }
 
     .welcome-name-amp{
-        margin:.045em 0 .01em;
+        margin:.045em 0 .012em;
         font-size:.64em;
+        letter-spacing:.02em;
     }
 
-    .welcome-date{
-        top:26.7vh;
+    #welcome .welcome-date{
+        top:19.8vh;
         font-size:clamp(.54rem,2.3vw,.70rem) !important;
-        letter-spacing:.095em;
+        letter-spacing:.145em;
     }
 
     .welcome-card .accent-line{
-        top:24.5vh;
-        width:58px;
+        top:19.7vh;
+        width:64px;
     }
 
     #welcome #guest-name{
@@ -1163,16 +1166,6 @@ if(document.readyState==='loading'){
 })();
 </script>
 <!-- END AUTO VIDEO CACHE BUSTING -->
-
-<style>
-/* REVISI KECIL: tanggal cover HP dinaikkan agar tidak menutupi wajah */
-@media (max-width:575.98px){
-    #welcome .welcome-date{
-        top:23.5vh;
-    }
-}
-</style>
-
 
 <style id="watercolor-assets-background">
 /* =========================================================
@@ -2261,56 +2254,3 @@ html[data-bs-theme="dark"] #welcome{
 </body>
 </html>
 
-<style>
-/* REVISI COVER: posisi akhir teks + garis + tanggal */
-@media(max-width:575.98px){
-    .welcome-card > p:first-of-type{
-        top:5.4vh;
-    }
-
-    .welcome-name{
-        top:8.1vh;
-    }
-
-    /* Garis sedikit dinaikkan, tapi tetap memberi jarak dari tanggal */
-    .welcome-card .accent-line{
-        top:20.2vh;
-        width:58px;
-    }
-
-    /* MINGGU / tanggal dinaikkan sedikit */
-    .welcome-date{
-        top:21.3vh;
-    }
-}
-</style>
-
-<style>
-/* FINAL MOBILE COVER — mengikuti komposisi yang disepakati */
-@media(max-width:575.98px){
-    .welcome-card > p:first-of-type{
-        top:5.4vh;
-        letter-spacing:.19em;
-    }
-
-    .welcome-name{
-        top:8.1vh;
-        letter-spacing:.035em;
-    }
-
-    .welcome-name-amp{
-        margin:.045em 0 .012em;
-        letter-spacing:.02em;
-    }
-
-    .welcome-card .accent-line{
-        top:19.7vh;
-        width:64px;
-    }
-
-    .welcome-date{
-        top:19.8vh;
-        letter-spacing:.145em;
-    }
-}
-</style>
