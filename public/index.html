@@ -1254,8 +1254,8 @@ html[data-bs-theme="dark"] #welcome{
 }
 </style>
 
-<style id="dark-mode-watercolor-final">
-/* DARK MODE — hanya lapisan watercolor; mode biasa tidak disentuh */
+<style id="dark-mode-final-layer">
+/* MODE TERANG = ASLI | MODE GELAP = WATERCOLOUR + OVERLAY + NAVBAR GELAP */
 
 html[data-bs-theme="dark"] #welcome::after{
     content:"";
@@ -1263,9 +1263,8 @@ html[data-bs-theme="dark"] #welcome::after{
     inset:0;
     z-index:0;
     pointer-events:none;
-    background:rgba(55,64,74,.34);
+    background:rgba(38,55,72,.52) !important;
 }
-
 html[data-bs-theme="dark"] #welcome > *{
     position:relative;
     z-index:1;
@@ -1275,19 +1274,29 @@ html[data-bs-theme="dark"] #root > div:last-of-type > main{
     position:relative !important;
     isolation:isolate !important;
 }
-
 html[data-bs-theme="dark"] #root > div:last-of-type > main::before{
     content:"";
     position:absolute;
     inset:0;
     z-index:0;
     pointer-events:none;
-    background:rgba(55,64,74,.34);
+    background:rgba(38,55,72,.52) !important;
 }
-
 html[data-bs-theme="dark"] #root > div:last-of-type > main > *{
     position:relative;
     z-index:1;
+}
+
+html[data-bs-theme="dark"] #root > div:last-of-type > nav,
+html[data-bs-theme="dark"] #root > div:last-of-type .bottom-nav,
+html[data-bs-theme="dark"] #root > div:last-of-type .navbar.fixed-bottom{
+    background:rgba(31,35,40,.88) !important;
+    color:#f5f5f5 !important;
+}
+html[data-bs-theme="dark"] #root > div:last-of-type > nav *,
+html[data-bs-theme="dark"] #root > div:last-of-type .bottom-nav *,
+html[data-bs-theme="dark"] #root > div:last-of-type .navbar.fixed-bottom *{
+    color:#f5f5f5 !important;
 }
 </style>
 
