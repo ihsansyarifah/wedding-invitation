@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login Pengiriman — Ihsan & Syarifah</title>
+<style>
+:root{--primary:#315f72;--primary2:#527d8e;--bg:#f4f7f9;--card:#fff;--text:#263238;--muted:#6b7280;--line:#e5e7eb;--green:#238b5b;--orange:#a66a00}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#eef5f7,#f8fafc)}
+.login-card{width:min(430px,100%);background:#fff;border-radius:22px;padding:32px;box-shadow:0 18px 55px rgba(30,50,70,.12);border:1px solid var(--line);text-align:center}
+.logo{width:62px;height:62px;border-radius:50%;margin:0 auto 18px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700}
+.login-card h1{font-size:25px;margin:0}.login-card p{color:var(--muted);font-size:14px;line-height:1.5;margin:8px 0 25px}
+.field{text-align:left;margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#4b5563}
+select{width:100%;padding:12px;border:1px solid #d6dbe1;border-radius:10px;background:#fff;outline:none}
+select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(49,95,114,.1)}
+.btn-login{width:100%;border:0;border-radius:10px;padding:13px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
+.btn-login:hover{background:#244a5a}.login-note{font-size:11px;color:#9ca3af;margin-top:16px}
+#app{display:none}.topbar{background:linear-gradient(135deg,#315f72,#527d8e);color:#fff;padding:22px 18px}.topbar-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px}.eyebrow{font-size:12px;opacity:.85;letter-spacing:.08em;text-transform:uppercase}.topbar h1{margin:4px 0 0;font-size:27px}.user-box{display:flex;align-items:center;gap:9px}.user-name{font-weight:700;font-size:13px}.logout{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:#fff;border-radius:9px;padding:8px 11px;cursor:pointer;font-size:12px}
+main{max-width:1180px;margin:22px auto 50px;padding:0 16px}.toolbar{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-wrap:wrap;gap:14px;align-items:end;box-shadow:0 10px 30px rgba(30,50,70,.07);margin-bottom:18px}.field2{min-width:220px;flex:1}.field2 label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#4b5563}.field2 input,.field2 select{width:100%;padding:11px 12px;border:1px solid #d6dbe1;border-radius:10px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 15px;min-width:145px}.stat-number{font-size:21px;font-weight:800}.stat-label{color:var(--muted);font-size:12px;margin-top:3px}
+.table-wrap{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(30,50,70,.07);overflow:auto}table{width:100%;border-collapse:collapse;min-width:900px}th,td{padding:14px 13px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle;font-size:14px}th{background:#f8fafc;color:#4b5563;font-size:12px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}.name{font-weight:700}.phone{white-space:nowrap;color:#4b5563}.badge{display:inline-flex;padding:6px 9px;border-radius:999px;font-size:12px;font-weight:700}.pending{background:#fff5df;color:var(--orange)}.sent{background:#eaf8f0;color:var(--green)}.actions{display:flex;flex-wrap:wrap;gap:7px}.btn{border:0;border-radius:9px;padding:9px 11px;cursor:pointer;font-size:12px;font-weight:700}.preview{background:#eef3f6;color:#315f72}.send{background:#238b5b;color:#fff}.mark{background:#315f72;color:#fff}.loading,.empty,.error{padding:35px 20px;text-align:center;color:var(--muted)}.error{color:#b42318}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-backdrop.show{display:flex}.modal{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}.modal h2{margin:0 0 15px;font-size:20px}.message{white-space:pre-wrap;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:16px;line-height:1.55;font-size:14px;max-height:58vh;overflow:auto}.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.close{background:#eef0f2;color:#374151;border:0;border-radius:9px;padding:10px 14px;cursor:pointer;font-weight:700}.toast{position:fixed;right:18px;bottom:18px;background:#263238;color:#fff;padding:12px 15px;border-radius:10px;display:none;z-index:50;font-size:13px;max-width:340px}.toast.show{display:block}
+@media(max-width:700px){.topbar-inner{align-items:flex-start}.topbar h1{font-size:23px}.user-box{flex-direction:column;align-items:flex-end}.toolbar{padding:14px}.field2{min-width:100%}}
+</style>
+</head>
+<body>
+
+<section class="login-page" id="loginPage">
+  <div class="login-card">
+    <div class="logo">I&S</div>
+    <h1>Pengiriman Undangan</h1>
+    <p>Ihsan &amp; Syarifah<br>Silakan pilih nama pengirim untuk masuk.</p>
+
+    <div class="field">
+      <label for="loginSender">Masuk sebagai</label>
+      <select id="loginSender">
+        <option value="">— Pilih Pengirim —</option>
+        <option>Ihsan</option>
+        <option>Syarifah</option>
+        <option>Ibu Ihsan</option>
+        <option>Bapa Ihsan</option>
+        <option>Mama Syarifah</option>
+        <option>Bapa Syarifah</option>
+      </select>
+    </div>
+
+    <button class="btn-login" onclick="login()">Masuk</button>
+    <div class="login-note">Akun pengirim akan menentukan daftar tamu yang ditampilkan.</div>
+  </div>
+</section>
+
+<section id="app">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <div class="eyebrow">Sistem Pengiriman Undangan</div>
+        <h1>Ihsan &amp; Syarifah</h1>
+      </div>
+      <div class="user-box">
+        <span class="user-name" id="loggedUser"></span>
+        <button class="logout" onclick="logout()">Keluar</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="toolbar">
+      <div class="field2">
+        <label for="searchInput">Cari Nama Tamu</label>
+        <input id="searchInput" type="search" placeholder="Ketik nama tamu...">
+      </div>
+      <div class="field2">
+        <label for="statusFilter">Status</label>
+        <select id="statusFilter">
+          <option value="">Semua Status</option>
+          <option value="Belum dikirim">Belum dikirim</option>
+          <option value="Terkirim">Terkirim</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><div class="stat-number" id="totalCount">0</div><div class="stat-label">Tamu saya</div></div>
+      <div class="stat"><div class="stat-number" id="pendingCount">0</div><div class="stat-label">Belum dikirim</div></div>
+      <div class="stat"><div class="stat-number" id="sentCount">0</div><div class="stat-label">Sudah terkirim</div></div>
+    </section>
+
+    <section class="table-wrap">
+      <div id="tableState" class="loading">Mengambil data tamu...</div>
+      <table id="guestTable" style="display:none">
+        <thead>
+          <tr>
+            <th>ID</th><th>Nama Tamu</th><th>Sapaan</th><th>No. WhatsApp</th><th>Status</th><th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="guestBody"></tbody>
+      </table>
+    </section>
+  </main>
+</section>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h2>💬 Pesan Undangan</h2>
+    <div class="message" id="messagePreview"></div>
+    <div class="modal-footer">
+      <button class="close" onclick="closePreview()">Tutup</button>
+      <button class="btn send" id="modalSend">📲 Kirim ke WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<iframe name="updateFrame" id="updateFrame" style="display:none"></iframe>
+
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbw3Ki7D9PQJ3y8RAPFh_U-f6WR2A2F8jalW3Tr8YzDvd8qWHXe1Zq5wvq4B9wXSxSM6EQ/exec";
+const INVITATION_URL="https://ihsansyarifah.github.io/wedding-invitation/";
+let guests=[], loggedSender="", currentGuest=null;
+
+const loginPage=document.getElementById("loginPage");
+const app=document.getElementById("app");
+const loginSender=document.getElementById("loginSender");
+const guestBody=document.getElementById("guestBody");
+const guestTable=document.getElementById("guestTable");
+const tableState=document.getElementById("tableState");
+
+function login(){
+  const sender=loginSender.value.trim();
+  if(!sender){showToast("Pilih pengirim terlebih dahulu.");return}
+  loggedSender=sender;
+  sessionStorage.setItem("loggedSender",sender);
+  document.getElementById("loggedUser").textContent="👤 "+sender;
+  loginPage.style.display="none";
+  app.style.display="block";
+  loadGuests();
+}
+
+function logout(){
+  sessionStorage.removeItem("loggedSender");
+  loggedSender="";
+  guests=[];
+  app.style.display="none";
+  loginPage.style.display="flex";
+  loginSender.value="";
+  guestBody.innerHTML="";
+}
+
+function loadGuests(){
+  tableState.className="loading";
+  tableState.textContent="Mengambil data tamu...";
+  tableState.style.display="block";
+  guestTable.style.display="none";
+
+  const callback="guestCallback_"+Date.now();
+  window[callback]=function(result){
+    if(result&&result.success){
+      guests=Array.isArray(result.data)?result.data:[];
+      renderGuests();
+    }else{
+      showError((result&&result.message)||"Data tamu gagal diambil.");
+    }
+    delete window[callback];
+    const s=document.getElementById(callback);if(s)s.remove();
+  };
+  const script=document.createElement("script");
+  script.id=callback;
+  script.src=API_URL+"?action=guests&callback="+encodeURIComponent(callback);
+  script.onerror=function(){showError("Tidak bisa terhubung ke Google Sheets.");delete window[callback];script.remove()};
+  document.body.appendChild(script);
+}
+
+function renderGuests(){
+  const search=document.getElementById("searchInput").value.trim().toLowerCase();
+  const status=document.getElementById("statusFilter").value.trim().toLowerCase();
+
+  const mine=guests.filter(g=>String(g["Pengirim"]||"").trim().toLowerCase()===loggedSender.toLowerCase());
+  const filtered=mine.filter(g=>{
+    const n=String(g["Nama Tamu"]||"").toLowerCase();
+    const st=String(g["Status"]||"").trim().toLowerCase();
+    return (!search||n.includes(search))&&(!status||st===status);
+  });
+
+  updateStats(filtered);
+
+  if(!filtered.length){
+    guestBody.innerHTML="";
+    tableState.className="empty";
+    tableState.textContent=mine.length?"Tidak ada tamu yang sesuai filter.":"Belum ada tamu yang ditugaskan kepada "+loggedSender+".";
+    tableState.style.display="block";
+    guestTable.style.display="none";
+    return;
+  }
+
+  tableState.style.display="none";
+  guestTable.style.display="table";
+
+  guestBody.innerHTML=filtered.map(g=>{
+    const id=String(g["ID"]??"");
+    const name=String(g["Nama Tamu"]??"");
+    const sapaan=String(g["Sapaan"]??"");
+    const phone=String(g["No. WhatsApp"]??"");
+    const st=String(g["Status"]||"Belum dikirim").trim()||"Belum dikirim";
+    const cls=st.toLowerCase()==="terkirim"?"sent":"pending";
+    const safeId=encodeURIComponent(id);
+    return `<tr>
+      <td>${esc(id)}</td>
+      <td class="name">${esc(name)}</td>
+      <td>${esc(sapaan)}</td>
+      <td class="phone">${esc(phone)}</td>
+      <td><span class="badge ${cls}">${esc(st)}</span></td>
+      <td><div class="actions">
+        <button class="btn preview" onclick="previewGuest('${safeId}')">💬 Lihat Pesan</button>
+        <button class="btn send" onclick="sendGuest('${safeId}')">📲 Kirim</button>
+        <button class="btn mark" onclick="markSent('${safeId}')">☑ Terkirim</button>
+      </div></td>
+    </tr>`;
+  }).join("");
+}
+
+function updateStats(list){
+  const sent=list.filter(g=>String(g["Status"]||"").trim().toLowerCase()==="terkirim").length;
+  document.getElementById("totalCount").textContent=list.length;
+  document.getElementById("sentCount").textContent=sent;
+  document.getElementById("pendingCount").textContent=list.length-sent;
+}
+
+function findGuest(id){return guests.find(g=>String(g["ID"]??"")===String(id))}
+
+function buildMessage(g){
+  const sapaan=String(g["Sapaan"]||"Bapak/Ibu/Saudara/i").trim();
+  const name=String(g["Nama Tamu"]||"").trim();
+  const greeting=(sapaan&&name)?sapaan+" "+name:(name||sapaan);
+  const link=INVITATION_URL+"?to="+encodeURIComponent(name);
+  return `Yth. ${greeting}
+Di Tempat
+-----------------------------------------------------
+
+بِسْــــــــــــــــــمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+
+ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ
+
+
+Dengan segala kerendahan hati dan dengan ungkapan syukur atas karunia Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri resepsi pernikahan putra-putri kami yang Insya Allah akan dilaksanakan pada:
+
+===========================
+🗓️ Hari, Tanggal: Minggu, 20 Desember 2026
+🕓 Jam: 11.00 - 14.00 WIB
+📍 Tempat: Gedung Daarul Matiin Cibadak
+(Jl. ........................)
+Link undangan dapat diakses lengkap di:
+${link}
+===========================
+
+Kehadiran Bapak/Ibu/Saudara/i adalah silaturahmi.
+Doa restu Bapak/Ibu/Saudara/i adalah kado terindah bagi kami.
+Kehadiran Bapak/Ibu/Saudara/i adalah doa restu yang tidak ternilai harganya.
+
+Jazakumullahu khoiron katsiron, hanya kepada Ilahi Robbi tercurah doa sebagai ungkapan terima kasih kami.
+
+وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ`;
+}
+
+function previewGuest(encoded){
+  const g=findGuest(decodeURIComponent(encoded));
+  if(!g){showToast("Data tamu tidak ditemukan.");return}
+  currentGuest=g;
+  document.getElementById("messagePreview").textContent=buildMessage(g);
+  document.getElementById("modalBackdrop").classList.add("show");
+  document.getElementById("modalSend").onclick=()=>sendGuest(encoded);
+}
+
+function closePreview(){document.getElementById("modalBackdrop").classList.remove("show");currentGuest=null}
+
+function sendGuest(encoded){
+  const g=findGuest(decodeURIComponent(encoded));
+  if(!g){showToast("Data tamu tidak ditemukan.");return}
+  let p=String(g["No. WhatsApp"]||"").replace(/[^\d+]/g,"");
+  if(!p){showToast("Nomor WhatsApp belum diisi.");return}
+  if(p.startsWith("+62"))p=p.substring(1);else if(p.startsWith("0"))p="62"+p.substring(1);
+  if(!p.startsWith("62")){showToast("Nomor WhatsApp tidak valid.");return}
+  window.open("https://wa.me/"+p+"?text="+encodeURIComponent(buildMessage(g)),"_blank");
+  closePreview();
+}
+
+function markSent(encoded){
+  const id=decodeURIComponent(encoded),g=findGuest(id);
+  if(!g)return;
+  if(!confirm('Tandai "'+(g["Nama Tamu"]||"tamu ini")+'" sebagai Terkirim?'))return;
+  updateSheet("updateStatus",{id:id,status:"Terkirim"});
+  g["Status"]="Terkirim";
+  renderGuests();
+  showToast("Status berhasil diperbarui.");
+}
+
+function updateSheet(action,params){
+  const q=new URLSearchParams();q.set("action",action);
+  Object.keys(params).forEach(k=>q.set(k,params[k]));
+  document.getElementById("updateFrame").src=API_URL+"?"+q.toString();
+}
+
+function showError(m){guestTable.style.display="none";tableState.className="error";tableState.textContent=m;tableState.style.display="block"}
+function esc(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+let toastTimer;
+function showToast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2800)}
+
+document.getElementById("searchInput").addEventListener("input",renderGuests);
+document.getElementById("statusFilter").addEventListener("change",renderGuests);
+document.getElementById("modalBackdrop").addEventListener("click",e=>{if(e.target===e.currentTarget)closePreview()});
+
+const saved=sessionStorage.getItem("loggedSender");
+if(saved){
+  loginSender.value=saved;
+  loggedSender=saved;
+  document.getElementById("loggedUser").textContent="👤 "+saved;
+  loginPage.style.display="none";
+  app.style.display="block";
+  loadGuests();
+}
+</script>
+</body>
+</html>
