@@ -78,10 +78,30 @@ function renderGuests(){
   $("countAll").textContent=mine.length;$("countPending").textContent=mine.filter(g=>clean(g["Status"])!=="Terkirim").length;$("countSent").textContent=mine.filter(g=>clean(g["Status"])==="Terkirim").length;
   const list=mine.filter(g=>(!q||[g["Nama Tamu"],g["No. WhatsApp"],g["Kategori"]].join(" ").toLowerCase().includes(q))&&(!st||clean(g["Status"])===st));
   $("tableState").style.display=list.length?"none":"block";$("tableState").textContent=mine.length?"Tidak ada tamu yang cocok.":"Belum ada tamu yang ditugaskan kepada "+loggedSender+".";$("guestTable").style.display=list.length?"block":"none";
-  $("guestBody").innerHTML=list.map((g,i)=>{const sent=clean(g["Status"])==="Terkirim",id=clean(g["ID"]);return `<tr><td>${i+1}</td><td><strong>${esc(g["Nama Tamu"])}</strong><br><span class="small">${esc(g["Sapaan"])}</span></td><td>${esc(g["No. WhatsApp"])}</td><td>${esc(g["Kategori"])||"-"}</td><td>${sent?"☑ Terkirim":"⏳ Belum dikirim"}</td><td><div class="actions"><button class="btn preview" onclick='previewById(${JSON.stringify(id)})'>💬 Lihat Pesan</button><button class="btn wa" onclick='sendById(${JSON.stringify(id)})'>📲 Kirim</button>${sent?"":`<button class="btn sent" onclick='markSentById(${JSON.stringify(id)})'>☑ Terkirim</button>`}</div></td></tr>`}).join("");
+  $("guestBody").innerHTML=list.map((g,i)=>{const sent=clean(g["Status"])==="Terkirim",id=clean(g["ID"]);return `<tr><td>${i+1}</td><td><strong>${esc(g["Nama Tamu"])}</strong><br><span class="small">${esc(g["Sapaan"])}</span></td><td>${esc(displayPhone(g["No. WhatsApp"]))}</td><td>${esc(g["Kategori"])||"-"}</td><td>${sent?"☑ Terkirim":"⏳ Belum dikirim"}</td><td><div class="actions"><button class="btn preview" onclick='previewById(${JSON.stringify(id)})'>💬 Lihat Pesan</button><button class="btn wa" onclick='sendById(${JSON.stringify(id)})'>📲 Kirim</button>${sent?"":`<button class="btn sent" onclick='markSentById(${JSON.stringify(id)})'>☑ Terkirim</button>`}</div></td></tr>`}).join("");
+}
+function displayPhone(v){
+  let p=clean(v).replace(/[^\d+]/g,"");
+  if(p.startsWith("+")) p=p.slice(1);
+  if(p.startsWith("62")) return "0"+p.slice(2);
+  if(p.startsWith("0")) return p;
+  if(p.length >= 9) return "0"+p;
+  return p;
 }
 function findGuest(id){return guests.find(g=>clean(g["ID"])===clean(id))}
-function phone(v){let p=clean(v).replace(/[^\d+]/g,"");if(p[0]==="+")p=p.slice(1);if(p.startsWith("0"))p="62"+p.slice(1);return p}
+function phone(v){
+  let p=clean(v).replace(/[^\d+]/g,"");
+  if(p.startsWith("+")) p=p.slice(1);
+
+  // Google Sheets bisa menghilangkan angka 0 di depan
+  // jika nomor tersimpan sebagai angka.
+  // Jadi nomor seperti 85294920996 dikembalikan menjadi 085294920996.
+  if(p.startsWith("62")) return p;
+  if(p.startsWith("0")) return "62"+p.slice(1);
+  if(p.length >= 9) return "62"+p;
+
+  return p;
+}
 function makeMessage(g){const sapaan=clean(g["Sapaan"])||"Bapak/Ibu/Saudara/i",name=clean(g["Nama Tamu"]),link=INVITATION_URL+"?to="+encodeURIComponent(name);return `Yth. ${sapaan} ${name}
 Di Tempat
 -----------------------------------------------------
