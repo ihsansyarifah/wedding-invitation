@@ -3,94 +3,379 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistem Pengiriman Undangan — Ihsan & Syarifah</title>
+<title>Sistem Pengiriman Undangan - Ihsan & Syarifah</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#24324a}
-.header{background:linear-gradient(135deg,#274c77,#6096ba);color:#fff;padding:22px 18px}.header h1{margin:0;font-size:22px}.header p{margin:5px 0 0;opacity:.9}
-.container{max-width:1100px;margin:auto;padding:18px}.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 5px 20px rgba(0,0,0,.07);margin-bottom:16px}
-.login{max-width:430px;margin:70px auto}label{display:block;font-weight:700;margin:12px 0 6px}select,input{width:100%;padding:12px;border:1px solid #d7deea;border-radius:10px;background:#fff}
-.primary{width:100%;border:0;border-radius:10px;padding:13px;background:#274c77;color:#fff;font-weight:700;margin-top:14px;cursor:pointer}
-.topbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.badge{padding:8px 12px;border-radius:999px;background:#eef3f8}
-.controls{display:grid;grid-template-columns:1fr 180px;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}
-.stat{padding:15px;border-radius:12px;background:#f5f8fc;text-align:center}.stat b{display:block;font-size:24px}.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:11px 9px;border-bottom:1px solid #edf0f4;text-align:left;vertical-align:top}th{background:#f8fafc}
-.actions{display:flex;gap:6px;flex-wrap:wrap}.btn{border:0;border-radius:8px;padding:8px 10px;cursor:pointer;font-weight:700}.preview{background:#edf4fb;color:#274c77}.wa{background:#e8f7ee;color:#176b3a}.sent{background:#274c77;color:#fff}
-.error{background:#fff0f0;color:#a21d1d;padding:12px;border-radius:10px;margin-top:12px}.loading{text-align:center;padding:25px;color:#68778d}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modal-box{background:#fff;border-radius:16px;max-width:650px;width:100%;max-height:85vh;overflow:auto;padding:18px}
-.modal-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.close{border:0;background:#eee;border-radius:8px;padding:8px 12px;cursor:pointer}.message{white-space:pre-wrap;background:#f7f9fc;border-radius:12px;padding:15px;line-height:1.55}.small{font-size:13px;color:#718096}
-@media(max-width:650px){.controls{grid-template-columns:1fr}.container{padding:12px}.card{padding:14px}}
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    color:#1f2937;
+  }
+  .wrap{max-width:1100px;margin:auto;padding:20px}
+  .header{
+    background:linear-gradient(135deg,#315f8f,#6f94b8);
+    color:#fff;border-radius:18px;padding:24px;
+    box-shadow:0 8px 24px rgba(0,0,0,.10);
+    margin-bottom:18px;
+  }
+  .header h1{margin:0 0 6px;font-size:25px}
+  .header p{margin:0;opacity:.92}
+  .userline{margin-top:9px;font-size:14px}
+  .note{font-size:12px;margin-top:4px;opacity:.9}
+  .logout{
+    float:right;border:0;border-radius:10px;padding:9px 12px;
+    background:rgba(255,255,255,.18);color:#fff;font-weight:700;cursor:pointer;
+  }
+  .card{
+    background:#fff;border-radius:16px;padding:18px;
+    box-shadow:0 5px 18px rgba(0,0,0,.07);
+    margin-bottom:16px;
+  }
+  .login-title{font-size:18px;font-weight:700;margin-bottom:12px}
+  select,input{
+    width:100%;padding:12px 13px;border:1px solid #d5dce5;
+    border-radius:10px;font-size:15px;background:#fff;
+  }
+  button{
+    border:0;border-radius:10px;padding:10px 13px;
+    font-size:14px;font-weight:700;cursor:pointer;
+  }
+  .primary{background:#315f8f;color:#fff}
+  .secondary{background:#eef3f8;color:#315f8f}
+  .success{background:#2e8b57;color:#fff}
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  }
+  .stat{padding:15px;border-radius:12px;background:#f6f8fb;text-align:center}
+  .stat b{display:block;font-size:25px;color:#315f8f;margin-bottom:4px}
+  .toolbar{
+    display:grid;grid-template-columns:1fr 180px;gap:10px;margin-bottom:15px;
+  }
+  .table-wrap{overflow:auto}
+  table{width:100%;border-collapse:collapse;min-width:760px}
+  th,td{padding:12px 10px;border-bottom:1px solid #edf0f4;text-align:left;vertical-align:middle}
+  th{background:#f7f9fc;font-size:13px;color:#566273}
+  td{font-size:14px}
+  .status{
+    display:inline-block;padding:5px 9px;border-radius:999px;
+    font-size:12px;font-weight:700;
+  }
+  .pending{background:#fff2d8;color:#9a6500}
+  .sent{background:#def5e8;color:#19703f}
+  .actions{display:flex;gap:7px;flex-wrap:wrap}
+  .empty{text-align:center;padding:30px;color:#77808c}
+  .loading{text-align:center;padding:25px;color:#64748b}
+  .modal{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);
+    align-items:center;justify-content:center;padding:18px;z-index:20;
+  }
+  .modal.show{display:flex}
+  .modal-box{
+    background:#fff;border-radius:16px;max-width:650px;width:100%;
+    max-height:85vh;overflow:auto;padding:20px;
+  }
+  .modal-head{display:flex;justify-content:space-between;gap:15px;align-items:center}
+  .modal-head h3{margin:0}
+  .message{
+    white-space:pre-wrap;background:#f7f8fa;border:1px solid #e2e6eb;
+    border-radius:12px;padding:15px;margin-top:15px;line-height:1.55;
+    font-size:14px;
+  }
+  .close{background:#eee;color:#333}
+  .snack{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
+    background:#222;color:#fff;padding:12px 17px;border-radius:10px;
+    display:none;z-index:50;font-size:14px;box-shadow:0 5px 20px rgba(0,0,0,.2);
+    max-width:90%;text-align:center;
+  }
+  .snack.show{display:block}
+  #app{display:none}
+  @media(max-width:700px){
+    .wrap{padding:12px}
+    .header{padding:19px}
+    .header h1{font-size:21px}
+    .stats{gap:7px}
+    .stat{padding:11px 5px}
+    .stat b{font-size:20px}
+    .toolbar{grid-template-columns:1fr}
+    .actions button{flex:1}
+  }
 </style>
 </head>
 <body>
-<div id="loginPage">
-  <div class="header"><h1>SISTEM PENGIRIMAN UNDANGAN</h1><p>Ihsan &amp; Syarifah</p></div>
-  <div class="container"><div class="card login">
-    <h2>🔐 Pilih Pengirim</h2><p class="small">Pilih nama pengirim untuk melihat daftar tamu yang ditugaskan.</p>
-    <label>Pengirim</label>
-    <select id="loginSender">
-      <option value="">-- Pilih Pengirim --</option><option>Ihsan</option><option>Syarifah</option><option>Ibu Ihsan</option><option>Bapa Ihsan</option><option>Mama Syarifah</option><option>Bapa Syarifah</option>
+
+<div class="wrap">
+  <div class="header">
+    <button class="logout" id="logoutBtn" onclick="logout()" style="display:none">Keluar</button>
+    <h1>SISTEM PENGIRIMAN UNDANGAN</h1>
+    <p>Ihsan &amp; Syarifah</p>
+    <div class="userline" id="userLine"></div>
+    <div class="note" id="templateNote"></div>
+  </div>
+
+  <div class="card" id="loginCard">
+    <div class="login-title">Pilih Pengirim</div>
+    <select id="senderSelect">
+      <option value="">-- Pilih nama pengirim --</option>
+      <option value="Ihsan">Ihsan</option>
+      <option value="Syarifah">Syarifah</option>
+      <option value="Ibu Ihsan">Ibu Ihsan</option>
+      <option value="Bapa Ihsan">Bapa Ihsan</option>
+      <option value="Mama Syarifah">Mama Syarifah</option>
+      <option value="Bapa Syarifah">Bapa Syarifah</option>
     </select>
-    <button class="primary" onclick="login()">Masuk</button><div id="loginError"></div>
-  </div></div>
-</div>
+    <button class="primary" style="width:100%;margin-top:12px" onclick="login()">Masuk</button>
+  </div>
 
-<div id="app" style="display:none">
-  <div class="header"><div class="container" style="padding-top:0;padding-bottom:0"><div class="topbar">
-    <div style="flex:1"><h1>SISTEM PENGIRIMAN UNDANGAN</h1><p>Ihsan &amp; Syarifah</p></div>
-    <div class="badge" style="background:rgba(255,255,255,.18);color:#fff" id="loggedUser">👤</div>
-    <button class="btn" onclick="logout()" style="background:#fff;color:#274c77">Keluar</button>
-  </div></div></div>
-  <div class="container"><div class="card">
-    <div class="controls"><input id="search" placeholder="🔎 Cari nama atau nomor WhatsApp..." oninput="renderGuests()">
-      <select id="statusFilter" onchange="renderGuests()"><option value="">Semua Status</option><option value="Belum dikirim">Belum dikirim</option><option value="Terkirim">Terkirim</option></select>
+  <div id="app">
+    <div class="stats card">
+      <div class="stat"><b id="totalCount">0</b><span>Tamu Saya</span></div>
+      <div class="stat"><b id="pendingCount">0</b><span>Belum Dikirim</span></div>
+      <div class="stat"><b id="sentCount">0</b><span>Sudah Terkirim</span></div>
     </div>
-    <div class="stats"><div class="stat">Tamu saya<b id="countAll">0</b></div><div class="stat">Belum dikirim<b id="countPending">0</b></div><div class="stat">Sudah terkirim<b id="countSent">0</b></div></div>
-    <div id="tableState" class="loading">Mengambil data tamu...</div><div id="errorBox" class="error" style="display:none"></div>
-    <div class="table-wrap" id="guestTable" style="display:none"><table><thead><tr><th>No</th><th>Nama</th><th>WhatsApp</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="guestBody"></tbody></table></div>
-  </div></div>
+
+    <div class="card">
+      <div class="toolbar">
+        <input id="searchInput" type="text" placeholder="🔎 Cari nama tamu..." oninput="render()">
+        <select id="statusFilter" onchange="render()">
+          <option value="all">Semua Status</option>
+          <option value="Belum dikirim">Belum dikirim</option>
+          <option value="Terkirim">Terkirim</option>
+        </select>
+      </div>
+
+      <div id="loading" class="loading">Memuat data tamu...</div>
+
+      <div class="table-wrap" id="tableWrap" style="display:none">
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Nama Tamu</th>
+              <th>Sapaan</th>
+              <th>No. WhatsApp</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="guestBody"></tbody>
+        </table>
+        <div id="empty" class="empty" style="display:none">Belum ada tamu untuk pengirim ini.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="modal" id="previewModal"><div class="modal-box">
-  <div class="modal-head"><h2 style="margin:0">💬 Lihat Pesan</h2><button class="close" onclick="closePreview()">Tutup</button></div>
-  <p id="previewFor" class="small"></p><div id="previewText" class="message"></div><button class="primary" onclick="sendFromPreview()">📲 Kirim ke WhatsApp</button>
-</div></div>
+<div class="modal" id="previewModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>💬 Preview Pesan</h3>
+      <button class="close" onclick="hidePreview()">Tutup</button>
+    </div>
+    <div id="previewMessage" class="message"></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="secondary" style="flex:1" onclick="copyPreview()">Salin Pesan</button>
+      <button class="success" style="flex:1" onclick="sendPreviewGuest()">📲 Kirim</button>
+    </div>
+  </div>
+</div>
+
+<div id="snack" class="snack"></div>
 
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbzXdTs7LpenGEcu4HP3EOq_4TYleXYaN8EL7qbDeURb16MUU7-7ZNBRHjIlHEHkAiLOJA/exec";
-const INVITATION_URL="https://ihsansyarifah.github.io/wedding-invitation/";
-const SENDERS=["Ihsan","Syarifah","Ibu Ihsan","Bapa Ihsan","Mama Syarifah","Bapa Syarifah"];
-let loggedSender="",guests=[],previewGuest=null;
-const $=id=>document.getElementById(id);
-function login(){const s=$("loginSender").value.trim();if(!s){$("loginError").innerHTML='<div class="error">Pilih pengirim terlebih dahulu.</div>';return}loggedSender=s;sessionStorage.setItem("loggedSender",s);$("loggedUser").textContent="👤 "+s;$("loginPage").style.display="none";$("app").style.display="block";loadGuests()}
-function logout(){sessionStorage.removeItem("loggedSender");location.reload()}
-function showError(m){$("tableState").style.display="none";$("guestTable").style.display="none";$("errorBox").style.display="block";$("errorBox").textContent=m}
+const API_URL = "https://script.google.com/a/*/macros/s/AKfycbzXdTs7LpenGEcu4HP3EOq_4TYleXYaN8EL7qbDeURb16MUU7-7ZNBRHjIlHEHkAiLOJA/exec";
+const INVITATION_URL = "https://ihsansyarifah.github.io/wedding-invitation/";
+
+let allGuests = [];
+let currentSender = "";
+let previewGuest = null;
+
+const PARENT_SENDERS = [
+  "Ibu Ihsan",
+  "Bapa Ihsan",
+  "Mama Syarifah",
+  "Bapa Syarifah"
+];
+
+function clean(v){
+  return v === null || v === undefined ? "" : String(v).trim();
+}
+
+function normalizePhone(v){
+  let p = clean(v).replace(/[^\d]/g,"");
+  if(!p) return "";
+  if(p.startsWith("0")) p = "62" + p.slice(1);
+  else if(p.startsWith("8")) p = "62" + p;
+  if(!p.startsWith("62")) return "";
+  return p;
+}
+
+function esc(v){
+  return clean(v).replace(/[&<>"']/g, function(m){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m];
+  });
+}
+
+function showSnack(msg){
+  const s=document.getElementById("snack");
+  s.textContent=msg;
+  s.classList.add("show");
+  clearTimeout(window.snackTimer);
+  window.snackTimer=setTimeout(()=>s.classList.remove("show"),2800);
+}
+
+function setTemplateNote(){
+  document.getElementById("templateNote").textContent =
+    PARENT_SENDERS.includes(currentSender)
+      ? "Template pesan: Orang Tua"
+      : "Template pesan: Teman";
+}
+
+function login(){
+  const value=document.getElementById("senderSelect").value;
+  if(!value){
+    showSnack("Silakan pilih pengirim dulu.");
+    return;
+  }
+
+  currentSender=value;
+  localStorage.setItem("undangan_sender",value);
+  document.getElementById("loginCard").style.display="none";
+  document.getElementById("app").style.display="block";
+  document.getElementById("logoutBtn").style.display="block";
+  document.getElementById("userLine").textContent="Pengirim: " + value;
+  setTemplateNote();
+  loadGuests();
+}
+
+function logout(){
+  localStorage.removeItem("undangan_sender");
+  currentSender="";
+  allGuests=[];
+  document.getElementById("loginCard").style.display="block";
+  document.getElementById("app").style.display="none";
+  document.getElementById("logoutBtn").style.display="none";
+  document.getElementById("userLine").textContent="";
+  document.getElementById("templateNote").textContent="";
+  document.getElementById("senderSelect").value="";
+}
+
+function init(){
+  const saved=localStorage.getItem("undangan_sender");
+  if(saved){
+    currentSender=saved;
+    document.getElementById("senderSelect").value=saved;
+    document.getElementById("loginCard").style.display="none";
+    document.getElementById("app").style.display="block";
+    document.getElementById("logoutBtn").style.display="block";
+    document.getElementById("userLine").textContent="Pengirim: " + saved;
+    setTemplateNote();
+    loadGuests();
+  }
+}
+
 function loadGuests(){
-  $("errorBox").style.display="none";$("tableState").style.display="block";$("tableState").textContent="Mengambil data tamu...";$("guestTable").style.display="none";
-  const cb="guestCallback_"+Date.now();
-  window[cb]=function(r){try{if(r&&r.success){guests=Array.isArray(r.data)?r.data:[];renderGuests()}else showError((r&&r.message)||"Data tamu gagal diambil.")}finally{delete window[cb];const x=document.getElementById(cb);if(x)x.remove()}};
-  const s=document.createElement("script");s.id=cb;s.src=API_URL+"?action=guests&callback="+encodeURIComponent(cb)+"&_="+Date.now();
-  s.onerror=function(){delete window[cb];s.remove();showError("Chrome tidak berhasil mengambil data Google Sheets. Coba muat ulang halaman.")};document.body.appendChild(s);
+  document.getElementById("loading").style.display="block";
+  document.getElementById("tableWrap").style.display="none";
+
+  const cb="cb_"+Date.now();
+
+  window[cb]=function(result){
+    try{
+      if(!result || !result.success){
+        showSnack("Gagal mengambil data tamu.");
+        return;
+      }
+      allGuests=Array.isArray(result.data) ? result.data : [];
+      updateStats();
+      render();
+    }finally{
+      document.getElementById("loading").style.display="none";
+      document.getElementById("tableWrap").style.display="block";
+      try{delete window[cb]}catch(e){}
+      const sc=document.getElementById(cb);
+      if(sc)sc.remove();
+    }
+  };
+
+  const script=document.createElement("script");
+  script.id=cb;
+  script.src=API_URL+"?action=guests&callback="+encodeURIComponent(cb)+"&_="+Date.now();
+  script.onerror=function(){
+    document.getElementById("loading").style.display="none";
+    document.getElementById("tableWrap").style.display="none";
+    showSnack("Gagal menghubungkan ke database.");
+  };
+  document.body.appendChild(script);
 }
-function clean(v){return v==null?"":String(v).trim()}
-function esc(s){return clean(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-function renderGuests(){
-  const mine=guests.filter(g=>clean(g["Pengirim"])===loggedSender),q=clean($("search").value).toLowerCase(),st=$("statusFilter").value;
-  $("countAll").textContent=mine.length;$("countPending").textContent=mine.filter(g=>clean(g["Status"])!=="Terkirim").length;$("countSent").textContent=mine.filter(g=>clean(g["Status"])==="Terkirim").length;
-  const list=mine.filter(g=>(!q||[g["Nama Tamu"],g["No. WhatsApp"],g["Kategori"]].join(" ").toLowerCase().includes(q))&&(!st||clean(g["Status"])===st));
-  $("tableState").style.display=list.length?"none":"block";$("tableState").textContent=mine.length?"Tidak ada tamu yang cocok.":"Belum ada tamu yang ditugaskan kepada "+loggedSender+".";$("guestTable").style.display=list.length?"block":"none";
-  $("guestBody").innerHTML=list.map((g,i)=>{const sent=clean(g["Status"])==="Terkirim",id=clean(g["ID"]);return `<tr><td>${i+1}</td><td><strong>${esc(g["Nama Tamu"])}</strong><br><span class="small">${esc(g["Sapaan"])}</span></td><td>${esc(g["No. WhatsApp"])}</td><td>${esc(g["Kategori"])||"-"}</td><td>${sent?"☑ Terkirim":"⏳ Belum dikirim"}</td><td><div class="actions"><button class="btn preview" onclick='previewById(${JSON.stringify(id)})'>💬 Lihat Pesan</button><button class="btn wa" onclick='sendById(${JSON.stringify(id)})'>📲 Kirim</button>${sent?"":`<button class="btn sent" onclick='markSentById(${JSON.stringify(id)})'>☑ Terkirim</button>`}</div></td></tr>`}).join("");
+
+function getMyGuests(){
+  return allGuests.filter(g => clean(g["Pengirim"]) === currentSender);
 }
-function findGuest(id){return guests.find(g=>clean(g["ID"])===clean(id))}
-function phone(v){let p=clean(v).replace(/[^\d+]/g,"");if(p[0]==="+")p=p.slice(1);if(p.startsWith("0"))p="62"+p.slice(1);return p}
+
+function updateStats(){
+  const mine=getMyGuests();
+  const sent=mine.filter(g=>clean(g["Status"]).toLowerCase()==="terkirim").length;
+  document.getElementById("totalCount").textContent=mine.length;
+  document.getElementById("sentCount").textContent=sent;
+  document.getElementById("pendingCount").textContent=mine.length-sent;
+}
+
+function render(){
+  const body=document.getElementById("guestBody");
+  const empty=document.getElementById("empty");
+  const q=clean(document.getElementById("searchInput").value).toLowerCase();
+  const filter=document.getElementById("statusFilter").value;
+
+  let list=getMyGuests().filter(g=>{
+    const name=clean(g["Nama Tamu"]).toLowerCase();
+    const phone=clean(g["No. WhatsApp"]).toLowerCase();
+    const status=clean(g["Status"]) || "Belum dikirim";
+    return (!q || name.includes(q) || phone.includes(q)) &&
+           (filter==="all" || status===filter);
+  });
+
+  body.innerHTML="";
+  empty.style.display=list.length ? "none" : "block";
+
+  list.forEach((g,i)=>{
+    const status=clean(g["Status"]) || "Belum dikirim";
+    const isSent=status==="Terkirim";
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+      <td>${i+1}</td>
+      <td><b>${esc(g["Nama Tamu"])}</b></td>
+      <td>${esc(g["Sapaan"])}</td>
+      <td>${esc(g["No. WhatsApp"])}</td>
+      <td><span class="status ${isSent?"sent":"pending"}">${esc(status)}</span></td>
+      <td>
+        <div class="actions">
+          <button class="secondary" onclick="previewById('${esc(g["ID"])}')">💬 Lihat Pesan</button>
+          <button class="primary" onclick="sendById('${esc(g["ID"])}')">📲 Kirim</button>
+          <button class="${isSent?"secondary":"success"}" onclick="toggleSent('${esc(g["ID"])}','${isSent?"Belum dikirim":"Terkirim"}')">
+            ${isSent?"↩ Belum":"☑ Terkirim"}
+          </button>
+        </div>
+      </td>`;
+    body.appendChild(tr);
+  });
+}
+
+function findById(id){
+  return allGuests.find(g=>String(g["ID"])===String(id));
+}
+
 function makeMessage(g){
   const sapaan = clean(g["Sapaan"]) || "Bapak/Ibu/Saudara/i";
   const nama = clean(g["Nama Tamu"]);
   const tujuan = nama ? sapaan + " " + nama : sapaan;
-  const link = INVITATION_URL + "?to=" + encodeURIComponent(nama).replace(/\\+/g,"%20");
 
-  const orangTua = ["Ibu Ihsan","Bapa Ihsan","Mama Syarifah","Bapa Syarifah"];
-  const templateOrangTua = orangTua.includes(currentSender);
+  // %20 dipertahankan agar spasi pada nama tamu terbaca benar oleh website undangan.
+  const link = INVITATION_URL + "?to=" + encodeURIComponent(nama).replace(/\+/g,"%20");
 
+  // Emoji Unicode standar (akan dirender oleh font emoji di perangkat/WhatsApp).
   const detailAcara =
 `🗓️ Hari, Tanggal: *Minggu, 20 Desember 2026*
 🕓 Jam: *11.00 - 14.00 WIB*
@@ -98,7 +383,7 @@ function makeMessage(g){
 *(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
 Link undangan dapat diakses lengkap di *${link}*`;
 
-  if(templateOrangTua){
+  if(PARENT_SENDERS.includes(currentSender)){
     return `*Yth. ${tujuan}*
 Di Tempat
 -----------------------------------------------------
@@ -146,13 +431,109 @@ Dengan hangat,
 *Ihsan & Syarifah* 🤍`;
 }
 
-function previewById(id){const g=findGuest(id);if(!g)return;previewGuest=g;$("previewFor").textContent=clean(g["Nama Tamu"])+" • "+clean(g["No. WhatsApp"]);$("previewText").textContent=makeMessage(g);$("previewModal").style.display="flex"}
-function closePreview(){$("previewModal").style.display="none";previewGuest=null}
-function sendFromPreview(){if(previewGuest)sendGuest(previewGuest)}
-function sendById(id){const g=findGuest(id);if(g)sendGuest(g)}
-function sendGuest(g){const p=phone(g["No. WhatsApp"]);if(!p){alert("Nomor WhatsApp tamu belum tersedia.");return}location.href="https://wa.me/"+p+"?text="+encodeURIComponent(makeMessage(g))}
-function markSentById(id){const g=findGuest(id);if(!g||!confirm("Tandai "+clean(g["Nama Tamu"])+" sebagai Terkirim?"))return;g["Status"]="Terkirim";renderGuests();const f=document.createElement("iframe");f.style.display="none";f.src=API_URL+"?action=updateStatus&id="+encodeURIComponent(clean(g["ID"]))+"&status=Terkirim&_="+Date.now();document.body.appendChild(f);setTimeout(()=>f.remove(),5000)}
-(function(){const s=sessionStorage.getItem("loggedSender");if(s&&SENDERS.includes(s)){loggedSender=s;$("loggedUser").textContent="👤 "+s;$("loginPage").style.display="none";$("app").style.display="block";loadGuests()}})();
+function previewById(id){
+  const g=findById(id);
+  if(!g){
+    showSnack("Data tamu tidak ditemukan.");
+    return;
+  }
+  previewGuest=g;
+  document.getElementById("previewMessage").textContent=makeMessage(g);
+  document.getElementById("previewModal").classList.add("show");
+}
+
+function hidePreview(){
+  document.getElementById("previewModal").classList.remove("show");
+  previewGuest=null;
+}
+
+function closeModal(e){
+  if(e.target===document.getElementById("previewModal")) hidePreview();
+}
+
+function copyPreview(){
+  if(!previewGuest)return;
+  const text=makeMessage(previewGuest);
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text)
+      .then(()=>showSnack("Pesan berhasil disalin."))
+      .catch(()=>showSnack("Tidak bisa menyalin otomatis."));
+  }else{
+    const ta=document.createElement("textarea");
+    ta.value=text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      document.execCommand("copy");
+      showSnack("Pesan berhasil disalin.");
+    }catch(e){
+      showSnack("Tidak bisa menyalin otomatis.");
+    }
+    ta.remove();
+  }
+}
+
+function openWhatsApp(g){
+  const p=normalizePhone(g["No. WhatsApp"]);
+  if(!p){
+    showSnack("Nomor WhatsApp tidak valid.");
+    return false;
+  }
+
+  const url="https://wa.me/"+p+"?text="+encodeURIComponent(makeMessage(g));
+
+  // Meminta browser membuka WhatsApp di tab baru.
+  const a=document.createElement("a");
+  a.href=url;
+  a.target="_blank";
+  a.rel="noopener noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  return true;
+}
+
+function sendById(id){
+  const g=findById(id);
+  if(g) openWhatsApp(g);
+}
+
+function sendPreviewGuest(){
+  if(!previewGuest)return;
+  if(openWhatsApp(previewGuest)) hidePreview();
+}
+
+/*
+  Apps Script updateStatus saat ini mengembalikan JSON biasa.
+  Karena halaman memakai JSONP untuk mengambil data, status dikirim
+  sebagai GET menggunakan fetch no-cors. Browser tetap mengirim request
+  tanpa membutuhkan pembacaan response lintas-domain.
+*/
+function updateStatus(id,status){
+  const url=API_URL+
+    "?action=updateStatus"+
+    "&id="+encodeURIComponent(id)+
+    "&status="+encodeURIComponent(status)+
+    "&_="+Date.now();
+
+  fetch(url,{method:"GET",mode:"no-cors",cache:"no-store"})
+    .catch(()=>{});
+
+  const g=findById(id);
+  if(g) g["Status"]=status;
+
+  updateStats();
+  render();
+
+  showSnack(status==="Terkirim" ? "Status: Terkirim" : "Status: Belum dikirim");
+}
+
+function toggleSent(id,status){
+  updateStatus(id,status);
+}
+
+window.addEventListener("load",init);
 </script>
 </body>
 </html>
