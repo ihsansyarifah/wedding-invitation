@@ -1,26 +1,158 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sistem Pengiriman Undangan - Ihsan & Syarifah</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#1f2937}.wrap{max-width:1100px;margin:auto;padding:16px}.header{background:linear-gradient(135deg,#315f8f,#6f94b8);color:white;border-radius:18px;padding:22px;margin-bottom:16px}.header h1{margin:0 0 5px;font-size:24px}.header p{margin:0}.logout{float:right;border:0;border-radius:9px;padding:9px 12px;background:#ffffff2b;color:white}.card{background:white;border-radius:16px;padding:17px;margin-bottom:15px;box-shadow:0 5px 18px #0000000d}select,input{width:100%;padding:12px;border:1px solid #d7dde5;border-radius:10px;font-size:15px}button{border:0;border-radius:9px;padding:10px 12px;font-weight:700;cursor:pointer}.primary{background:#315f8f;color:#fff}.secondary{background:#eef3f8;color:#315f8f}.success{background:#2e8b57;color:#fff}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;background:#f6f8fb;border-radius:12px;padding:13px}.stat b{display:block;font-size:24px;color:#315f8f}.toolbar{display:grid;grid-template-columns:1fr 190px;gap:10px;margin-bottom:14px}.table-wrap{overflow:auto}table{width:100%;min-width:800px;border-collapse:collapse}th,td{padding:11px 9px;border-bottom:1px solid #edf0f4;text-align:left}th{background:#f7f9fc;color:#596575;font-size:13px}.actions{display:flex;gap:6px;flex-wrap:wrap}.status{padding:5px 9px;border-radius:999px;font-size:12px;font-weight:bold}.pending{background:#fff2d8;color:#956100}.sent{background:#def5e8;color:#19703f}.modal{display:none;position:fixed;inset:0;background:#0007;align-items:center;justify-content:center;padding:15px;z-index:10}.modal.show{display:flex}.modalbox{background:white;border-radius:16px;padding:18px;max-width:650px;width:100%;max-height:88vh;overflow:auto}.message{white-space:pre-wrap;background:#f7f8fa;border:1px solid #e1e5ea;border-radius:12px;padding:14px;line-height:1.55;font-size:14px;margin-top:13px}.snack{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:11px 16px;border-radius:9px;z-index:20}.snack.show{display:block}@media(max-width:700px){.toolbar{grid-template-columns:1fr}.stats{gap:6px}.stat{padding:10px 3px}.stat b{font-size:20px}.actions button{flex:1}}</style></head><body><div class="wrap"><div class="header"><button id="logout" class="logout" style="display:none" onclick="logout()">Keluar</button><h1>SISTEM PENGIRIMAN UNDANGAN</h1><p>Ihsan &amp; Syarifah</p><div id="user" style="margin-top:7px;font-size:14px"></div></div><div id="login" class="card"><b>Pilih Pengirim</b><select id="sender" style="margin-top:10px"><option value="">-- Pilih nama pengirim --</option><option>Ihsan</option><option>Syarifah</option><option>Ibu Ihsan</option><option>Bapa Ihsan</option><option>Mama Syarifah</option><option>Bapa Syarifah</option></select><button class="primary" style="width:100%;margin-top:10px" onclick="login()">Masuk</button></div><div id="app" style="display:none"><div class="stats card"><div class="stat"><b id="total">0</b>Tamu Saya</div><div class="stat"><b id="pending">0</b>Belum Dikirim</div><div class="stat"><b id="sent">0</b>Sudah Terkirim</div></div><div class="card"><div class="toolbar"><input id="search" placeholder="🔎 Cari nama tamu..." oninput="render()"><select id="filter" onchange="render()"><option value="all">Semua Status</option><option>Belum dikirim</option><option>Terkirim</option></select></div><div id="loading">Memuat data tamu...</div><div id="table" class="table-wrap" style="display:none"><table><thead><tr><th>No.</th><th>Nama Tamu</th><th>Sapaan</th><th>No. WhatsApp</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="body"></tbody></table><div id="empty" style="display:none;text-align:center;padding:25px;color:#777">Belum ada tamu untuk pengirim ini.</div></div></div></div></div><div id="modal" class="modal" onclick="if(event.target===this)hidePreview()"><div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">💬 Preview Pesan</h3><button class="secondary" onclick="hidePreview()">Tutup</button></div><div id="message" class="message"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="secondary" style="flex:1" onclick="copyMessage()">Salin Pesan</button><button class="success" style="flex:1" onclick="sendPreview()">📲 Kirim</button></div></div></div><div id="snack" class="snack"></div><script>
-const API_URL='https://script.google.com/a/*/macros/s/AKfycbzXdTs7LpenGEcu4HP3EOq_4TYleXYaN8EL7qbDeURb16MUU7-7ZNBRHjIlHEHkAiLOJA/exec';
-const INVITATION_URL='https://ihsansyarifah.github.io/wedding-invitation/';
-let guests=[],sender='',preview=null;
-const $=id=>document.getElementById(id), clean=v=>v==null?'':String(v).trim();
-function esc(v){return clean(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function phone(v){let p=clean(v).replace(/\D/g,'');if(!p)return'';if(p.startsWith('0'))p='62'+p.slice(1);else if(p.startsWith('8'))p='62'+p;return p.startsWith('62')?p:''}
-function snack(t){$('snack').textContent=t;$('snack').classList.add('show');clearTimeout(window.st);window.st=setTimeout(()=>$('snack').classList.remove('show'),2500)}
-function login(){sender=$('sender').value;if(!sender)return snack('Silakan pilih pengirim dulu.');localStorage.setItem('undangan_sender',sender);showApp();load()}
-function showApp(){$('login').style.display='none';$('app').style.display='block';$('logout').style.display='block';$('user').textContent='Pengirim: '+sender}
-function logout(){localStorage.removeItem('undangan_sender');sender='';guests=[];$('login').style.display='block';$('app').style.display='none';$('logout').style.display='none';$('user').textContent='';$('sender').value=''}
-function load(){ $('loading').style.display='block';$('table').style.display='none';let cb='cb'+Date.now();window[cb]=r=>{if(r&&r.success)guests=r.data||[];else snack('Gagal mengambil data tamu.');update();render();$('loading').style.display='none';$('table').style.display='block';delete window[cb];document.getElementById(cb)?.remove()};let s=document.createElement('script');s.id=cb;s.src=API_URL+'?action=guests&callback='+cb+'&_='+Date.now();s.onerror=()=>snack('Gagal menghubungkan ke database.');document.body.appendChild(s)}
-function mine(){return guests.filter(g=>clean(g['Pengirim'])===sender)}
-function update(){let m=mine(),sent=m.filter(g=>clean(g['Status'])==='Terkirim').length;$('total').textContent=m.length;$('sent').textContent=sent;$('pending').textContent=m.length-sent}
-function render(){let q=clean($('search').value).toLowerCase(),f=$('filter').value,b=$('body');b.innerHTML='';let list=mine().filter(g=>(!q||clean(g['Nama Tamu']).toLowerCase().includes(q)||clean(g['No. WhatsApp']).toLowerCase().includes(q))&&(f==='all'||clean(g['Status'])===f));$('empty').style.display=list.length?'none':'block';list.forEach((g,i)=>{let sent=clean(g['Status'])==='Terkirim',tr=document.createElement('tr');tr.innerHTML='<td>'+(i+1)+'</td><td><b>'+esc(g['Nama Tamu'])+'</b></td><td>'+esc(g['Sapaan'])+'</td><td>'+esc(g['No. WhatsApp'])+'</td><td><span class="status '+(sent?'sent':'pending')+'">'+esc(clean(g['Status'])||'Belum dikirim')+'</span></td><td><div class="actions"><button class="secondary" onclick="previewId(\''+esc(g['ID'])+'\')">💬 Lihat Pesan</button><button class="primary" onclick="sendId(\''+esc(g['ID'])+'\')">📲 Kirim</button><button class="'+(sent?'secondary':'success')+'" onclick="status(\''+esc(g['ID'])+'\',\''+(sent?'Belum dikirim':'Terkirim')+'\')">'+(sent?'↩ Belum':'☑ Terkirim')+'</button></div></td>';b.appendChild(tr)})}
-function byId(id){return guests.find(g=>String(g['ID'])===String(id))}
-function msg(g){let name=clean(g['Nama Tamu']),sapaan=clean(g['Sapaan'])||'Bapak/Ibu/Saudara/i';return `Yth. ${sapaan}${name?' '+name:''}\nDi Tempat\n-----------------------------------------------------\n\nبِسْــــــــــــــــــمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ\n\nٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ\n\n\nDengan segala kerendahan hati dan dengan ungkapan syukur atas karunia Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri resepsi pernikahan putra-putri kami yang Insya Allah akan dilaksanakan pada:\n\n===========================\n🗓️ Hari, Tanggal: Minggu, 20 Desember 2026\n🕓 Jam: 11.00 - 14.00 WIB\n📍 Tempat: Gedung Daarul Matiin Cibadak\n(Jl. ........................)\nLink undangan dapat diakses lengkap di:\n${INVITATION_URL}?to=${encodeURIComponent(name)}\n===========================\n\nKehadiran Bapak/Ibu/Saudara/i adalah silaturahmi.\nDoa restu Bapak/Ibu/Saudara/i adalah kado terindah bagi kami.\nKehadiran Bapak/Ibu/Saudara/i adalah doa restu yang tidak ternilai harganya.\n\nJazakumullahu khoiron katsiron, hanya kepada Ilahi Robbi tercurah doa sebagai ungkapan terima kasih kami.\n\nوَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ`}
-function previewId(id){preview=byId(id);if(!preview)return; $('message').textContent=msg(preview);$('modal').classList.add('show')}
-function hidePreview(){$('modal').classList.remove('show');preview=null}
-function copyMessage(){if(!preview)return;navigator.clipboard.writeText(msg(preview)).then(()=>snack('Pesan berhasil disalin.')).catch(()=>snack('Tidak bisa menyalin otomatis.'))}
-function wa(g){let p=phone(g['No. WhatsApp']);if(!p)return snack('Nomor WhatsApp tidak valid.');let a=document.createElement('a');a.href='https://wa.me/'+p+'?text='+encodeURIComponent(msg(g));a.target='_blank';a.rel='noopener noreferrer';document.body.appendChild(a);a.click();a.remove()}
-function sendId(id){let g=byId(id);if(g)wa(g)}
-function sendPreview(){if(preview){let g=preview;hidePreview();wa(g)}}
-function status(id,st){let cb='st'+Date.now();window[cb]=r=>{if(r&&r.success){let g=byId(id);if(g)g['Status']=st;update();render();snack('Status diperbarui.')}else snack('Gagal memperbarui status.');delete window[cb];document.getElementById(cb)?.remove()};let s=document.createElement('script');s.id=cb;s.src=API_URL+'?action=updateStatus&id='+encodeURIComponent(id)+'&status='+encodeURIComponent(st)+'&callback='+cb+'&_='+Date.now();s.onerror=()=>snack('Gagal menghubungkan ke database.');document.body.appendChild(s)}
-window.addEventListener('load',()=>{let s=localStorage.getItem('undangan_sender');if(s){sender=s;$('sender').value=s;showApp();load()}});
-</script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Pengiriman Undangan — Ihsan & Syarifah</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#24324a}
+.header{background:linear-gradient(135deg,#274c77,#6096ba);color:#fff;padding:22px 18px}.header h1{margin:0;font-size:22px}.header p{margin:5px 0 0;opacity:.9}
+.container{max-width:1100px;margin:auto;padding:18px}.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 5px 20px rgba(0,0,0,.07);margin-bottom:16px}
+.login{max-width:430px;margin:70px auto}label{display:block;font-weight:700;margin:12px 0 6px}select,input{width:100%;padding:12px;border:1px solid #d7deea;border-radius:10px;background:#fff}
+.primary{width:100%;border:0;border-radius:10px;padding:13px;background:#274c77;color:#fff;font-weight:700;margin-top:14px;cursor:pointer}
+.topbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.badge{padding:8px 12px;border-radius:999px;background:#eef3f8}
+.controls{display:grid;grid-template-columns:1fr 180px;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}
+.stat{padding:15px;border-radius:12px;background:#f5f8fc;text-align:center}.stat b{display:block;font-size:24px}.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:11px 9px;border-bottom:1px solid #edf0f4;text-align:left;vertical-align:top}th{background:#f8fafc}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.btn{border:0;border-radius:8px;padding:8px 10px;cursor:pointer;font-weight:700}.preview{background:#edf4fb;color:#274c77}.wa{background:#e8f7ee;color:#176b3a}.sent{background:#274c77;color:#fff}
+.error{background:#fff0f0;color:#a21d1d;padding:12px;border-radius:10px;margin-top:12px}.loading{text-align:center;padding:25px;color:#68778d}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modal-box{background:#fff;border-radius:16px;max-width:650px;width:100%;max-height:85vh;overflow:auto;padding:18px}
+.modal-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.close{border:0;background:#eee;border-radius:8px;padding:8px 12px;cursor:pointer}.message{white-space:pre-wrap;background:#f7f9fc;border-radius:12px;padding:15px;line-height:1.55}.small{font-size:13px;color:#718096}
+@media(max-width:650px){.controls{grid-template-columns:1fr}.container{padding:12px}.card{padding:14px}}
+</style>
+</head>
+<body>
+<div id="loginPage">
+  <div class="header"><h1>SISTEM PENGIRIMAN UNDANGAN</h1><p>Ihsan &amp; Syarifah</p></div>
+  <div class="container"><div class="card login">
+    <h2>🔐 Pilih Pengirim</h2><p class="small">Pilih nama pengirim untuk melihat daftar tamu yang ditugaskan.</p>
+    <label>Pengirim</label>
+    <select id="loginSender">
+      <option value="">-- Pilih Pengirim --</option><option>Ihsan</option><option>Syarifah</option><option>Ibu Ihsan</option><option>Bapa Ihsan</option><option>Mama Syarifah</option><option>Bapa Syarifah</option>
+    </select>
+    <button class="primary" onclick="login()">Masuk</button><div id="loginError"></div>
+  </div></div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="header"><div class="container" style="padding-top:0;padding-bottom:0"><div class="topbar">
+    <div style="flex:1"><h1>SISTEM PENGIRIMAN UNDANGAN</h1><p>Ihsan &amp; Syarifah</p></div>
+    <div class="badge" style="background:rgba(255,255,255,.18);color:#fff" id="loggedUser">👤</div>
+    <button class="btn" onclick="logout()" style="background:#fff;color:#274c77">Keluar</button>
+  </div></div></div>
+  <div class="container"><div class="card">
+    <div class="controls"><input id="search" placeholder="🔎 Cari nama atau nomor WhatsApp..." oninput="renderGuests()">
+      <select id="statusFilter" onchange="renderGuests()"><option value="">Semua Status</option><option value="Belum dikirim">Belum dikirim</option><option value="Terkirim">Terkirim</option></select>
+    </div>
+    <div class="stats"><div class="stat">Tamu saya<b id="countAll">0</b></div><div class="stat">Belum dikirim<b id="countPending">0</b></div><div class="stat">Sudah terkirim<b id="countSent">0</b></div></div>
+    <div id="tableState" class="loading">Mengambil data tamu...</div><div id="errorBox" class="error" style="display:none"></div>
+    <div class="table-wrap" id="guestTable" style="display:none"><table><thead><tr><th>No</th><th>Nama</th><th>WhatsApp</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="guestBody"></tbody></table></div>
+  </div></div>
+</div>
+
+<div class="modal" id="previewModal"><div class="modal-box">
+  <div class="modal-head"><h2 style="margin:0">💬 Lihat Pesan</h2><button class="close" onclick="closePreview()">Tutup</button></div>
+  <p id="previewFor" class="small"></p><div id="previewText" class="message"></div><button class="primary" onclick="sendFromPreview()">📲 Kirim ke WhatsApp</button>
+</div></div>
+
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbzXdTs7LpenGEcu4HP3EOq_4TYleXYaN8EL7qbDeURb16MUU7-7ZNBRHjIlHEHkAiLOJA/exec";
+const INVITATION_URL="https://ihsansyarifah.github.io/wedding-invitation/";
+const SENDERS=["Ihsan","Syarifah","Ibu Ihsan","Bapa Ihsan","Mama Syarifah","Bapa Syarifah"];
+let loggedSender="",guests=[],previewGuest=null;
+const $=id=>document.getElementById(id);
+function login(){const s=$("loginSender").value.trim();if(!s){$("loginError").innerHTML='<div class="error">Pilih pengirim terlebih dahulu.</div>';return}loggedSender=s;sessionStorage.setItem("loggedSender",s);$("loggedUser").textContent="👤 "+s;$("loginPage").style.display="none";$("app").style.display="block";loadGuests()}
+function logout(){sessionStorage.removeItem("loggedSender");location.reload()}
+function showError(m){$("tableState").style.display="none";$("guestTable").style.display="none";$("errorBox").style.display="block";$("errorBox").textContent=m}
+function loadGuests(){
+  $("errorBox").style.display="none";$("tableState").style.display="block";$("tableState").textContent="Mengambil data tamu...";$("guestTable").style.display="none";
+  const cb="guestCallback_"+Date.now();
+  window[cb]=function(r){try{if(r&&r.success){guests=Array.isArray(r.data)?r.data:[];renderGuests()}else showError((r&&r.message)||"Data tamu gagal diambil.")}finally{delete window[cb];const x=document.getElementById(cb);if(x)x.remove()}};
+  const s=document.createElement("script");s.id=cb;s.src=API_URL+"?action=guests&callback="+encodeURIComponent(cb)+"&_="+Date.now();
+  s.onerror=function(){delete window[cb];s.remove();showError("Chrome tidak berhasil mengambil data Google Sheets. Coba muat ulang halaman.")};document.body.appendChild(s);
+}
+function clean(v){return v==null?"":String(v).trim()}
+function esc(s){return clean(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function renderGuests(){
+  const mine=guests.filter(g=>clean(g["Pengirim"])===loggedSender),q=clean($("search").value).toLowerCase(),st=$("statusFilter").value;
+  $("countAll").textContent=mine.length;$("countPending").textContent=mine.filter(g=>clean(g["Status"])!=="Terkirim").length;$("countSent").textContent=mine.filter(g=>clean(g["Status"])==="Terkirim").length;
+  const list=mine.filter(g=>(!q||[g["Nama Tamu"],g["No. WhatsApp"],g["Kategori"]].join(" ").toLowerCase().includes(q))&&(!st||clean(g["Status"])===st));
+  $("tableState").style.display=list.length?"none":"block";$("tableState").textContent=mine.length?"Tidak ada tamu yang cocok.":"Belum ada tamu yang ditugaskan kepada "+loggedSender+".";$("guestTable").style.display=list.length?"block":"none";
+  $("guestBody").innerHTML=list.map((g,i)=>{const sent=clean(g["Status"])==="Terkirim",id=clean(g["ID"]);return `<tr><td>${i+1}</td><td><strong>${esc(g["Nama Tamu"])}</strong><br><span class="small">${esc(g["Sapaan"])}</span></td><td>${esc(g["No. WhatsApp"])}</td><td>${esc(g["Kategori"])||"-"}</td><td>${sent?"☑ Terkirim":"⏳ Belum dikirim"}</td><td><div class="actions"><button class="btn preview" onclick='previewById(${JSON.stringify(id)})'>💬 Lihat Pesan</button><button class="btn wa" onclick='sendById(${JSON.stringify(id)})'>📲 Kirim</button>${sent?"":`<button class="btn sent" onclick='markSentById(${JSON.stringify(id)})'>☑ Terkirim</button>`}</div></td></tr>`}).join("");
+}
+function findGuest(id){return guests.find(g=>clean(g["ID"])===clean(id))}
+function phone(v){let p=clean(v).replace(/[^\d+]/g,"");if(p[0]==="+")p=p.slice(1);if(p.startsWith("0"))p="62"+p.slice(1);return p}
+function makeMessage(g){
+  const sapaan = clean(g["Sapaan"]) || "Bapak/Ibu/Saudara/i";
+  const nama = clean(g["Nama Tamu"]);
+  const tujuan = nama ? sapaan + " " + nama : sapaan;
+  const link = INVITATION_URL + "?to=" + encodeURIComponent(nama).replace(/\+/g,"%20");
+
+  const orangTua = ["Ibu Ihsan","Bapa Ihsan","Mama Syarifah","Bapa Syarifah"];
+  const templateOrangTua = orangTua.includes(currentSender);
+
+  if(templateOrangTua){
+    return `*Yth. ${tujuan}*
+Di Tempat
+-----------------------------------------------------
+
+بِسْــــــــــــــــــمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+
+ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ
+
+
+Dengan segala kerendahan hati dan dengan ungkapan syukur atas karunia Allah SWT, kami mengundang *${tujuan}* untuk menghadiri *resepsi pernikahan putra-putri kami* yang Insya Allah akan dilaksanakan pada:
+
+===========================
+🗓️ Hari, Tanggal: *Minggu, 20 Desember 2026*
+🕓 Jam: *11.00 - 14.00 WIB*
+📍 Tempat: *Masjid Cibadak Daarul Matiin*
+*(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
+Link undangan dapat diakses lengkap di *${link}*
+===========================
+
+Kehadiran *${tujuan}* adalah silaturahmi.
+Doa restu *${tujuan}* adalah kado terindah bagi kami.
+Kehadiran *${tujuan}* adalah doa restu yang tidak ternilai harganya.
+
+Jazakumullahu khoiron katsiron, hanya kepada Ilahi Robbi tercurah doa sebagai ungkapan terima kasih kami.
+
+وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ`;
+  }
+
+  return `*Yth. ${tujuan}*
+Di Tempat
+-----------------------------------------------------
+
+Assalamu’alaikum Warahmatullahi Wabarakatuh
+
+Dengan penuh rasa syukur atas karunia Allah SWT, dengan segala kerendahan hati kami mengundang *${tujuan}* untuk berkenan hadir dalam momen istimewa pernikahan kami.
+
+Insya Allah, resepsi pernikahan kami akan dilaksanakan pada:
+
+🗓️ Hari, Tanggal: *Minggu, 20 Desember 2026*
+🕓 Jam: *11.00 - 14.00 WIB*
+📍 Tempat: *Masjid Cibadak Daarul Matiin*
+*(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
+Link undangan dapat diakses lengkap di *${link}*
+
+Suatu kebahagiaan bagi kami apabila *${tujuan}* berkenan hadir, bersilaturahmi, serta memberikan doa dan restu untuk mengiringi langkah kami dalam membangun kehidupan bersama.
+
+Jazakumullahu khoiron katsiron atas perhatian dan doa yang diberikan.
+
+Wassalamu’alaikum Warahmatullahi Wabarakatuh
+
+Dengan hangat,
+*Ihsan & Syarifah* 🤍`;
+}
+
+function previewById(id){const g=findGuest(id);if(!g)return;previewGuest=g;$("previewFor").textContent=clean(g["Nama Tamu"])+" • "+clean(g["No. WhatsApp"]);$("previewText").textContent=makeMessage(g);$("previewModal").style.display="flex"}
+function closePreview(){$("previewModal").style.display="none";previewGuest=null}
+function sendFromPreview(){if(previewGuest)sendGuest(previewGuest)}
+function sendById(id){const g=findGuest(id);if(g)sendGuest(g)}
+function sendGuest(g){const p=phone(g["No. WhatsApp"]);if(!p){alert("Nomor WhatsApp tamu belum tersedia.");return}location.href="https://wa.me/"+p+"?text="+encodeURIComponent(makeMessage(g))}
+function markSentById(id){const g=findGuest(id);if(!g||!confirm("Tandai "+clean(g["Nama Tamu"])+" sebagai Terkirim?"))return;g["Status"]="Terkirim";renderGuests();const f=document.createElement("iframe");f.style.display="none";f.src=API_URL+"?action=updateStatus&id="+encodeURIComponent(clean(g["ID"]))+"&status=Terkirim&_="+Date.now();document.body.appendChild(f);setTimeout(()=>f.remove(),5000)}
+(function(){const s=sessionStorage.getItem("loggedSender");if(s&&SENDERS.includes(s)){loggedSender=s;$("loggedUser").textContent="👤 "+s;$("loginPage").style.display="none";$("app").style.display="block";loadGuests()}})();
+</script>
+</body>
+</html>
