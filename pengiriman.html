@@ -199,9 +199,13 @@ function makeMessage(g){
   const tujuan=nama?sapaan+" "+nama:sapaan;
   const link=INVITATION_URL+"?to="+encodeURIComponent(nama).replace(/\+/g,"%20");
 
-  const detail=`🗓️ Hari, Tanggal: *Minggu, 20 Desember 2026*
-🕓 Jam: *11.00 - 14.00 WIB*
-📍 Tempat: *Masjid Cibadak Daarul Matiin*
+  // Bentuk emoji dari Unicode code point agar karakter emoji tidak disimpan mentah di HTML.
+  const EMOJI_CALENDAR = String.fromCodePoint(0x1F5D3, 0xFE0F);
+  const EMOJI_CLOCK = String.fromCodePoint(0x1F553);
+  const EMOJI_LOCATION = String.fromCodePoint(0x1F4CD);
+  const detail=`${EMOJI_CALENDAR} Hari, Tanggal: *Minggu, 20 Desember 2026*
+${EMOJI_CLOCK} Jam: *11.00 - 14.00 WIB*
+${EMOJI_LOCATION} Tempat: *Masjid Cibadak Daarul Matiin*
 *(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
 Link undangan dapat diakses lengkap di *${link}*`;
 
