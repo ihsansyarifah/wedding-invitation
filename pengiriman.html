@@ -86,10 +86,17 @@ function makeMessage(g){
   const sapaan = clean(g["Sapaan"]) || "Bapak/Ibu/Saudara/i";
   const nama = clean(g["Nama Tamu"]);
   const tujuan = nama ? sapaan + " " + nama : sapaan;
-  const link = INVITATION_URL + "?to=" + encodeURIComponent(nama).replace(/\+/g,"%20");
+  const link = INVITATION_URL + "?to=" + encodeURIComponent(nama).replace(/\\+/g,"%20");
 
   const orangTua = ["Ibu Ihsan","Bapa Ihsan","Mama Syarifah","Bapa Syarifah"];
   const templateOrangTua = orangTua.includes(currentSender);
+
+  const detailAcara =
+`🗓️ Hari, Tanggal: *Minggu, 20 Desember 2026*
+🕓 Jam: *11.00 - 14.00 WIB*
+📍 Tempat: *Masjid Cibadak Daarul Matiin*
+*(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
+Link undangan dapat diakses lengkap di *${link}*`;
 
   if(templateOrangTua){
     return `*Yth. ${tujuan}*
@@ -104,11 +111,7 @@ Di Tempat
 Dengan segala kerendahan hati dan dengan ungkapan syukur atas karunia Allah SWT, kami mengundang *${tujuan}* untuk menghadiri *resepsi pernikahan putra-putri kami* yang Insya Allah akan dilaksanakan pada:
 
 ===========================
-🗓️ Hari, Tanggal: *Minggu, 20 Desember 2026*
-🕓 Jam: *11.00 - 14.00 WIB*
-📍 Tempat: *Masjid Cibadak Daarul Matiin*
-*(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
-Link undangan dapat diakses lengkap di *${link}*
+${detailAcara}
 ===========================
 
 Kehadiran *${tujuan}* adalah silaturahmi.
@@ -126,15 +129,12 @@ Di Tempat
 
 Assalamu’alaikum Warahmatullahi Wabarakatuh
 
+
 Dengan penuh rasa syukur atas karunia Allah SWT, dengan segala kerendahan hati kami mengundang *${tujuan}* untuk berkenan hadir dalam momen istimewa pernikahan kami.
 
 Insya Allah, resepsi pernikahan kami akan dilaksanakan pada:
 
-🗓️ Hari, Tanggal: *Minggu, 20 Desember 2026*
-🕓 Jam: *11.00 - 14.00 WIB*
-📍 Tempat: *Masjid Cibadak Daarul Matiin*
-*(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
-Link undangan dapat diakses lengkap di *${link}*
+${detailAcara}
 
 Suatu kebahagiaan bagi kami apabila *${tujuan}* berkenan hadir, bersilaturahmi, serta memberikan doa dan restu untuk mengiringi langkah kami dalam membangun kehidupan bersama.
 
