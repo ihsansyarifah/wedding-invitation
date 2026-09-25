@@ -258,7 +258,7 @@ function hidePreview(){$("previewModal").classList.remove("show");previewGuest=n
 function openWhatsApp(g){
   const p=normalizePhone(g["No. WhatsApp"]);
   if(!p){showSnack("Nomor WhatsApp tidak valid.");return false}
-  const url="https://wa.me/"+p+"?text="+encodeURIComponent(makeMessage(g));
+  const url="https://api.whatsapp.com/send?phone="+p+"&text="+encodeURIComponent(makeMessage(g));
   const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";a.style.display="none";
   document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),1000);return true;
 }
