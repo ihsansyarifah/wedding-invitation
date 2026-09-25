@@ -20,7 +20,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .primary{background:#315f8f;color:#fff}.secondary{background:#eef3f8;color:#315f8f}.success{background:#2e8b57;color:#fff}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .stat{padding:15px;border-radius:12px;background:#f6f8fb;text-align:center}.stat b{display:block;font-size:25px;color:#315f8f;margin-bottom:4px}
-.toolbar{display:grid;grid-template-columns:1fr 180px;gap:10px;margin-bottom:15px}
+.toolbar{display:grid;grid-template-columns:1fr 180px;gap:10px;margin-bottom:15px}.toolbar-top{display:flex;justify-content:flex-end;margin-bottom:10px}.add-btn{background:#315f8f;color:#fff}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#566273}.form-group.full{grid-column:1/-1}.form-actions{display:flex;gap:8px;margin-top:14px}.form-actions button{flex:1}.readonly-box{background:#f7f9fc;padding:12px 13px;border-radius:10px;border:1px solid #d5dce5;font-size:14px;font-weight:700;color:#315f8f}@media(max-width:600px){.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}}
 .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}
 th,td{padding:12px 10px;border-bottom:1px solid #edf0f4;text-align:left;vertical-align:middle}
 th{background:#f7f9fc;font-size:13px;color:#566273}td{font-size:14px}
@@ -89,6 +89,26 @@ th{background:#f7f9fc;font-size:13px;color:#566273}td{font-size:14px}
         <div id="empty" class="empty" style="display:none">Belum ada tamu untuk pengirim ini.</div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="modal" id="addGuestModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>＋ Tambah Tamu</h3>
+      <button type="button" class="close" id="closeAddGuestBtn">Tutup</button>
+    </div>
+    <form id="addGuestForm" style="margin-top:15px">
+      <div class="form-grid">
+        <div class="form-group full"><label>Nama Tamu</label><input id="newName" required placeholder="Contoh: Ahmad Fauzi"></div>
+        <div class="form-group"><label>Sapaan</label><select id="newSapaan" required><option value="">Pilih sapaan</option><option>Bapak</option><option>Ibu</option><option>Saudara</option><option>Saudari</option></select></div>
+        <div class="form-group"><label>No. WhatsApp</label><input id="newPhone" inputmode="numeric" required placeholder="08xxxxxxxxxx"></div>
+        <div class="form-group"><label>Kategori</label><select id="newCategory"><option>Teman</option><option>Rekan</option><option>Keluarga</option><option>Lainnya</option></select></div>
+        <div class="form-group"><label>Pengirim</label><div class="readonly-box" id="newSender"></div></div>
+        <div class="form-group full"><label>Catatan (opsional)</label><input id="newNote" placeholder="Catatan tambahan"></div>
+      </div>
+      <div class="form-actions"><button type="button" class="secondary" id="cancelAddGuestBtn">Batal</button><button type="submit" class="primary" id="saveGuestBtn">Simpan Tamu</button></div>
+    </form>
   </div>
 </div>
 
@@ -274,6 +294,28 @@ function updateStatus(id,status){
   const g=findById(id);if(g)g["Status"]=status;
   updateStats();render();showSnack(status==="Terkirim"?"Status: Terkirim":"Status: Belum dikirim");
 }
+function showAddGuest(){
+  $("newSender").textContent=currentSender;
+  $("addGuestForm").reset();
+  $("newSender").textContent=currentSender;
+  $("addGuestModal").classList.add("show");
+  setTimeout(()=>$("newName").focus(),50);
+}
+function hideAddGuest(){$("addGuestModal").classList.remove("show")}
+function addGuest(e){
+  e.preventDefault();
+  const name=clean($("newName").value),sapaan=clean($("newSapaan").value),phone=clean($("newPhone").value),category=clean($("newCategory").value)||"Lainnya",note=clean($("newNote").value);
+  if(!name||!sapaan||!phone){showSnack("Nama, sapaan, dan WhatsApp wajib diisi.");return}
+  if(!normalizePhone(phone)){showSnack("Nomor WhatsApp tidak valid.");return}
+  const btn=$("saveGuestBtn");btn.disabled=true;btn.textContent="Menyimpan...";
+  const cb="addcb_"+Date.now();
+  let finished=false;
+  const finish=(ok,msg,data)=>{if(finished)return;finished=true;btn.disabled=false;btn.textContent="Simpan Tamu";try{delete window[cb]}catch(e){}const sc=$(cb);if(sc)sc.remove();if(ok){hideAddGuest();showSnack("Tamu berhasil ditambahkan.");loadGuests()}else showSnack(msg||"Gagal menambahkan tamu.")};
+  window[cb]=result=>{if(result&&result.success){finish(true,"",result.data)}else finish(false,result&&result.message?result.message:"Gagal menambahkan tamu.")};
+  const params=new URLSearchParams({action:"addGuest",callback:cb,nama:name,sapaan:sapaan,whatsapp:phone,pengirim:currentSender,kategori:category,catatan:note,_:Date.now()});
+  const script=document.createElement("script");script.id=cb;script.src=API_URL+"?"+params.toString();script.onerror=()=>finish(false,"Gagal menghubungkan ke database.");document.body.appendChild(script);
+}
+
 function copyText(text){
   if(navigator.clipboard&&window.isSecureContext){
     navigator.clipboard.writeText(text).then(()=>showSnack("Pesan berhasil disalin.")).catch(()=>fallbackCopy(text));
@@ -285,6 +327,11 @@ function fallbackCopy(text){
 }
 
 $("loginBtn").addEventListener("click",login);
+$("addGuestBtn").addEventListener("click",showAddGuest);
+$("closeAddGuestBtn").addEventListener("click",hideAddGuest);
+$("cancelAddGuestBtn").addEventListener("click",hideAddGuest);
+$("addGuestForm").addEventListener("submit",addGuest);
+$("addGuestModal").addEventListener("click",e=>{if(e.target===$("addGuestModal"))hideAddGuest()});
 $("logoutBtn").addEventListener("click",logout);
 $("searchInput").addEventListener("input",render);
 $("statusFilter").addEventListener("change",render);
