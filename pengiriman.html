@@ -194,6 +194,8 @@ function render(){
 }
 function findById(id){return allGuests.find(g=>String(g["ID"])===String(id))}
 function makeMessage(g){
+  const RTL = "\u202B";
+  const PDF = "\u202C";
   const sapaan=clean(g["Sapaan"])||"Bapak/Ibu/Saudara/i";
   const nama=clean(g["Nama Tamu"]);
   const tujuan=nama?sapaan+" "+nama:sapaan;
@@ -214,9 +216,9 @@ Link undangan dapat diakses lengkap di *${link}*`;
 Di Tempat
 -----------------------------------------------------
 
-بِسْــــــــــــــــــمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+${RTL}بِسْــــــــــــــــــمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ${PDF}
 
-ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ
+${RTL}ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ${PDF}
 
 
 Dengan segala kerendahan hati dan dengan ungkapan syukur atas karunia Allah SWT, kami mengundang *${tujuan}* untuk menghadiri *resepsi pernikahan putra-putri kami* yang Insya Allah akan dilaksanakan pada:
@@ -231,7 +233,7 @@ Kehadiran *${tujuan}* adalah doa restu yang tidak ternilai harganya.
 
 Jazakumullahu khoiron katsiron, hanya kepada Ilahi Robbi tercurah doa sebagai ungkapan terima kasih kami.
 
-وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ`;
+${RTL}وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ${PDF}`;
   }
 
   return `Assalamu’alaikum Warahmatullahi Wabarakatuh
