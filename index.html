@@ -1056,21 +1056,6 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
    Hanya desktop. HP tetap tidak disentuh.
    ========================================================= */
 @media (min-width: 992px){
-    /* Gradasi utama halaman isi desktop */
-    #root > div:last-of-type > main{
-        background:linear-gradient(
-            180deg,
-            #F7EFE3 0%,
-            #E9E6D4 50%,
-            #CDD4B9 100%
-        ) !important;
-    }
-
-    /* Biarkan gradasi utama terlihat di seluruh halaman isi. */
-    #root > div:last-of-type > main > section,
-    #root > div:last-of-type > main > div{
-        background:transparent !important;
-    }
 
     /* AOS kadang menahan elemen bride dalam keadaan tersembunyi
        karena main desktop memakai area scroll sendiri. */
@@ -2592,15 +2577,10 @@ html[data-bs-theme="dark"] #welcome{
 
 
 
-<style id="desktop-watercolor-definitive">
-@media (min-width: 992px){
-#root > div:last-of-type > main{position:relative!important;isolation:isolate!important;overflow-x:hidden!important;background-color:#f7f0e3!important;background-image:url('./assets/images/sky-bottom.png')!important;background-repeat:no-repeat!important;background-position:center bottom!important;background-size:100% auto!important;background-attachment:scroll!important;}
-#root > div:last-of-type > main::before{content:""!important;position:absolute!important;inset:0!important;z-index:0!important;pointer-events:none!important;background-image:url('./assets/images/sky-top.png')!important;background-repeat:repeat-y!important;background-position:center top!important;background-size:100% auto!important;background-attachment:scroll!important;opacity:1!important;display:block!important;}
-#root > div:last-of-type > main > section,#root > div:last-of-type > main > div:not(.floral-bg),#root > div:last-of-type > main > .floral-bg{background-color:transparent!important;background-image:none!important;}
-#root > div:last-of-type > main > *{position:relative!important;z-index:1!important;}
-#root > div:last-of-type > main > .floral-bg{background:transparent!important;z-index:2!important;pointer-events:none!important;}
-}
-</style>
+
+<!-- FINAL DESKTOP BACKGROUND:
+     Desktop sengaja menggunakan sistem background MASTER yang sama
+     dengan HP. Tidak ada override background khusus desktop. -->
 
 </body>
 </html>
