@@ -2582,5 +2582,56 @@ html[data-bs-theme="dark"] #welcome{
      Desktop sengaja menggunakan sistem background MASTER yang sama
      dengan HP. Tidak ada override background khusus desktop. -->
 
+
+
+<style id="desktop-right-panel-background-same-as-hp">
+@media (min-width: 992px){
+
+    /* PANEL KANAN DESKTOP SAJA */
+    #root > div:last-of-type > main{
+        position:relative !important;
+        isolation:isolate !important;
+        overflow-x:hidden !important;
+
+        background-color:#f7f0e3 !important;
+        background-image:
+            url('./assets/images/sky-bottom.png'),
+            url('./assets/images/sky-top.png') !important;
+
+        background-repeat:
+            no-repeat,
+            repeat-y !important;
+
+        background-position:
+            center bottom,
+            center top !important;
+
+        background-size:
+            100% auto,
+            100% auto !important;
+
+        background-attachment:
+            scroll,
+            scroll !important;
+    }
+
+    /* Isi panel kanan transparan, persis prinsip HP. */
+    #root > div:last-of-type > main > section,
+    #root > div:last-of-type > main > div:not(.floral-bg),
+    #root > div:last-of-type > main > .floral-bg{
+        background:transparent !important;
+    }
+
+    /* Matikan overlay lama yang dapat menutup sky-top. */
+    #root > div:last-of-type > main::after{
+        content:none !important;
+        display:none !important;
+    }
+
+    /* Tidak membuat layer/pseudo-element baru.
+       Background langsung memakai sistem yang sama dengan HP. */
+}
+</style>
+
 </body>
 </html>
