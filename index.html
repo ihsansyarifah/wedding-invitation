@@ -2588,5 +2588,44 @@ html[data-bs-theme="dark"] #welcome{
 })();
 </script>
 
+
+<style id="desktop-inside-watercolor-final">
+/* =========================================================
+   DESKTOP INSIDE — SAMAKAN BACKGROUND DENGAN VERSI HP
+   ========================================================= */
+@media (min-width: 992px){
+
+    #root > div:last-of-type > main{
+        background-color:#f7f0e3 !important;
+        background-image:
+            url('./assets/images/sky-bottom.png'),
+            url('./assets/images/sky-top.png') !important;
+        background-repeat:
+            no-repeat,
+            repeat-y !important;
+        background-position:
+            center bottom,
+            center top !important;
+        background-size:
+            100% auto,
+            100% auto !important;
+        background-attachment:
+            scroll,
+            scroll !important;
+    }
+
+    #root > div:last-of-type > main > section,
+    #root > div:last-of-type > main > div:not(.floral-bg),
+    #root > div:last-of-type > main > .floral-bg{
+        background:transparent !important;
+    }
+
+    #root > div:last-of-type > main::before,
+    #root > div:last-of-type > main::after{
+        background:none !important;
+    }
+}
+</style>
+
 </body>
 </html>
