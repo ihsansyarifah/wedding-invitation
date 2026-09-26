@@ -2589,41 +2589,16 @@ html[data-bs-theme="dark"] #welcome{
 </script>
 
 
-<style id="desktop-inside-watercolor-final">
-/* =========================================================
-   DESKTOP INSIDE — SAMAKAN BACKGROUND DENGAN VERSI HP
-   ========================================================= */
+
+
+
+<style id="desktop-watercolor-definitive">
 @media (min-width: 992px){
-
-    #root > div:last-of-type > main{
-        background-color:#f7f0e3 !important;
-        background-image:
-            url('./assets/images/sky-bottom.png'),
-            url('./assets/images/sky-top.png') !important;
-        background-repeat:
-            no-repeat,
-            repeat-y !important;
-        background-position:
-            center bottom,
-            center top !important;
-        background-size:
-            100% auto,
-            100% auto !important;
-        background-attachment:
-            scroll,
-            scroll !important;
-    }
-
-    #root > div:last-of-type > main > section,
-    #root > div:last-of-type > main > div:not(.floral-bg),
-    #root > div:last-of-type > main > .floral-bg{
-        background:transparent !important;
-    }
-
-    #root > div:last-of-type > main::before,
-    #root > div:last-of-type > main::after{
-        background:none !important;
-    }
+#root > div:last-of-type > main{position:relative!important;isolation:isolate!important;overflow-x:hidden!important;background-color:#f7f0e3!important;background-image:url('./assets/images/sky-bottom.png')!important;background-repeat:no-repeat!important;background-position:center bottom!important;background-size:100% auto!important;background-attachment:scroll!important;}
+#root > div:last-of-type > main::before{content:""!important;position:absolute!important;inset:0!important;z-index:0!important;pointer-events:none!important;background-image:url('./assets/images/sky-top.png')!important;background-repeat:repeat-y!important;background-position:center top!important;background-size:100% auto!important;background-attachment:scroll!important;opacity:1!important;display:block!important;}
+#root > div:last-of-type > main > section,#root > div:last-of-type > main > div:not(.floral-bg),#root > div:last-of-type > main > .floral-bg{background-color:transparent!important;background-image:none!important;}
+#root > div:last-of-type > main > *{position:relative!important;z-index:1!important;}
+#root > div:last-of-type > main > .floral-bg{background:transparent!important;z-index:2!important;pointer-events:none!important;}
 }
 </style>
 
