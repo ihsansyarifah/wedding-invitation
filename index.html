@@ -1581,6 +1581,27 @@ html[data-bs-theme="dark"] #welcome{
 }
 </style>
 
+
+<style id="ewallet-copy-buttons">
+.copy-account-btn{
+    border:1px solid rgba(92,76,55,.28);
+    background:rgba(255,255,255,.72);
+    color:inherit;
+    border-radius:999px;
+    padding:3px 10px;
+    margin-left:6px;
+    font-size:.72rem;
+    line-height:1.4;
+    cursor:pointer;
+    transition:all .2s ease;
+}
+.copy-account-btn:hover{
+    background:rgba(255,255,255,.95);
+}
+.copy-account-btn.copied{
+    background:rgba(92,76,55,.10);
+}
+</style>
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
@@ -2014,13 +2035,13 @@ html[data-bs-theme="dark"] #welcome{
                         <div class="collapse" id="collapseWallet">
                             <hr>
                             <p class="m-0 mb-2">
-                                OVO: 081389652775
+                                OVO: <span class="ewallet-number">081389652775</span> <button type="button" class="copy-account-btn" onclick="copyToClipboard(\'081389652775\', this)" aria-label="Salin nomor OVO">Salin</button>
                             </p>
                             <p class="m-0 mb-2">
-                                GoPay: 081389652775
+                                GoPay: <span class="ewallet-number">081389652775</span> <button type="button" class="copy-account-btn" onclick="copyToClipboard(\'081389652775\', this)" aria-label="Salin nomor GoPay">Salin</button>
                             </p>
                             <p class="m-0">
-                                DANA: 081389652775
+                                DANA: <span class="ewallet-number">081389652775</span> <button type="button" class="copy-account-btn" onclick="copyToClipboard(\'081389652775\', this)" aria-label="Salin nomor DANA">Salin</button>
                             </p>
                         </div>
                     </div>
@@ -2608,6 +2629,34 @@ html[data-bs-theme="dark"] #welcome{
         attributeFilter:['data-bs-theme']
     });
 })();
+</script>
+
+
+<script id="ewallet-copy-script">
+function copyToClipboard(text, button){
+    if (!navigator.clipboard) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showCopied(button);
+        return;
+    }
+    navigator.clipboard.writeText(text).then(function(){
+        showCopied(button);
+    });
+}
+function showCopied(button){
+    const oldText = button.textContent;
+    button.textContent = 'Tersalin ✓';
+    button.classList.add('copied');
+    setTimeout(function(){
+        button.textContent = oldText;
+        button.classList.remove('copied');
+    }, 1500);
+}
 </script>
 
 </body>
