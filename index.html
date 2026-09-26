@@ -1575,6 +1575,14 @@ html[data-bs-theme="dark"] #welcome{
     <small id="progress-info" class="mt-2 text-secondary">Loading...</small>
 </div>
 <div id="welcome" style="opacity:1;">
+    <div class="welcome-clouds" aria-hidden="true">
+        <span class="welcome-cloud cloud-1"></span>
+        <span class="welcome-cloud cloud-2"></span>
+        <span class="welcome-cloud cloud-3"></span>
+        <span class="welcome-cloud cloud-4"></span>
+        <span class="welcome-cloud cloud-5"></span>
+    </div>
+    <div class="welcome-bottom-haze" aria-hidden="true"></div>
     <div class="welcome-card">
         <img
             src="./assets/images/logo-is.png?v=20260831"
@@ -2816,6 +2824,166 @@ html[data-bs-theme="dark"] #welcome{
 }
 .gift-account {
     border-top: 1px solid rgba(185,148,98,.18);
+}
+
+/* =========================================================
+   MOBILE COVER — AWAN WATERCOLOR + HILANGKAN DAUN BAWAH
+   Hanya dekorasi background. Posisi teks, tamu, tombol, dan
+   ukuran layout mobile yang sudah final tidak diubah.
+   ========================================================= */
+.welcome-clouds,
+.welcome-bottom-haze{
+    position:absolute !important;
+    inset:0;
+    pointer-events:none;
+}
+.welcome-clouds{
+    z-index:0 !important;
+    overflow:hidden;
+    opacity:0;
+}
+.welcome-cloud{
+    position:absolute;
+    display:block;
+    border-radius:50%;
+    filter:blur(10px);
+    background:
+        radial-gradient(ellipse at center,
+            rgba(255,255,255,.82) 0%,
+            rgba(255,255,255,.55) 43%,
+            rgba(255,255,255,0) 75%);
+}
+.welcome-bottom-haze{
+    z-index:0 !important;
+    background:linear-gradient(
+        to bottom,
+        rgba(247,239,227,0) 0%,
+        rgba(247,239,227,0) 68%,
+        rgba(247,239,227,.18) 73%,
+        rgba(247,239,227,.62) 80%,
+        rgba(247,239,227,.92) 88%,
+        #F7EFE3 96%,
+        #F7EFE3 100%
+    );
+}
+
+@media(max-width:991.98px){
+    .welcome-clouds{
+        opacity:1;
+    }
+
+    .welcome-cloud.cloud-1{
+        width:76vw;
+        height:23vw;
+        left:-25vw;
+        top:48vh;
+        transform:rotate(-7deg);
+    }
+    .welcome-cloud.cloud-2{
+        width:82vw;
+        height:25vw;
+        right:-31vw;
+        top:53vh;
+        transform:rotate(8deg);
+    }
+    .welcome-cloud.cloud-3{
+        width:92vw;
+        height:29vw;
+        left:4vw;
+        top:63vh;
+        filter:blur(13px);
+    }
+    .welcome-cloud.cloud-4{
+        width:72vw;
+        height:22vw;
+        left:-18vw;
+        top:73vh;
+        filter:blur(14px);
+    }
+    .welcome-cloud.cloud-5{
+        width:80vw;
+        height:24vw;
+        right:-20vw;
+        top:78vh;
+        filter:blur(14px);
+    }
+
+    /* Tutup daun besar yang muncul dari asset lama di bagian bawah.
+       Dibuat bertahap supaya menyatu seperti kabut/awan, bukan kotak. */
+    .welcome-bottom-haze{
+        background:linear-gradient(
+            to bottom,
+            rgba(247,239,227,0) 0%,
+            rgba(247,239,227,0) 69%,
+            rgba(247,239,227,.12) 73%,
+            rgba(247,239,227,.48) 79%,
+            rgba(247,239,227,.82) 85%,
+            rgba(247,239,227,.97) 92%,
+            #F7EFE3 100%
+        );
+    }
+}
+
+@media(min-width:992px){
+    .welcome-clouds,
+    .welcome-bottom-haze{
+        display:none !important;
+    }
+}
+
+@media(max-width:991.98px){
+    #welcome .welcome-card{
+        z-index:2 !important;
+    }
+}
+
+/* =========================================================
+   HALAMAN AWAL HP — KABUT / AWAN PUTIH DI AREA TAMU
+   Hanya mobile. Posisi semua teks dan tombol tetap.
+   ========================================================= */
+@media (max-width:575.98px){
+    #welcome::before{
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0) 64%,
+                rgba(255,250,246,.03) 68%,
+                rgba(255,250,246,.18) 76%,
+                rgba(255,250,246,.42) 84%,
+                rgba(255,250,246,.70) 92%,
+                rgba(255,250,246,.86) 100%
+            );
+    }
+
+    .welcome-card::after{
+        left:50%;
+        bottom:-4%;
+        width:150%;
+        height:43%;
+        background:
+            radial-gradient(
+                ellipse 58% 42% at 50% 37%,
+                rgba(255,255,255,.92) 0%,
+                rgba(255,250,246,.76) 35%,
+                rgba(255,250,246,.38) 62%,
+                rgba(255,250,246,0) 100%
+            ),
+            radial-gradient(
+                ellipse 45% 32% at 18% 58%,
+                rgba(255,255,255,.64) 0%,
+                rgba(255,250,246,.22) 58%,
+                rgba(255,250,246,0) 100%
+            ),
+            radial-gradient(
+                ellipse 45% 32% at 82% 58%,
+                rgba(255,255,255,.64) 0%,
+                rgba(255,250,246,.22) 58%,
+                rgba(255,250,246,0) 100%
+            );
+        filter:blur(1px);
+        opacity:1;
+    }
 }
 </style>
 
