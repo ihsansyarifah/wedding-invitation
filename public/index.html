@@ -2584,52 +2584,172 @@ html[data-bs-theme="dark"] #welcome{
 
 
 
-<style id="desktop-right-panel-background-same-as-hp">
+
+
+<style id="desktop-fixed-left-scroll-right-final">
+/* =========================================================
+   DESKTOP FINAL:
+   KIRI DIAM / KANAN SAJA YANG SCROLL
+   HP TIDAK DISENTUH
+   ========================================================= */
 @media (min-width: 992px){
 
-    /* PANEL KANAN DESKTOP SAJA */
+    html,
+    body{
+        width:100%;
+        height:100%;
+        overflow:hidden !important;
+    }
+
+    #root{
+        position:relative !important;
+        display:flex !important;
+        flex-wrap:nowrap !important;
+        width:100% !important;
+        height:100vh !important;
+        min-height:100vh !important;
+        overflow:hidden !important;
+    }
+
+    /* =========================
+       PANEL KIRI — DIAM
+       ========================= */
+    #root > .sticky-top{
+        position:relative !important;
+        top:0 !important;
+        flex:0 0 62% !important;
+        width:62% !important;
+        max-width:62% !important;
+        height:100vh !important;
+        min-height:100vh !important;
+        overflow:hidden !important;
+        z-index:2 !important;
+    }
+
+    #root > .sticky-top .desktop-cover{
+        position:relative !important;
+        width:100% !important;
+        height:100vh !important;
+        min-height:100vh !important;
+        overflow:hidden !important;
+    }
+
+    #root > .sticky-top .desktop-cover-photo{
+        position:absolute !important;
+        inset:0 !important;
+        width:100% !important;
+        height:100% !important;
+        object-fit:cover !important;
+        object-position:center center !important;
+        opacity:1 !important;
+        filter:none !important;
+    }
+
+    #root > .sticky-top .desktop-cover-content{
+        display:none !important;
+    }
+
+    /* =========================
+       PANEL KANAN — SCROLL
+       ========================= */
+    #root > div:last-of-type{
+        position:relative !important;
+        flex:0 0 38% !important;
+        width:38% !important;
+        max-width:38% !important;
+        height:100vh !important;
+        min-height:100vh !important;
+        min-width:0 !important;
+
+        display:flex !important;
+        flex-direction:column !important;
+        overflow:hidden !important;
+
+        background:#f7f0e3 !important;
+    }
+
     #root > div:last-of-type > main{
         position:relative !important;
-        isolation:isolate !important;
+        width:100% !important;
+        height:auto !important;
+        min-height:100% !important;
+        flex:1 1 auto !important;
+
+        overflow-y:auto !important;
         overflow-x:hidden !important;
 
+        scrollbar-width:thin !important;
+        -webkit-overflow-scrolling:touch !important;
+
+        /* SISTEM BACKGROUND SAMA SEPERTI HP */
         background-color:#f7f0e3 !important;
         background-image:
             url('./assets/images/sky-bottom.png'),
             url('./assets/images/sky-top.png') !important;
-
         background-repeat:
             no-repeat,
             repeat-y !important;
-
         background-position:
             center bottom,
             center top !important;
-
         background-size:
             100% auto,
             100% auto !important;
-
         background-attachment:
             scroll,
             scroll !important;
     }
 
-    /* Isi panel kanan transparan, persis prinsip HP. */
+    /* Isi transparan agar watercolor main terlihat utuh. */
     #root > div:last-of-type > main > section,
     #root > div:last-of-type > main > div:not(.floral-bg),
     #root > div:last-of-type > main > .floral-bg{
         background:transparent !important;
     }
 
-    /* Matikan overlay lama yang dapat menutup sky-top. */
+    #root > div:last-of-type > main > *{
+        position:relative;
+        z-index:1;
+    }
+
+    #root > div:last-of-type > main::before,
     #root > div:last-of-type > main::after{
         content:none !important;
         display:none !important;
     }
 
-    /* Tidak membuat layer/pseudo-element baru.
-       Background langsung memakai sistem yang sama dengan HP. */
+    /* =========================
+       NAVBAR — TETAP DI PANEL KANAN
+       ========================= */
+    #root > div:last-of-type > #navbar-menu{
+        position:absolute !important;
+        right:0 !important;
+        bottom:0 !important;
+        left:0 !important;
+
+        width:100% !important;
+        max-width:none !important;
+
+        z-index:1031 !important;
+        flex:0 0 auto !important;
+
+        border-radius:1rem 1rem 0 0 !important;
+    }
+}
+
+/* Desktop lebar ekstra */
+@media (min-width:1400px){
+    #root > .sticky-top{
+        flex-basis:64% !important;
+        width:64% !important;
+        max-width:64% !important;
+    }
+
+    #root > div:last-of-type{
+        flex-basis:36% !important;
+        width:36% !important;
+        max-width:36% !important;
+    }
 }
 </style>
 
