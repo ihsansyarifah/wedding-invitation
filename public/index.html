@@ -1254,6 +1254,333 @@ html[data-bs-theme="dark"] #welcome{
 }
 </style>
 
+
+<style id="desktop-konsep-final">
+/* =========================================================
+   DESKTOP FINAL — mengikuti konsep visual yang baru:
+   FOTO PENUH DI KIRI + PANEL IVORY PENUH DI KANAN.
+   HP TIDAK DIUBAH.
+   ========================================================= */
+@media (min-width: 992px){
+
+    /* Layar pembuka desktop */
+    #welcome{
+        position:fixed !important;
+        inset:0 !important;
+        z-index:1055 !important;
+        display:block !important;
+        padding:0 !important;
+        overflow:hidden !important;
+        background:#f7f1e8 !important;
+    }
+
+    /* Foto menjadi panel kiri yang benar-benar terpisah */
+    #welcome::before{
+        content:"" !important;
+        position:absolute !important;
+        inset:0 auto 0 0 !important;
+        width:62% !important;
+        height:100% !important;
+        background:
+            url('./assets/images/placeholder.webp?v=20260919')
+            center center / cover no-repeat !important;
+        opacity:1 !important;
+        pointer-events:none !important;
+    }
+
+    /* Hilangkan glow lama yang membuat kartu terlihat seperti kotak melayang */
+    #welcome::after{
+        content:"" !important;
+        display:none !important;
+    }
+
+    /* Panel kanan */
+    #welcome .welcome-card{
+        position:absolute !important;
+        top:0 !important;
+        right:0 !important;
+        bottom:0 !important;
+        left:auto !important;
+
+        width:38% !important;
+        height:100% !important;
+        min-height:0 !important;
+
+        margin:0 !important;
+        padding:0 5.5vw !important;
+
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:center !important;
+        justify-content:flex-start !important;
+
+        border:0 !important;
+        border-left:1px solid rgba(181,151,115,.20) !important;
+        border-radius:0 !important;
+
+        background:
+            linear-gradient(
+                180deg,
+                rgba(255,250,244,.97) 0%,
+                rgba(250,246,238,.96) 58%,
+                rgba(244,239,228,.98) 100%
+            ) !important;
+
+        box-shadow:-14px 0 38px rgba(71,52,39,.08) !important;
+        backdrop-filter:none !important;
+        -webkit-backdrop-filter:none !important;
+
+        overflow:hidden !important;
+        text-align:center !important;
+        color:#302823 !important;
+        text-shadow:none !important;
+        z-index:2 !important;
+    }
+
+    /* Sapuan watercolor tipis di panel kanan */
+    #welcome .welcome-card::before{
+        content:"" !important;
+        position:absolute !important;
+        inset:0 !important;
+        z-index:-1 !important;
+        pointer-events:none !important;
+        background:
+            linear-gradient(
+                180deg,
+                rgba(255,255,255,.15),
+                rgba(255,255,255,0)
+            ),
+            url('./assets/images/sky-top.png') center top / 100% auto repeat-y !important;
+        opacity:.13 !important;
+    }
+
+    #welcome .welcome-card::after{
+        content:"" !important;
+        position:absolute !important;
+        left:50% !important;
+        bottom:-7% !important;
+        width:130% !important;
+        height:34% !important;
+        transform:translateX(-50%) !important;
+        z-index:-1 !important;
+        background:
+            radial-gradient(
+                ellipse at center,
+                rgba(255,255,255,.58) 0%,
+                rgba(255,255,255,.20) 46%,
+                rgba(255,255,255,0) 76%
+            ) !important;
+    }
+
+    /* Monogram */
+    #welcome .accent-line{
+        position:absolute !important;
+        top:20.5% !important;
+        left:50% !important;
+        transform:translateX(-50%) !important;
+        width:52px !important;
+        height:1px !important;
+        opacity:.72 !important;
+        background:#9b8066 !important;
+    }
+
+    #welcome .accent-line::before{
+        content:"I  S" !important;
+        position:absolute !important;
+        left:50% !important;
+        top:-72px !important;
+        transform:translateX(-50%) !important;
+        width:72px !important;
+        height:72px !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        border:1px solid rgba(143,166,180,.50) !important;
+        border-radius:50% !important;
+        color:#7892a4 !important;
+        background:rgba(255,252,247,.55) !important;
+        font-family:Georgia,serif !important;
+        font-size:1.25rem !important;
+        letter-spacing:.08em !important;
+    }
+
+    /* Judul */
+    #welcome .welcome-card > p:first-of-type{
+        position:absolute !important;
+        top:31.5% !important;
+        left:0 !important;
+        width:100% !important;
+        margin:0 !important;
+        font-size:.72rem !important;
+        line-height:1.2 !important;
+        letter-spacing:.28em !important;
+        color:#6b5a4c !important;
+    }
+
+    #welcome .welcome-name{
+        position:absolute !important;
+        top:36.5% !important;
+        left:0 !important;
+        width:100% !important;
+        margin:0 !important;
+
+        font-size:clamp(2.4rem,4vw,4rem) !important;
+        line-height:.92 !important;
+        letter-spacing:.02em !important;
+        color:#302823 !important;
+        font-weight:400 !important;
+    }
+
+    #welcome .welcome-name-amp{
+        margin:.055em 0 .025em !important;
+        font-size:.58em !important;
+        color:#86a0b1 !important;
+    }
+
+    #welcome .welcome-date{
+        position:absolute !important;
+        top:60.5% !important;
+        left:0 !important;
+        width:100% !important;
+        margin:0 !important;
+        font-size:.68rem !important;
+        line-height:1.25 !important;
+        letter-spacing:.16em !important;
+        color:#66584e !important;
+        white-space:nowrap !important;
+    }
+
+    /* Nama tamu tidak perlu mengambil ruang besar di cover desktop */
+    #welcome #guest-name{
+        position:absolute !important;
+        left:0 !important;
+        bottom:12.5% !important;
+        width:100% !important;
+        margin:0 !important;
+        font-size:.88rem !important;
+        color:#5d5047 !important;
+        text-shadow:none !important;
+    }
+
+    #welcome .btn{
+        position:absolute !important;
+        left:50% !important;
+        bottom:6.5% !important;
+        transform:translateX(-50%) !important;
+
+        min-width:210px !important;
+        padding:.72rem 1.35rem !important;
+        margin:0 !important;
+
+        border:0 !important;
+        border-radius:999px !important;
+        background:#8aa5b7 !important;
+        color:#fff !important;
+        box-shadow:0 8px 20px rgba(79,104,120,.18) !important;
+        font-size:.78rem !important;
+        letter-spacing:.02em !important;
+    }
+
+    #welcome .btn:hover{
+        background:#7895a8 !important;
+    }
+
+    #welcome .small{
+        position:absolute !important;
+        left:50% !important;
+        bottom:2.5% !important;
+        transform:translateX(-50%) !important;
+        width:90% !important;
+        margin:0 !important;
+        font-size:.60rem !important;
+        line-height:1.35 !important;
+        color:#75685f !important;
+        text-shadow:none !important;
+    }
+
+    /* Setelah undangan dibuka: desktop tetap dua panel,
+       foto kiri lebih lapang dan isi kanan lebih nyaman. */
+    #root{
+        width:100% !important;
+        height:100vh !important;
+        display:flex !important;
+        flex-wrap:nowrap !important;
+        overflow:hidden !important;
+    }
+
+    #root > .sticky-top{
+        flex:0 0 62% !important;
+        width:62% !important;
+        max-width:62% !important;
+        height:100vh !important;
+    }
+
+    #root > .sticky-top .desktop-cover,
+    #root > .sticky-top .desktop-cover-photo{
+        width:100% !important;
+        height:100% !important;
+    }
+
+    #root > .sticky-top .desktop-cover-photo{
+        object-fit:cover !important;
+        object-position:center center !important;
+        opacity:1 !important;
+        filter:none !important;
+    }
+
+    #root > div:last-of-type{
+        flex:0 0 38% !important;
+        width:38% !important;
+        max-width:38% !important;
+        height:100vh !important;
+        min-width:0 !important;
+    }
+
+    #root > div:last-of-type > main{
+        width:100% !important;
+        height:100vh !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+    }
+
+    #root > div:last-of-type > #navbar-menu{
+        right:0 !important;
+        left:auto !important;
+        width:38% !important;
+        max-width:38% !important;
+        border-radius:1rem 1rem 0 0 !important;
+    }
+}
+
+/* Layar desktop sangat lebar: beri foto sedikit lebih dominan */
+@media (min-width: 1400px){
+    #welcome::before{
+        width:64% !important;
+    }
+
+    #welcome .welcome-card{
+        width:36% !important;
+    }
+
+    #root > .sticky-top{
+        flex-basis:64% !important;
+        width:64% !important;
+        max-width:64% !important;
+    }
+
+    #root > div:last-of-type{
+        flex-basis:36% !important;
+        width:36% !important;
+        max-width:36% !important;
+    }
+
+    #root > div:last-of-type > #navbar-menu{
+        width:36% !important;
+        max-width:36% !important;
+    }
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
@@ -2265,4 +2592,3 @@ html[data-bs-theme="dark"] #welcome{
 
 </body>
 </html>
-
