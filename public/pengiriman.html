@@ -1,367 +1,2397 @@
-const SPREADSHEET_ID = "1NPg1GfuK7CeCrd77Xo6hWKN22dnuJJH4a_La8VT1tHs";
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Pengiriman Undangan - Ihsan & Syarifah</title>
 
+<style>
+*{box-sizing:border-box}
 
-/* =========================================================
-   API UTAMA
-   ========================================================= */
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7fb;
+  color:#1f2937
+}
 
-function doGet(e) {
-  try {
-    const params = e && e.parameter ? e.parameter : {};
-    const action = params.action || "";
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:20px
+}
 
-    // TEST API
-    if (action === "test") {
-      return jsonp({
-        success: true,
-        message: "API KIRIM UNDANGAN aktif."
-      }, e);
-    }
+.header{
+  background:linear-gradient(135deg,#315f8f,#6f94b8);
+  color:#fff;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 8px 24px rgba(0,0,0,.1);
+  margin-bottom:18px
+}
 
-    // AMBIL SEMUA TAMU
-    if (action === "guests") {
-      return jsonp({
-        success: true,
-        data: getGuests()
-      }, e);
-    }
+.header h1{
+  margin:0 0 6px;
+  font-size:25px
+}
 
-    // TAMBAH TAMU
-    if (action === "addGuest") {
-      return jsonp(addGuest(params), e);
-    }
+.header p{
+  margin:0;
+  opacity:.92
+}
 
-    // UPDATE STATUS
-    if (action === "updateStatus") {
-      return jsonp(updateStatus(params), e);
-    }
+.userline{
+  margin-top:9px;
+  font-size:14px
+}
 
-    return jsonp({
-      success: true,
-      message: "API KIRIM UNDANGAN aktif."
-    }, e);
+.note{
+  font-size:12px;
+  margin-top:4px;
+  opacity:.9
+}
 
-  } catch (error) {
+.logout{
+  float:right;
+  border:0;
+  border-radius:10px;
+  padding:9px 12px;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer
+}
 
-    return jsonp({
-      success: false,
-      message: error.message
-    }, e);
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 5px 18px rgba(0,0,0,.07);
+  margin-bottom:16px
+}
 
+.login-title{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:12px
+}
+
+select,input{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #d5dce5;
+  border-radius:10px;
+  font-size:15px;
+  background:#fff
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:10px 13px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed
+}
+
+.primary{
+  background:#315f8f;
+  color:#fff
+}
+
+.secondary{
+  background:#eef3f8;
+  color:#315f8f
+}
+
+.success{
+  background:#2e8b57;
+  color:#fff
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px
+}
+
+.stat{
+  padding:15px;
+  border-radius:12px;
+  background:#f6f8fb;
+  text-align:center
+}
+
+.stat b{
+  display:block;
+  font-size:25px;
+  color:#315f8f;
+  margin-bottom:4px
+}
+
+.toolbar{
+  display:grid;
+  grid-template-columns:1fr 180px;
+  gap:10px;
+  margin-bottom:15px
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+  color:#566273
+}
+
+.form-group.full{
+  grid-column:1/-1
+}
+
+.form-actions{
+  display:flex;
+  gap:8px;
+  margin-top:14px
+}
+
+.form-actions button{
+  flex:1
+}
+
+.readonly-box{
+  background:#f7f9fc;
+  padding:12px 13px;
+  border-radius:10px;
+  border:1px solid #d5dce5;
+  font-size:14px;
+  font-weight:700;
+  color:#315f8f
+}
+
+.table-wrap{
+  overflow:auto
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:760px
+}
+
+th,td{
+  padding:12px 10px;
+  border-bottom:1px solid #edf0f4;
+  text-align:left;
+  vertical-align:middle
+}
+
+th{
+  background:#f7f9fc;
+  font-size:13px;
+  color:#566273
+}
+
+td{
+  font-size:14px
+}
+
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700
+}
+
+.pending{
+  background:#fff2d8;
+  color:#9a6500
+}
+
+.sent{
+  background:#def5e8;
+  color:#19703f
+}
+
+.actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap
+}
+
+.empty{
+  text-align:center;
+  padding:30px;
+  color:#77808c
+}
+
+.loading{
+  text-align:center;
+  padding:25px;
+  color:#64748b
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:20
+}
+
+.modal.show{
+  display:flex
+}
+
+.modal-box{
+  background:#fff;
+  border-radius:16px;
+  max-width:650px;
+  width:100%;
+  max-height:85vh;
+  overflow:auto;
+  padding:20px
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center
+}
+
+.modal-head h3{
+  margin:0
+}
+
+.message{
+  white-space:pre-wrap;
+  background:#f7f8fa;
+  border:1px solid #e2e6eb;
+  border-radius:12px;
+  padding:15px;
+  margin-top:15px;
+  line-height:1.55;
+  font-size:14px
+}
+
+.close{
+  background:#eee;
+  color:#333
+}
+
+.snack{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%);
+  background:#222;
+  color:#fff;
+  padding:12px 17px;
+  border-radius:10px;
+  display:none;
+  z-index:50;
+  font-size:14px;
+  box-shadow:0 5px 20px rgba(0,0,0,.2);
+  max-width:90%;
+  text-align:center
+}
+
+.snack.show{
+  display:block
+}
+
+#app{
+  display:none
+}
+
+@media(max-width:700px){
+  .wrap{
+    padding:12px
+  }
+
+  .header{
+    padding:19px
+  }
+
+  .header h1{
+    font-size:21px
+  }
+
+  .stats{
+    gap:7px
+  }
+
+  .stat{
+    padding:11px 5px
+  }
+
+  .stat b{
+    font-size:20px
+  }
+
+  .toolbar{
+    grid-template-columns:1fr
+  }
+
+  .actions button{
+    flex:1
   }
 }
 
-
-/* =========================================================
-   AMBIL DATA TAMU
-   ========================================================= */
-
-function getGuests() {
-
-  const sheet =
-    SpreadsheetApp
-      .openById(SPREADSHEET_ID)
-      .getSheets()[0];
-
-  // Pastikan kolom WhatsApp selalu TEXT
-  sheet.getRange("D:D").setNumberFormat("@");
-
-  const values = sheet.getDataRange().getValues();
-
-  if (values.length <= 1) {
-    return [];
+@media(max-width:600px){
+  .form-grid{
+    grid-template-columns:1fr
   }
 
-  return values
-    .slice(1)
-    .map(function(row) {
+  .form-group.full{
+    grid-column:auto
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <button
+      type="button"
+      class="logout"
+      id="logoutBtn"
+      style="display:none"
+    >
+      Keluar
+    </button>
+
+    <h1>SISTEM PENGIRIMAN UNDANGAN</h1>
+    <p>Ihsan &amp; Syarifah</p>
+
+    <div class="userline" id="userLine"></div>
+    <div class="note" id="templateNote"></div>
+  </div>
+
+
+  <!-- LOGIN -->
+  <div class="card" id="loginCard">
+
+    <div class="login-title">
+      Pilih Pengirim
+    </div>
+
+    <select id="senderSelect">
+
+      <option value="">
+        -- Pilih nama pengirim --
+      </option>
+
+      <option value="Ihsan">
+        Ihsan
+      </option>
+
+      <option value="Syarifah">
+        Syarifah
+      </option>
+
+      <option value="Ibu Ihsan">
+        Ibu Ihsan
+      </option>
+
+      <option value="Bapa Ihsan">
+        Bapa Ihsan
+      </option>
+
+      <option value="Mama Syarifah">
+        Mama Syarifah
+      </option>
+
+      <option value="Bapa Syarifah">
+        Bapa Syarifah
+      </option>
+
+    </select>
+
+    <button
+      type="button"
+      class="primary"
+      id="loginBtn"
+      style="width:100%;margin-top:12px"
+    >
+      Masuk
+    </button>
+
+  </div>
+
+
+  <!-- APP -->
+  <div id="app">
+
+    <!-- STATISTIK -->
+    <div class="stats card">
+
+      <div class="stat">
+        <b id="totalCount">0</b>
+        <span>Tamu Saya</span>
+      </div>
+
+      <div class="stat">
+        <b id="pendingCount">0</b>
+        <span>Belum Dikirim</span>
+      </div>
+
+      <div class="stat">
+        <b id="sentCount">0</b>
+        <span>Sudah Terkirim</span>
+      </div>
+
+    </div>
+
+
+    <!-- DATA TAMU -->
+    <div class="card">
+
+      <div class="toolbar">
+
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Cari nama tamu..."
+        >
+
+        <select id="statusFilter">
+          <option value="all">
+            Semua Status
+          </option>
+
+          <option value="Belum dikirim">
+            Belum dikirim
+          </option>
+
+          <option value="Terkirim">
+            Terkirim
+          </option>
+        </select>
+
+      </div>
+
+
+      <!-- TOMBOL TAMBAH TAMU -->
+      <div style="display:flex;justify-content:flex-end;margin-top:12px">
+
+        <button
+          type="button"
+          class="primary"
+          id="addGuestBtn"
+        >
+          ＋ Tambah Tamu
+        </button>
+
+      </div>
+
+
+      <div
+        id="loading"
+        class="loading"
+      >
+        Memuat data tamu...
+      </div>
+
+
+      <div
+        class="table-wrap"
+        id="tableWrap"
+        style="display:none"
+      >
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Nama Tamu</th>
+              <th>Sapaan</th>
+              <th>No. WhatsApp</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody id="guestBody"></tbody>
+
+        </table>
+
+        <div
+          id="empty"
+          class="empty"
+          style="display:none"
+        >
+          Belum ada tamu untuk pengirim ini.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MODAL TAMBAH TAMU
+========================= -->
+
+<div
+  class="modal"
+  id="addGuestModal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h3>
+        ＋ Tambah Tamu
+      </h3>
+
+      <button
+        type="button"
+        class="close"
+        id="closeAddGuestBtn"
+      >
+        Tutup
+      </button>
+
+    </div>
+
+
+    <form
+      id="addGuestForm"
+      style="margin-top:15px"
+    >
+
+      <div class="form-grid">
+
+        <!-- NAMA -->
+        <div class="form-group full">
+
+          <label>
+            Nama Tamu
+          </label>
+
+          <input
+            id="newName"
+            required
+            placeholder="Contoh: Ahmad Fauzi"
+          >
+
+        </div>
+
+
+        <!-- SAPAAN -->
+        <div class="form-group">
+
+          <label>
+            Sapaan
+          </label>
+
+          <select
+            id="newSapaan"
+            required
+          >
+
+            <option value="">
+              Pilih sapaan
+            </option>
+
+            <option value="Bapak">
+              Bapak
+            </option>
+
+            <option value="Ibu">
+              Ibu
+            </option>
+
+            <option value="Saudara">
+              Saudara
+            </option>
+
+            <option value="Saudari">
+              Saudari
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- WHATSAPP -->
+        <div class="form-group">
+
+          <label>
+            No. WhatsApp
+          </label>
+
+          <input
+            id="newPhone"
+            type="text"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+            placeholder="08xxxxxxxxxx"
+          >
+
+        </div>
+
+
+        <!-- KATEGORI -->
+        <div class="form-group">
+
+          <label>
+            Kategori
+          </label>
+
+          <select id="newCategory">
+
+            <option value="Teman">
+              Teman
+            </option>
+
+            <option value="Rekan">
+              Rekan
+            </option>
+
+            <option value="Keluarga">
+              Keluarga
+            </option>
+
+            <option value="Lainnya">
+              Lainnya
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- PENGIRIM -->
+        <div class="form-group">
+
+          <label>
+            Pengirim
+          </label>
+
+          <div
+            class="readonly-box"
+            id="newSender"
+          ></div>
+
+        </div>
+
+
+        <!-- CATATAN -->
+        <div class="form-group full">
+
+          <label>
+            Catatan (opsional)
+          </label>
+
+          <input
+            id="newNote"
+            placeholder="Catatan tambahan"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="secondary"
+          id="cancelAddGuestBtn"
+        >
+          Batal
+        </button>
+
+        <button
+          type="submit"
+          class="primary"
+          id="saveGuestBtn"
+        >
+          Simpan Tamu
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MODAL PREVIEW
+========================= -->
+
+<div
+  class="modal"
+  id="previewModal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h3>
+        💬 Preview Pesan
+      </h3>
+
+      <button
+        type="button"
+        class="close"
+        id="closePreviewBtn"
+      >
+        Tutup
+      </button>
+
+    </div>
+
+    <div
+      id="previewMessage"
+      class="message"
+    ></div>
+
+    <div
+      style="display:flex;gap:8px;margin-top:14px"
+    >
+
+      <button
+        type="button"
+        class="secondary"
+        style="flex:1"
+        id="copyBtn"
+      >
+        Salin Pesan
+      </button>
+
+      <button
+        type="button"
+        class="success"
+        style="flex:1"
+        id="previewSendBtn"
+      >
+        📲 Kirim
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  id="snack"
+  class="snack"
+></div>
+
+
+<script>
+"use strict";
+
+
+/* =====================================================
+   KONFIGURASI
+===================================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbyLVO4uz5MDuFl89GFJe6FBzmLkaLqb0TgulWbJ8NnWhDWTTBbpoCzlsbof4ng6l6ZzKQ/exec";
+
+const INVITATION_URL =
+"https://ihsansyarifah.github.io/wedding-invitation/";
+
+const PARENT_SENDERS = [
+  "Ibu Ihsan",
+  "Bapa Ihsan",
+  "Mama Syarifah",
+  "Bapa Syarifah"
+];
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let allGuests = [];
+let currentSender = "";
+let previewGuest = null;
+
+
+/* =====================================================
+   HELPER
+===================================================== */
+
+const $ = id =>
+  document.getElementById(id);
+
+
+function clean(value){
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value).trim();
+}
+
+
+function esc(value){
+
+  return clean(value).replace(
+    /[&<>"']/g,
+    function(match){
 
       return {
-        id: row[0],
-        nama: row[1],
-        sapaan: row[2],
-        whatsapp: String(row[3] || ""),
-        pengirim: row[4],
-        kategori: row[5],
-        status: row[6],
-        catatan: row[7]
-      };
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[match];
 
-    })
-    .filter(function(guest) {
+    }
+  );
 
-      return guest.nama || guest.whatsapp;
+}
+
+
+/* =====================================================
+   NOMOR WHATSAPP
+===================================================== */
+
+function normalizePhone(value){
+
+  let phone =
+    clean(value).replace(/[^0-9]/g,"");
+
+  if(!phone){
+    return "";
+  }
+
+  if(phone.startsWith("0")){
+
+    phone =
+      "62" + phone.slice(1);
+
+  }
+  else if(phone.startsWith("8")){
+
+    phone =
+      "62" + phone;
+
+  }
+
+  return phone.startsWith("62")
+    ? phone
+    : "";
+
+}
+
+
+/* =====================================================
+   NOTIFIKASI
+===================================================== */
+
+function showSnack(message){
+
+  const snack =
+    $("snack");
+
+  snack.textContent =
+    message;
+
+  snack.classList.add("show");
+
+  clearTimeout(
+    window.snackTimer
+  );
+
+  window.snackTimer =
+    setTimeout(
+      () =>
+        snack.classList.remove("show"),
+      2800
+    );
+
+}
+
+
+/* =====================================================
+   TEMPLATE PESAN
+===================================================== */
+
+function setTemplateNote(){
+
+  $("templateNote").textContent =
+    PARENT_SENDERS.includes(currentSender)
+      ? "Template pesan: Orang Tua"
+      : "Template pesan: Teman";
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login(){
+
+  const value =
+    $("senderSelect").value;
+
+  if(!value){
+
+    showSnack(
+      "Silakan pilih pengirim dulu."
+    );
+
+    return;
+  }
+
+  currentSender =
+    value;
+
+  localStorage.setItem(
+    "undangan_sender",
+    value
+  );
+
+  $("loginCard").style.display =
+    "none";
+
+  $("app").style.display =
+    "block";
+
+  $("logoutBtn").style.display =
+    "block";
+
+  $("userLine").textContent =
+    "Pengirim: " + value;
+
+  setTemplateNote();
+
+  loadGuests();
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+  localStorage.removeItem(
+    "undangan_sender"
+  );
+
+  currentSender = "";
+  allGuests = [];
+  previewGuest = null;
+
+  $("loginCard").style.display =
+    "block";
+
+  $("app").style.display =
+    "none";
+
+  $("logoutBtn").style.display =
+    "none";
+
+  $("userLine").textContent =
+    "";
+
+  $("templateNote").textContent =
+    "";
+
+  $("senderSelect").value =
+    "";
+
+}
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+function init(){
+
+  const saved =
+    localStorage.getItem(
+      "undangan_sender"
+    );
+
+  if(saved){
+
+    currentSender =
+      saved;
+
+    $("senderSelect").value =
+      saved;
+
+    $("loginCard").style.display =
+      "none";
+
+    $("app").style.display =
+      "block";
+
+    $("logoutBtn").style.display =
+      "block";
+
+    $("userLine").textContent =
+      "Pengirim: " + saved;
+
+    setTemplateNote();
+
+    loadGuests();
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD TAMU
+   SESUAI RESPONSE APPS SCRIPT:
+   id
+   nama
+   sapaan
+   whatsapp
+   pengirim
+   kategori
+   status
+   catatan
+===================================================== */
+
+function loadGuests(){
+
+  $("loading").style.display =
+    "block";
+
+  $("tableWrap").style.display =
+    "none";
+
+
+  const callbackName =
+    "cb_" + Date.now();
+
+
+  window[callbackName] =
+    function(result){
+
+      try{
+
+        if(
+          !result ||
+          !result.success
+        ){
+
+          showSnack(
+            result && result.message
+              ? result.message
+              : "Gagal mengambil data tamu."
+          );
+
+          allGuests = [];
+
+          return;
+        }
+
+
+        allGuests =
+          Array.isArray(result.data)
+            ? result.data
+            : [];
+
+
+        updateStats();
+
+        render();
+
+
+      }
+      finally{
+
+        $("loading").style.display =
+          "none";
+
+        $("tableWrap").style.display =
+          "block";
+
+
+        try{
+          delete window[callbackName];
+        }
+        catch(error){}
+
+
+        const script =
+          $(callbackName);
+
+        if(script){
+          script.remove();
+        }
+
+      }
+
+    };
+
+
+  const script =
+    document.createElement("script");
+
+  script.id =
+    callbackName;
+
+  script.src =
+    API_URL +
+    "?action=guests" +
+    "&callback=" +
+    encodeURIComponent(callbackName) +
+    "&_=" +
+    Date.now();
+
+
+  script.onerror =
+    function(){
+
+      $("loading").style.display =
+        "none";
+
+      $("tableWrap").style.display =
+        "block";
+
+      showSnack(
+        "Gagal menghubungkan ke database."
+      );
+
+    };
+
+
+  document.body.appendChild(
+    script
+  );
+
+}
+
+
+/* =====================================================
+   FILTER TAMU BERDASARKAN PENGIRIM
+===================================================== */
+
+function getMyGuests(){
+
+  return allGuests.filter(
+    function(guest){
+
+      return clean(
+        guest.pengirim
+      ) === currentSender;
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   STATISTIK
+===================================================== */
+
+function updateStats(){
+
+  const mine =
+    getMyGuests();
+
+
+  const sent =
+    mine.filter(
+      function(guest){
+
+        return clean(
+          guest.status
+        ).toLowerCase() ===
+        "terkirim";
+
+      }
+    ).length;
+
+
+  $("totalCount").textContent =
+    mine.length;
+
+  $("sentCount").textContent =
+    sent;
+
+  $("pendingCount").textContent =
+    mine.length - sent;
+
+}
+
+
+/* =====================================================
+   RENDER TABEL
+===================================================== */
+
+function render(){
+
+  const body =
+    $("guestBody");
+
+  const empty =
+    $("empty");
+
+  const search =
+    clean(
+      $("searchInput").value
+    ).toLowerCase();
+
+  const filter =
+    $("statusFilter").value;
+
+
+  const list =
+    getMyGuests().filter(
+      function(guest){
+
+        const name =
+          clean(
+            guest.nama
+          ).toLowerCase();
+
+        const phone =
+          clean(
+            guest.whatsapp
+          ).toLowerCase();
+
+        const status =
+          clean(
+            guest.status
+          ) ||
+          "Belum dikirim";
+
+
+        const searchMatch =
+          !search ||
+          name.includes(search) ||
+          phone.includes(search);
+
+
+        const statusMatch =
+          filter === "all" ||
+          status === filter;
+
+
+        return (
+          searchMatch &&
+          statusMatch
+        );
+
+      }
+    );
+
+
+  body.innerHTML =
+    "";
+
+
+  empty.style.display =
+    list.length
+      ? "none"
+      : "block";
+
+
+  list.forEach(
+    function(guest,index){
+
+      const status =
+        clean(
+          guest.status
+        ) ||
+        "Belum dikirim";
+
+
+      const isSent =
+        status === "Terkirim";
+
+
+      const id =
+        clean(
+          guest.id
+        );
+
+
+      const tr =
+        document.createElement("tr");
+
+
+      tr.innerHTML = `
+
+        <td>
+          ${index + 1}
+        </td>
+
+        <td>
+          <b>
+            ${esc(guest.nama)}
+          </b>
+        </td>
+
+        <td>
+          ${esc(guest.sapaan)}
+        </td>
+
+        <td>
+          ${esc(guest.whatsapp)}
+        </td>
+
+        <td>
+          <span
+            class="status ${isSent ? "sent" : "pending"}"
+          >
+            ${esc(status)}
+          </span>
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              type="button"
+              class="secondary preview-btn"
+              data-id="${esc(id)}"
+            >
+              💬 Lihat Pesan
+            </button>
+
+            <button
+              type="button"
+              class="primary send-btn"
+              data-id="${esc(id)}"
+            >
+              📲 Kirim
+            </button>
+
+            <button
+              type="button"
+              class="${isSent ? "secondary" : "success"} status-btn"
+              data-id="${esc(id)}"
+              data-status="${isSent ? "Belum dikirim" : "Terkirim"}"
+            >
+              ${isSent ? "↩ Belum" : "☑ Terkirim"}
+            </button>
+
+          </div>
+
+        </td>
+
+      `;
+
+
+      body.appendChild(tr);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   CARI TAMU BERDASARKAN ID
+===================================================== */
+
+function findById(id){
+
+  return allGuests.find(
+    function(guest){
+
+      return String(
+        guest.id
+      ) === String(id);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   MEMBUAT PESAN UNDANGAN
+===================================================== */
+
+function makeMessage(guest){
+
+  const RTL =
+    "\u202B";
+
+  const PDF =
+    "\u202C";
+
+
+  const sapaan =
+    clean(
+      guest.sapaan
+    ) ||
+    "Bapak/Ibu/Saudara/i";
+
+
+  const nama =
+    clean(
+      guest.nama
+    );
+
+
+  const tujuan =
+    nama
+      ? sapaan + " " + nama
+      : sapaan;
+
+
+  const link =
+    INVITATION_URL +
+    "?to=" +
+    encodeURIComponent(
+      nama
+    ).replace(
+      /\+/g,
+      "%20"
+    );
+
+
+  const EMOJI_CALENDAR =
+    String.fromCodePoint(
+      0x1F5D3,
+      0xFE0F
+    );
+
+  const EMOJI_CLOCK =
+    String.fromCodePoint(
+      0x1F553
+    );
+
+  const EMOJI_LOCATION =
+    String.fromCodePoint(
+      0x1F4CD
+    );
+
+
+  const detail =
+`${EMOJI_CALENDAR} Hari, Tanggal: *Minggu, 20 Desember 2026*
+${EMOJI_CLOCK} Jam: *11.00 - 14.00 WIB*
+${EMOJI_LOCATION} Tempat: *Masjid Cibadak Daarul Matiin*
+*(Jl. Siliwangi No.12, Cibadak, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat 43357)*
+Link undangan dapat diakses lengkap di *${link}*`;
+
+
+  /* =========================
+     TEMPLATE ORANG TUA
+  ========================= */
+
+  if(
+    PARENT_SENDERS.includes(
+      currentSender
+    )
+  ){
+
+    return `*Yth. ${tujuan}*
+Di Tempat
+-----------------------------------------------------
+
+${RTL}بِسْــــــــــــــــــمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ${PDF}
+
+${RTL}ٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ${PDF}
+
+
+Dengan segala kerendahan hati dan dengan ungkapan syukur atas karunia Allah SWT, kami mengundang *${tujuan}* untuk menghadiri *resepsi pernikahan putra-putri kami* yang Insya Allah akan dilaksanakan pada:
+
+===========================
+${detail}
+===========================
+
+Kehadiran *${tujuan}* adalah silaturahmi.
+Doa restu *${tujuan}* adalah kado terindah bagi kami.
+Kehadiran *${tujuan}* adalah doa restu yang tidak ternilai harganya.
+
+Jazakumullahu khoiron katsiron, hanya kepada Ilahi Robbi tercurah doa sebagai ungkapan terima kasih kami.
+
+${RTL}وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ${PDF}`;
+
+  }
+
+
+  /* =========================
+     TEMPLATE IHsan & SYARIFAH
+  ========================= */
+
+  return `Assalamu’alaikum Warahmatullahi Wabarakatuh
+
+*Yth. ${tujuan}*
+
+Dengan penuh rasa syukur atas karunia Allah SWT, dengan segala kerendahan hati kami mengundang *${tujuan}* untuk berkenan hadir dalam momen istimewa pernikahan kami.
+
+Insya Allah, resepsi pernikahan kami akan dilaksanakan pada:
+
+${detail}
+
+Suatu kebahagiaan bagi kami apabila *${tujuan}* berkenan hadir, bersilaturahmi, serta memberikan doa dan restu untuk mengiringi langkah kami dalam membangun kehidupan bersama.
+
+Jazakumullahu khoiron katsiron atas perhatian dan doa yang diberikan.
+
+Dengan hangat,
+*Ihsan & Syarifah* 🤍
+
+Wassalamu’alaikum Warahmatullahi Wabarakatuh`;
+
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function showPreview(guest){
+
+  if(!guest){
+
+    showSnack(
+      "Data tamu tidak ditemukan."
+    );
+
+    return;
+  }
+
+
+  previewGuest =
+    guest;
+
+
+  $("previewMessage").textContent =
+    makeMessage(guest);
+
+
+  $("previewModal")
+    .classList.add("show");
+
+}
+
+
+function hidePreview(){
+
+  $("previewModal")
+    .classList.remove("show");
+
+  previewGuest =
+    null;
+
+}
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function openWhatsApp(guest){
+
+  const phone =
+    normalizePhone(
+      guest.whatsapp
+    );
+
+
+  if(!phone){
+
+    showSnack(
+      "Nomor WhatsApp tidak valid."
+    );
+
+    return false;
+
+  }
+
+
+  const url =
+    "https://api.whatsapp.com/send" +
+    "?phone=" +
+    phone +
+    "&text=" +
+    encodeURIComponent(
+      makeMessage(guest)
+    );
+
+
+  const a =
+    document.createElement("a");
+
+  a.href =
+    url;
+
+  a.target =
+    "_blank";
+
+  a.rel =
+    "noopener noreferrer";
+
+  a.style.display =
+    "none";
+
+
+  document.body.appendChild(a);
+
+  a.click();
+
+
+  setTimeout(
+    () => a.remove(),
+    1000
+  );
+
+
+  return true;
+
+}
+
+
+/* =====================================================
+   UPDATE STATUS
+===================================================== */
+
+function updateStatus(
+  id,
+  status
+){
+
+  const url =
+    API_URL +
+    "?action=updateStatus" +
+    "&id=" +
+    encodeURIComponent(id) +
+    "&status=" +
+    encodeURIComponent(status) +
+    "&_=" +
+    Date.now();
+
+
+  /*
+    Menggunakan Image supaya request
+    tidak diblokir browser karena CORS.
+  */
+
+  const img =
+    new Image();
+
+  img.src =
+    url;
+
+
+  const guest =
+    findById(id);
+
+
+  if(guest){
+
+    guest.status =
+      status;
+
+  }
+
+
+  updateStats();
+
+  render();
+
+
+  showSnack(
+    status === "Terkirim"
+      ? "Status: Terkirim"
+      : "Status: Belum dikirim"
+  );
+
+}
+
+
+/* =====================================================
+   BUKA MODAL TAMBAH TAMU
+===================================================== */
+
+function showAddGuest(){
+
+  /*
+    Reset form terlebih dahulu.
+  */
+
+  $("addGuestForm").reset();
+
+
+  /*
+    Setelah reset, pengirim diisi kembali
+    dari akun yang sedang login.
+  */
+
+  $("newSender").textContent =
+    currentSender;
+
+
+  $("addGuestModal")
+    .classList.add("show");
+
+
+  setTimeout(
+    () =>
+      $("newName").focus(),
+    50
+  );
+
+}
+
+
+/* =====================================================
+   TUTUP MODAL TAMBAH TAMU
+===================================================== */
+
+function hideAddGuest(){
+
+  $("addGuestModal")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   TAMBAH TAMU
+   TERHUBUNG KE:
+   action=addGuest
+===================================================== */
+
+function addGuest(event){
+
+  event.preventDefault();
+
+
+  const name =
+    clean(
+      $("newName").value
+    );
+
+
+  const sapaan =
+    clean(
+      $("newSapaan").value
+    );
+
+
+  // Simpan nomor sebagai TEKS sejak dari browser agar 0 depan tidak hilang.
+  // Jangan pernah mengubahnya ke Number.
+  let phone =
+    clean(
+      $("newPhone").value
+    );
+
+  phone = phone.replace(/[^0-9+]/g, "");
+
+  // Jika pengguna mengetik nomor Indonesia tanpa 0, tambahkan 0.
+  if(phone.startsWith("62")){
+    phone = "0" + phone.slice(2);
+  }
+
+
+  const category =
+    clean(
+      $("newCategory").value
+    ) ||
+    "Lainnya";
+
+
+  const note =
+    clean(
+      $("newNote").value
+    );
+
+
+  /* =========================
+     VALIDASI
+  ========================= */
+
+  if(
+    !name ||
+    !sapaan ||
+    !phone
+  ){
+
+    showSnack(
+      "Nama, sapaan, dan WhatsApp wajib diisi."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !normalizePhone(phone)
+  ){
+
+    showSnack(
+      "Nomor WhatsApp tidak valid."
+    );
+
+    return;
+
+  }
+
+
+  if(!currentSender){
+
+    showSnack(
+      "Pengirim belum dipilih."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    $("saveGuestBtn");
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Menyimpan...";
+
+
+  const callbackName =
+    "addcb_" + Date.now();
+
+
+  let finished =
+    false;
+
+
+  /*
+    Fungsi selesai.
+  */
+
+  function finish(
+    success,
+    message
+  ){
+
+    if(finished){
+      return;
+    }
+
+    finished =
+      true;
+
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Simpan Tamu";
+
+
+    try{
+      delete window[
+        callbackName
+      ];
+    }
+    catch(error){}
+
+
+    const script =
+      $(callbackName);
+
+    if(script){
+      script.remove();
+    }
+
+
+    if(success){
+
+      hideAddGuest();
+
+      showSnack(
+        "Tamu berhasil ditambahkan."
+      );
+
+
+      /*
+        Ambil ulang data dari Spreadsheet
+        agar tamu baru langsung muncul.
+      */
+
+      loadGuests();
+
+    }
+    else{
+
+      showSnack(
+        message ||
+        "Gagal menambahkan tamu."
+      );
+
+    }
+
+  }
+
+
+  /*
+    Callback dari Apps Script
+  */
+
+  window[callbackName] =
+    function(result){
+
+      if(
+        result &&
+        result.success
+      ){
+
+        finish(
+          true,
+          ""
+        );
+
+      }
+      else{
+
+        finish(
+          false,
+          result &&
+          result.message
+            ? result.message
+            : "Gagal menambahkan tamu."
+        );
+
+      }
+
+    };
+
+
+  /*
+    Parameter harus SAMA dengan
+    Apps Script:
+    
+    nama
+    sapaan
+    whatsapp
+    pengirim
+    kategori
+    catatan
+  */
+
+  const params =
+    new URLSearchParams({
+
+      action:
+        "addGuest",
+
+      callback:
+        callbackName,
+
+      nama:
+        name,
+
+      sapaan:
+        sapaan,
+
+      // Kirim sebagai STRING persis seperti yang diketik pengguna.
+      whatsapp:
+        String(phone),
+
+      pengirim:
+        currentSender,
+
+      kategori:
+        category,
+
+      catatan:
+        note,
+
+      _:
+        Date.now()
 
     });
 
+
+  const script =
+    document.createElement(
+      "script"
+    );
+
+
+  script.id =
+    callbackName;
+
+
+  script.src =
+    API_URL +
+    "?" +
+    params.toString();
+
+
+  script.onerror =
+    function(){
+
+      finish(
+        false,
+        "Gagal menghubungkan ke database."
+      );
+
+    };
+
+
+  document.body.appendChild(
+    script
+  );
+
 }
 
 
-/* =========================================================
-   TAMBAH TAMU
-   ========================================================= */
+/* =====================================================
+   COPY PESAN
+===================================================== */
 
-function addGuest(params) {
+function copyText(text){
 
-  try {
+  if(
+    navigator.clipboard &&
+    window.isSecureContext
+  ){
 
-    const sheet =
-      SpreadsheetApp
-        .openById(SPREADSHEET_ID)
-        .getSheets()[0];
+    navigator.clipboard
+      .writeText(text)
+      .then(
+        () =>
+          showSnack(
+            "Pesan berhasil disalin."
+          )
+      )
+      .catch(
+        () =>
+          fallbackCopy(text)
+      );
 
+  }
+  else{
 
-    /* -----------------------------------------------------
-       AMBIL DATA
-       ----------------------------------------------------- */
-
-    const nama =
-      String(params.nama || "").trim();
-
-    const sapaan =
-      String(params.sapaan || "").trim();
-
-    // PENTING:
-    // Nomor WhatsApp selalu diperlakukan sebagai STRING
-    const whatsapp =
-      String(params.whatsapp || "").trim();
-
-    const pengirim =
-      String(params.pengirim || "").trim();
-
-    const kategori =
-      String(params.kategori || "").trim();
-
-    const catatan =
-      String(params.catatan || "").trim();
-
-
-    /* -----------------------------------------------------
-       VALIDASI
-       ----------------------------------------------------- */
-
-    if (!nama) {
-      return {
-        success: false,
-        message: "Nama tamu wajib diisi."
-      };
-    }
-
-    if (!sapaan) {
-      return {
-        success: false,
-        message: "Sapaan wajib dipilih."
-      };
-    }
-
-    if (!whatsapp) {
-      return {
-        success: false,
-        message: "Nomor WhatsApp wajib diisi."
-      };
-    }
-
-    if (!pengirim) {
-      return {
-        success: false,
-        message: "Pengirim tidak ditemukan."
-      };
-    }
-
-
-    /* -----------------------------------------------------
-       PAKSA KOLOM WHATSAPP MENJADI TEXT
-       ----------------------------------------------------- */
-
-    sheet
-      .getRange("D:D")
-      .setNumberFormat("@");
-
-
-    /* -----------------------------------------------------
-       BUAT ID
-       ----------------------------------------------------- */
-
-    const id =
-      "T" + new Date().getTime();
-
-
-    /* -----------------------------------------------------
-       BARIS BARU
-       ----------------------------------------------------- */
-
-    const newRow =
-      sheet.getLastRow() + 1;
-
-
-    /* -----------------------------------------------------
-       SIMPAN DATA
-       ----------------------------------------------------- */
-
-    sheet
-      .getRange(newRow, 1, 1, 8)
-      .setValues([[
-        id,
-        nama,
-        sapaan,
-        whatsapp,
-        pengirim,
-        kategori,
-        "Belum dikirim",
-        catatan
-      ]]);
-
-
-    /* -----------------------------------------------------
-       PASTIKAN CELL WHATSAPP TETAP TEXT
-       ----------------------------------------------------- */
-
-    sheet
-      .getRange(newRow, 4)
-      .setNumberFormat("@");
-
-
-    /* -----------------------------------------------------
-       HASIL
-       ----------------------------------------------------- */
-
-    return {
-
-      success: true,
-
-      message: "Tamu berhasil ditambahkan.",
-
-      data: {
-
-        id: id,
-        nama: nama,
-        sapaan: sapaan,
-        whatsapp: whatsapp,
-        pengirim: pengirim,
-        kategori: kategori,
-        status: "Belum dikirim",
-        catatan: catatan
-
-      }
-
-    };
-
-
-  } catch (error) {
-
-    return {
-
-      success: false,
-      message: error.message
-
-    };
+    fallbackCopy(text);
 
   }
 
 }
 
 
-/* =========================================================
-   UPDATE STATUS TAMU
-   ========================================================= */
+function fallbackCopy(text){
 
-function updateStatus(params) {
-
-  try {
-
-    const sheet =
-      SpreadsheetApp
-        .openById(SPREADSHEET_ID)
-        .getSheets()[0];
-
-    const id =
-      String(params.id || "").trim();
-
-    const status =
-      String(params.status || "").trim();
+  const textarea =
+    document.createElement(
+      "textarea"
+    );
 
 
-    if (!id) {
+  textarea.value =
+    text;
 
-      return {
-        success: false,
-        message: "ID tamu tidak ditemukan."
-      };
+  textarea.style.position =
+    "fixed";
 
-    }
-
-
-    const data =
-      sheet.getDataRange().getValues();
+  textarea.style.opacity =
+    "0";
 
 
-    for (let i = 1; i < data.length; i++) {
-
-      if (String(data[i][0]) === id) {
-
-        // Kolom G = Status
-        sheet
-          .getRange(i + 1, 7)
-          .setValue(status);
+  document.body.appendChild(
+    textarea
+  );
 
 
-        return {
+  textarea.focus();
 
-          success: true,
-          message: "Status berhasil diperbarui."
+  textarea.select();
 
-        };
+
+  try{
+
+    document.execCommand(
+      "copy"
+    );
+
+    showSnack(
+      "Pesan berhasil disalin."
+    );
+
+  }
+  catch(error){
+
+    showSnack(
+      "Tidak bisa menyalin otomatis."
+    );
+
+  }
+
+
+  textarea.remove();
+
+}
+
+
+/* =====================================================
+   EVENT
+===================================================== */
+
+$("loginBtn")
+  .addEventListener(
+    "click",
+    login
+  );
+
+
+$("addGuestBtn")
+  .addEventListener(
+    "click",
+    showAddGuest
+  );
+
+
+$("closeAddGuestBtn")
+  .addEventListener(
+    "click",
+    hideAddGuest
+  );
+
+
+$("cancelAddGuestBtn")
+  .addEventListener(
+    "click",
+    hideAddGuest
+  );
+
+
+$("addGuestForm")
+  .addEventListener(
+    "submit",
+    addGuest
+  );
+
+
+$("addGuestModal")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target ===
+        $("addGuestModal")
+      ){
+
+        hideAddGuest();
 
       }
 
     }
+  );
 
 
-    return {
-
-      success: false,
-      message: "Tamu tidak ditemukan."
-
-    };
-
-
-  } catch (error) {
-
-    return {
-
-      success: false,
-      message: error.message
-
-    };
-
-  }
-
-}
+$("logoutBtn")
+  .addEventListener(
+    "click",
+    logout
+  );
 
 
-/* =========================================================
-   JSONP
-   ========================================================= */
-
-function jsonp(data, e) {
-
-  const callback =
-    e &&
-    e.parameter &&
-    e.parameter.callback
-      ? e.parameter.callback
-      : "callback";
+$("searchInput")
+  .addEventListener(
+    "input",
+    render
+  );
 
 
-  const output =
-    callback +
-    "(" +
-    JSON.stringify(data) +
-    ")";
+$("statusFilter")
+  .addEventListener(
+    "change",
+    render
+  );
 
 
-  return ContentService
-    .createTextOutput(output)
-    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+$("closePreviewBtn")
+  .addEventListener(
+    "click",
+    hidePreview
+  );
 
-}
+
+$("previewModal")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target ===
+        $("previewModal")
+      ){
+
+        hidePreview();
+
+      }
+
+    }
+  );
+
+
+$("copyBtn")
+  .addEventListener(
+    "click",
+    function(){
+
+      if(previewGuest){
+
+        copyText(
+          makeMessage(
+            previewGuest
+          )
+        );
+
+      }
+
+    }
+  );
+
+
+$("previewSendBtn")
+  .addEventListener(
+    "click",
+    function(){
+
+      if(
+        previewGuest &&
+        openWhatsApp(previewGuest)
+      ){
+
+        hidePreview();
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   EVENT TOMBOL DI TABEL
+===================================================== */
+
+$("guestBody")
+  .addEventListener(
+    "click",
+    function(event){
+
+      const button =
+        event.target.closest(
+          "button"
+        );
+
+
+      if(!button){
+        return;
+      }
+
+
+      const id =
+        button.dataset.id;
+
+
+      const guest =
+        findById(id);
+
+
+      if(!guest){
+        return;
+      }
+
+
+      if(
+        button.classList.contains(
+          "preview-btn"
+        )
+      ){
+
+        showPreview(
+          guest
+        );
+
+      }
+
+      else if(
+        button.classList.contains(
+          "send-btn"
+        )
+      ){
+
+        openWhatsApp(
+          guest
+        );
+
+      }
+
+      else if(
+        button.classList.contains(
+          "status-btn"
+        )
+      ){
+
+        updateStatus(
+          id,
+          button.dataset.status
+        );
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   JALANKAN
+===================================================== */
+
+window.addEventListener(
+  "load",
+  init
+);
+
+</script>
+
+</body>
+</html>
