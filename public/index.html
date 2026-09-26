@@ -1056,6 +1056,21 @@ html[data-bs-theme="dark"] #navbar-menu .nav-link.is-current{
    Hanya desktop. HP tetap tidak disentuh.
    ========================================================= */
 @media (min-width: 992px){
+    /* Gradasi utama halaman isi desktop */
+    #root > div:last-of-type > main{
+        background:linear-gradient(
+            180deg,
+            #F7EFE3 0%,
+            #E9E6D4 50%,
+            #CDD4B9 100%
+        ) !important;
+    }
+
+    /* Biarkan gradasi utama terlihat di seluruh halaman isi. */
+    #root > div:last-of-type > main > section,
+    #root > div:last-of-type > main > div{
+        background:transparent !important;
+    }
 
     /* AOS kadang menahan elemen bride dalam keadaan tersembunyi
        karena main desktop memakai area scroll sendiri. */
@@ -1357,23 +1372,10 @@ html[data-bs-theme="dark"] #welcome{
             ) !important;
     }
 
-    /* Logo asli website */
-    #welcome .desktop-welcome-logo{
-        position:absolute !important;
-        top:13.5% !important;
-        left:50% !important;
-        transform:translateX(-50%) !important;
-        width:92px !important;
-        height:92px !important;
-        object-fit:contain !important;
-        display:block !important;
-        margin:0 !important;
-        z-index:3 !important;
-    }
-
+    /* Monogram */
     #welcome .accent-line{
         position:absolute !important;
-        top:28.2% !important;
+        top:20.5% !important;
         left:50% !important;
         transform:translateX(-50%) !important;
         width:52px !important;
@@ -1382,10 +1384,30 @@ html[data-bs-theme="dark"] #welcome{
         background:#9b8066 !important;
     }
 
+    #welcome .accent-line::before{
+        content:"I  S" !important;
+        position:absolute !important;
+        left:50% !important;
+        top:-72px !important;
+        transform:translateX(-50%) !important;
+        width:72px !important;
+        height:72px !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        border:1px solid rgba(143,166,180,.50) !important;
+        border-radius:50% !important;
+        color:#7892a4 !important;
+        background:rgba(255,252,247,.55) !important;
+        font-family:Georgia,serif !important;
+        font-size:1.25rem !important;
+        letter-spacing:.08em !important;
+    }
+
     /* Judul */
     #welcome .welcome-card > p:first-of-type{
         position:absolute !important;
-        top:34.5% !important;
+        top:31.5% !important;
         left:0 !important;
         width:100% !important;
         margin:0 !important;
@@ -1397,7 +1419,7 @@ html[data-bs-theme="dark"] #welcome{
 
     #welcome .welcome-name{
         position:absolute !important;
-        top:39.5% !important;
+        top:36.5% !important;
         left:0 !important;
         width:100% !important;
         margin:0 !important;
@@ -1417,7 +1439,7 @@ html[data-bs-theme="dark"] #welcome{
 
     #welcome .welcome-date{
         position:absolute !important;
-        top:62.5% !important;
+        top:60.5% !important;
         left:0 !important;
         width:100% !important;
         margin:0 !important;
@@ -1575,20 +1597,7 @@ html[data-bs-theme="dark"] #welcome{
     <small id="progress-info" class="mt-2 text-secondary">Loading...</small>
 </div>
 <div id="welcome" style="opacity:1;">
-    <div class="welcome-clouds" aria-hidden="true">
-        <span class="welcome-cloud cloud-1"></span>
-        <span class="welcome-cloud cloud-2"></span>
-        <span class="welcome-cloud cloud-3"></span>
-        <span class="welcome-cloud cloud-4"></span>
-        <span class="welcome-cloud cloud-5"></span>
-    </div>
-    <div class="welcome-bottom-haze" aria-hidden="true"></div>
     <div class="welcome-card">
-        <img
-            src="./assets/images/logo-is.png?v=20260831"
-            alt="Logo Ihsan &amp; Syarifah"
-            class="desktop-welcome-logo"
-        >
         <div class="accent-line"></div>
         <p class="mb-2 text-secondary">The Wedding of</p>
         <h1 class="font-esthetic welcome-name mb-2">
@@ -1928,133 +1937,73 @@ html[data-bs-theme="dark"] #welcome{
                     <p>
                         Bagi Anda yang ingin memberikan tanda kasih kepada kami, dapat melalui:
                     </p>
-
-                    <!-- BANK -->
                     <div class="gift-card shadow-sm p-3 mx-2 mt-4 text-start">
-                        <button
-                            type="button"
-                            class="gift-toggle w-100 d-flex justify-content-between align-items-center border-0 bg-transparent p-0 text-start"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#giftBank"
-                            aria-expanded="false"
-                            aria-controls="giftBank"
-                        >
-                            <span class="d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-building-columns"></i>
-                                <strong>Bank</strong>
-                            </span>
-                            <i class="fa-solid fa-chevron-down gift-chevron"></i>
-                        </button>
-
-                        <div class="collapse" id="giftBank">
-                            <div class="gift-account pt-3 mt-3">
-                                <p class="m-0 fw-semibold">Bank Mandiri</p>
-                                <p class="m-0 small opacity-75 mt-1">SYARIFAH UMAIMAH</p>
-                                <div class="d-flex justify-content-between align-items-center gap-2 mt-2">
-                                    <p class="m-0">1200013538520</p>
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-auto btn-sm rounded-4 py-0"
-                                        data-copy="1200013538520"
-                                        onclick="undangan.util.copy(this)"
-                                        aria-label="Salin nomor rekening Bank Mandiri"
-                                    >
-                                        <i class="fa-solid fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="gift-account pt-3 mt-3">
-                                <p class="m-0 fw-semibold">BCA</p>
-                                <p class="m-0 small opacity-75 mt-1">SYARIFAH UMAIMAH</p>
-                                <div class="d-flex justify-content-between align-items-center gap-2 mt-2">
-                                    <p class="m-0">3520530613</p>
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-auto btn-sm rounded-4 py-0"
-                                        data-copy="3520530613"
-                                        onclick="undangan.util.copy(this)"
-                                        aria-label="Salin nomor rekening BCA"
-                                    >
-                                        <i class="fa-solid fa-copy"></i>
-                                    </button>
-                                </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                            <strong>Transfer</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <p class="m-0">
+                                Ihsan Fauzi Noor
+                            </p>
+                            <button
+                                type="button"
+                                class="btn btn-outline-auto btn-sm rounded-4 py-0"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapseTf"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+                        </div>
+                        <div class="collapse" id="collapseTf">
+                            <hr>
+                            <p class="m-0">
+                                <i class="fa-solid fa-building-columns me-1"></i>
+                                Bank Mandiri
+                            </p>
+                            <div class="d-flex justify-content-between mt-2">
+                                <p class="m-0">
+                                    1760002827994
+                                </p>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-auto btn-sm rounded-4 py-0"
+                                    data-copy="1760002827994"
+                                    onclick="undangan.util.copy(this)"
+                                >
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- E-WALLET -->
                     <div class="gift-card shadow-sm p-3 mx-2 mt-3 text-start">
-                        <button
-                            type="button"
-                            class="gift-toggle w-100 d-flex justify-content-between align-items-center border-0 bg-transparent p-0 text-start"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#giftEwallet"
-                            aria-expanded="false"
-                            aria-controls="giftEwallet"
-                        >
-                            <span class="d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-wallet"></i>
-                                <strong>E-Wallet</strong>
-                            </span>
-                            <i class="fa-solid fa-chevron-down gift-chevron"></i>
-                        </button>
-
-                        <div class="collapse" id="giftEwallet">
-                            <div class="gift-account pt-3 mt-3">
-                                <p class="m-0 fw-semibold">OVO</p>
-                                <p class="m-0 small opacity-75 mt-1">SYARIFAH UMAIMAH</p>
-                                <div class="d-flex justify-content-between align-items-center gap-2 mt-2">
-                                    <p class="m-0">081389652775</p>
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-auto btn-sm rounded-4 py-0"
-                                        data-copy="081389652775"
-                                        onclick="undangan.util.copy(this)"
-                                        aria-label="Salin nomor OVO"
-                                    >
-                                        <i class="fa-solid fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="gift-account pt-3 mt-3">
-                                <p class="m-0 fw-semibold">GoPay</p>
-                                <p class="m-0 small opacity-75 mt-1">SYARIFAH UMAIMAH</p>
-                                <div class="d-flex justify-content-between align-items-center gap-2 mt-2">
-                                    <p class="m-0">081389652775</p>
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-auto btn-sm rounded-4 py-0"
-                                        data-copy="081389652775"
-                                        onclick="undangan.util.copy(this)"
-                                        aria-label="Salin nomor GoPay"
-                                    >
-                                        <i class="fa-solid fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="gift-account pt-3 mt-3">
-                                <p class="m-0 fw-semibold">DANA</p>
-                                <p class="m-0 small opacity-75 mt-1">SYARIFAH UMAIMAH</p>
-                                <div class="d-flex justify-content-between align-items-center gap-2 mt-2">
-                                    <p class="m-0">081389652775</p>
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-auto btn-sm rounded-4 py-0"
-                                        data-copy="081389652775"
-                                        onclick="undangan.util.copy(this)"
-                                        aria-label="Salin nomor DANA"
-                                    >
-                                        <i class="fa-solid fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-wallet"></i>
+                            <strong>E-Wallet</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <p class="m-0">
+                                Ihsan Fauzi Noor
+                            </p>
+                            <button
+                                type="button"
+                                class="btn btn-outline-auto btn-sm rounded-4 py-0"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapseWallet"
+                            >
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+                        </div>
+                        <div class="collapse" id="collapseWallet">
+                            <hr>
+                            <p class="m-0 mb-2">
+                                GoPay: 0896 2041 1169
+                            </p>
+                            <p class="m-0">
+                                DANA: 0896 2041 1169
+                            </p>
                         </div>
                     </div>
-
-                    <!-- KIRIM KADO — dipertahankan -->
                     <div class="gift-card shadow-sm p-3 mx-2 mt-3 text-start">
                         <div class="d-flex align-items-center gap-2">
                             <i class="fa-solid fa-gift"></i>
@@ -2064,6 +2013,17 @@ html[data-bs-theme="dark"] #welcome{
                         <p class="m-0">
                             No.7, Kp. Malinggut, RT04/RW03, Ds. Wanarjati, Kec. Cibadak, Kabupaten Sukabumi, Jawa Barat (43351)
                         </p>
+                        <div class="text-center mt-3">
+                            <a
+                                href="https://maps.app.goo.gl/QKBMKZReS21ZSrjD7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-outline-auto btn-sm rounded-pill shadow px-3"
+                            >
+                                <i class="fa-solid fa-map-location-dot me-2"></i>
+                                Lokasi Kirim Kado
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -2629,458 +2589,6 @@ html[data-bs-theme="dark"] #welcome{
     });
 })();
 </script>
-
-
-
-
-
-
-<!-- FINAL DESKTOP BACKGROUND:
-     Desktop sengaja menggunakan sistem background MASTER yang sama
-     dengan HP. Tidak ada override background khusus desktop. -->
-
-
-
-
-
-<style id="desktop-fixed-left-scroll-right-final">
-/* =========================================================
-   DESKTOP FINAL:
-   KIRI DIAM / KANAN SAJA YANG SCROLL
-   HP TIDAK DISENTUH
-   ========================================================= */
-@media (min-width: 992px){
-
-    html,
-    body{
-        width:100%;
-        height:100%;
-        overflow:hidden !important;
-    }
-
-    #root{
-        position:relative !important;
-        display:flex !important;
-        flex-wrap:nowrap !important;
-        width:100% !important;
-        height:100vh !important;
-        min-height:100vh !important;
-        overflow:hidden !important;
-    }
-
-    /* =========================
-       PANEL KIRI — DIAM
-       ========================= */
-    #root > .sticky-top{
-        position:relative !important;
-        top:0 !important;
-        flex:0 0 62% !important;
-        width:62% !important;
-        max-width:62% !important;
-        height:100vh !important;
-        min-height:100vh !important;
-        overflow:hidden !important;
-        z-index:2 !important;
-    }
-
-    #root > .sticky-top .desktop-cover{
-        position:relative !important;
-        width:100% !important;
-        height:100vh !important;
-        min-height:100vh !important;
-        overflow:hidden !important;
-    }
-
-    #root > .sticky-top .desktop-cover-photo{
-        position:absolute !important;
-        inset:0 !important;
-        width:100% !important;
-        height:100% !important;
-        object-fit:cover !important;
-        object-position:center center !important;
-        opacity:1 !important;
-        filter:none !important;
-    }
-
-    #root > .sticky-top .desktop-cover-content{
-        display:none !important;
-    }
-
-    /* =========================
-       PANEL KANAN — SCROLL
-       ========================= */
-    #root > div:last-of-type{
-        position:relative !important;
-        flex:0 0 38% !important;
-        width:38% !important;
-        max-width:38% !important;
-        height:100vh !important;
-        min-height:100vh !important;
-        min-width:0 !important;
-
-        display:flex !important;
-        flex-direction:column !important;
-        overflow:hidden !important;
-
-        background:#f7f0e3 !important;
-    }
-
-    #root > div:last-of-type > main{
-        position:relative !important;
-        width:100% !important;
-        height:auto !important;
-        min-height:100% !important;
-        flex:1 1 auto !important;
-
-        overflow-y:auto !important;
-        overflow-x:hidden !important;
-
-        scrollbar-width:thin !important;
-        -webkit-overflow-scrolling:touch !important;
-
-        /* SISTEM BACKGROUND SAMA SEPERTI HP */
-        background-color:#f7f0e3 !important;
-        background-image:
-            url('./assets/images/sky-bottom.png'),
-            url('./assets/images/sky-top.png') !important;
-        background-repeat:
-            no-repeat,
-            repeat-y !important;
-        background-position:
-            center bottom,
-            center top !important;
-        background-size:
-            100% auto,
-            100% auto !important;
-        background-attachment:
-            scroll,
-            scroll !important;
-    }
-
-    /* Isi transparan agar watercolor main terlihat utuh. */
-    #root > div:last-of-type > main > section,
-    #root > div:last-of-type > main > div:not(.floral-bg),
-    #root > div:last-of-type > main > .floral-bg{
-        background:transparent !important;
-    }
-
-    #root > div:last-of-type > main > *{
-        position:relative;
-        z-index:1;
-    }
-
-    #root > div:last-of-type > main::before,
-    #root > div:last-of-type > main::after{
-        content:none !important;
-        display:none !important;
-    }
-
-    /* =========================
-       NAVBAR — TETAP DI PANEL KANAN
-       ========================= */
-    #root > div:last-of-type > #navbar-menu{
-        position:absolute !important;
-        right:0 !important;
-        bottom:0 !important;
-        left:0 !important;
-
-        width:100% !important;
-        max-width:none !important;
-
-        z-index:1031 !important;
-        flex:0 0 auto !important;
-
-        border-radius:1rem 1rem 0 0 !important;
-    }
-}
-
-/* Desktop lebar ekstra */
-@media (min-width:1400px){
-    #root > .sticky-top{
-        flex-basis:64% !important;
-        width:64% !important;
-        max-width:64% !important;
-    }
-
-    #root > div:last-of-type{
-        flex-basis:36% !important;
-        width:36% !important;
-        max-width:36% !important;
-    }
-}
-
-/* Love Gift accordion */
-.gift-toggle {
-    color: inherit;
-    cursor: pointer;
-}
-.gift-chevron {
-    font-size: .72rem;
-    opacity: .65;
-    transition: transform .2s ease;
-}
-.gift-toggle[aria-expanded="true"] .gift-chevron {
-    transform: rotate(180deg);
-}
-.gift-account {
-    border-top: 1px solid rgba(185,148,98,.18);
-}
-
-/* =========================================================
-   MOBILE COVER — AWAN WATERCOLOR + HILANGKAN DAUN BAWAH
-   Hanya dekorasi background. Posisi teks, tamu, tombol, dan
-   ukuran layout mobile yang sudah final tidak diubah.
-   ========================================================= */
-.welcome-clouds,
-.welcome-bottom-haze{
-    position:absolute !important;
-    inset:0;
-    pointer-events:none;
-}
-.welcome-clouds{
-    z-index:0 !important;
-    overflow:hidden;
-    opacity:0;
-}
-.welcome-cloud{
-    position:absolute;
-    display:block;
-    border-radius:50%;
-    filter:blur(10px);
-    background:
-        radial-gradient(ellipse at center,
-            rgba(255,255,255,.82) 0%,
-            rgba(255,255,255,.55) 43%,
-            rgba(255,255,255,0) 75%);
-}
-.welcome-bottom-haze{
-    z-index:0 !important;
-    background:linear-gradient(
-        to bottom,
-        rgba(247,239,227,0) 0%,
-        rgba(247,239,227,0) 68%,
-        rgba(247,239,227,.18) 73%,
-        rgba(247,239,227,.62) 80%,
-        rgba(247,239,227,.92) 88%,
-        #F7EFE3 96%,
-        #F7EFE3 100%
-    );
-}
-
-@media(max-width:991.98px){
-    .welcome-clouds{
-        opacity:1;
-    }
-
-    /* Lapisan kabut ditempatkan di atas gambar pembuka agar daun
-       bawaan gambar tidak ikut terlihat di area nama tamu. */
-    .welcome-bottom-haze{
-        background:
-            radial-gradient(ellipse 72% 24% at 50% 74%,
-                rgba(255,255,255,.88) 0%,
-                rgba(255,255,255,.62) 42%,
-                rgba(255,255,255,0) 78%),
-            radial-gradient(ellipse 48% 20% at 8% 79%,
-                rgba(255,255,255,.78) 0%,
-                rgba(255,255,255,.42) 48%,
-                rgba(255,255,255,0) 82%),
-            radial-gradient(ellipse 48% 20% at 92% 79%,
-                rgba(255,255,255,.78) 0%,
-                rgba(255,255,255,.42) 48%,
-                rgba(255,255,255,0) 82%),
-            linear-gradient(
-                to bottom,
-                rgba(247,239,227,0) 0%,
-                rgba(247,239,227,0) 68%,
-                rgba(247,239,227,.10) 71%,
-                rgba(247,239,227,.38) 75%,
-                rgba(247,239,227,.72) 80%,
-                rgba(247,239,227,.94) 86%,
-                #F7EFE3 92%,
-                #F7EFE3 100%
-            );
-        filter:blur(.25px);
-    }
-
-    .welcome-cloud.cloud-1{
-        width:76vw;
-        height:23vw;
-        left:-25vw;
-        top:48vh;
-        transform:rotate(-7deg);
-    }
-    .welcome-cloud.cloud-2{
-        width:82vw;
-        height:25vw;
-        right:-31vw;
-        top:53vh;
-        transform:rotate(8deg);
-    }
-    .welcome-cloud.cloud-3{
-        width:92vw;
-        height:29vw;
-        left:4vw;
-        top:63vh;
-        filter:blur(13px);
-    }
-    .welcome-cloud.cloud-4{
-        width:72vw;
-        height:22vw;
-        left:-18vw;
-        top:73vh;
-        filter:blur(14px);
-    }
-    .welcome-cloud.cloud-5{
-        width:80vw;
-        height:24vw;
-        right:-20vw;
-        top:78vh;
-        filter:blur(14px);
-    }
-
-    /* Tutup daun besar yang tertanam pada gambar pembuka.
-       Kabut tetap berbentuk lembut, bukan kotak putih. */
-    .welcome-bottom-haze{
-        background:
-            radial-gradient(ellipse 72% 24% at 50% 74%,
-                rgba(255,255,255,.88) 0%,
-                rgba(255,255,255,.62) 42%,
-                rgba(255,255,255,0) 78%),
-            radial-gradient(ellipse 48% 20% at 8% 79%,
-                rgba(255,255,255,.78) 0%,
-                rgba(255,255,255,.42) 48%,
-                rgba(255,255,255,0) 82%),
-            radial-gradient(ellipse 48% 20% at 92% 79%,
-                rgba(255,255,255,.78) 0%,
-                rgba(255,255,255,.42) 48%,
-                rgba(255,255,255,0) 82%),
-            linear-gradient(
-                to bottom,
-                rgba(247,239,227,0) 0%,
-                rgba(247,239,227,0) 68%,
-                rgba(247,239,227,.10) 71%,
-                rgba(247,239,227,.38) 75%,
-                rgba(247,239,227,.72) 80%,
-                rgba(247,239,227,.94) 86%,
-                #F7EFE3 92%,
-                #F7EFE3 100%
-            );
-        filter:blur(.25px);
-    }
-}
-
-@media(min-width:992px){
-    .welcome-clouds,
-    .welcome-bottom-haze{
-        display:none !important;
-    }
-}
-
-@media(max-width:991.98px){
-    #welcome .welcome-card{
-        z-index:2 !important;
-    }
-}
-
-/* =========================================================
-   HALAMAN AWAL HP — KABUT / AWAN PUTIH DI AREA TAMU
-   Hanya mobile. Posisi semua teks dan tombol tetap.
-   ========================================================= */
-@media (max-width:575.98px){
-    #welcome::before{
-        background:
-            linear-gradient(
-                to bottom,
-                rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0) 64%,
-                rgba(255,250,246,.03) 68%,
-                rgba(255,250,246,.18) 76%,
-                rgba(255,250,246,.42) 84%,
-                rgba(255,250,246,.70) 92%,
-                rgba(255,250,246,.86) 100%
-            );
-    }
-
-    .welcome-card::after{
-        left:50%;
-        bottom:-4%;
-        width:150%;
-        height:43%;
-        background:
-            radial-gradient(
-                ellipse 58% 42% at 50% 37%,
-                rgba(255,255,255,.92) 0%,
-                rgba(255,250,246,.76) 35%,
-                rgba(255,250,246,.38) 62%,
-                rgba(255,250,246,0) 100%
-            ),
-            radial-gradient(
-                ellipse 45% 32% at 18% 58%,
-                rgba(255,255,255,.64) 0%,
-                rgba(255,250,246,.22) 58%,
-                rgba(255,250,246,0) 100%
-            ),
-            radial-gradient(
-                ellipse 45% 32% at 82% 58%,
-                rgba(255,255,255,.64) 0%,
-                rgba(255,250,246,.22) 58%,
-                rgba(255,250,246,0) 100%
-            );
-        filter:blur(1px);
-        opacity:1;
-    }
-}
-</style>
-
-
-<style id="mobile-clear-bottom-final">
-/* FINAL HP: area bawah dibuat benar-benar bersih.
-   Daun besar dari placeholder tidak dibiarkan terlihat.
-   Yang tersisa hanya kabut putih lembut di belakang nama tamu. */
-@media (max-width:575.98px){
-    #welcome .welcome-clouds,
-    #welcome .welcome-bottom-haze{
-        display:none !important;
-    }
-
-    #welcome::before{
-        content:"" !important;
-        position:absolute !important;
-        inset:0 !important;
-        z-index:1 !important;
-        pointer-events:none !important;
-        background:
-            radial-gradient(ellipse 75% 22% at 50% 77%,
-                rgba(255,255,255,.92) 0%,
-                rgba(255,255,255,.72) 42%,
-                rgba(255,255,255,0) 78%),
-            radial-gradient(ellipse 52% 19% at 5% 82%,
-                rgba(255,255,255,.86) 0%,
-                rgba(255,255,255,.55) 48%,
-                rgba(255,255,255,0) 82%),
-            radial-gradient(ellipse 52% 19% at 95% 82%,
-                rgba(255,255,255,.86) 0%,
-                rgba(255,255,255,.55) 48%,
-                rgba(255,255,255,0) 82%),
-            linear-gradient(
-                to bottom,
-                rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0) 68%,
-                rgba(255,255,255,.05) 71%,
-                rgba(255,255,255,.24) 76%,
-                rgba(255,255,255,.58) 82%,
-                rgba(255,255,255,.88) 88%,
-                rgba(255,255,255,.98) 94%,
-                rgba(255,255,255,1) 100%
-            ) !important;
-        filter:blur(.2px) !important;
-    }
-
-    #welcome .welcome-card{
-        z-index:2 !important;
-    }
-}
-</style>
 
 </body>
 </html>
