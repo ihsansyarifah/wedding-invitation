@@ -1580,61 +1580,6 @@ html[data-bs-theme="dark"] #welcome{
     }
 }
 </style>
-
-
-<style id="ewallet-copy-buttons">
-.copy-account-btn{
-    border:1px solid rgba(92,76,55,.28);
-    background:rgba(255,255,255,.72);
-    color:inherit;
-    border-radius:999px;
-    padding:3px 10px;
-    margin-left:6px;
-    font-size:.72rem;
-    line-height:1.4;
-    cursor:pointer;
-    transition:all .2s ease;
-}
-.copy-account-btn:hover{
-    background:rgba(255,255,255,.95);
-}
-.copy-account-btn.copied{
-    background:rgba(92,76,55,.10);
-}
-</style>
-
-<style id="ewallet-copy-icon-style">
-.ewallet-copy-icon{
-    width:42px;
-    height:42px;
-    padding:0 !important;
-    margin-left:auto !important;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border:1px solid rgba(55,55,55,.9) !important;
-    background:rgba(255,255,255,.28) !important;
-    color:inherit;
-    border-radius:50% !important;
-    font-size:1.15rem !important;
-    line-height:1;
-    flex:0 0 42px;
-}
-.ewallet-copy-icon:hover{
-    background:rgba(255,255,255,.55) !important;
-}
-.ewallet-copy-icon.copied{
-    background:rgba(255,255,255,.55) !important;
-}
-</style>
-
-
-<style id="ewallet-row-style">
-#love-gift .ewallet-copy-icon{
-    vertical-align:middle;
-}
-</style>
-
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
@@ -2067,15 +2012,45 @@ html[data-bs-theme="dark"] #welcome{
                         </div>
                         <div class="collapse" id="collapseWallet">
                             <hr>
-                            <p class="m-0 mb-2">
-                                OVO: <span class="ewallet-number">081389652775</span> <button type="button" class="copy-account-btn ewallet-copy-icon" onclick="copyToClipboard(\'081389652775\', this)" aria-label="Salin nomor OVO" title="Salin nomor"><i class="bi bi-copy"></i></button>
-                            </p>
-                            <p class="m-0 mb-2">
-                                GoPay: <span class="ewallet-number">081389652775</span> <button type="button" class="copy-account-btn ewallet-copy-icon" onclick="copyToClipboard(\'081389652775\', this)" aria-label="Salin nomor GoPay" title="Salin nomor"><i class="bi bi-copy"></i></button>
-                            </p>
-                            <p class="m-0">
-                                DANA: <span class="ewallet-number">081389652775</span> <button type="button" class="copy-account-btn ewallet-copy-icon" onclick="copyToClipboard(\'081389652775\', this)" aria-label="Salin nomor DANA" title="Salin nomor"><i class="bi bi-copy"></i></button>
-                            </p>
+                            <div class="d-flex justify-content-between mt-2">
+                                <p class="m-0">
+                                    OVO: 081389652775
+                                </p>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-auto btn-sm rounded-4 py-0"
+                                    data-copy="081389652775"
+                                    onclick="undangan.util.copy(this)"
+                                >
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <p class="m-0">
+                                    GoPay: 081389652775
+                                </p>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-auto btn-sm rounded-4 py-0"
+                                    data-copy="081389652775"
+                                    onclick="undangan.util.copy(this)"
+                                >
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+                                <p class="m-0">
+                                    DANA: 081389652775
+                                </p>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-auto btn-sm rounded-4 py-0"
+                                    data-copy="081389652775"
+                                    onclick="undangan.util.copy(this)"
+                                >
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="gift-card shadow-sm p-3 mx-2 mt-3 text-start">
@@ -2663,34 +2638,5 @@ html[data-bs-theme="dark"] #welcome{
     });
 })();
 </script>
-
-
-<script id="ewallet-copy-script">
-function copyToClipboard(text, button){
-    if (!navigator.clipboard) {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        showCopied(button);
-        return;
-    }
-    navigator.clipboard.writeText(text).then(function(){
-        showCopied(button);
-    });
-}
-function showCopied(button){
-    const oldText = button.textContent;
-    button.textContent = 'Tersalin ✓';
-    button.classList.add('copied');
-    setTimeout(function(){
-        button.textContent = oldText;
-        button.classList.remove('copied');
-    }, 1500);
-}
-</script>
-
 </body>
 </html>
