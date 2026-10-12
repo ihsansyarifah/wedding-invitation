@@ -730,7 +730,18 @@ html[data-bs-theme="dark"] .story-video-overlay{
 }
 .story-year{
     font-size:2.2rem;
-    margin:0 0 1.7rem
+    margin:0 0 1.7rem;
+    color:#9b8065;
+    letter-spacing:.035em;
+    font-weight:400
+}
+.story-year::after{
+    content:"";
+    display:block;
+    width:48px;
+    height:1px;
+    margin:1rem auto 0;
+    background:#c9b9a6
 }
 .story-block p{
     margin:0 0 1.55rem;
@@ -742,7 +753,23 @@ html[data-bs-theme="dark"] .story-video-overlay{
     font-family:var(--font-esthetic,Georgia,serif)
 }
 .story-emphasis{
-    font-size:1.35rem!important
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:1rem;
+    margin:2.8rem 0 3.2rem!important;
+    font-size:1.55rem!important;
+    line-height:1.5!important;
+    color:#9b8065
+}
+.story-emphasis::before,
+.story-emphasis::after{
+    content:"";
+    display:block;
+    width:34px;
+    height:1px;
+    flex:0 0 34px;
+    background:#b9a18a
 }
 .story-final{
     font-size:1.55rem!important;
@@ -2386,66 +2413,40 @@ html[data-bs-theme="dark"] #welcome{
     </button>
     <div class="story-page-content">
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2019
-            </h3>
+            <h3 class="story-year font-esthetic">2019</h3>
             <p>
-                Kami bertemu di Politeknik AKA Bogor.<br>
-                Tiga tahun menjalani masa kuliah di tempat yang sama.
+                Kami pertama kali bertemu di masa kuliah. Selama beberapa tahun, kami menjalani masa kuliah di tempat yang sama.
             </p>
             <p>
-                Saat itu, salah satu dari kami mencoba mendekat,<br>
-                sementara yang lain memilih untuk fokus pada kuliahnya.
+                Salah satu dari kami sempat mencoba mendekat, sementara yang lain memilih untuk fokus pada kuliahnya.
             </p>
         </section>
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2022
-            </h3>
+            <h3 class="story-year font-esthetic">2022</h3>
             <p>
-                Kami lulus dan menjalani kehidupan masing-masing.<br>
-                Setelah itu, kami tidak lagi berkomunikasi.
+                Kami lulus dan kemudian menjalani kehidupan masing-masing. Setelah itu, komunikasi di antara kami terhenti.
             </p>
-            <p class="story-emphasis">
-                Tiga tahun berlalu.
+            <p class="story-emphasis">Tiga tahun berlalu.</p>
+        </section>
+        <section class="story-block">
+            <h3 class="story-year font-esthetic">2025</h3>
+            <p>
+                Kami kembali bertemu setelah sekian lama.
+            </p>
+            <p>
+                Awalnya hanya kembali berkomunikasi dan saling bertukar cerita. Seiring waktu, kami mulai sering menghabiskan waktu bersama dan mengenal satu sama lain lebih jauh.
+            </p>
+            <p>
+                Beberapa perjalanan dan banyak cerita kemudian, kami mulai menyadari bahwa hubungan ini berjalan ke arah yang berbeda.
             </p>
         </section>
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2025
-            </h3>
+            <h3 class="story-year font-esthetic">2026</h3>
             <p>
-                Sebuah gitar mempertemukan kami kembali.
+                Hubungan kami semakin serius. Kami mulai saling mengenal keluarga dan berbagi lebih banyak tentang kehidupan masing-masing.
             </p>
             <p>
-                Sejak saat itu, kami kembali dekat.<br>
-                Kami berbagi cerita, menghabiskan waktu bersama,<br>
-                menikmati perjalanan ke air terjun dan bukit,<br>
-                dan perlahan mengenal satu sama lain lebih dekat.
-            </p>
-            <p>
-                Kami mulai menyadari bahwa<br>
-                pertemuan kali ini mungkin bukan sekadar kebetulan.
-            </p>
-        </section>
-        <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2026
-            </h3>
-            <p>
-                Kami memantapkan hati untuk melangkah lebih serius.
-            </p>
-            <p>
-                Dengan restu keluarga,<br>
-                kami memilih untuk melanjutkan perjalanan ini bersama.
-            </p>
-        </section>
-        <section class="story-block">
-            <p class="story-final">
-                Dari sebuah pertemuan,<br>
-                menjadi sebuah perjalanan,<br>
-                dan insyaAllah menjadi<br>
-                perjalanan seumur hidup.
+                Setelah mendapat restu dari keluarga, kami memutuskan untuk melanjutkan hubungan ini ke jenjang pernikahan.
             </p>
             <div class="story-actions">
                 <button
