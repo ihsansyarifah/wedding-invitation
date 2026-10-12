@@ -1691,6 +1691,24 @@ html[data-bs-theme="dark"] #welcome{
 }
 </style>
 
+
+<style id="desktop-cover-real-logo">
+/* Gunakan logo asli dari folder assets/images pada cover desktop. */
+@media (min-width: 992px) {
+    #welcome .welcome-card .accent-line::before {
+        content: "" !important;
+        width: 100px !important;
+        height: 82px !important;
+        top: -86px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: url('./assets/images/logo-is.png?v=20260831') center / contain no-repeat !important;
+        color: transparent !important;
+        font-size: 0 !important;
+        letter-spacing: 0 !important;
+    }
+}
+</style>
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
