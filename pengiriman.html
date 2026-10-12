@@ -1477,15 +1477,17 @@ function makeMessage(guest){
       : sapaan;
 
 
+  // Link undangan memakai SAPAAN + NAMA dari spreadsheet.
+  // Contoh: Bapak Ahmad Fauzi -> ?to=Bapak%20Ahmad%20Fauzi
+  const penerimaLink = [
+    clean(guest.sapaan),
+    clean(guest.nama)
+  ].filter(Boolean).join(" ");
+
   const link =
     INVITATION_URL +
     "?to=" +
-    encodeURIComponent(
-      tujuan
-    ).replace(
-      /\+/g,
-      "%20"
-    );
+    encodeURIComponent(penerimaLink).replace(/\+/g, "%20");
 
 
   const EMOJI_CALENDAR =
