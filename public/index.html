@@ -1607,6 +1607,90 @@ html[data-bs-theme="dark"] #welcome{
     }
 }
 </style>
+
+
+<style id="desktop-layout-refinement-a">
+/* DESKTOP A — mempertahankan split screen, merapikan komposisi panel kanan.
+   Semua aturan di sini hanya berlaku pada layar desktop (992px ke atas). */
+@media (min-width: 992px) {
+    /* Beri ruang untuk navigasi bawah agar konten tidak tertutup. */
+    #root > div:last-of-type > main {
+        padding-bottom: 76px !important;
+        scroll-padding-bottom: 76px;
+    }
+
+    #root > div:last-of-type > #navbar-menu {
+        min-height: 60px;
+        padding: 7px 10px 5px !important;
+        background: rgba(255, 250, 246, .94) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(185, 148, 98, .22) !important;
+        box-shadow: 0 -8px 24px rgba(79, 52, 42, .06);
+    }
+
+    #navbar-menu .nav-link {
+        padding: 5px 3px 3px !important;
+        font-size: .8rem;
+    }
+
+    #navbar-menu .nav-link i {
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+
+    /* Home: komposisi desktop lebih padat dan seimbang, tanpa mengganti aset. */
+    #root > div:last-of-type > main #home > .position-relative.text-center {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: calc(100vh - 60px);
+        padding: 28px 28px 88px !important;
+    }
+
+    #root > div:last-of-type > main #home .cover-monogram {
+        width: 76px !important;
+        height: 76px !important;
+        margin: 0 auto 10px !important;
+    }
+
+    #root > div:last-of-type > main #home .cover-title {
+        font-size: clamp(2.25rem, 3.1vw, 3rem) !important;
+        line-height: .91;
+        margin-bottom: 8px !important;
+    }
+
+    #root > div:last-of-type > main #home .accent-line {
+        margin: 9px auto 12px !important;
+    }
+
+    #root > div:last-of-type > main #home .couple-photo {
+        width: clamp(165px, 15vw, 205px) !important;
+        height: clamp(165px, 15vw, 205px) !important;
+        margin: 14px auto 18px !important;
+        flex: 0 0 auto;
+    }
+
+    #root > div:last-of-type > main #home #calendar-button {
+        margin-bottom: 6px;
+    }
+
+    #root > div:last-of-type > main #home .mouse-animation {
+        margin-top: 14px !important;
+    }
+
+    #root > div:last-of-type > main #home .pb-2.m-0.text-secondary {
+        padding-bottom: 0 !important;
+    }
+
+    /* Konten selain Home tetap bisa discroll dan tidak dipaksa setinggi layar. */
+    #root > div:last-of-type > main > section {
+        scroll-margin-top: 18px;
+    }
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
