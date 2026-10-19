@@ -1709,6 +1709,216 @@ html[data-bs-theme="dark"] #welcome{
     }
 }
 </style>
+
+<style id="desktop-polish-final">
+/* DESKTOP POLISH — khusus layar 992px ke atas.
+   Tidak mengubah aturan mobile, isi, aset, atau fungsi undangan. */
+@media (min-width: 992px) {
+    :root {
+        --desktop-panel-padding: clamp(22px, 2.4vw, 36px);
+    }
+
+    /* Panel kanan dan area scroll */
+    #root > div:last-of-type {
+        box-shadow: -10px 0 34px rgba(64, 48, 39, .07);
+        background: #f7f0e5;
+    }
+
+    #root > div:last-of-type > main {
+        padding-bottom: 84px !important;
+        scroll-padding-top: 20px;
+        scroll-padding-bottom: 84px;
+        scrollbar-gutter: stable;
+    }
+
+    #root > div:last-of-type > main::-webkit-scrollbar {
+        width: 7px;
+    }
+    #root > div:last-of-type > main::-webkit-scrollbar-thumb {
+        background: rgba(126, 105, 87, .28);
+        border-radius: 99px;
+    }
+    #root > div:last-of-type > main::-webkit-scrollbar-track {
+        background: rgba(255, 250, 246, .24);
+    }
+
+    /* Cover pembuka: posisi elemen lebih seimbang dan tidak menumpuk. */
+    #welcome .welcome-card {
+        padding-left: clamp(22px, 3vw, 48px) !important;
+        padding-right: clamp(22px, 3vw, 48px) !important;
+    }
+    #welcome .welcome-card .accent-line {
+        top: 20% !important;
+        width: 54px !important;
+    }
+    #welcome .welcome-card .accent-line::before {
+        top: -82px !important;
+        width: 94px !important;
+        height: 72px !important;
+        background-position: center !important;
+        background-size: contain !important;
+    }
+    #welcome .welcome-card > p:first-of-type {
+        top: 30% !important;
+        font-size: clamp(.68rem, .75vw, .78rem) !important;
+        letter-spacing: .22em !important;
+    }
+    #welcome .welcome-name {
+        top: 35% !important;
+        font-size: clamp(2.25rem, 3.3vw, 3.6rem) !important;
+        line-height: .94 !important;
+        letter-spacing: .015em !important;
+    }
+    #welcome .welcome-name-amp {
+        margin: .04em 0 .025em !important;
+        font-size: .58em !important;
+    }
+    #welcome .welcome-date {
+        top: 59% !important;
+        font-size: clamp(.62rem, .72vw, .72rem) !important;
+        letter-spacing: .13em !important;
+    }
+    #welcome #guest-name {
+        bottom: 15% !important;
+        padding: 0 12px !important;
+        line-height: 1.45 !important;
+    }
+    #welcome .btn {
+        bottom: 7.2% !important;
+        min-width: min(78%, 235px) !important;
+        padding: .72rem 1.2rem !important;
+        transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+    #welcome .btn:hover {
+        transform: translateX(-50%) translateY(-2px) !important;
+        box-shadow: 0 11px 24px rgba(79, 104, 120, .23) !important;
+    }
+    #welcome .small {
+        bottom: 2.1% !important;
+        width: 88% !important;
+        font-size: .62rem !important;
+    }
+
+    /* Home: hero tidak terasa seperti halaman mobile yang diperbesar. */
+    #root > div:last-of-type > main #home > .position-relative.text-center {
+        min-height: 100vh;
+        padding: clamp(22px, 3vh, 34px) var(--desktop-panel-padding) 92px !important;
+    }
+    #root > div:last-of-type > main #home .cover-monogram {
+        width: clamp(66px, 5.5vw, 82px) !important;
+        height: clamp(66px, 5.5vw, 82px) !important;
+        margin-bottom: 8px !important;
+    }
+    #root > div:last-of-type > main #home > .position-relative.text-center > p:first-of-type {
+        margin-bottom: 8px !important;
+        font-size: .95rem;
+        letter-spacing: .04em;
+    }
+    #root > div:last-of-type > main #home .cover-title {
+        font-size: clamp(2.15rem, 3vw, 2.85rem) !important;
+        line-height: .94 !important;
+        margin-bottom: 6px !important;
+    }
+    #root > div:last-of-type > main #home .accent-line {
+        width: 54px;
+        margin: 8px auto 10px !important;
+    }
+    #root > div:last-of-type > main #home .couple-photo {
+        width: clamp(150px, 13.5vw, 190px) !important;
+        height: clamp(150px, 13.5vw, 190px) !important;
+        margin: 12px auto 14px !important;
+        border-width: 4px !important;
+        box-shadow: 0 12px 32px rgba(79, 52, 42, .15) !important;
+    }
+
+    /* Spasi section konsisten dan kartu tidak terlalu melebar. */
+    #root > div:last-of-type > main > section {
+        scroll-margin-top: 18px;
+    }
+    #root > div:last-of-type > main .container {
+        padding-left: clamp(16px, 2.1vw, 28px);
+        padding-right: clamp(16px, 2.1vw, 28px);
+    }
+    #root > div:last-of-type > main .section-card {
+        border-radius: 1.45rem;
+        box-shadow: 0 10px 30px rgba(91, 62, 49, .09);
+    }
+    #root > div:last-of-type > main h2.font-esthetic {
+        text-wrap: balance;
+    }
+    #root > div:last-of-type > main p {
+        text-wrap: pretty;
+    }
+
+    /* Mempelai: jaga nama panjang tetap terbaca pada panel kanan. */
+    #root > div:last-of-type > main #bride .person-photo {
+        width: clamp(132px, 12vw, 160px) !important;
+        height: clamp(132px, 12vw, 160px) !important;
+    }
+    #root > div:last-of-type > main #bride .person-name {
+        font-size: clamp(1.05rem, 1.55vw, 1.42rem) !important;
+        letter-spacing: -.025em !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere;
+        line-height: 1.25 !important;
+        padding: 0 4px;
+    }
+
+    /* Navigasi desktop: rapi, ringan, dan konsisten dengan warna undangan. */
+    #root > div:last-of-type > #navbar-menu {
+        min-height: 64px;
+        padding: 7px 8px 5px !important;
+        background: rgba(255, 250, 246, .94) !important;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(185, 148, 98, .22) !important;
+        box-shadow: 0 -8px 24px rgba(79, 52, 42, .07);
+    }
+    #root > div:last-of-type > #navbar-menu .navbar-nav {
+        gap: 2px;
+    }
+    #root > div:last-of-type > #navbar-menu .nav-link {
+        min-height: 48px;
+        padding: 5px 2px 3px !important;
+        border-radius: 10px;
+        font-size: .75rem;
+        line-height: 1.25;
+        transition: background-color .2s ease, opacity .2s ease, color .2s ease;
+    }
+    #root > div:last-of-type > #navbar-menu .nav-link i {
+        display: inline-block;
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+    #root > div:last-of-type > #navbar-menu .nav-link:hover,
+    #root > div:last-of-type > #navbar-menu .nav-link.is-current {
+        background: rgba(185, 148, 98, .12);
+    }
+}
+
+/* Laptop pendek: kurangi sedikit elemen Home agar tetap nyaman tanpa mengubah mobile. */
+@media (min-width: 992px) and (max-height: 760px) {
+    #root > div:last-of-type > main #home > .position-relative.text-center {
+        padding-top: 18px !important;
+        padding-bottom: 84px !important;
+    }
+    #root > div:last-of-type > main #home .cover-monogram {
+        width: 60px !important;
+        height: 60px !important;
+        margin-bottom: 5px !important;
+    }
+    #root > div:last-of-type > main #home .couple-photo {
+        width: 142px !important;
+        height: 142px !important;
+        margin: 8px auto 10px !important;
+    }
+    #root > div:last-of-type > main #home .mouse-animation,
+    #root > div:last-of-type > main #home .pb-2.m-0.text-secondary {
+        display: none !important;
+    }
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
