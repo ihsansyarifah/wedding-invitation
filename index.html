@@ -2282,6 +2282,38 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+
+<style id="force-remove-heart-shape">
+@media (min-width: 992px) {
+  /* Remove heart SVG/backgrounds left by earlier desktop overrides */
+  #welcome #guest-name {
+    background-image: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  #welcome .welcome-card::before,
+  #welcome .welcome-card::after,
+  #welcome #guest-name::before,
+  #welcome #guest-name::after {
+    content: none !important;
+    display: none !important;
+    background-image: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    clip-path: none !important;
+  }
+  #welcome .welcome-card .desktop-mist-layer {
+    border-radius: 50% !important;
+    background:
+      radial-gradient(ellipse at 50% 18%, rgba(255,255,255,.82) 0%, rgba(255,255,255,.58) 28%, rgba(255,255,255,.22) 55%, rgba(255,255,255,0) 78%),
+      radial-gradient(ellipse at 48% 52%, rgba(255,250,241,.66) 0%, rgba(255,250,241,.38) 38%, rgba(255,250,241,0) 80%),
+      radial-gradient(ellipse at 54% 82%, rgba(255,255,255,.68) 0%, rgba(255,255,255,.32) 34%, rgba(255,255,255,0) 72%) !important;
+    filter: blur(24px) !important;
+  }
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
