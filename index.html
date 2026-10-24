@@ -2574,7 +2574,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<style id="undangan-background-no-blank-fix">
+
+
+
+<style id="undangan-original-image-proportions">
 html, body {
     min-height: 100%;
     background: #eaf0f5 !important;
@@ -2583,11 +2586,11 @@ body {
     position: relative;
     overflow-x: hidden !important;
 }
-/* Blurred desktop watercolor is the bottom-most layer, outside the invitation panel. */
+/* Outer desktop background, blurred behind the centered invitation. */
 body::before {
     content: "";
     position: fixed;
-    inset: -24px;
+    inset: -20px;
     z-index: 0;
     pointer-events: none;
     background: url("./assets/images/background%20dekstop.webp") center center / cover no-repeat;
@@ -2626,8 +2629,8 @@ body::before {
     overflow: visible !important;
     background: transparent !important;
 }
-/* Sky-top repeats at a shorter tile height to prevent long plain/empty-looking stretches.
-   Sky-bottom is the topmost image layer, pinned to the actual bottom of the content. */
+/* Keep each image at its intrinsic aspect ratio (100% auto).
+   Sky-top repeats vertically at natural size; sky-bottom is anchored to the end. */
 #root > div:last-of-type > main {
     display: block !important;
     position: relative !important;
@@ -2652,7 +2655,7 @@ body::before {
         center top !important;
     background-size:
         100% auto,
-        100% 360px !important;
+        100% auto !important;
     background-repeat:
         no-repeat,
         repeat-y !important;
@@ -2684,7 +2687,6 @@ body::before {
     #root > div:last-of-type > main {
         border-radius: 22px !important;
         box-shadow: none !important;
-        background-size: 100% auto, 100% 300px !important;
     }
     #root > div:last-of-type > #navbar-menu {
         width: 100% !important;
