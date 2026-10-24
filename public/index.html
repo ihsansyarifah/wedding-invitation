@@ -2568,13 +2568,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<style id="undangan-layering-sky-top-bottom-v2">
-/*
-  Layer order:
-  1. background dekstop.webp (full-screen blurred backdrop)
-  2. crisp invitation panel on top
-  3. sky-top.png at the beginning of invitation content, sky-bottom.png at the end
-*/
+
+
+
+
+
+
+<style id="undangan-background-no-blank-fix">
 html, body {
     min-height: 100%;
     background: #eaf0f5 !important;
@@ -2583,16 +2583,14 @@ body {
     position: relative;
     overflow-x: hidden !important;
 }
+/* Blurred desktop watercolor is the bottom-most layer, outside the invitation panel. */
 body::before {
     content: "";
     position: fixed;
-    inset: -22px;
+    inset: -24px;
     z-index: 0;
     pointer-events: none;
-    background-image: url("./assets/images/background%20dekstop.webp");
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background: url("./assets/images/background%20dekstop.webp") center center / cover no-repeat;
     filter: blur(12px);
     transform: scale(1.04);
 }
@@ -2611,11 +2609,9 @@ body::before {
     padding: 0 !important;
     background: transparent !important;
 }
-/* Remove the desktop photo column so invitation contents are centered. */
 #root > .sticky-top {
     display: none !important;
 }
-/* Center the existing invitation column without changing its internal sections. */
 #root > div:last-of-type {
     display: block !important;
     position: relative !important;
@@ -2630,11 +2626,12 @@ body::before {
     overflow: visible !important;
     background: transparent !important;
 }
-/* The invitation itself sits above the blurred desktop background. */
+/* Sky-top repeats at a shorter tile height to prevent long plain/empty-looking stretches.
+   Sky-bottom is the topmost image layer, pinned to the actual bottom of the content. */
 #root > div:last-of-type > main {
     display: block !important;
     position: relative !important;
-    isolation: isolate;
+    isolation: isolate !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: 100vh !important;
@@ -2646,31 +2643,25 @@ body::before {
     overflow-x: hidden !important;
     overflow-y: visible !important;
     border-radius: 32px !important;
-    background-color: rgba(255, 252, 247, .88) !important;
-    background-image: none !important;
+    background-color: #f8f4ee !important;
+    background-image:
+        url("./assets/images/sky-bottom.png"),
+        url("./assets/images/sky-top.png") !important;
+    background-position:
+        center bottom,
+        center top !important;
+    background-size:
+        100% auto,
+        100% 360px !important;
+    background-repeat:
+        no-repeat,
+        repeat-y !important;
     box-shadow: 0 8px 42px rgba(65, 82, 96, .18) !important;
 }
-/* Top watercolor remains at the beginning of the invitation. */
-#root > div:last-of-type > main::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    background-image:
-        url("./assets/images/sky-top.png"),
-        url("./assets/images/sky-bottom.png");
-    background-position: center top, center bottom;
-    background-size: 100% auto, 100% auto;
-    background-repeat: no-repeat, no-repeat;
-}
-/* Keep the existing text and section content crisp above the backgrounds. */
 #root > div:last-of-type > main > * {
     position: relative;
     z-index: 1;
 }
-/* Fixed bottom navigation centered with the invitation panel. */
 #root > div:last-of-type > #navbar-menu {
     position: fixed !important;
     left: 50% !important;
@@ -2684,9 +2675,7 @@ body::before {
     overflow: hidden;
 }
 @media (max-width: 700px) {
-    body::before {
-        filter: blur(7px);
-    }
+    body::before { filter: blur(7px); }
     #root > div:last-of-type,
     #root > div:last-of-type > main {
         width: 100% !important;
@@ -2695,6 +2684,7 @@ body::before {
     #root > div:last-of-type > main {
         border-radius: 22px !important;
         box-shadow: none !important;
+        background-size: 100% auto, 100% 300px !important;
     }
     #root > div:last-of-type > #navbar-menu {
         width: 100% !important;
