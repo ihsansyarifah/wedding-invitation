@@ -730,7 +730,18 @@ html[data-bs-theme="dark"] .story-video-overlay{
 }
 .story-year{
     font-size:2.2rem;
-    margin:0 0 1.7rem
+    margin:0 0 1.7rem;
+    color:#9b8065;
+    letter-spacing:.035em;
+    font-weight:400
+}
+.story-year::after{
+    content:"";
+    display:block;
+    width:48px;
+    height:1px;
+    margin:1rem auto 0;
+    background:#c9b9a6
 }
 .story-block p{
     margin:0 0 1.55rem;
@@ -742,7 +753,23 @@ html[data-bs-theme="dark"] .story-video-overlay{
     font-family:var(--font-esthetic,Georgia,serif)
 }
 .story-emphasis{
-    font-size:1.35rem!important
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:1rem;
+    margin:2.8rem 0 3.2rem!important;
+    font-size:1.55rem!important;
+    line-height:1.5!important;
+    color:#9b8065
+}
+.story-emphasis::before,
+.story-emphasis::after{
+    content:"";
+    display:block;
+    width:34px;
+    height:1px;
+    flex:0 0 34px;
+    background:#b9a18a
 }
 .story-final{
     font-size:1.55rem!important;
@@ -1582,151 +1609,364 @@ html[data-bs-theme="dark"] #welcome{
 </style>
 
 
+<style id="desktop-layout-refinement-a">
+/* DESKTOP A — mempertahankan split screen, merapikan komposisi panel kanan.
+   Semua aturan di sini hanya berlaku pada layar desktop (992px ke atas). */
+@media (min-width: 992px) {
+    /* Beri ruang untuk navigasi bawah agar konten tidak tertutup. */
+    #root > div:last-of-type > main {
+        padding-bottom: 76px !important;
+        scroll-padding-bottom: 76px;
+    }
+
+    #root > div:last-of-type > #navbar-menu {
+        min-height: 60px;
+        padding: 7px 10px 5px !important;
+        background: rgba(255, 250, 246, .94) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(185, 148, 98, .22) !important;
+        box-shadow: 0 -8px 24px rgba(79, 52, 42, .06);
+    }
+
+    #navbar-menu .nav-link {
+        padding: 5px 3px 3px !important;
+        font-size: .8rem;
+    }
+
+    #navbar-menu .nav-link i {
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+
+    /* Home: komposisi desktop lebih padat dan seimbang, tanpa mengganti aset. */
+    #root > div:last-of-type > main #home > .position-relative.text-center {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: calc(100vh - 60px);
+        padding: 28px 28px 88px !important;
+    }
+
+    #root > div:last-of-type > main #home .cover-monogram {
+        width: 76px !important;
+        height: 76px !important;
+        margin: 0 auto 10px !important;
+    }
+
+    #root > div:last-of-type > main #home .cover-title {
+        font-size: clamp(2.25rem, 3.1vw, 3rem) !important;
+        line-height: .91;
+        margin-bottom: 8px !important;
+    }
+
+    #root > div:last-of-type > main #home .accent-line {
+        margin: 9px auto 12px !important;
+    }
+
+    #root > div:last-of-type > main #home .couple-photo {
+        width: clamp(165px, 15vw, 205px) !important;
+        height: clamp(165px, 15vw, 205px) !important;
+        margin: 14px auto 18px !important;
+        flex: 0 0 auto;
+    }
+
+    #root > div:last-of-type > main #home #calendar-button {
+        margin-bottom: 6px;
+    }
+
+    #root > div:last-of-type > main #home .mouse-animation {
+        margin-top: 14px !important;
+    }
+
+    #root > div:last-of-type > main #home .pb-2.m-0.text-secondary {
+        padding-bottom: 0 !important;
+    }
+
+    /* Konten selain Home tetap bisa discroll dan tidak dipaksa setinggi layar. */
+    #root > div:last-of-type > main > section {
+        scroll-margin-top: 18px;
+    }
+}
+</style>
 
 
-<style id="desktop-cover-sketsa-final">
-/* FIX FINAL: paksa layout pembuka desktop menjadi satu bingkai tiga bagian.
-   !important diperlukan untuk menimpa aturan desktop lama yang memakai !important. */
+<style id="desktop-cover-real-logo">
+/* Gunakan logo asli dari folder assets/images pada cover desktop. */
+@media (min-width: 992px) {
+    #welcome .welcome-card .accent-line::before {
+        content: "" !important;
+        width: 100px !important;
+        height: 82px !important;
+        top: -86px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: url('./assets/images/logo-is.png?v=20260831') center / contain no-repeat !important;
+        color: transparent !important;
+        font-size: 0 !important;
+        letter-spacing: 0 !important;
+    }
+}
+</style>
+
+<style id="desktop-sky-cover-final">
+/* COVER DESKTOP — memakai background watercolor yang sudah diunggah.
+   Khusus desktop; aturan cover mobile tetap memakai desain sebelumnya. */
 @media (min-width: 992px) {
   #welcome {
-    position: fixed !important;
-    inset: 0 !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: stretch !important;
     justify-content: center !important;
     padding: 0 !important;
-    overflow: hidden !important;
-    background: #f7f3ec !important;
+    background-color: #e8f0f4 !important;
+    background-image:
+      linear-gradient(180deg, rgba(245,249,250,.08), rgba(255,250,244,.16)),
+      url('./assets/images/backgorund%20dekstop.webp') !important;
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
   }
-
-  #welcome::before,
-  #welcome::after {
-    display: none !important;
-    content: none !important;
-    background: none !important;
+  #welcome::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg,
+      rgba(233,242,247,.10) 0%,
+      rgba(255,252,247,.18) 50%,
+      rgba(255,252,247,.10) 100%) !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
   }
-
+  #welcome::after { content: none !important; display: none !important; }
   #welcome .welcome-card {
     position: relative !important;
     inset: auto !important;
-    flex: 0 1 auto !important;
-    width: min(92vw, 1500px) !important;
-    max-width: 92vw !important;
-    height: min(82vh, 820px) !important;
-    min-height: 0 !important;
+    width: min(100%, 850px) !important;
+    height: 100vh !important;
+    min-height: 600px !important;
     margin: 0 auto !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-    display: block !important;
-    overflow: hidden !important;
-    border: 8px solid #111 !important;
-    border-radius: 7px !important;
-    background-color: #fff !important;
-    background-image:
-      url('./assets/images/background%20dekstop.webp'),
-      url('./assets/images/background%20dekstop.webp') !important;
-    background-repeat: no-repeat, no-repeat !important;
-    background-position: left center, right center !important;
-    background-size: 34% 100%, 34% 100% !important;
+    padding: 125px 36px 42px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    color: #172a43 !important;
+    overflow: visible !important;
+    color: #263e50 !important;
     text-align: center !important;
+    text-shadow: 0 1px 12px rgba(255,255,255,.34) !important;
   }
-
-  #welcome .welcome-card::before,
-  #welcome .welcome-card::after {
-    display: none !important;
-    content: none !important;
-    background: none !important;
+  #welcome .welcome-card::before { content: none !important; display: none !important; }
+  #welcome .welcome-card::after { content: none !important; display: none !important; }
+  #welcome .welcome-card .accent-line {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    flex: 0 0 1px !important;
+    width: 58px !important;
+    height: 1px !important;
+    margin: 0 auto 28px !important;
+    background: #b59a6c !important;
+    opacity: .85 !important;
   }
-
-  #welcome .welcome-card > p:first-of-type,
-  #welcome .welcome-name,
-  #welcome .welcome-date,
-  #welcome .accent-line {
-    display: none !important;
-  }
-
-  #welcome #guest-name {
+  #welcome .welcome-card .accent-line::before {
+    content: "" !important;
     position: absolute !important;
-    top: 50% !important;
+    top: -94px !important;
     left: 50% !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: translate(-50%, -50%) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: clamp(190px, 19vw, 270px) !important;
-    height: clamp(175px, 18vw, 235px) !important;
-    margin: 0 !important;
-    padding: 0 24px 10px !important;
-    box-sizing: border-box !important;
+    transform: translateX(-50%) !important;
+    display: block !important;
+    width: 92px !important;
+    height: 76px !important;
     border: 0 !important;
     border-radius: 0 !important;
-    background-color: transparent !important;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 220'%3E%3Cpath d='M120 202 L30 111 C-7 72 18 15 62 15 C87 15 106 30 120 49 C134 30 153 15 178 15 C222 15 247 72 210 111 Z' fill='white' fill-opacity='.92' stroke='%23111' stroke-width='8' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-    background-size: 100% 100% !important;
-    color: #172a43 !important;
-    font-family: var(--font-esthetic, Georgia, serif) !important;
-    font-size: clamp(1rem, 1.45vw, 1.4rem) !important;
-    line-height: 1.35 !important;
+    background: url('./assets/images/logo-is.png?v=20261020') center / contain no-repeat !important;
+    color: transparent !important;
+    font-size: 0 !important;
+  }
+  #welcome .welcome-card > p:first-of-type {
+    position: static !important;
+    width: auto !important;
+    margin: 0 0 22px !important;
+    color: #536c7d !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: .92rem !important;
+    line-height: 1.4 !important;
+    letter-spacing: .28em !important;
     font-weight: 500 !important;
-    text-align: center !important;
-    overflow-wrap: anywhere !important;
-    text-shadow: none !important;
-    z-index: 2 !important;
+    text-transform: uppercase !important;
   }
-
-  #welcome #guest-name::before {
-    display: none !important;
-    content: none !important;
-  }
-
-  #welcome .btn {
-    position: absolute !important;
-    top: auto !important;
-    left: 50% !important;
-    right: auto !important;
-    bottom: 7% !important;
-    transform: translateX(-50%) !important;
-    min-width: 190px !important;
+  #welcome .welcome-name {
+    position: static !important;
     width: auto !important;
     margin: 0 !important;
-    padding: .65rem 1.4rem !important;
-    border: 0 !important;
-    border-radius: 999px !important;
-    background: #315b83 !important;
-    color: #fff !important;
-    box-shadow: 0 5px 14px rgba(20,45,70,.18) !important;
-    text-shadow: none !important;
-    white-space: nowrap !important;
-    z-index: 3 !important;
+    color: #203b50 !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: clamp(3.6rem, 6.2vw, 6.2rem) !important;
+    font-weight: 400 !important;
+    line-height: .9 !important;
+    letter-spacing: .025em !important;
   }
-
-  #welcome .small {
-    position: absolute !important;
-    left: 50% !important;
-    right: auto !important;
-    bottom: 2% !important;
-    transform: translateX(-50%) !important;
-    width: min(90%, 520px) !important;
-    margin: 0 !important;
-    color: #334155 !important;
-    font-family: var(--font-esthetic, Georgia, serif) !important;
-    font-size: .78rem !important;
-    line-height: 1.3 !important;
+  #welcome .welcome-name-line { display: block !important; }
+  #welcome .welcome-name-amp {
+    display: block !important;
+    margin: .09em 0 .07em !important;
+    color: #a5b8c3 !important;
+    font-size: .47em !important;
+    line-height: .9 !important;
+    letter-spacing: .04em !important;
+  }
+  #welcome .welcome-date {
+    position: static !important;
+    width: auto !important;
+    margin: 28px 0 0 !important;
+    color: #526a7a !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: .86rem !important;
+    line-height: 1.5 !important;
+    letter-spacing: .19em !important;
+    font-weight: 500 !important;
+  }
+  #welcome #guest-name {
+    position: static !important;
+    width: auto !important;
+    margin: 42px 0 0 !important;
+    color: #3c5668 !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
     text-shadow: none !important;
-    z-index: 3 !important;
+  }
+  #welcome .btn {
+    position: static !important;
+    transform: none !important;
+    min-width: 220px !important;
+    margin: 18px 0 0 !important;
+    padding: .85rem 1.7rem !important;
+    border: 1px solid rgba(255,255,255,.45) !important;
+    border-radius: 999px !important;
+    background: #8daabb !important;
+    color: #fff !important;
+    box-shadow: 0 8px 22px rgba(65,96,116,.18) !important;
+    font-family: 'Josefin Sans', sans-serif !important;
+    font-size: .86rem !important;
+    letter-spacing: .035em !important;
+    white-space: nowrap !important;
+    transition: background .2s ease, transform .2s ease !important;
+  }
+  #welcome .btn:hover {
+    background: #7899ad !important;
+    transform: translateY(-2px) !important;
+  }
+  #welcome .small {
+    position: static !important;
+    width: auto !important;
+    margin: 22px 0 0 !important;
+    color: #657b88 !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: .74rem !important;
+    line-height: 1.5 !important;
+    text-shadow: none !important;
   }
 }
-@media (min-width: 992px) and (max-height: 600px) {
-  #welcome .welcome-card { height: 88vh !important; }
-  #welcome #guest-name { width: 170px !important; height: 155px !important; font-size: 1rem !important; }
+@media (min-width: 992px) and (max-height: 720px) {
+  #welcome .welcome-card { padding-top: 108px !important; padding-bottom: 24px !important; }
+  #welcome .welcome-card .accent-line { margin-bottom: 20px !important; }
+  #welcome .welcome-card .accent-line::before { top: -78px !important; width: 76px !important; height: 64px !important; }
+  #welcome .welcome-card > p:first-of-type { margin-bottom: 16px !important; }
+  #welcome .welcome-name { font-size: clamp(3rem, 5.5vw, 4.8rem) !important; }
+  #welcome .welcome-date { margin-top: 20px !important; }
+  #welcome #guest-name { margin-top: 24px !important; }
+  #welcome .btn { margin-top: 12px !important; }
+  #welcome .small { margin-top: 14px !important; }
+}
+</style>
+
+
+
+<style id="desktop-cover-single-background">
+@media (min-width: 992px) {
+  #welcome {
+    position: fixed !important; inset: 0 !important;
+    width: 100vw !important; height: 100vh !important; min-height: 100vh !important;
+    margin: 0 !important; padding: 0 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    overflow: hidden !important; background-color: #eaf2f8 !important;
+    background-image: url("./assets/images/background%20dekstop.webp") !important;
+    background-position: center center !important; background-repeat: no-repeat !important;
+    background-size: cover !important; border: 0 !important; border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  #welcome::before, #welcome::after,
+  #welcome .welcome-card::before, #welcome .welcome-card::after {
+    content: none !important; display: none !important;
+  }
+  #welcome .welcome-card {
+    position: relative !important; inset: auto !important;
+    width: 100vw !important; max-width: none !important;
+    height: 100vh !important; min-height: 100vh !important;
+    margin: 0 !important; padding: 0 !important; box-sizing: border-box !important;
+    display: block !important; overflow: hidden !important;
+    border: 0 !important; border-radius: 0 !important; outline: 0 !important;
+    box-shadow: none !important; background: transparent !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    text-align: center !important;
+  }
+  #welcome .accent-line, #welcome .welcome-card > p:first-of-type,
+  #welcome .welcome-name, #welcome .welcome-date { display: none !important; }
+
+  #welcome #guest-name {
+    position: absolute !important; top: 46% !important; left: 50% !important;
+    right: auto !important; bottom: auto !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    width: clamp(220px, 23vw, 330px) !important;
+    height: clamp(200px, 21vw, 290px) !important;
+    margin: 0 !important; padding: 0 12% 4% !important; box-sizing: border-box !important;
+    border: 0 !important; border-radius: 0 !important; background-color: transparent !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 220'%3E%3Cpath d='M120 202 L30 111 C-7 72 18 15 62 15 C87 15 106 30 120 49 C134 30 153 15 178 15 C222 15 247 72 210 111 Z' fill='%23fffdf9' fill-opacity='.78' stroke='%23111111' stroke-width='7' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important; background-position: center !important;
+    background-size: 100% 100% !important; color: #20252b !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: clamp(1rem, 1.45vw, 1.5rem) !important; font-weight: 500 !important;
+    line-height: 1.3 !important; text-align: center !important; text-shadow: none !important;
+    overflow-wrap: anywhere !important; z-index: 2 !important;
+  }
+  #welcome #guest-name::before { content: none !important; display: none !important; }
+
+  #welcome .btn {
+    position: absolute !important; top: auto !important; left: 50% !important;
+    right: auto !important; bottom: 12% !important; transform: translateX(-50%) !important;
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    margin: 0 !important; min-width: 205px !important; padding: .7rem 1.6rem !important;
+    border: 0 !important; border-radius: 999px !important; background: #456b91 !important;
+    color: #fff !important; box-shadow: 0 5px 16px rgba(28,55,82,.2) !important;
+    white-space: nowrap !important; z-index: 3 !important;
+  }
+  #welcome .btn:hover { background: #355879 !important; }
+  #welcome .small {
+    position: absolute !important; left: 50% !important; right: auto !important;
+    bottom: 6% !important; transform: translateX(-50%) !important;
+    width: min(90vw, 480px) !important; margin: 0 !important;
+    color: #334155 !important; font-family: Georgia, "Times New Roman", serif !important;
+    font-size: .82rem !important; line-height: 1.35 !important;
+    text-shadow: none !important; z-index: 3 !important;
+  }
+}
+@media (min-width: 992px) and (max-height: 650px) {
+  #welcome #guest-name { top: 43% !important; width: 190px !important; height: 175px !important; font-size: 1rem !important; }
+  #welcome .btn { bottom: 11% !important; }
+  #welcome .small { bottom: 3% !important; font-size: .72rem !important; }
 }
 </style>
 
@@ -2536,66 +2776,40 @@ html[data-bs-theme="dark"] #welcome{
     </button>
     <div class="story-page-content">
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2019
-            </h3>
+            <h3 class="story-year font-esthetic">2019</h3>
             <p>
-                Kami bertemu di Politeknik AKA Bogor.<br>
-                Tiga tahun menjalani masa kuliah di tempat yang sama.
+                Kami pertama kali bertemu di masa kuliah. Selama beberapa tahun, kami menjalani masa kuliah di tempat yang sama.
             </p>
             <p>
-                Saat itu, salah satu dari kami mencoba mendekat,<br>
-                sementara yang lain memilih untuk fokus pada kuliahnya.
+                Salah satu dari kami sempat mencoba mendekat, sementara yang lain memilih untuk fokus pada kuliahnya.
             </p>
         </section>
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2022
-            </h3>
+            <h3 class="story-year font-esthetic">2022</h3>
             <p>
-                Kami lulus dan menjalani kehidupan masing-masing.<br>
-                Setelah itu, kami tidak lagi berkomunikasi.
+                Kami lulus dan kemudian menjalani kehidupan masing-masing. Setelah itu, komunikasi di antara kami terhenti.
             </p>
-            <p class="story-emphasis">
-                Tiga tahun berlalu.
+            <p class="story-emphasis">Tiga tahun berlalu.</p>
+        </section>
+        <section class="story-block">
+            <h3 class="story-year font-esthetic">2025</h3>
+            <p>
+                Kami kembali bertemu setelah sekian lama.
+            </p>
+            <p>
+                Awalnya hanya kembali berkomunikasi dan saling bertukar cerita. Seiring waktu, kami mulai sering menghabiskan waktu bersama dan mengenal satu sama lain lebih jauh.
+            </p>
+            <p>
+                Beberapa perjalanan dan banyak cerita kemudian, kami mulai menyadari bahwa hubungan ini berjalan ke arah yang berbeda.
             </p>
         </section>
         <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2025
-            </h3>
+            <h3 class="story-year font-esthetic">2026</h3>
             <p>
-                Sebuah gitar mempertemukan kami kembali.
+                Hubungan kami semakin serius. Kami mulai saling mengenal keluarga dan berbagi lebih banyak tentang kehidupan masing-masing.
             </p>
             <p>
-                Sejak saat itu, kami kembali dekat.<br>
-                Kami berbagi cerita, menghabiskan waktu bersama,<br>
-                menikmati perjalanan ke air terjun dan bukit,<br>
-                dan perlahan mengenal satu sama lain lebih dekat.
-            </p>
-            <p>
-                Kami mulai menyadari bahwa<br>
-                pertemuan kali ini mungkin bukan sekadar kebetulan.
-            </p>
-        </section>
-        <section class="story-block">
-            <h3 class="story-year font-esthetic">
-                2026
-            </h3>
-            <p>
-                Kami memantapkan hati untuk melangkah lebih serius.
-            </p>
-            <p>
-                Dengan restu keluarga,<br>
-                kami memilih untuk melanjutkan perjalanan ini bersama.
-            </p>
-        </section>
-        <section class="story-block">
-            <p class="story-final">
-                Dari sebuah pertemuan,<br>
-                menjadi sebuah perjalanan,<br>
-                dan insyaAllah menjadi<br>
-                perjalanan seumur hidup.
+                Setelah mendapat restu dari keluarga, kami memutuskan untuk melanjutkan hubungan ini ke jenjang pernikahan.
             </p>
             <div class="story-actions">
                 <button
