@@ -2567,11 +2567,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<style id="actual-centered-page-layout">
-/* Latar di luar panel: watercolor yang sama, blur hanya pada sisi luar. */
+
+<style id="undangan-layering-sky-top-bottom-v2">
+/*
+  Layer order:
+  1. background dekstop.webp (full-screen blurred backdrop)
+  2. crisp invitation panel on top
+  3. sky-top.png at the beginning of invitation content, sky-bottom.png at the end
+*/
 html, body {
     min-height: 100%;
-    background: #e8edf1 !important;
+    background: #eaf0f5 !important;
 }
 body {
     position: relative;
@@ -2580,14 +2586,16 @@ body {
 body::before {
     content: "";
     position: fixed;
-    inset: -24px;
+    inset: -22px;
     z-index: 0;
     pointer-events: none;
-    background: url("./assets/images/sky-top.png") center center / cover no-repeat;
-    filter: blur(13px);
+    background-image: url("./assets/images/background%20dekstop.webp");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(12px);
     transform: scale(1.04);
 }
-/* Paksa layout desktop yang semula dua kolom menjadi satu panel di tengah. */
 #root {
     position: relative !important;
     z-index: 1 !important;
@@ -2599,16 +2607,15 @@ body::before {
     max-width: none !important;
     min-height: 100vh !important;
     height: auto !important;
-    overflow: visible !important;
     margin: 0 auto !important;
     padding: 0 !important;
     background: transparent !important;
 }
-/* Hapus kolom foto kiri yang menyebabkan isi tetap menempel di kanan. */
+/* Remove the desktop photo column so invitation contents are centered. */
 #root > .sticky-top {
     display: none !important;
 }
-/* Target kolom isi yang benar: .col-sm-7 .col-md-6 .col-lg-5 ... */
+/* Center the existing invitation column without changing its internal sections. */
 #root > div:last-of-type {
     display: block !important;
     position: relative !important;
@@ -2616,37 +2623,54 @@ body::before {
     width: min(100%, 590px) !important;
     max-width: 590px !important;
     min-width: 0 !important;
-    height: auto !important;
     min-height: 100vh !important;
+    height: auto !important;
     margin: 0 auto !important;
     padding: 0 !important;
     overflow: visible !important;
     background: transparent !important;
 }
-/* Panel tengah tajam, watercolor di dalam panel tidak di-blur. */
+/* The invitation itself sits above the blurred desktop background. */
 #root > div:last-of-type > main {
     display: block !important;
     position: relative !important;
+    isolation: isolate;
     width: 100% !important;
     max-width: 100% !important;
-    height: auto !important;
     min-height: 100vh !important;
+    height: auto !important;
     max-height: none !important;
     margin: 0 auto !important;
     padding-bottom: 92px !important;
     overflow: hidden !important;
-    overflow-y: visible !important;
     overflow-x: hidden !important;
-    border-radius: 34px !important;
-    background: url("./assets/images/sky-top.png") center top / 100% auto repeat-y !important;
+    overflow-y: visible !important;
+    border-radius: 32px !important;
+    background-color: rgba(255, 252, 247, .88) !important;
+    background-image: none !important;
     box-shadow: 0 8px 42px rgba(65, 82, 96, .18) !important;
 }
-/* Keep existing invitation content crisp and above its decorative layers. */
+/* Top watercolor remains at the beginning of the invitation. */
+#root > div:last-of-type > main::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        url("./assets/images/sky-top.png"),
+        url("./assets/images/sky-bottom.png");
+    background-position: center top, center bottom;
+    background-size: 100% auto, 100% auto;
+    background-repeat: no-repeat, no-repeat;
+}
+/* Keep the existing text and section content crisp above the backgrounds. */
 #root > div:last-of-type > main > * {
     position: relative;
     z-index: 1;
 }
-/* Bottom navigation follows the centered panel, not the old right-hand third. */
+/* Fixed bottom navigation centered with the invitation panel. */
 #root > div:last-of-type > #navbar-menu {
     position: fixed !important;
     left: 50% !important;
@@ -2669,7 +2693,7 @@ body::before {
         max-width: 100% !important;
     }
     #root > div:last-of-type > main {
-        border-radius: 24px !important;
+        border-radius: 22px !important;
         box-shadow: none !important;
     }
     #root > div:last-of-type > #navbar-menu {
