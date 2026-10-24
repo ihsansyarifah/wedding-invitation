@@ -2563,6 +2563,79 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 </style>
 
+
+
+
+
+<style id="rounded-center-invitation-blurred-sides">
+/* Background luar halaman undangan: sama dengan watercolor cover, dibuat blur. */
+html, body {
+    min-height: 100%;
+}
+body {
+    position: relative;
+    background: #e9eff3 !important;
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: -18px;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(239, 243, 245, .20), rgba(239, 243, 245, .20)),
+        url("./assets/images/sky-top.png") center center / cover no-repeat;
+    filter: blur(10px);
+    transform: scale(1.03);
+}
+/* Cover tetap berada di atas background luar dan tidak diubah desainnya. */
+#welcome {
+    position: relative;
+    z-index: 2;
+}
+/* Isi undangan menjadi panel tengah dengan sudut membulat, bukan kotak kaku. */
+#root > div:last-of-type > main {
+    position: relative !important;
+    z-index: 1;
+    width: min(100%, 620px) !important;
+    max-width: 620px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 32px !important;
+    overflow: hidden !important;
+    box-shadow: 0 12px 48px rgba(65, 87, 105, .16);
+    background-clip: padding-box !important;
+}
+/* Lembutkan tepian panel agar menyatu dengan blur di kiri-kanan. */
+#root > div:last-of-type > main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 0 28px rgba(255, 255, 255, .35);
+}
+/* Pastikan konten tetap tajam di atas layer dekoratif. */
+#root > div:last-of-type > main > * {
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 700px) {
+    #root > div:last-of-type > main {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 26px !important;
+        box-shadow: 0 8px 28px rgba(65, 87, 105, .12);
+    }
+}
+@media (max-width: 480px) {
+    #root > div:last-of-type > main {
+        border-radius: 22px !important;
+    }
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
