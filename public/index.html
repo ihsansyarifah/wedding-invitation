@@ -2567,71 +2567,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<style id="rounded-center-invitation-blurred-sides">
-/* Background luar halaman undangan: sama dengan watercolor cover, dibuat blur. */
+
+
+
+<style id="fix-centered-invitation-rounded-blurred-sides">
+/* Watercolor background fills the space around the invitation on desktop. */
 html, body {
     min-height: 100%;
+    background: #eaf0f4 !important;
 }
 body {
     position: relative;
-    background: #e9eff3 !important;
 }
 body::before {
     content: "";
     position: fixed;
-    inset: -18px;
+    inset: -22px;
     z-index: 0;
     pointer-events: none;
-    background:
-        linear-gradient(rgba(239, 243, 245, .20), rgba(239, 243, 245, .20)),
-        url("./assets/images/sky-top.png") center center / cover no-repeat;
-    filter: blur(10px);
-    transform: scale(1.03);
+    background: url("./assets/images/sky-top.png") center center / cover no-repeat;
+    filter: blur(12px);
+    transform: scale(1.04);
 }
-/* Cover tetap berada di atas background luar dan tidak diubah desainnya. */
-#welcome {
+/* The invitation layout is a Bootstrap row with a desktop-cover column and a main column. */
+#root {
     position: relative;
-    z-index: 2;
-}
-/* Isi undangan menjadi panel tengah dengan sudut membulat, bukan kotak kaku. */
-#root > div:last-of-type > main {
-    position: relative !important;
     z-index: 1;
+    display: flex;
+    justify-content: center !important;
+    align-items: flex-start;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+/* Hide the separate desktop photo/cover column once the invitation content is shown. */
+#root > .sticky-top.vh-100.d-none.d-sm-block {
+    display: none !important;
+}
+/* Center the actual invitation column, instead of leaving it on the right side. */
+#root > .col-sm-7 {
+    flex: 0 1 620px !important;
     width: min(100%, 620px) !important;
     max-width: 620px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    border-radius: 32px !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    min-height: 100vh;
+}
+/* Rounded, soft-edged panel; content itself remains crisp. */
+#root main {
+    position: relative;
+    z-index: 1;
+    width: 100% !important;
+    max-width: 620px !important;
+    min-height: 100vh;
+    margin: 0 auto !important;
+    border-radius: 30px !important;
     overflow: hidden !important;
-    box-shadow: 0 12px 48px rgba(65, 87, 105, .16);
+    box-shadow: 0 10px 42px rgba(62, 83, 101, .20);
     background-clip: padding-box !important;
 }
-/* Lembutkan tepian panel agar menyatu dengan blur di kiri-kanan. */
-#root > div:last-of-type > main::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    box-shadow: inset 0 0 28px rgba(255, 255, 255, .35);
-}
-/* Pastikan konten tetap tajam di atas layer dekoratif. */
-#root > div:last-of-type > main > * {
+#root main > * {
     position: relative;
     z-index: 1;
 }
 @media (max-width: 700px) {
-    #root > div:last-of-type > main {
+    body::before {
+        filter: blur(7px);
+    }
+    #root > .col-sm-7,
+    #root main {
         width: 100% !important;
         max-width: 100% !important;
-        border-radius: 26px !important;
-        box-shadow: 0 8px 28px rgba(65, 87, 105, .12);
     }
-}
-@media (max-width: 480px) {
-    #root > div:last-of-type > main {
+    #root main {
         border-radius: 22px !important;
+        box-shadow: 0 5px 24px rgba(62, 83, 101, .12);
     }
 }
 </style>
