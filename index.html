@@ -2218,6 +2218,70 @@ html[data-bs-theme="dark"] #welcome{
 }
 </style>
 
+
+
+<style id="desktop-mist-text-cover">
+@media (min-width: 992px) {
+  #welcome .welcome-card::before,
+  #welcome .welcome-card::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+    filter: none !important;
+  }
+  #welcome .welcome-card { isolation: isolate !important; }
+  #welcome .welcome-card .desktop-mist-layer {
+    display: block !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: min(68vw, 940px) !important;
+    height: min(88vh, 900px) !important;
+    transform: translate(-50%, -50%) !important;
+    border-radius: 48% 52% 45% 55% / 38% 42% 58% 62% !important;
+    background:
+      radial-gradient(ellipse at 50% 16%, rgba(255,255,255,.80) 0%, rgba(255,255,255,.57) 25%, rgba(255,255,255,.18) 53%, rgba(255,255,255,0) 76%),
+      radial-gradient(ellipse at 48% 52%, rgba(255,250,241,.66) 0%, rgba(255,250,241,.40) 35%, rgba(255,250,241,.10) 63%, rgba(255,250,241,0) 82%),
+      radial-gradient(ellipse at 54% 83%, rgba(255,255,255,.67) 0%, rgba(255,255,255,.35) 30%, rgba(255,255,255,0) 70%) !important;
+    filter: blur(20px) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+  }
+  #welcome .accent-line,
+  #welcome .welcome-card > p:first-of-type,
+  #welcome .welcome-name,
+  #welcome .welcome-date,
+  #welcome #guest-name,
+  #welcome .btn,
+  #welcome .small { z-index: 1 !important; }
+
+  #welcome .btn,
+  #welcome .btn:hover,
+  #welcome .btn:focus,
+  #welcome .btn:focus-visible,
+  #welcome .btn:active { transform: translateX(-50%) !important; }
+}
+@media (min-width: 992px) and (max-height: 760px) {
+  #welcome .welcome-card .desktop-mist-layer {
+    width: min(68vw, 820px) !important;
+    height: 96vh !important;
+  }
+}
+</style>
+<script id="desktop-mist-layer-init">
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.matchMedia("(min-width: 992px)").matches) {
+    const card = document.querySelector("#welcome .welcome-card");
+    if (card && !card.querySelector(".desktop-mist-layer")) {
+      const mist = document.createElement("div");
+      mist.className = "desktop-mist-layer";
+      mist.setAttribute("aria-hidden", "true");
+      card.prepend(mist);
+    }
+  }
+});
+</script>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
