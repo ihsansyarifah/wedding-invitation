@@ -2567,83 +2567,115 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-
-<style id="fix-centered-invitation-rounded-blurred-sides">
-/* Watercolor background fills the space around the invitation on desktop. */
+<style id="actual-centered-page-layout">
+/* Latar di luar panel: watercolor yang sama, blur hanya pada sisi luar. */
 html, body {
     min-height: 100%;
-    background: #eaf0f4 !important;
+    background: #e8edf1 !important;
 }
 body {
     position: relative;
+    overflow-x: hidden !important;
 }
 body::before {
     content: "";
     position: fixed;
-    inset: -22px;
+    inset: -24px;
     z-index: 0;
     pointer-events: none;
     background: url("./assets/images/sky-top.png") center center / cover no-repeat;
-    filter: blur(12px);
+    filter: blur(13px);
     transform: scale(1.04);
 }
-/* The invitation layout is a Bootstrap row with a desktop-cover column and a main column. */
+/* Paksa layout desktop yang semula dua kolom menjadi satu panel di tengah. */
 #root {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    justify-content: center !important;
-    align-items: flex-start;
-    min-height: 100vh;
-    width: 100%;
+    position: relative !important;
+    z-index: 1 !important;
+    display: flex !important;
+    flex-flow: column nowrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    overflow: visible !important;
     margin: 0 auto !important;
     padding: 0 !important;
     background: transparent !important;
 }
-/* Hide the separate desktop photo/cover column once the invitation content is shown. */
-#root > .sticky-top.vh-100.d-none.d-sm-block {
+/* Hapus kolom foto kiri yang menyebabkan isi tetap menempel di kanan. */
+#root > .sticky-top {
     display: none !important;
 }
-/* Center the actual invitation column, instead of leaving it on the right side. */
-#root > .col-sm-7 {
-    flex: 0 1 620px !important;
-    width: min(100%, 620px) !important;
-    max-width: 620px !important;
+/* Target kolom isi yang benar: .col-sm-7 .col-md-6 .col-lg-5 ... */
+#root > div:last-of-type {
+    display: block !important;
+    position: relative !important;
+    flex: 0 0 auto !important;
+    width: min(100%, 590px) !important;
+    max-width: 590px !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    margin: 0 auto !important;
     padding: 0 !important;
-    margin: 0 auto !important;
-    min-height: 100vh;
+    overflow: visible !important;
+    background: transparent !important;
 }
-/* Rounded, soft-edged panel; content itself remains crisp. */
-#root main {
-    position: relative;
-    z-index: 1;
+/* Panel tengah tajam, watercolor di dalam panel tidak di-blur. */
+#root > div:last-of-type > main {
+    display: block !important;
+    position: relative !important;
     width: 100% !important;
-    max-width: 620px !important;
-    min-height: 100vh;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    max-height: none !important;
     margin: 0 auto !important;
-    border-radius: 30px !important;
+    padding-bottom: 92px !important;
     overflow: hidden !important;
-    box-shadow: 0 10px 42px rgba(62, 83, 101, .20);
-    background-clip: padding-box !important;
+    overflow-y: visible !important;
+    overflow-x: hidden !important;
+    border-radius: 34px !important;
+    background: url("./assets/images/sky-top.png") center top / 100% auto repeat-y !important;
+    box-shadow: 0 8px 42px rgba(65, 82, 96, .18) !important;
 }
-#root main > * {
+/* Keep existing invitation content crisp and above its decorative layers. */
+#root > div:last-of-type > main > * {
     position: relative;
     z-index: 1;
+}
+/* Bottom navigation follows the centered panel, not the old right-hand third. */
+#root > div:last-of-type > #navbar-menu {
+    position: fixed !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: 0 !important;
+    transform: translateX(-50%) !important;
+    width: min(100%, 590px) !important;
+    max-width: 590px !important;
+    z-index: 1031 !important;
+    border-radius: 22px 22px 0 0 !important;
+    overflow: hidden;
 }
 @media (max-width: 700px) {
     body::before {
         filter: blur(7px);
     }
-    #root > .col-sm-7,
-    #root main {
+    #root > div:last-of-type,
+    #root > div:last-of-type > main {
         width: 100% !important;
         max-width: 100% !important;
     }
-    #root main {
-        border-radius: 22px !important;
-        box-shadow: 0 5px 24px rgba(62, 83, 101, .12);
+    #root > div:last-of-type > main {
+        border-radius: 24px !important;
+        box-shadow: none !important;
+    }
+    #root > div:last-of-type > #navbar-menu {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 18px 18px 0 0 !important;
     }
 }
 </style>
