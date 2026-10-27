@@ -2639,37 +2639,54 @@ html[data-bs-theme="dark"] #welcome{
 </script>
 
 
-<!-- FIX ROUNDED HALAMAN ISI: sudut tetap terlihat saat konten di-scroll -->
+<!-- FIX ROUNDED HALAMAN ISI: sudut atas dan bawah tetap terlihat -->
 <style id="fix-rounded-halaman-isi">
     /*
-      Rounded diterapkan pada viewport/panel halaman isi, bukan pada isi
-      yang bergerak. Dengan begitu keempat sudut tetap terlihat saat scroll.
+      Panel kanan menjadi bingkai yang memotong seluruh isi, termasuk saat
+      elemen <main> melakukan scroll. Navbar tetap berada di dalam bingkai.
     */
-    #root > div:last-of-type > main {
+    #root > div:last-of-type {
+        position: relative !important;
         border-radius: 18px !important;
-        overflow-y: auto !important;
+        overflow: hidden !important;
+        isolation: isolate;
+    }
+
+    #root > div:last-of-type > main {
+        position: relative !important;
+        border-radius: 18px !important;
         overflow-x: hidden !important;
         clip-path: inset(0 round 18px);
         -webkit-clip-path: inset(0 round 18px);
-        scrollbar-gutter: stable;
+        scrollbar-width: thin;
     }
 
-    /* Pastikan lapisan pembungkus ikut memotong isi di sudut panel. */
-    #root > div:last-of-type {
-        border-radius: 18px !important;
+    /* Jaga bentuk sudut di bagian bawah panel, termasuk area navbar. */
+    #root > div:last-of-type > #navbar-menu {
+        border-bottom-left-radius: 18px !important;
+        border-bottom-right-radius: 18px !important;
         overflow: hidden !important;
     }
 
-    @media (max-width: 991.98px) {
+    @media (min-width: 576px) {
         #root > div:last-of-type > main {
-            border-radius: 14px !important;
-            clip-path: inset(0 round 14px);
-            -webkit-clip-path: inset(0 round 14px);
+            overflow-y: auto !important;
+            height: 100vh !important;
         }
+    }
 
+    @media (max-width: 575.98px) {
         #root > div:last-of-type {
-            border-radius: 14px !important;
-            overflow: hidden !important;
+            border-radius: 16px !important;
+        }
+        #root > div:last-of-type > main {
+            border-radius: 16px !important;
+            clip-path: inset(0 round 16px);
+            -webkit-clip-path: inset(0 round 16px);
+        }
+        #root > div:last-of-type > #navbar-menu {
+            border-bottom-left-radius: 16px !important;
+            border-bottom-right-radius: 16px !important;
         }
     }
 </style>
