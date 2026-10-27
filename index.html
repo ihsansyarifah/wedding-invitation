@@ -2749,6 +2749,19 @@ body::before {
         border-radius: 16px 16px 18px 18px !important;
     }
 }
+
+
+/* Sembunyikan jalur scrollbar putih, tetapi scrolling tetap aktif. */
+#root > div:last-of-type > main {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+#root > div:last-of-type > main::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
 </style>
 
 </head>
