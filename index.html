@@ -2764,6 +2764,68 @@ body::before {
 }
 </style>
 
+
+
+<style id="story-page-frame-fixed-background">
+/* Kisah Kami: tetap di dalam frame undangan, tanpa mengubah background halaman utama. */
+#love-story-page {
+    position: fixed !important;
+    inset: 0 auto 0 50% !important;
+    width: min(100vw, 590px) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    transform: translateX(-50%) !important;
+    border-radius: 22px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    background: transparent !important;
+    isolation: isolate;
+    overscroll-behavior: contain;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+#love-story-page::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+/* Latar video menetap di tempat; yang bergerak hanya isi ceritanya. */
+#love-story-page .story-video-layer {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    right: auto !important;
+    width: min(100vw, 590px) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    transform: translateX(-50%) !important;
+    z-index: 0 !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+}
+#love-story-page .story-close {
+    position: sticky !important;
+    top: 16px !important;
+    margin: 16px 0 -58px 16px !important;
+    z-index: 10 !important;
+}
+#love-story-page .story-page-content {
+    width: 100% !important;
+    min-height: 100vh !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+@media (max-width: 575.98px) {
+    #love-story-page,
+    #love-story-page .story-video-layer {
+        width: 100vw !important;
+        border-radius: 18px !important;
+    }
+}
+</style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
