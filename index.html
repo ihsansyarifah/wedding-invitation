@@ -2656,6 +2656,11 @@ body::before {
     background-repeat:
         no-repeat,
         repeat-y !important;
+    /* Ikuti area konten yang bisa di-scroll agar sky-bottom tetap di ujung
+       konten, bukan menempel di bawah viewport. */
+    background-attachment:
+        local,
+        local !important;
     box-shadow: 0 8px 42px rgba(65, 82, 96, .18) !important;
 }
 #root > div:last-of-type > main > * {
