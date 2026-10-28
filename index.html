@@ -2691,20 +2691,49 @@ body::before {
         border-radius: 18px 18px 0 0 !important;
     }
 }
-/* Desktop: rounded outer frame of the MAIN INVITATION column (not the story overlay). */
+/* Desktop only: keep the OUTER invitation frame rounded while its content scrolls inside it. */
 @media (min-width: 701px) {
     #root > div:last-of-type {
+        position: fixed !important;
+        top: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(100vw, 590px) !important;
+        max-width: 590px !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        min-height: 0 !important;
+        margin: 0 !important;
         border-radius: 28px !important;
         overflow: hidden !important;
         clip-path: inset(0 round 28px) !important;
         -webkit-clip-path: inset(0 round 28px) !important;
+        background: #f8f4ee !important;
+        box-shadow: 0 8px 42px rgba(65, 82, 96, .18) !important;
+        isolation: isolate !important;
     }
 
     #root > div:last-of-type > main {
-        border-radius: 28px !important;
-        overflow: hidden !important;
-        clip-path: inset(0 round 28px) !important;
-        -webkit-clip-path: inset(0 round 28px) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        max-height: 100% !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior-y: contain !important;
+        border-radius: 0 !important;
+        clip-path: none !important;
+        -webkit-clip-path: none !important;
+        box-shadow: none !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+
+    #root > div:last-of-type > main::-webkit-scrollbar {
+        display: none !important;
     }
 }
 </style>
