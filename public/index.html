@@ -2813,6 +2813,87 @@ body::before {
     #love-story-page { width: 100vw !important; border-radius: 18px !important; }
 }
 </style>
+<style id="kisah-frame-video-stays-fixed">
+/* Kisah Kami: overlay selebar frame undangan, bukan selebar layar browser. */
+#root > div:last-of-type {
+    transform: none !important;
+}
+
+#love-story-page {
+    position: fixed !important;
+    inset: 0 auto 0 50% !important;
+    width: min(100vw, 590px) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    transform: translateX(-50%) !important;
+    box-sizing: border-box !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    background: #f7f0e3 !important;
+    isolation: isolate !important;
+}
+
+#love-story-page.is-open {
+    display: block !important;
+}
+
+/* Video menempel pada frame; bukan bagian dari area teks yang di-scroll. */
+#love-story-page .story-video-layer {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+#love-story-page .story-video {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+#love-story-page .story-video-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+}
+
+#love-story-page .story-page-content {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 9vh 24px 12vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    z-index: 2 !important;
+}
+
+#love-story-page .story-close {
+    position: absolute !important;
+    top: 16px !important;
+    left: 16px !important;
+    z-index: 5 !important;
+}
+
+@media (max-width: 575.98px) {
+    #love-story-page {
+        width: 100vw !important;
+        border-radius: 18px !important;
+    }
+    #love-story-page .story-page-content {
+        padding: 9vh 18px 12vh !important;
+    }
+}
+</style>
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
