@@ -2791,6 +2791,58 @@ body::before {
 }
 </style>
 
+
+<style id="kisah-frame-rounded-only-fix">
+/* Hanya memperbaiki frame dan scrollbar Kisah Kami. Background halaman isi tidak diubah. */
+#love-story-page {
+    inset: 0 auto 0 50% !important;
+    width: min(100%, 590px) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    transform: translateX(-50%) !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    isolation: isolate;
+}
+#love-story-page::-webkit-scrollbar,
+#love-story-page .story-page-content::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+#love-story-page .story-video-layer {
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    overflow: hidden !important;
+}
+#love-story-page .story-page-content {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+#love-story-page .story-close {
+    position: absolute !important;
+    top: 16px !important;
+    left: 16px !important;
+}
+@media (max-width: 575.98px) {
+    #love-story-page { border-radius: 18px !important; }
+}
+</style>
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
