@@ -2571,13 +2571,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-
-
-
-
-<style id="undangan-original-image-proportions">
+<style id="undangan-continuous-skytop-skybottom-fix">
+/* Background desktop berada paling belakang dan blur. */
 html, body {
     min-height: 100%;
     background: #eaf0f5 !important;
@@ -2586,17 +2581,17 @@ body {
     position: relative;
     overflow-x: hidden !important;
 }
-/* Outer desktop background, blurred behind the centered invitation. */
 body::before {
     content: "";
     position: fixed;
-    inset: -20px;
+    inset: -24px;
     z-index: 0;
     pointer-events: none;
     background: url("./assets/images/background%20dekstop.webp") center center / cover no-repeat;
     filter: blur(12px);
     transform: scale(1.04);
 }
+/* Center the invitation column and remove the separate desktop photo column. */
 #root {
     position: relative !important;
     z-index: 1 !important;
@@ -2629,12 +2624,12 @@ body::before {
     overflow: visible !important;
     background: transparent !important;
 }
-/* Keep each image at its intrinsic aspect ratio (100% auto).
-   Sky-top repeats vertically at natural size; sky-bottom is anchored to the end. */
+/* IMPORTANT: sky-top repeats down the whole content; sky-bottom is only at the very end.
+   These are real main backgrounds, not a negative-z-index pseudo-element, so no blank area appears. */
 #root > div:last-of-type > main {
     display: block !important;
     position: relative !important;
-    isolation: isolate !important;
+    isolation: auto !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: 100vh !important;
@@ -2648,17 +2643,17 @@ body::before {
     border-radius: 32px !important;
     background-color: #f8f4ee !important;
     background-image:
-        url("./assets/images/sky-bottom.png"),
-        url("./assets/images/sky-top.png") !important;
+        url("./assets/images/sky-top.png"),
+        url("./assets/images/sky-bottom.png") !important;
     background-position:
-        center bottom,
-        center top !important;
+        center top,
+        center bottom !important;
     background-size:
         100% auto,
         100% auto !important;
     background-repeat:
-        no-repeat,
-        repeat-y !important;
+        repeat-y,
+        no-repeat !important;
     box-shadow: 0 8px 42px rgba(65, 82, 96, .18) !important;
 }
 #root > div:last-of-type > main > * {
@@ -2697,79 +2692,15 @@ body::before {
 </style>
 
 
-<style id="rounded-panel-only-fix">
-/* Perbaikan khusus sudut panel isi; bagian lain tetap dari file asli. */
-#root > div:last-of-type {
-    position: relative !important;
-    height: 100vh !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    border-radius: 22px !important;
-    isolation: isolate;
-    transform: translateZ(0);
-}
-
-#root > div:last-of-type > main {
-    box-sizing: border-box !important;
-    height: 100vh !important;
-    min-height: 0 !important;
-    max-height: 100vh !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    border-radius: 22px !important;
-    clip-path: inset(0 round 22px);
-    -webkit-clip-path: inset(0 round 22px);
-    padding-bottom: 92px !important;
-}
-
-#root > div:last-of-type > #navbar-menu {
-    position: absolute !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    transform: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    border-radius: 18px 18px 22px 22px !important;
-    overflow: hidden !important;
-}
-
-@media (max-width: 575.98px) {
-    #root > div:last-of-type,
-    #root > div:last-of-type > main {
-        border-radius: 18px !important;
-    }
-    #root > div:last-of-type > main {
-        clip-path: inset(0 round 18px);
-        -webkit-clip-path: inset(0 round 18px);
-    }
-    #root > div:last-of-type > #navbar-menu {
-        border-radius: 16px 16px 18px 18px !important;
-    }
-}
-
-
-/* Sembunyikan jalur scrollbar putih, tetapi scrolling tetap aktif. */
-#root > div:last-of-type > main {
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-}
-#root > div:last-of-type > main::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    background: transparent !important;
-}
-</style>
-
-
-<style id="kisah-frame-video-stays-put">
-/* Kisah Kami: frame mengikuti panel undangan; video tetap diam saat cerita di-scroll. */
+<style id="kisah-frame-video-scrollbar-fix">
+/* Hanya memperbaiki halaman Kisah Kami. Background halaman isi undangan
+   tetap mengikuti aturan sky-top berulang + sky-bottom di bagian paling bawah. */
 #love-story-page {
     position: fixed !important;
-    inset: 0 auto 0 50% !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    right: auto !important;
     transform: translateX(-50%) !important;
     width: min(100vw, 590px) !important;
     height: 100vh !important;
@@ -2777,68 +2708,26 @@ body::before {
     max-height: 100vh !important;
     max-height: 100dvh !important;
     margin: 0 !important;
-    border-radius: 22px !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
-    isolation: isolate !important;
+    padding: 0 !important;
     box-sizing: border-box !important;
-}
-#love-story-page .story-video-layer {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    pointer-events: none !important;
-}
-#love-story-page .story-video {
-    position: absolute !important;
-    inset: 0 !important;
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-}
-#love-story-page .story-page-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-}
-#love-story-page .story-close {
-    position: absolute !important;
-    top: 16px !important;
-    left: 16px !important;
-}
-@media (max-width: 575.98px) {
-    #love-story-page { width: 100vw !important; border-radius: 18px !important; }
-}
-</style>
-<style id="kisah-frame-video-stays-fixed">
-/* Kisah Kami: overlay selebar frame undangan, bukan selebar layar browser. */
-#root > div:last-of-type {
-    transform: none !important;
-}
-
-#love-story-page {
-    position: fixed !important;
-    inset: 0 auto 0 50% !important;
-    width: min(100vw, 590px) !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    margin: 0 !important;
-    transform: translateX(-50%) !important;
-    box-sizing: border-box !important;
-    border-radius: 22px !important;
     overflow: hidden !important;
+    border-radius: 22px !important;
+    clip-path: inset(0 round 22px) !important;
+    -webkit-clip-path: inset(0 round 22px) !important;
     background: #f7f0e3 !important;
     isolation: isolate !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+#love-story-page::-webkit-scrollbar,
+#love-story-page .story-page-content::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
 }
 
-#love-story-page.is-open {
-    display: block !important;
-}
-
-/* Video menempel pada frame; bukan bagian dari area teks yang di-scroll. */
+/* Video menjadi lapisan tetap di dalam frame, tidak ikut bergerak saat teks scroll. */
 #love-story-page .story-video-layer {
     position: absolute !important;
     inset: 0 !important;
@@ -2848,52 +2737,58 @@ body::before {
     overflow: hidden !important;
     pointer-events: none !important;
 }
-
 #love-story-page .story-video {
+    position: absolute !important;
+    inset: 0 !important;
     display: block !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
 }
-
 #love-story-page .story-video-overlay {
     position: absolute !important;
     inset: 0 !important;
+    z-index: 1 !important;
 }
 
+/* Yang di-scroll hanya isi cerita; jalur scrollbar putih disembunyikan. */
 #love-story-page .story-page-content {
     position: absolute !important;
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
     min-height: 0 !important;
-    box-sizing: border-box !important;
+    max-height: 100% !important;
     margin: 0 !important;
     padding: 9vh 24px 12vh !important;
-    overflow-y: auto !important;
+    box-sizing: border-box !important;
     overflow-x: hidden !important;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
     z-index: 2 !important;
 }
-
 #love-story-page .story-close {
     position: absolute !important;
     top: 16px !important;
     left: 16px !important;
     z-index: 5 !important;
 }
-
 @media (max-width: 575.98px) {
     #love-story-page {
         width: 100vw !important;
         border-radius: 18px !important;
+        clip-path: inset(0 round 18px) !important;
+        -webkit-clip-path: inset(0 round 18px) !important;
     }
     #love-story-page .story-page-content {
         padding: 9vh 18px 12vh !important;
     }
 }
 </style>
+
 </head>
 <body
     data-key="d9faced3377732b0edf19e90d1bde0cd5de04801c75eb41743"
