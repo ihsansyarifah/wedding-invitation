@@ -2691,6 +2691,22 @@ body::before {
         border-radius: 18px 18px 0 0 !important;
     }
 }
+/* Desktop: rounded outer frame of the MAIN INVITATION column (not the story overlay). */
+@media (min-width: 701px) {
+    #root > div:last-of-type {
+        border-radius: 28px !important;
+        overflow: hidden !important;
+        clip-path: inset(0 round 28px) !important;
+        -webkit-clip-path: inset(0 round 28px) !important;
+    }
+
+    #root > div:last-of-type > main {
+        border-radius: 28px !important;
+        overflow: hidden !important;
+        clip-path: inset(0 round 28px) !important;
+        -webkit-clip-path: inset(0 round 28px) !important;
+    }
+}
 </style>
 
 
