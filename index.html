@@ -2694,103 +2694,84 @@ body::before {
 </style>
 
 
-<style id="kisah-frame-rounded-consolidated-fix">
-/* Satu aturan terpadu untuk frame Kisah Kami; aturan background halaman utama tidak disentuh. */
-#love-story-page {
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: min(100vw, 590px) !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    max-height: 100vh !important;
-    max-height: 100dvh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-    display: none;
-    overflow: hidden !important;
-    border-radius: 20px !important;
-    clip-path: inset(0 round 20px) !important;
-    -webkit-clip-path: inset(0 round 20px) !important;
-    background: #f7f0e3 !important;
-    isolation: isolate !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-}
-#love-story-page.is-open {
-    display: block !important;
-}
-#love-story-page::-webkit-scrollbar,
-#love-story-page .story-page-content::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    background: transparent !important;
-}
-
-/* Video menutupi area frame tetapi tidak ikut bergerak saat isi cerita di-scroll. */
-#love-story-page .story-video-layer {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: inherit !important;
-    overflow: hidden !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-}
-#love-story-page .story-video {
-    position: absolute !important;
-    inset: 0 !important;
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-}
-#love-story-page .story-video-overlay {
-    position: absolute !important;
-    inset: 0 !important;
-    z-index: 1 !important;
-}
-
-/* Konten menjadi satu-satunya area scroll; scrollbar disembunyikan. */
-#love-story-page .story-page-content {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    max-height: 100% !important;
-    margin: 0 !important;
-    padding: 9vh 24px 12vh !important;
-    box-sizing: border-box !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-    z-index: 2 !important;
-}
-#love-story-page .story-close {
-    position: absolute !important;
-    top: 16px !important;
-    left: 16px !important;
-    z-index: 5 !important;
-}
-@media (max-width: 575.98px) {
+<style id="kisah-frame-rounded-desktop-only">
+/* Rounded hanya di desktop. Frame tetap diam; hanya konten cerita yang di-scroll. */
+@media (min-width: 701px) {
     #love-story-page {
-        width: 100vw !important;
-        border-radius: 16px !important;
-        clip-path: inset(0 round 16px) !important;
-        -webkit-clip-path: inset(0 round 16px) !important;
+        position: fixed !important;
+        inset: 0 auto 0 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(100vw, 590px) !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        border-radius: 20px !important;
+        clip-path: inset(0 round 20px) !important;
+        -webkit-clip-path: inset(0 round 20px) !important;
+        isolation: isolate !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
     }
+
+    #love-story-page.is-open {
+        display: block !important;
+    }
+
+    #love-story-page::-webkit-scrollbar,
+    #love-story-page .story-page-content::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+    #love-story-page .story-video-layer {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        border-radius: inherit !important;
+        z-index: 0 !important;
+    }
+
+    #love-story-page .story-video {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    #love-story-page .story-video-overlay {
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 1 !important;
+    }
+
     #love-story-page .story-page-content {
-        padding: 9vh 18px 12vh !important;
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        max-height: 100% !important;
+        margin: 0 !important;
+        padding: 9vh 24px 12vh !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+        z-index: 2 !important;
+    }
+
+    #love-story-page .story-close {
+        position: absolute !important;
+        top: 16px !important;
+        left: 16px !important;
+        z-index: 5 !important;
     }
 }
 </style>
