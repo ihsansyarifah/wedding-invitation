@@ -2642,18 +2642,20 @@ body::before {
     overflow-y: visible !important;
     border-radius: 32px !important;
     background-color: #f8f4ee !important;
+    /* Urutan layer penting: sky-bottom digambar paling depan di bagian bawah,
+       sementara sky-top tetap berulang di belakangnya sepanjang halaman. */
     background-image:
-        url("./assets/images/sky-top.png"),
-        url("./assets/images/sky-bottom.png") !important;
+        url("./assets/images/sky-bottom.png"),
+        url("./assets/images/sky-top.png") !important;
     background-position:
-        center top,
-        center bottom !important;
+        center bottom,
+        center top !important;
     background-size:
         100% auto,
         100% auto !important;
     background-repeat:
-        repeat-y,
-        no-repeat !important;
+        no-repeat,
+        repeat-y !important;
     box-shadow: 0 8px 42px rgba(65, 82, 96, .18) !important;
 }
 #root > div:last-of-type > main > * {
